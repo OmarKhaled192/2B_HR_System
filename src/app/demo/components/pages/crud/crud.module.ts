@@ -16,6 +16,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
+import { DepartmentComponent } from '../../info/department/department.component';
 
 @NgModule({
     imports: [
@@ -34,8 +35,8 @@ import { DialogModule } from 'primeng/dialog';
         DropdownModule,
         RadioButtonModule,
         InputNumberModule,
-        DialogModule
+        DialogModule,
     ],
-    declarations: [CrudComponent]
+    declarations: [CrudComponent, DepartmentComponent],
 })
-export class CrudModule { }
+export class CrudModule {}
