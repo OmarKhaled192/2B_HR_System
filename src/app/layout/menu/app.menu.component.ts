@@ -190,6 +190,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-circle-off',
                         routerLink: ['/pages/empty'],
                     },
+                    {
+                        label: 'Pagination',
+                        icon: 'pi pi-fw pi-circle-off',
+                        routerLink: ['/pages/pagination'],
+                    },
                 ],
             },
             {

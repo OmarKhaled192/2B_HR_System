@@ -15,10 +15,19 @@ import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { AppLayoutModule } from './layout/app.layout.module';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
-    imports: [AppRoutingModule, AppLayoutModule],
+    imports: [
+        AppRoutingModule,
+        AppLayoutModule,
+        HttpClientModule,
+        FormsModule,
+        NgxPaginationModule,
+    ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         CountryService,

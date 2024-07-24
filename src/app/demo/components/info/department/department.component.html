@@ -88,16 +88,7 @@
                         <th pSortableColumn="name">
                             Name <p-sortIcon field="name"></p-sortIcon>
                         </th>
-                        <!-- <th>Image</th> -->
-                        <!-- <th pSortableColumn="price">
-                            Price <p-sortIcon field="price"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="category">
-                            Category <p-sortIcon field="category"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="rating">
-                            Reviews <p-sortIcon field="rating"></p-sortIcon>
-                        </th> -->
+
                         <th pSortableColumn="inventoryStatus">
                             Notes
                             <p-sortIcon field="inventoryStatus"></p-sortIcon>
@@ -134,7 +125,7 @@
                             >
                         </td>
                         <td>
-                            <div class="flex crud-operations">
+                            <div class="flex justify-content-end">
                                 <button
                                     pButton
                                     pRipple
@@ -191,106 +182,15 @@
                     >
                 </div>
                 <div class="field">
-                    <label for="description">Description</label>
+                    <label for="description">notes</label>
                     <textarea
                         id="description"
                         pInputTextarea
-                        [(ngModel)]="product.description"
+                        [(ngModel)]="product.notes"
                         required
                         rows="3"
                         cols="20"
                     ></textarea>
-                </div>
-                <div class="field">
-                    <label for="status">Inventory Status</label>
-                    <p-dropdown
-                        [(ngModel)]="product.inventoryStatus"
-                        inputId="inventoryStatus"
-                        optionValue="label"
-                        [options]="statuses"
-                        placeholder="Select"
-                    >
-                        <ng-template pTemplate="selectedItem">
-                            <span
-                                *ngIf="product && product.inventoryStatus"
-                                [class]="
-                                    'product-badge status-' +
-                                    product.inventoryStatus
-                                        .toString()
-                                        .toLowerCase()
-                                "
-                                >{{ product.inventoryStatus }}</span
-                            >
-                        </ng-template>
-                        <ng-template let-option pTemplate="item">
-                            <span
-                                [class]="'product-badge status-' + option.value"
-                                >{{ option.label }}</span
-                            >
-                        </ng-template>
-                    </p-dropdown>
-                </div>
-
-                <div class="field">
-                    <label class="mb-3">Category</label>
-                    <div class="formgrid grid">
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton
-                                id="category1"
-                                name="category"
-                                value="Accessories"
-                                [(ngModel)]="product.category"
-                            ></p-radioButton>
-                            <label for="category1">Accessories</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton
-                                id="category2"
-                                name="category"
-                                value="Clothing"
-                                [(ngModel)]="product.category"
-                            ></p-radioButton>
-                            <label for="category2">Clothing</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton
-                                id="category3"
-                                name="category"
-                                value="Electronics"
-                                [(ngModel)]="product.category"
-                            ></p-radioButton>
-                            <label for="category3">Electronics</label>
-                        </div>
-                        <div class="field-radiobutton col-6">
-                            <p-radioButton
-                                id="category4"
-                                name="category"
-                                value="Fitness"
-                                [(ngModel)]="product.category"
-                            ></p-radioButton>
-                            <label for="category4">Fitness</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="formgrid grid">
-                    <div class="field col">
-                        <label for="price">Price</label>
-                        <p-inputNumber
-                            id="price"
-                            [(ngModel)]="product.price"
-                            mode="currency"
-                            currency="USD"
-                            locale="en-US"
-                        ></p-inputNumber>
-                    </div>
-                    <div class="field col">
-                        <label for="quantity">Quantity</label>
-                        <p-inputNumber
-                            id="quantity"
-                            [(ngModel)]="product.quantity"
-                        ></p-inputNumber>
-                    </div>
                 </div>
             </ng-template>
 
