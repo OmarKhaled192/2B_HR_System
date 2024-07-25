@@ -32,9 +32,15 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/info/vacation'],
                     },
                     {
+                        label: 'Department',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/department'],
+                    },
+                      { 
                         label: 'bank',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/bank'],
+                      }
                     },
                 ],
             },
@@ -189,6 +195,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Empty',
                         icon: 'pi pi-fw pi-circle-off',
                         routerLink: ['/pages/empty'],
+                    },
+                    {
+                        label: 'Pagination',
+                        icon: 'pi pi-fw pi-circle-off',
+                        routerLink: ['/pages/pagination'],
                     },
                 ],
             },
