@@ -15,7 +15,6 @@ export class PaginationComponent {
     ) {}
 
     @ViewChild('dt') dt: Table;
-
     endPoint!: string;
     allData: any = [];
     page: number = 1;
@@ -319,26 +318,15 @@ export class PaginationComponent {
     }
 
     sortById(event: any) {
-        console.log(2);
-        console.log(this.sortOrder);
-
-        if (
-            event.target.ariaSort == 'ascending' ||
-            event.target.ariaSort == 'none' ||
-            event.target.ariaSort == null
-        ) {
+        if (this.sortOrder === 'asc') {
+            this.sortOrder = 'dsc';
+        } else {
             this.sortOrder = 'asc';
-        } else this.sortOrder = 'dsc';
-        console.log(this.sortOrder);
-    }
-    onSort() {
-        this.loadData(
-            this.page,
-            this.itemsPerPage,
-            this.nameFilter,
-            this.sortField,
-            this.sortOrder
-        );
-        console.log('ggggggggggggggggggg');
+        }
+
+        setTimeout(() => {
+            let x = document.querySelector('.p-paginator-page') as HTMLElement;
+            x.click();
+        }, 500);
     }
 }
