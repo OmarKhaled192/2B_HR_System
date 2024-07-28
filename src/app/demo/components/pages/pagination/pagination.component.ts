@@ -15,7 +15,7 @@ export class PaginationComponent {
 
     @ViewChild('dt') dt: Table;
 
-    endPoint!:string;
+    endPoint:string ="Department";
     allData: any = [];
     page: number = 1;
     itemsPerPage = 5;
@@ -32,7 +32,9 @@ export class PaginationComponent {
     newName!: string;
     newNotes!: string;
     showFormNew: boolean = false;
-    
+
+
+
     ngOnInit() {
         this.loadData(this.page, this.itemsPerPage, this.nameFilter);
 
@@ -63,7 +65,7 @@ export class PaginationComponent {
                     detail: 'Product Deleted',
                     life: 3000,
                 });
-            }, 
+            },
             error: (err) => {
                 console.log(err)
             }
@@ -201,7 +203,7 @@ export class PaginationComponent {
                 alert(err);
             }
         })
-    
+
     }
 
     toggleNew() {
@@ -214,12 +216,10 @@ export class PaginationComponent {
     }
 
 
-    
-
     exportCSV() {
         // Convert data to CSV format
     const csvData = this.convertToCSV(this.selectedItems);
-    
+
     // Adding UTF-8 BOM
     const bom = '\uFEFF';
     const csvContent = bom + csvData;
@@ -233,27 +233,27 @@ export class PaginationComponent {
 
     }
 
-  convertToCSV(data: any[]): string {
-    if (!data || !data.length) return '';
+    convertToCSV(data: any[]): string {
+        if (!data || !data.length) return '';
 
-    const separator = ',';
-    let keys = [];
+        const separator = ',';
+        let keys = [];
 
-    this.cols.forEach((row)=> {
-        keys.push( row.field );
-    })
-    console.log(keys);
+        this.cols.forEach((row)=> {
+            keys.push( row.field );
+        })
+        console.log(keys);
 
-    const csvContent = data.map(row => 
-      keys.map(key => `"${row[key]}"`).join(separator)
-    );
+        const csvContent = data.map(row =>
+        keys.map(key => `"${row[key]}"`).join(separator)
+        );
 
-    csvContent.unshift(keys.join(separator)); // Add header row
-    return csvContent.join('\r\n'); // Join all rows
-  }
+        csvContent.unshift(keys.join(separator)); // Add header row
+        return csvContent.join('\r\n'); // Join all rows
+    }
 
-  
+
 }
 
-    
+
 

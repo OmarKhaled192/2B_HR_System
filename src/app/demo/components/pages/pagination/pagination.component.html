@@ -68,7 +68,6 @@
     </div>
 </div>
 
-
 <p-table
     #dt
     [value]="allData"
@@ -88,11 +87,11 @@
         <h5 class="m-0">Manage Items</h5>
         <span class="block mt-2 md:mt-0 p-input-icon-left">
             <i class="pi pi-search"></i>
-            <input 
+            <input
             pInputText [(ngModel)]="nameFilter"
             (input)="loadFilteredData()"
             id="filter-name"
-            type="text" 
+            type="text"
             placeholder="Search..."
             class="w-full sm:w-auto" />
         </span>
