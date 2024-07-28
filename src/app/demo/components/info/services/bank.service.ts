@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BankService {
-  baseUrl:string = environment.baseUrl;
+  baseUrl:string = environment.baseurl;
 
   constructor(private http: HttpClient) { }
 
