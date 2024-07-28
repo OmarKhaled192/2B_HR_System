@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-
 @Injectable({
     providedIn: 'root',
 })
@@ -13,8 +12,8 @@ export class PaginationService {
 
     constructor(private http: HttpClient) {}
 
-    GetAll(): Observable<any> {
-        return this.http.get(`${this.baseurl}/${this.endPoint}/GetAll`);
+    GetAll(body: any): Observable<any> {
+        return this.http.post(`${this.baseurl}/${this.endPoint}`, body);
     }
 
     GetPage(body: any): Observable<any> {
@@ -29,10 +28,7 @@ export class PaginationService {
     }
 
     Edit(body: any): Observable<any> {
-        return this.http.post(
-            `${this.baseurl}/${this.endPoint}/Edit/`,
-            body
-        );
+        return this.http.post(`${this.baseurl}/${this.endPoint}/Edit/`, body);
     }
 
     DeleteSoftById(id: number): Observable<any> {
@@ -41,8 +37,8 @@ export class PaginationService {
         );
     }
 
-    DeleteRangeSoft(body: any): Observable<any> {
-        return this.http.delete(
+    DeleteRangeSoft(body: number[]): Observable<any> {
+        return this.http.post(
             `${this.baseurl}/${this.endPoint}/DeleteRangeSoft`,
             body
         );
