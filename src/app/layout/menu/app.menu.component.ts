@@ -36,13 +36,13 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/department'],
                     },
-                      { 
+                        { 
                         label: 'bank',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/bank'],
-                      }
-                    },
-                ],
+                        }
+                        
+                    ],
             },
             {
                 label: 'UI Components',
@@ -241,7 +241,7 @@ export class AppMenuComponent implements OnInit {
                         ],
                     },
                 ],
-            },
-        ];
+            }
+        ]
     }
 }
