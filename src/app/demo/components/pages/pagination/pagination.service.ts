@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+
 @Injectable({
     providedIn: 'root',
 })
 export class PaginationService {
     baseurl: string = environment.baseurl;
-    endPoint: string = 'Bank';
+    endPoint: string = 'Department';
 
     constructor(private http: HttpClient) {}
 
@@ -27,9 +28,9 @@ export class PaginationService {
         );
     }
 
-    Edit(id: number, body: any): Observable<any> {
+    Edit(body: any): Observable<any> {
         return this.http.post(
-            `${this.baseurl}/${this.endPoint}/Edit/${id}`,
+            `${this.baseurl}/${this.endPoint}/Edit/`,
             body
         );
     }
