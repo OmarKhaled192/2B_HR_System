@@ -18,6 +18,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { DepartmentComponent } from '../../info/department/department.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BankComponent } from '../../info/bank/bank.component';
 
 @NgModule({
     imports: [
@@ -39,6 +40,6 @@ import { HttpClientModule } from '@angular/common/http';
         DialogModule,
         HttpClientModule,
     ],
-    declarations: [CrudComponent, DepartmentComponent],
+    declarations: [CrudComponent, DepartmentComponent, BankComponent]
 })
 export class CrudModule {}
