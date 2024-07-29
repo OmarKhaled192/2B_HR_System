@@ -39,7 +39,7 @@ export class RolesComponent {
     ngOnInit() {
 
         // this is the Only Diffrent with any Components Of Lookups
-        this.endPoint = "Department"
+        this.endPoint = "Roles"
         //-------------------------------------------------------
 
         this._PaginationService.setEndPoint(this.endPoint);

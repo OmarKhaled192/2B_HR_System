@@ -39,7 +39,7 @@ export class LocationComponent {
     ngOnInit() {
 
         // this is the Only Diffrent with any Components Of Lookups
-        this.endPoint = "Department"
+        this.endPoint = "Location"
         //-------------------------------------------------------
 
         this._PaginationService.setEndPoint(this.endPoint);

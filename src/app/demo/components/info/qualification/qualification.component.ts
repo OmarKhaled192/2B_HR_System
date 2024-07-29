@@ -39,7 +39,7 @@ export class QualificationComponent {
     ngOnInit() {
 
         // this is the Only Diffrent with any Components Of Lookups
-        this.endPoint = "Department"
+        this.endPoint = "Qualification"
         //-------------------------------------------------------
 
         this._PaginationService.setEndPoint(this.endPoint);

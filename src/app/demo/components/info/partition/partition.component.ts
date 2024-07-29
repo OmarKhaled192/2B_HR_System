@@ -39,7 +39,7 @@ export class PartitionComponent {
     ngOnInit() {
 
         // this is the Only Diffrent with any Components Of Lookups
-        this.endPoint = "Department"
+        this.endPoint = "Partation"
         //-------------------------------------------------------
 
         this._PaginationService.setEndPoint(this.endPoint);
