@@ -1,8 +1,7 @@
-import { BankService } from './../services/bank.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { Product } from 'src/app/demo/api/product';
+import { PaginationService } from '../../pages/pagination/pagination.service';
 
 @Component({
     selector: 'app-bank',
@@ -10,104 +9,185 @@ import { Product } from 'src/app/demo/api/product';
     styleUrl: './bank.component.scss',
     providers: [MessageService],
 })
-export class BankComponent implements OnInit {
-    productDialog: boolean = false;
-
-    deleteProductDialog: boolean = false;
-
-    deleteProductsDialog: boolean = false;
-
-    products: Product[] = [];
-
-    product: Product = {};
-
-    selectedProducts: Product[] = [];
-
-    submitted: boolean = false;
-
-    cols: any[] = [];
-
-    statuses: any[] = [];
-
-    rowsPerPageOptions = [5, 10, 20];
-
+export class BankComponent {
     constructor(
-        private bankService: BankService,
+        private _PaginationService: PaginationService,
         private messageService: MessageService
     ) {}
 
+    @ViewChild('dt') dt: Table;
+    endPoint!: string;
+    allData: any = [];
+    page: number = 1;
+    itemsPerPage = 3;
+    selectedItems: any = [];
+    cols: any[] = [];
+    totalItems: any;
+    loading: boolean = true;
+    nameFilter: string = '';
+    deleteProductDialog: boolean = false;
+    deleteProductsDialog: boolean = false;
+    submitted: boolean = false;
+    productDialog: boolean = false;
+    product: any;
+    event!: any;
+    newName!: string;
+    newNotes!: string;
+    showFormNew: boolean = false;
+    sortField: string = 'id';
+    sortOrder: string = 'asc';
+
     ngOnInit() {
-        this.bankService.GetAll().subscribe({
-            next: (res) => {
-                console.log(res.data);
-                this.products = res.data;
+
+        // this is the Only Diffrent with any Components Of Lookups
+        this.endPoint = "Department"
+        //-------------------------------------------------------
+
+        this._PaginationService.setEndPoint(this.endPoint);
+
+        this.cols = [
+            { field: 'name', header: 'Name' },
+            { field: 'notes', header: 'Notes' },
+        ];
+    }
+
+    editProduct(rowData: any) {
+        this.product = { ...rowData };
+        this.productDialog = true;
+    }
+
+    confirmDelete(id: number) {
+        // perform delete from sending request to api
+        this._PaginationService.DeleteSoftById(id).subscribe({
+            next: () => {
+                // close dialog
+                this.deleteProductDialog = false;
+
+                // show message for user to show processing of deletion.
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successful',
+                    detail: 'Product Deleted',
+                    life: 3000,
+                });
             },
             error: (err) => {
                 console.log(err);
             },
         });
-
-        this.cols = [
-            { field: 'product', header: 'Product' },
-            { field: 'price', header: 'Price' },
-            { field: 'category', header: 'Category' },
-            { field: 'rating', header: 'Reviews' },
-            { field: 'inventoryStatus', header: 'Status' },
-        ];
-
-        this.statuses = [
-            { label: 'INSTOCK', value: 'instock' },
-            { label: 'LOWSTOCK', value: 'lowstock' },
-            { label: 'OUTOFSTOCK', value: 'outofstock' },
-        ];
     }
 
-    openNew() {
-        this.product = {};
-        this.submitted = false;
-        this.productDialog = true;
+    addNew() {
+        let body = {
+            name: this.newName,
+            notes: this.newNotes,
+        };
+
+        this._PaginationService.Register(body).subscribe({
+            next: (res) => {
+                console.log(res);
+                // show message for success inserted
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successful',
+                    detail: 'inserted success',
+                    life: 3000,
+                });
+
+                // set fields is empty
+                this.setFieldsNulls();
+
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+    }
+
+    loadFilteredData() {
+        this.loadData(
+            this.page,
+            this.itemsPerPage,
+            this.nameFilter,
+            this.sortField,
+            this.sortOrder
+        );
+    }
+
+    setFieldsNulls() {
+        (this.newName = null), (this.newNotes = null);
+    }
+
+    loadData(
+        page: number,
+        size: number,
+        nameFilter: string,
+        filterType: string,
+        sortType: string ="asc"
+    ) {
+        this.loading = true;
+        let filteredData = {
+            pageNumber: page,
+            pageSize: size,
+            filterValue: nameFilter,
+            filterType: filterType,
+            sortType: sortType,
+        };
+        filteredData.sortType = this.sortOrder;
+
+
+
+        this._PaginationService.GetPage(filteredData).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.allData = res.data;
+                console.log(res.data);
+
+                this.totalItems = res.totalItems;
+                this.loading = false;
+                // this.selectedItems = this.allData;
+                console.log(this.selectedItems);
+
+
+                console.log(sortType)
+            },
+            error: (err) => {
+                console.log(err);
+                this.loading = false;
+            },
+        });
+    }
+
+    onPageChange(event: any) {
+        let x: string;
+        console.log(event);
+        this.page = Number(event.first / event.rows) + 1;
+        x = event.sortOrder === 1 ? 'asc' : 'dsc';
+        this.sortOrder = x;
+        this.itemsPerPage = event.rows;
+        // console.log(this.sortOrder);
+
+        this.loadData(
+            this.page,
+            this.itemsPerPage,
+            this.nameFilter,
+            this.sortField,
+            this.sortOrder
+        );
+
+        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
         this.deleteProductsDialog = true;
-    }
-
-    editProduct(product: Product) {
-        this.product = { ...product };
-        this.productDialog = true;
-    }
-
-    deleteProduct(product: Product) {
-        this.deleteProductDialog = true;
-        this.product = { ...product };
-    }
-
-    confirmDeleteSelected() {
-        this.deleteProductsDialog = false;
-        this.products = this.products.filter(
-            (val) => !this.selectedProducts.includes(val)
-        );
-        this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Products Deleted',
-            life: 3000,
-        });
-        this.selectedProducts = [];
-    }
-
-    confirmDelete() {
-        this.deleteProductDialog = false;
-        this.products = this.products.filter(
-            (val) => val.id !== this.product.id
-        );
-        this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: 'Product Deleted',
-            life: 3000,
-        });
-        this.product = {};
     }
 
     hideDialog() {
@@ -115,73 +195,146 @@ export class BankComponent implements OnInit {
         this.submitted = false;
     }
 
-    saveProduct() {
+    deleteProduct(product: any) {
+        this.deleteProductDialog = true;
+        this.product = { ...product };
+    }
+
+    saveProduct(id: number, product: any) {
         this.submitted = true;
+        console.log(id);
+        console.log(product);
 
-        if (this.product.name?.trim()) {
-            if (this.product.id) {
-                // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus
-                    .value
-                    ? this.product.inventoryStatus.value
-                    : this.product.inventoryStatus;
-                this.products[this.findIndexById(this.product.id)] =
-                    this.product;
+        let body = {
+            id: product.id,
+            name: product.name,
+            notes: product.notes,
+        };
+
+        this._PaginationService.Edit(body).subscribe({
+            next: () => {
+                this.hideDialog();
+                // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'Product Updated',
+                    detail: 'You Edit This Item',
                     life: 3000,
                 });
-            } else {
-                this.product.id = this.createId();
-                this.product.code = this.createId();
-                this.product.image = 'product-placeholder.svg';
-                // @ts-ignore
-                this.product.inventoryStatus = this.product.inventoryStatus
-                    ? this.product.inventoryStatus.value
-                    : 'INSTOCK';
-                this.products.push(this.product);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Created',
-                    life: 3000,
-                });
-            }
 
-            this.products = [...this.products];
-            this.productDialog = false;
-            this.product = {};
+                // load data again
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: (err) => {
+                console.log(err);
+                alert(err);
+            },
+        });
+    }
+
+    toggleNew() {
+        if (this.showFormNew) {
+            this.showFormNew = false;
+        } else {
+            this.showFormNew = true;
         }
     }
 
-    findIndexById(id: string): number {
-        let index = -1;
-        for (let i = 0; i < this.products.length; i++) {
-            if (this.products[i].id === id) {
-                index = i;
-                break;
-            }
-        }
+    exportCSV() {
+        // Convert data to CSV format
+        const csvData = this.convertToCSV(this.selectedItems);
 
-        return index;
+        // Adding UTF-8 BOM
+        const bom = '\uFEFF';
+        const csvContent = bom + csvData;
+
+        // Create a Blob with UTF-8 encoding
+        const blob = new Blob([csvContent], {
+            type: 'text/csv;charset=utf-8;',
+        });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'data_export_' + new Date().getTime() + '.csv';
+        link.click();
     }
 
-    createId(): string {
-        let id = '';
-        const chars =
-            'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (let i = 0; i < 5; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
-    }
+    convertToCSV(data: any[]): string {
+        if (!data || !data.length) return '';
 
-    onGlobalFilter(table: Table, event: Event) {
-        table.filterGlobal(
-            (event.target as HTMLInputElement).value,
-            'contains'
+        const separator = ',';
+        let keys = [];
+
+        this.cols.forEach((row) => {
+            keys.push(row.field);
+        });
+        console.log(keys);
+
+        const csvContent = data.map((row) =>
+            keys.map((key) => `"${row[key]}"`).join(separator)
         );
+
+        csvContent.unshift(keys.join(separator)); // Add header row
+        return csvContent.join('\r\n'); // Join all rows
+    }
+    confirmDeleteSelected() {
+        let selectedIds = [];
+        console.log('Selected Items :');
+
+        this.selectedItems.forEach((item: any) => {
+            selectedIds.push(item.id);
+        });
+
+        this._PaginationService.DeleteRangeSoft(selectedIds).subscribe({
+            next: (res) => {
+                this.deleteProductsDialog = false;
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'items deleted successfully',
+                    life: 3000,
+                });
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+            error: (err) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Failure',
+                    detail: err.statusText,
+                    life: 3000,
+                });
+                this.deleteProductsDialog = false;
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            },
+        });
+    }
+    sortById(event: any) {
+        this.sortField = 'id';
+
+        if (this.sortOrder === 'asc') {
+            this.sortOrder = 'dsc';
+        } else if (this.sortOrder === 'dsc') {
+            this.sortOrder = 'asc';
+        }
+    }
+    sortByName(event: any) {
+        this.sortField = 'name';
     }
 }

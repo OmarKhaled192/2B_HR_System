@@ -14,6 +14,7 @@ import { AppLayoutModule } from './layout/app.layout.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
 
 
 @NgModule({

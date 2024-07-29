@@ -37,11 +37,52 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/info/department'],
                     },
                     {
-                        label: 'bank',
+                        label: 'Bank',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/bank'],
                     },
+                    {
+                        label: 'Government',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/government'],
+                    },
+                    {
+                        label: 'Grade',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/grade'],
+                    },
+                    {
+                        label: 'Job',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/job'],
+                    },
+                    {
+                        label: 'Location',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/location'],
+                    },
+                    {
+                        label: 'Partition',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/partition'],
+                    },
+                    {
+                        label: 'Qualification',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/qualification'],
+                    },
+                    {
+                        label: 'Roles',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/roles'],
+                    },
+                    {
+                        label: 'Shift',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/shift'],
+                    },
                 ],
+
             },
             {
                 label: 'UI Components',
