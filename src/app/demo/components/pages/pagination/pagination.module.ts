@@ -21,9 +21,11 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { BankComponent } from './bank/bank.component';
+import { DepartmentComponent } from './department/department.component';
 
 @NgModule({
-    declarations: [PaginationComponent],
+    declarations: [PaginationComponent, BankComponent, DepartmentComponent],
     imports: [
         CommonModule,
         PaginationRoutingModule,
