@@ -15,11 +15,10 @@ export class PaginationComponent {
     ) {}
 
     @ViewChild('dt') dt: Table;
-
-    endPoint: string = "Bank";
+    endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 2;
+    itemsPerPage = 3;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -35,7 +34,7 @@ export class PaginationComponent {
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
-    sortOrder: string;
+    sortOrder: string = 'asc';
 
     ngOnInit() {
         // this.loadData(this.page, this.itemsPerPage, this.nameFilter);
@@ -130,9 +129,6 @@ export class PaginationComponent {
         filterType: string,
         sortType: string ="asc"
     ) {
-        console.log(1);
-        console.log(sortType);
-
         this.loading = true;
         let filteredData = {
             pageNumber: page,
@@ -141,6 +137,7 @@ export class PaginationComponent {
             filterType: filterType,
             sortType: sortType,
         };
+        filteredData.sortType = this.sortOrder;
 
 
 
@@ -166,9 +163,11 @@ export class PaginationComponent {
     }
 
     onPageChange(event: any) {
+        let x: string;
         console.log(event);
-        this.event = event;
         this.page = Number(event.first / event.rows) + 1;
+        x = event.sortOrder === 1 ? 'asc' : 'dsc';
+        this.sortOrder = x;
         this.itemsPerPage = event.rows;
         // console.log(this.sortOrder);
 
@@ -322,35 +321,16 @@ export class PaginationComponent {
             },
         });
     }
-
     sortById(event: any) {
-        // console.log(2);
-        // console.log(this.sortOrder);
+        this.sortField = 'id';
 
-        // if (
-        //     event.target.ariaSort == 'ascending'
-        // ) {
-        //     this.sortOrder = 'asc';
-        // } else this.sortOrder = 'dsc';
-        // console.log(this.sortOrder);
-
-        console.log(event);
-
+        if (this.sortOrder === 'asc') {
+            this.sortOrder = 'dsc';
+        } else if (this.sortOrder === 'dsc') {
+            this.sortOrder = 'asc';
+        }
     }
-
-    onSort() {
-
-        if (this.sortOrder == 'asc')
-            this.sortOrder = 'dsc'
-        else this.sortOrder = 'asc';
-
-        this.loadData(
-            this.page,
-            this.itemsPerPage,
-            this.nameFilter,
-            this.sortField,
-            this.sortOrder
-        );
-        console.log('ggggggggggggggggggg');
+    sortByName(event: any) {
+        this.sortField = 'name';
     }
 }
