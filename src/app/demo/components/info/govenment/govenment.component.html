@@ -82,7 +82,6 @@
     [lazy]="true"
     (onLazyLoad)="onPageChange($event)"
     dataKey="id"
-    (onSort)="onSort()"
 >
     <ng-template pTemplate="caption">
         <div
@@ -110,9 +109,12 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th pSortableColumn="id" (click)="sortById($event)">
-                Id <p-sortIcon field="id"></p-sortIcon>
+                Id
+                <p-sortIcon field="id"></p-sortIcon>
             </th>
-            <th>Name</th>
+            <th pSortableColumn="name" (click)="sortByName($event)">
+                Name <p-sortIcon field="name"></p-sortIcon>
+            </th>
             <th>Notes</th>
             <th>Actions</th>
         </tr>

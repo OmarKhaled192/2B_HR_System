@@ -16,9 +16,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
-import { DepartmentComponent } from '../../info/department/department.component';
 import { HttpClientModule } from '@angular/common/http';
-import { BankComponent } from '../../info/bank/bank.component';
 
 @NgModule({
     imports: [
@@ -40,6 +38,6 @@ import { BankComponent } from '../../info/bank/bank.component';
         DialogModule,
         HttpClientModule,
     ],
-    declarations: [CrudComponent, DepartmentComponent, BankComponent]
+    declarations: [CrudComponent]
 })
 export class CrudModule {}

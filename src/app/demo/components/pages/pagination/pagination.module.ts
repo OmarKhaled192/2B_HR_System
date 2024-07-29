@@ -20,12 +20,33 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { BankComponent } from './bank/bank.component';
-import { DepartmentComponent } from './department/department.component';
-
+import { GovenmentComponent } from '../../info/govenment/govenment.component';
+import { BankComponent } from '../../info/bank/bank.component';
+import { DepartmentComponent } from '../../info/department/department.component';
+import { GradeComponent } from '../../info/grade/grade.component';
+import { JobComponent } from '../../info/job/job.component';
+import { LocationComponent } from '../../info/location/location.component';
+import { PartitionComponent } from '../../info/partition/partition.component';
+import { QualificationComponent } from '../../info/qualification/qualification.component';
+import { RolesComponent } from '../../info/roles/roles.component';
+import { ShiftComponent } from '../../info/shift/shift.component';
 
 @NgModule({
-    declarations: [PaginationComponent, BankComponent, DepartmentComponent],
+    declarations:
+    [
+        PaginationComponent,
+        BankComponent,
+        DepartmentComponent,
+        GovenmentComponent,
+        GradeComponent,
+        JobComponent,
+        LocationComponent,
+        PartitionComponent,
+        QualificationComponent,
+        RolesComponent,
+        ShiftComponent
+    ],
+
     imports: [
         CommonModule,
         PaginationRoutingModule,

@@ -1,15 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-import { PaginationService } from './pagination.service';
+import { PaginationService } from '../../pages/pagination/pagination.service';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
 @Component({
-    selector: 'app-pagination',
-    templateUrl: './pagination.component.html',
-    styleUrl: './pagination.component.scss',
+  selector: 'app-roles',
+  templateUrl: './roles.component.html',
+  styleUrl: './roles.component.scss'
 })
-export class PaginationComponent {
-    
+export class RolesComponent {
     constructor(
         private _PaginationService: PaginationService,
         private messageService: MessageService
@@ -38,7 +37,10 @@ export class PaginationComponent {
     sortOrder: string = 'asc';
 
     ngOnInit() {
-        // this.loadData(this.page, this.itemsPerPage, this.nameFilter);
+
+        // this is the Only Diffrent with any Components Of Lookups
+        this.endPoint = "Department"
+        //-------------------------------------------------------
 
         this._PaginationService.setEndPoint(this.endPoint);
 
