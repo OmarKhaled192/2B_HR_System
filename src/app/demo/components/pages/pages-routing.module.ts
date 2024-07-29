@@ -24,6 +24,13 @@ import { RouterModule } from '@angular/router';
                     ),
             },
             {
+                path: 'pagination-popup',
+                loadChildren: () =>
+                    import('./pagination-popup/pagination-popup.module').then(
+                        (m) => m.PaginationPopupModule
+                    ),
+            },
+            {
                 path: 'timeline',
                 loadChildren: () =>
                     import('./timeline/timelinedemo.module').then(
