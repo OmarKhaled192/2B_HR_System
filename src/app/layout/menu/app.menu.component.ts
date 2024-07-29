@@ -19,7 +19,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Dashboard',
                         icon: 'pi pi-fw pi-home',
-                        routerLink: ['/'],
+                        routerLink: ['/dashboard'],
                     },
                 ],
             },
@@ -82,6 +82,7 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/info/shift'],
                     },
                 ],
+
             },
             {
                 label: 'UI Components',
@@ -237,10 +238,14 @@ export class AppMenuComponent implements OnInit {
                     },
                     {
                         label: 'Pagination',
-                        icon: 'pi pi-fw pi-circle-off',
+                        icon: 'pi pi-fw pi-table',
                         routerLink: ['/pages/pagination'],
                     },
-
+                    {
+                        label: 'Pagination-Popup',
+                        icon: 'pi pi-fw pi-th-large',
+                        routerLink: ['/pages/pagination-popup'],
+                    },
                 ],
             },
             {
@@ -281,7 +286,7 @@ export class AppMenuComponent implements OnInit {
                         ],
                     },
                 ],
-            }
-        ]
+            },
+        ];
     }
 }

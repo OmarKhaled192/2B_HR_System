@@ -12,23 +12,25 @@ import { QualificationComponent } from './qualification/qualification.component'
 import { RolesComponent } from './roles/roles.component';
 import { ShiftComponent } from './shift/shift.component';
 import { NotfoundComponent } from '../notfound/notfound.component';
+import { authGuard } from '../auth/auth.guard';
 
 @NgModule({
-    
+
     imports: [
         RouterModule.forChild([
-            { path: 'vacation', component: VacationComponent },
-            { path: 'department', component: DepartmentComponent },
-            { path: 'bank', component: BankComponent },
-            { path: 'government', component: GovenmentComponent },
-            { path: 'grade', component: GradeComponent },
-            { path: 'job', component: JobComponent },
-            { path: 'location', component: LocationComponent },
-            { path: 'partition', component: PartitionComponent },
-            { path: 'qualification', component: QualificationComponent },
-            { path: 'roles', component: RolesComponent },
-            { path: 'shift', component: ShiftComponent },
+            { path: 'vacation', canActivate: [authGuard], component: VacationComponent },
+            { path: 'department', canActivate: [authGuard], component: DepartmentComponent },
+            { path: 'bank', canActivate: [authGuard], component: BankComponent },
+            { path: 'government', canActivate: [authGuard], component: GovenmentComponent },
+            { path: 'grade', canActivate: [authGuard], component: GradeComponent },
+            { path: 'job', canActivate: [authGuard], component: JobComponent },
+            { path: 'location', canActivate: [authGuard], component: LocationComponent },
+            { path: 'partition', canActivate: [authGuard], component: PartitionComponent },
+            { path: 'qualification', canActivate: [authGuard], component: QualificationComponent },
+            { path: 'roles', canActivate: [authGuard], component: RolesComponent },
+            { path: 'shift', canActivate: [authGuard], component: ShiftComponent },
             { path: '**', component: NotfoundComponent}
+
         ]),
     ],
     exports: [RouterModule],

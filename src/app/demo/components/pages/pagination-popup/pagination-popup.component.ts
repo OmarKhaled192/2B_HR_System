@@ -1,15 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { PaginationService } from '../pagination/pagination.service';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { PaginationService } from '../../pages/pagination/pagination.service';
 
 @Component({
-    selector: 'app-bank',
-    templateUrl: './bank.component.html',
-    styleUrl: './bank.component.scss',
-    providers: [MessageService],
+    selector: 'app-pagination-popup',
+    templateUrl: './pagination-popup.component.html',
+    styleUrl: './pagination-popup.component.scss',
 })
-export class BankComponent {
+export class PaginationPopupComponent {
     constructor(
         private _PaginationService: PaginationService,
         private messageService: MessageService
@@ -38,12 +37,9 @@ export class BankComponent {
     sortOrder: string = 'asc';
 
     ngOnInit() {
+        // this.loadData(this.page, this.itemsPerPage, this.nameFilter);
 
-        // this is the Only Diffrent with any Components Of Lookups
-        this.endPoint = "Department"
-        //-------------------------------------------------------
-
-        this._PaginationService.setEndPoint(this.endPoint);
+        this.endPoint = 'Department';
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -86,6 +82,7 @@ export class BankComponent {
         this._PaginationService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
+                this.showFormNew = false;
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
@@ -107,6 +104,8 @@ export class BankComponent {
                 );
             },
             error: (err) => {
+                this.showFormNew = false;
+
                 console.log(err);
             },
         });
@@ -131,7 +130,7 @@ export class BankComponent {
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string ="asc"
+        sortType: string
     ) {
         this.loading = true;
         let filteredData = {
@@ -143,8 +142,6 @@ export class BankComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-
-
         this._PaginationService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
@@ -155,9 +152,6 @@ export class BankComponent {
                 this.loading = false;
                 // this.selectedItems = this.allData;
                 console.log(this.selectedItems);
-
-
-                console.log(sortType)
             },
             error: (err) => {
                 console.log(err);

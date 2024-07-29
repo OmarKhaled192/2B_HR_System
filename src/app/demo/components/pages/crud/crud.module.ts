@@ -39,5 +39,6 @@ import { HttpClientModule } from '@angular/common/http';
         HttpClientModule,
     ],
     declarations: [CrudComponent]
+
 })
 export class CrudModule {}
