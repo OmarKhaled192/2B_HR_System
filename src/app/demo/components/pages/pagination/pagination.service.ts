@@ -7,17 +7,23 @@ import { environment } from 'src/environments/environment';
     providedIn: 'root',
 })
 export class PaginationService {
-    baseurl: string = environment.baseurl;
-    endPoint: string = 'Department';
+    baseurl: string;
+    endPoint: string;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        this.baseurl = environment.baseurl;
+    }
+
+    setEndPoint(val: string) {
+        this.endPoint = val;
+    }
 
     GetAll(body: any): Observable<any> {
         return this.http.post(`${this.baseurl}/${this.endPoint}`, body);
     }
 
     GetPage(body: any): Observable<any> {
-        return this.http.post(`${this.baseurl}/${this.endPoint}/`, body);
+        return this.http.post(`${this.baseurl}/${this.endPoint}`, body);
     }
 
     Register(body: any): Observable<any> {
@@ -28,7 +34,7 @@ export class PaginationService {
     }
 
     Edit(body: any): Observable<any> {
-        return this.http.post(`${this.baseurl}/${this.endPoint}/Edit/`, body);
+        return this.http.post(`${this.baseurl}/${this.endPoint}/Edit`, body);
     }
 
     DeleteSoftById(id: number): Observable<any> {

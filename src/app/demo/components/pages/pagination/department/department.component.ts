@@ -1,14 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-import { PaginationService } from './pagination.service';
+import { PaginationService } from '../pagination.service';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
 @Component({
-    selector: 'app-pagination',
-    templateUrl: './pagination.component.html',
-    styleUrl: './pagination.component.scss',
+  selector: 'app-department',
+  templateUrl: './department.component.html',
+  styleUrl: './department.component.scss'
 })
-export class PaginationComponent {
+export class DepartmentComponent {
     constructor(
         private _PaginationService: PaginationService,
         private messageService: MessageService
@@ -16,7 +16,7 @@ export class PaginationComponent {
 
     @ViewChild('dt') dt: Table;
 
-    endPoint: string = "Bank";
+    endPoint: string = "Department";
     allData: any = [];
     page: number = 1;
     itemsPerPage = 2;
@@ -41,6 +41,7 @@ export class PaginationComponent {
         // this.loadData(this.page, this.itemsPerPage, this.nameFilter);
 
         this._PaginationService.setEndPoint(this.endPoint);
+        console.log(this.endPoint)
 
         this.cols = [
             { field: 'name', header: 'Name' },

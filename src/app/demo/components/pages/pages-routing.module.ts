@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { BankComponent } from './pagination/bank/bank.component';
+
 
 @NgModule({
     imports: [
