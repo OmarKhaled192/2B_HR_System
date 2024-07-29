@@ -1,3 +1,4 @@
+import { BankComponent } from './../../info/bank/bank.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginationComponent } from './pagination.component';
@@ -23,7 +24,6 @@ import { MessageService } from 'primeng/api';
 import { BankComponent } from './bank/bank.component';
 import { DepartmentComponent } from './department/department.component';
 
-
 @NgModule({
     declarations: [PaginationComponent, BankComponent, DepartmentComponent],
     imports: [
@@ -48,6 +48,6 @@ import { DepartmentComponent } from './department/department.component';
         ReactiveFormsModule,
     ],
 
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class PaginationModule {}
