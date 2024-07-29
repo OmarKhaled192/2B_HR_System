@@ -1,25 +1,24 @@
 import { Component, ViewChild } from '@angular/core';
-import { PaginationService } from '../pagination.service';
+import { PaginationService } from '../../pages/pagination/pagination.service';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 
 @Component({
-  selector: 'app-bank',
-  templateUrl: './bank.component.html',
-  styleUrl: './bank.component.scss'
+  selector: 'app-qualification',
+  templateUrl: './qualification.component.html',
+  styleUrl: './qualification.component.scss'
 })
-export class BankComponent {
+export class QualificationComponent {
     constructor(
         private _PaginationService: PaginationService,
         private messageService: MessageService
     ) {}
 
     @ViewChild('dt') dt: Table;
-
-    endPoint: string = "Bank";
+    endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 2;
+    itemsPerPage = 3;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -35,13 +34,15 @@ export class BankComponent {
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
-    sortOrder: string;
+    sortOrder: string = 'asc';
 
     ngOnInit() {
-        // this.loadData(this.page, this.itemsPerPage, this.nameFilter);
+
+        // this is the Only Diffrent with any Components Of Lookups
+        this.endPoint = "Qualification"
+        //-------------------------------------------------------
 
         this._PaginationService.setEndPoint(this.endPoint);
-        console.log(this.endPoint)
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -131,9 +132,6 @@ export class BankComponent {
         filterType: string,
         sortType: string ="asc"
     ) {
-        console.log(1);
-        console.log(sortType);
-
         this.loading = true;
         let filteredData = {
             pageNumber: page,
@@ -142,6 +140,7 @@ export class BankComponent {
             filterType: filterType,
             sortType: sortType,
         };
+        filteredData.sortType = this.sortOrder;
 
 
 
@@ -167,9 +166,11 @@ export class BankComponent {
     }
 
     onPageChange(event: any) {
+        let x: string;
         console.log(event);
-        this.event = event;
         this.page = Number(event.first / event.rows) + 1;
+        x = event.sortOrder === 1 ? 'asc' : 'dsc';
+        this.sortOrder = x;
         this.itemsPerPage = event.rows;
         // console.log(this.sortOrder);
 
@@ -323,35 +324,16 @@ export class BankComponent {
             },
         });
     }
-
     sortById(event: any) {
-        // console.log(2);
-        // console.log(this.sortOrder);
+        this.sortField = 'id';
 
-        // if (
-        //     event.target.ariaSort == 'ascending'
-        // ) {
-        //     this.sortOrder = 'asc';
-        // } else this.sortOrder = 'dsc';
-        // console.log(this.sortOrder);
-
-        console.log(event);
-
+        if (this.sortOrder === 'asc') {
+            this.sortOrder = 'dsc';
+        } else if (this.sortOrder === 'dsc') {
+            this.sortOrder = 'asc';
+        }
     }
-
-    onSort() {
-
-        if (this.sortOrder == 'asc')
-            this.sortOrder = 'dsc'
-        else this.sortOrder = 'asc';
-
-        this.loadData(
-            this.page,
-            this.itemsPerPage,
-            this.nameFilter,
-            this.sortField,
-            this.sortOrder
-        );
-        console.log('ggggggggggggggggggg');
+    sortByName(event: any) {
+        this.sortField = 'name';
     }
 }
