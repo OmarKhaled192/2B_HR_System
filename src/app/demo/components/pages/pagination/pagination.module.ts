@@ -1,3 +1,4 @@
+import { BankComponent } from './../../info/bank/bank.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaginationComponent } from './pagination.component';
@@ -20,7 +21,6 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-
 
 @NgModule({
     declarations: [PaginationComponent],
@@ -46,6 +46,6 @@ import { MessageService } from 'primeng/api';
         ReactiveFormsModule,
     ],
 
-    providers: [MessageService]
+    providers: [MessageService],
 })
 export class PaginationModule {}

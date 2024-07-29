@@ -1,45 +1,51 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { CrudRoutingModule } from './crud-routing.module';
-import { CrudComponent } from './crud.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { TableModule } from 'primeng/table';
-import { FileUploadModule } from 'primeng/fileupload';
-import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { ToastModule } from 'primeng/toast';
+import { FileUploadModule } from 'primeng/fileupload';
+import { HttpClientModule } from '@angular/common/http';
 import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
 import { RatingModule } from 'primeng/rating';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { DialogModule } from 'primeng/dialog';
-import { DepartmentComponent } from '../../info/department/department.component';
-import { HttpClientModule } from '@angular/common/http';
-import { BankComponent } from '../../info/bank/bank.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+
+import { PaginationPopupRoutingModule } from './pagination-popup-routing.module';
+import { PaginationPopupComponent } from './pagination-popup.component';
 
 @NgModule({
+    declarations: [PaginationPopupComponent],
     imports: [
         CommonModule,
-        CrudRoutingModule,
-        TableModule,
-        FileUploadModule,
-        FormsModule,
-        ButtonModule,
-        RippleModule,
-        ToastModule,
+        PaginationPopupRoutingModule,
+        CommonModule,
+        NgxPaginationModule,
         ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
         RatingModule,
         InputTextModule,
         InputTextareaModule,
         DropdownModule,
         RadioButtonModule,
         InputNumberModule,
-        DialogModule,
-        HttpClientModule,
+        ReactiveFormsModule,
     ],
-    declarations: [CrudComponent, DepartmentComponent, BankComponent],
+    providers: [MessageService],
 })
-export class CrudModule {}
+export class PaginationPopupModule {}
