@@ -18,7 +18,7 @@ export class PaginationComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 2;
+    itemsPerPage = 3;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -34,7 +34,7 @@ export class PaginationComponent {
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
-    sortOrder: string;
+    sortOrder: string = 'asc';
 
     ngOnInit() {
         // this.loadData(this.page, this.itemsPerPage, this.nameFilter);
@@ -129,9 +129,6 @@ export class PaginationComponent {
         filterType: string,
         sortType: string
     ) {
-        console.log(1);
-        console.log(sortType);
-
         this.loading = true;
         let filteredData = {
             pageNumber: page,
@@ -140,6 +137,7 @@ export class PaginationComponent {
             filterType: filterType,
             sortType: sortType,
         };
+        filteredData.sortType = this.sortOrder;
 
         this._PaginationService.GetPage(filteredData).subscribe({
             next: (res) => {
@@ -160,9 +158,11 @@ export class PaginationComponent {
     }
 
     onPageChange(event: any) {
+        let x: string;
         console.log(event);
-        this.event = event;
         this.page = Number(event.first / event.rows) + 1;
+        x = event.sortOrder === 1 ? 'asc' : 'dsc';
+        this.sortOrder = x;
         this.itemsPerPage = event.rows;
         // console.log(this.sortOrder);
 
@@ -316,17 +316,16 @@ export class PaginationComponent {
             },
         });
     }
-
     sortById(event: any) {
+        this.sortField = 'id';
+
         if (this.sortOrder === 'asc') {
             this.sortOrder = 'dsc';
-        } else {
+        } else if (this.sortOrder === 'dsc') {
             this.sortOrder = 'asc';
         }
-
-        setTimeout(() => {
-            let x = document.querySelector('.p-paginator-page') as HTMLElement;
-            x.click();
-        }, 500);
+    }
+    sortByName(event: any) {
+        this.sortField = 'name';
     }
 }

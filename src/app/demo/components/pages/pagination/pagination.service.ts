@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class PaginationService {
     baseurl: string = environment.baseurl;
-    endPoint: string = 'Department';
+    endPoint: string = 'Bank';
 
     constructor(private http: HttpClient) {}
 
