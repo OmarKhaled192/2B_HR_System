@@ -1,17 +1,54 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { PaginationService } from './pagination.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { RatingModule } from 'primeng/rating';
+import { RippleModule } from 'primeng/ripple';
+import { Table, TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { LockupsService } from '../../service/lockups.service';
 
 @Component({
-    selector: 'app-pagination',
-    templateUrl: './pagination.component.html',
-    styleUrl: './pagination.component.scss',
+  selector: 'app-std-paginations-with-popup',
+  standalone: true,
+  imports: [
+    CommonModule,
+    NgxPaginationModule,
+    ToolbarModule,
+    TableModule,
+    RippleModule,
+    FileUploadModule,
+    HttpClientModule,
+    ButtonModule,
+    FormsModule,
+    DialogModule,
+    ToastModule,
+    RatingModule,
+    InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
+    RadioButtonModule,
+    InputNumberModule,
+    ReactiveFormsModule,
+  ],
+  providers: [MessageService],
+  templateUrl: './std-paginations-with-popup.component.html',
+  styleUrl: './std-paginations-with-popup.component.scss'
 })
-export class PaginationComponent {
-
+export class StdPaginationsWithPopupComponent {
     constructor(
-        private _PaginationService: PaginationService,
+        private _LockupsService: LockupsService,
         private messageService: MessageService
     ) {}
 
@@ -31,32 +68,46 @@ export class PaginationComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    newNameAr!: string;
-    newNameEn!: string;
+    newName!: string;
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
+    newNameAr!: string;
+    newNameEn!: string;
 
     ngOnInit() {
-      
-
-       this._PaginationService.setEndPoint(this.endPoint);
+        this._LockupsService.setEndPoint(this.endPoint);
 
         this.cols = [
             { field: 'name', header: 'Name' },
             { field: 'notes', header: 'Notes' },
+
+            // Generic Fields
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
         ];
     }
 
     editProduct(rowData: any) {
-        this.product = { ...rowData };
-        this.productDialog = true;
+        console.log(rowData.id)
+        this._LockupsService.GetById(rowData.id).subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.product = { ...res.data };
+                this.productDialog = true;
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
     }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._PaginationService.DeleteSoftById(id).subscribe({
+        this._LockupsService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -68,6 +119,15 @@ export class PaginationComponent {
                     detail: 'Product Deleted',
                     life: 3000,
                 });
+
+                // load data here
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
             },
             error: (err) => {
                 console.log(err);
@@ -82,9 +142,10 @@ export class PaginationComponent {
             engName: this.newNameEn
         };
 
-        this._PaginationService.Register(body).subscribe({
+        this._LockupsService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
+                this.showFormNew = false;
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
@@ -106,6 +167,8 @@ export class PaginationComponent {
                 );
             },
             error: (err) => {
+                this.showFormNew = false;
+
                 console.log(err);
             },
         });
@@ -130,7 +193,7 @@ export class PaginationComponent {
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string ="asc"
+        sortType: string
     ) {
         this.loading = true;
         let filteredData = {
@@ -142,9 +205,7 @@ export class PaginationComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-
-
-        this._PaginationService.GetPage(filteredData).subscribe({
+        this._LockupsService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -152,11 +213,8 @@ export class PaginationComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                // this.selectedItems = this.allData;
+                this.selectedItems = this.allData;
                 console.log(this.selectedItems);
-
-
-                console.log(sortType)
             },
             error: (err) => {
                 console.log(err);
@@ -205,12 +263,13 @@ export class PaginationComponent {
         console.log(product);
 
         let body = {
-            id: product.id,
+            engName: product.engName,
             name: product.name,
+            id: product.id,
             notes: product.notes,
         };
 
-        this._PaginationService.Edit(body).subscribe({
+        this._LockupsService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -289,7 +348,7 @@ export class PaginationComponent {
             selectedIds.push(item.id);
         });
 
-        this._PaginationService.DeleteRangeSoft(selectedIds).subscribe({
+        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -336,4 +395,5 @@ export class PaginationComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
+
 }

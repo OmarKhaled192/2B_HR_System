@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { VacationComponent } from './vacation/vacation.component';
 import { DepartmentComponent } from './department/department.component';
 import { BankComponent } from './bank/bank.component';
 import { GovenmentComponent } from './govenment/govenment.component';
@@ -9,16 +8,13 @@ import { JobComponent } from './job/job.component';
 import { LocationComponent } from './location/location.component';
 import { PartitionComponent } from './partition/partition.component';
 import { QualificationComponent } from './qualification/qualification.component';
-import { RolesComponent } from './roles/roles.component';
 import { ShiftComponent } from './shift/shift.component';
 import { NotfoundComponent } from '../notfound/notfound.component';
 import { authGuard } from '../auth/auth.guard';
 
 @NgModule({
-
     imports: [
         RouterModule.forChild([
-            { path: 'vacation', canActivate: [authGuard], component: VacationComponent },
             { path: 'department', canActivate: [authGuard], component: DepartmentComponent },
             { path: 'bank', canActivate: [authGuard], component: BankComponent },
             { path: 'government', canActivate: [authGuard], component: GovenmentComponent },
@@ -27,10 +23,8 @@ import { authGuard } from '../auth/auth.guard';
             { path: 'location', canActivate: [authGuard], component: LocationComponent },
             { path: 'partition', canActivate: [authGuard], component: PartitionComponent },
             { path: 'qualification', canActivate: [authGuard], component: QualificationComponent },
-            { path: 'roles', canActivate: [authGuard], component: RolesComponent },
             { path: 'shift', canActivate: [authGuard], component: ShiftComponent },
             { path: '**', component: NotfoundComponent}
-
         ]),
     ],
     exports: [RouterModule],

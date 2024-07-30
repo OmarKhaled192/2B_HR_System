@@ -1,21 +1,60 @@
-import { Component, ViewChild } from '@angular/core';
-import { PaginationService } from '../../pages/pagination/pagination.service';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { Component, Input, ViewChild } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { RatingModule } from 'primeng/rating';
+import { RippleModule } from 'primeng/ripple';
+import { Table, TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { LockupsService } from '../../service/lockups.service';
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrl: './roles.component.scss'
+    selector: 'app-std-pagination',
+    standalone: true,
+    imports: [
+    CommonModule,
+    NgxPaginationModule,
+    ToolbarModule,
+    TableModule,
+    RippleModule,
+    FileUploadModule,
+    HttpClientModule,
+    ButtonModule,
+    FormsModule,
+    DialogModule,
+    ToastModule,
+    RatingModule,
+    InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
+    RadioButtonModule,
+    InputNumberModule,
+    ReactiveFormsModule,
+    ],
+
+    providers: [MessageService],
+    templateUrl: './std-pagination.component.html',
+    styleUrl: './std-pagination.component.scss'
 })
-export class RolesComponent {
+export class StdPaginationComponent {
     constructor(
-        private _PaginationService: PaginationService,
+        private _LockupsService: LockupsService,
         private messageService: MessageService
     ) {}
 
     @ViewChild('dt') dt: Table;
-    endPoint!: string;
+    @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
     itemsPerPage = 3;
@@ -30,7 +69,8 @@ export class RolesComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    newName!: string;
+    newNameAr!: string;
+    newNameEn!: string;
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
@@ -38,11 +78,8 @@ export class RolesComponent {
 
     ngOnInit() {
 
-        // this is the Only Diffrent with any Components Of Lookups
-        this.endPoint = "Roles"
-        //-------------------------------------------------------
 
-        this._PaginationService.setEndPoint(this.endPoint);
+       this._LockupsService.setEndPoint(this.endPoint);
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -57,7 +94,7 @@ export class RolesComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._PaginationService.DeleteSoftById(id).subscribe({
+        this._LockupsService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -78,11 +115,12 @@ export class RolesComponent {
 
     addNew() {
         let body = {
-            name: this.newName,
+            name: this.newNameAr,
             notes: this.newNotes,
+            engName: this.newNameEn
         };
 
-        this._PaginationService.Register(body).subscribe({
+        this._LockupsService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 // show message for success inserted
@@ -122,7 +160,7 @@ export class RolesComponent {
     }
 
     setFieldsNulls() {
-        (this.newName = null), (this.newNotes = null);
+        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
     }
 
     loadData(
@@ -144,7 +182,7 @@ export class RolesComponent {
 
 
 
-        this._PaginationService.GetPage(filteredData).subscribe({
+        this._LockupsService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -210,7 +248,7 @@ export class RolesComponent {
             notes: product.notes,
         };
 
-        this._PaginationService.Edit(body).subscribe({
+        this._LockupsService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -289,7 +327,7 @@ export class RolesComponent {
             selectedIds.push(item.id);
         });
 
-        this._PaginationService.DeleteRangeSoft(selectedIds).subscribe({
+        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({

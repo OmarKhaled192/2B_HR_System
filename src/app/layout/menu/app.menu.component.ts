@@ -23,14 +23,10 @@ export class AppMenuComponent implements OnInit {
                     },
                 ],
             },
+
             {
                 label: 'Info',
                 items: [
-                    {
-                        label: 'Vacation',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/info/vacation'],
-                    },
                     {
                         label: 'Department',
                         icon: 'pi pi-fw pi-home',
@@ -70,11 +66,6 @@ export class AppMenuComponent implements OnInit {
                         label: 'Qualification',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/qualification'],
-                    },
-                    {
-                        label: 'Roles',
-                        icon: 'pi pi-fw pi-home',
-                        routerLink: ['/info/roles'],
                     },
                     {
                         label: 'Shift',
@@ -191,6 +182,11 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-fw pi-briefcase',
                 items: [
                     {
+                        label: 'STD Test',
+                        icon: 'pi pi-fw pi-globe',
+                        routerLink: ['/test'],
+                    },
+                    {
                         label: 'Landing',
                         icon: 'pi pi-fw pi-globe',
                         routerLink: ['/landing'],
@@ -241,6 +237,13 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-table',
                         routerLink: ['/pages/pagination'],
                     },
+
+                    {
+                        label: 'Test',
+                        icon: 'pi pi-fw pi-table',
+                        routerLink: ['/pages/pagination/test'],
+                    },
+
                     {
                         label: 'Pagination-Popup',
                         icon: 'pi pi-fw pi-th-large',
@@ -248,6 +251,7 @@ export class AppMenuComponent implements OnInit {
                     },
                 ],
             },
+
             {
                 label: 'Hierarchy',
                 items: [
