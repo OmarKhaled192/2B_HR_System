@@ -150,27 +150,26 @@
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td><span class="p-column-title">Id</span> {{ rowData.id }}</td>
+            <td><span class="p-column-title">Id</span> {{ rowData.id?rowData.id:'null' }}</td>
 
-            <td><span class="p-column-title">Name</span> {{ rowData.name }}</td>
-            <td>
-                <span class="p-column-title">Notes</span> {{ rowData.notes }}
-            </td>
-
-            <td>
-                <span class="p-column-title">creationTime</span> {{ rowData.creationTime }}
-            </td>
-            <td>
-                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime }}
+            <td [ngClass]="{'null-color':!rowData.name}"><span class="p-column-title">Name</span> {{ rowData.name?rowData.name:'null' }}</td>
+            <td [ngClass]="{'null-color':!rowData.notes}">
+                <span class="p-column-title">Notes</span> {{ rowData.notes?rowData.notes:'null' }}
             </td>
 
-            <td>
-                <span class="p-column-title">creatorName</span> {{ rowData.creatorName }}
+            <td [ngClass]="{'null-color':!rowData.creationTime}">
+                <span class="p-column-title">creationTime</span> {{ rowData.creationTime?rowData.creationTime:'null' }}
             </td>
-            <td>
-                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName }}
+            <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
+                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime?rowData.lastModificationTime:'null' }}
             </td>
 
+            <td [ngClass]="{'null-color':!rowData.creatorName}">
+                <span class="p-column-title">creatorName</span> {{ rowData.creatorName?rowData.creatorName:'null' }}
+            </td>
+            <td [ngClass]="{'null-color':!rowData.lastModifierName}">
+                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName?rowData.lastModifierName:'null' }}
+            </td>
 
             <td>
                 <div class="flex crud-operations">
