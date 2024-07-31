@@ -224,7 +224,7 @@ export class PartitionComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null), (this.selectedDepartment = null)
     }
 
     loadData(
@@ -289,6 +289,7 @@ export class PartitionComponent {
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
+
     }
 
     deleteProduct(product: any) {
@@ -341,6 +342,7 @@ export class PartitionComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            this.setFieldsNulls();
         }
     }
 
