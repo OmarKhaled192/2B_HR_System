@@ -87,6 +87,10 @@ export class LocationComponent {
 
         this.cols = [
             { field: 'name', header: 'Name' },
+
+            { field: 'latitude', header: 'Lotes' },
+            { field: 'longitude', header: 'Longitude' },
+            { field: 'discription', header: 'Discription' },
             { field: 'notes', header: 'Notes' },
 
             // Generic Fields
@@ -201,7 +205,6 @@ export class LocationComponent {
         (this.newDiscription = null),
         (this.newLatitude = null),
         (this.newLongitude = null)
-
     }
 
     loadData(
