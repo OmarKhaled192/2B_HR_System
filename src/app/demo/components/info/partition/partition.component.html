@@ -70,13 +70,7 @@
 
         <div class="field">
             <label for="department">Department :</label>
-			<p-autoComplete id="department"
-                [(ngModel)]="selectedCountryAdvanced"
-                [suggestions]="filteredCountries"
-                (completeMethod)="filterCountry($event)"
-                field="department"
-                [dropdown]="true">
-			</p-autoComplete>
+			<p-dropdown [options]="departmentDropDown" id="department" (onChange)="changedSelected()" [(ngModel)]="selectedDepartment" placeholder="Select a Department" [showClear]="true" optionLabel="name"></p-dropdown>
         </div>
 
         <div class="field">
@@ -89,6 +83,7 @@
                 type="text"
             ></textarea>
         </div>
+
         <div class="field">
             <button
                 class="w-25"
@@ -148,6 +143,7 @@
                 Name <p-sortIcon field="name"></p-sortIcon>
             </th>
             <th>Notes</th>
+            <th>Department</th>
             <th>creationTime</th>
             <th>lastModificationTime</th>
             <th>creatorName</th>
@@ -166,6 +162,10 @@
             <td><span class="p-column-title">Name</span> {{ rowData.name }}</td>
             <td>
                 <span class="p-column-title">Notes</span> {{ rowData.notes }}
+            </td>
+
+            <td>
+                <span class="p-column-title">Notes</span> {{ rowData.departmentName }}
             </td>
 
             <td>
@@ -250,6 +250,17 @@
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.engName"
                 >English Name is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="departmentEdit">Department</label>
+            <p-dropdown [options]="departmentDropDown" optionLabel="name" id="edit_Dept"  [(ngModel)]="selectedEditsDepartment" placeholder="Select a Department" [showClear]="true"></p-dropdown>
+
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="product.departmentId"
+                >Department is required.</small
             >
         </div>
 

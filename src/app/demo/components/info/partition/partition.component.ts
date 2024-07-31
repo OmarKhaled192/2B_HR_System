@@ -79,7 +79,10 @@ export class PartitionComponent {
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
-
+    departmentDropDown: any[] = [];
+    selectedDepartment: string = "";
+    selectedDepartmentId: number = -1;
+    selectedEditsDepartment: any;
     ngOnInit() {
         this.endPoint = "Partation"
         this._LockupsService.setEndPoint(this.endPoint);
@@ -96,7 +99,16 @@ export class PartitionComponent {
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
 
-        this.getDropDownDepartment()
+        // get all drop downs departments
+        this.getDropDownDepartment();
+
+    }
+
+    getDartmentNameById(id: number) {
+        console.log("id edited");
+        console.log(id);
+        let dept = this.departmentDropDown.find(dept => dept.id == id)
+        return dept;
     }
 
     editProduct(rowData: any) {
@@ -106,6 +118,8 @@ export class PartitionComponent {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
+                this.selectedEditsDepartment = this.getDartmentNameById(this.product.departmentId)
+                console.log("dept name is ", this.selectedEditsDepartment)
             },
             error: (err) => {
                 console.log(err);
@@ -113,11 +127,14 @@ export class PartitionComponent {
         })
     }
 
+    changedSelected(event: any) {
+        this.selectedDepartmentId = this.selectedDepartment["id"];
+    }
+
     getDropDownDepartment() {
         this._PartitionService.getDropDown("Department").subscribe({
             next: (res)=> {
-                console.log("res of get DrobDown");
-                console.log(res);
+                this.departmentDropDown = res["data"];
             },
             error: (err) => {
                 console.log(err);
@@ -160,7 +177,8 @@ export class PartitionComponent {
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn
+            engName: this.newNameEn,
+            departmentId: this.selectedDepartmentId
         };
 
         this._LockupsService.Register(body).subscribe({
@@ -288,6 +306,7 @@ export class PartitionComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
+            departmentId: this.selectedEditsDepartment.id
         };
 
         this._LockupsService.Edit(body).subscribe({
@@ -406,6 +425,7 @@ export class PartitionComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -415,6 +435,7 @@ export class PartitionComponent {
             this.sortOrder = 'asc';
         }
     }
+
     sortByName(event: any) {
         this.sortField = 'name';
     }
