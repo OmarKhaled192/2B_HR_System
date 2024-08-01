@@ -25,7 +25,6 @@ import { PaginationPopupComponent } from './pagination-popup.component';
 @NgModule({
     declarations: [PaginationPopupComponent],
     imports: [
-        CommonModule,
         PaginationPopupRoutingModule,
         CommonModule,
         NgxPaginationModule,

@@ -44,6 +44,7 @@ import { authGuard } from '../auth/auth.guard';
                         (m) => m.TimelineDemoModule
                     ),
             },
+
             { path: '**', redirectTo: '/notfound' },
         ]),
     ],

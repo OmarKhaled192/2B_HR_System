@@ -36,37 +36,64 @@
     </ng-template>
 </p-toolbar>
 
-<div class="card p-fluid" *ngIf="showFormNew">
-    <h5>Add New</h5>
-    <div class="field">
-        <label htmlFor="new-name">Name</label>
-        <input
-            pInputText
-            [(ngModel)]="newName"
-            placeholder="Enter Name Here"
-            id="new-name"
-            type="text"
-        />
-    </div>
-    <div class="field">
-        <label htmlFor="new-notes">Notes</label>
-        <textarea
-            pInputTextarea
-            [(ngModel)]="newNotes"
-            id="new-notes"
-            placeholder="Enter Notes Here"
-            type="text"
-        ></textarea>
-    </div>
-    <div class="field">
-        <button
-            class="w-25"
-            pButton
-            label="Insert New"
-            (click)="addNew()"
-        ></button>
-    </div>
-</div>
+<p-dialog
+    [(visible)]="showFormNew"
+    [style]="{ width: '450px' }"
+    header="Add New"
+    [modal]="true"
+    class="p-fluid"
+>
+    <ng-template pTemplate="content">
+
+
+        <div class="field">
+            <label htmlFor="name-en">Name English </label>
+            <input
+                pInputText
+                [(ngModel)]="newNameAr"
+                placeholder="Enter Name Here"
+                id="name-en"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="name-ar">Name Arabic </label>
+            <input
+                pInputText
+                [(ngModel)]="newNameEn"
+                placeholder="Enter Name Here"
+                id="name-ar"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label for="department">Department :</label>
+			<p-dropdown [options]="departmentDropDown" id="department" (onChange)="changedSelected()" [(ngModel)]="selectedDepartment" placeholder="Select a Department" [showClear]="true" optionLabel="name"></p-dropdown>
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-notes">Notes</label>
+            <textarea
+                pInputTextarea
+                [(ngModel)]="newNotes"
+                id="new-notes"
+                placeholder="Enter Notes Here"
+                type="text"
+            ></textarea>
+        </div>
+
+        <div class="field">
+            <button
+                class="w-25"
+                pButton
+                label="Insert New"
+                (click)="addNew()"
+            ></button>
+        </div>
+    </ng-template>
+</p-dialog>
 
 <p-table
     #dt
@@ -116,6 +143,11 @@
                 Name <p-sortIcon field="name"></p-sortIcon>
             </th>
             <th>Notes</th>
+            <th>Department</th>
+            <th>creationTime</th>
+            <th>lastModificationTime</th>
+            <th>creatorName</th>
+            <th>lastModifierName</th>
             <th>Actions</th>
         </tr>
     </ng-template>
@@ -131,20 +163,40 @@
             <td>
                 <span class="p-column-title">Notes</span> {{ rowData.notes }}
             </td>
+
+            <td>
+                <span class="p-column-title">Notes</span> {{ rowData.departmentName }}
+            </td>
+
+            <td>
+                <span class="p-column-title">creationTime</span> {{ rowData.creationTime }}
+            </td>
+            <td>
+                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime }}
+            </td>
+
+            <td>
+                <span class="p-column-title">creatorName</span> {{ rowData.creatorName }}
+            </td>
+            <td>
+                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName }}
+            </td>
+
+
             <td>
                 <div class="flex crud-operations">
                     <button
                         pButton
                         pRipple
                         icon="pi pi-pencil"
-                        class="p-button-rounded p-button-success mr-2"
+                        class="p-button-rounded p-button-info p-button-outlined mr-2"
                         (click)="editProduct(rowData)"
                     ></button>
                     <button
                         pButton
                         pRipple
                         icon="pi pi-trash"
-                        class="p-button-rounded p-button-warning"
+                        class="p-button-rounded p-button-outlined p-button-danger"
                         (click)="deleteProduct(rowData)"
                     ></button>
                 </div>
@@ -162,7 +214,7 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="name">Name</label>
+            <label for="name">Arabic Name</label>
             <input
                 type="text"
                 pInputText
@@ -177,7 +229,38 @@
             <small
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.name"
-                >Name is required.</small
+                >Arabic Name is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="engName">English Name</label>
+            <input
+                type="text"
+                pInputText
+                id="engName"
+                [(ngModel)]="product.engName"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.engName
+                }"
+            />
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.engName"
+                >English Name is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="departmentEdit">Department</label>
+            <p-dropdown [options]="departmentDropDown" optionLabel="name" id="edit_Dept"  [(ngModel)]="selectedEditsDepartment" placeholder="Select a Department" [showClear]="true"></p-dropdown>
+
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="product.departmentId"
+                >Department is required.</small
             >
         </div>
 

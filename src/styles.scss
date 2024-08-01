@@ -138,3 +138,13 @@ $gutter: 1rem; //for primeflex grid system
     --primary-800: #924314;
     --primary-900: #7a3811;
 }
+
+
+// @import "../assets/layout/styles/theme/saga-orange/theme.css";
+textarea {
+    resize: none;
+}
+
+.p-fluid .p-element.w-25.p-button.p-component {
+    width: 25% !important;
+}
