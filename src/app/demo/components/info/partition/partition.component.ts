@@ -26,6 +26,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
   templateUrl: './partition.component.html',
   styleUrl: './partition.component.scss',
   providers: [MessageService],
+
   standalone: true,
   imports: [
     CommonModule,
@@ -46,7 +47,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
-    AutoCompleteModule
+    AutoCompleteModule,
   ],
 })
 export class PartitionComponent {

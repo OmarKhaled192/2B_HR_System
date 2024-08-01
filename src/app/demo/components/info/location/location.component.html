@@ -192,29 +192,29 @@
             </td>
             <td><span class="p-column-title">Id</span> {{ rowData.id }}</td>
 
-            <td [ngClass]="{'null-color':!rowData.name}"><span class="p-column-title">Name</span> {{ rowData.name? rowData.name: 'null'}}</td>
+            <td [ngClass]="{'null-color':!rowData.name}"><span class="p-column-title">Name</span> {{ rowData.name? rowData.name: ''}}</td>
 
             <!-- custom fields -->
-            <td [ngClass]="{'null-color':!rowData.latitude}"><span class="p-column-title">Latitude</span> {{ rowData.latitude? rowData.latitude: 'null'  }}</td>
-            <td [ngClass]="{'null-color':!rowData.longitude}"><span class="p-column-title">Longitude</span> {{ rowData.longitude? rowData.longitude: 'null' }}</td>
-            <td [ngClass]="{'null-color':!rowData.discription}"><span class="p-column-title">Discription</span> {{ rowData.discription? rowData.discription: 'null' }}</td>
+            <td [ngClass]="{'null-color':!rowData.latitude}"><span class="p-column-title">Latitude</span> {{ rowData.latitude? rowData.latitude: ''  }}</td>
+            <td [ngClass]="{'null-color':!rowData.longitude}"><span class="p-column-title">Longitude</span> {{ rowData.longitude? rowData.longitude: '' }}</td>
+            <td [ngClass]="{'null-color':!rowData.discription}"><span class="p-column-title">Discription</span> {{ rowData.discription? rowData.discription: '' }}</td>
 
             <td [ngClass]="{'null-color':!rowData.notes}">
-                <span class="p-column-title">Notes</span> {{ rowData.notes? rowData.notes: 'null' }}
+                <span class="p-column-title">Notes</span> {{ rowData.notes? rowData.notes: '' }}
             </td>
 
             <td [ngClass]="{'null-color':!rowData.creationTime}">
-                <span class="p-column-title">creationTime</span> {{ rowData.creationTime? rowData.creationTime: 'null' }}
+                <span class="p-column-title">creationTime</span> {{ rowData.creationTime? rowData.creationTime: '' }}
             </td>
             <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
-                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime? rowData.lastModificationTime: 'null'  }}
+                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime? rowData.lastModificationTime: ''  }}
             </td>
 
             <td [ngClass]="{'null-color':!rowData.creatorName}">
-                <span class="p-column-title">creatorName</span> {{ rowData.creatorName? rowData.creatorName: 'null'  }}
+                <span class="p-column-title">creatorName</span> {{ rowData.creatorName? rowData.creatorName: ''  }}
             </td>
             <td [ngClass]="{'null-color':!rowData.lastModifierName}">
-                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName? rowData.lastModifierName: 'null' }}
+                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName? rowData.lastModifierName: '' }}
             </td>
 
 

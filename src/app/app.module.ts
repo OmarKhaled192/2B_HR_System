@@ -11,11 +11,17 @@ import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { AppLayoutModule } from './layout/app.layout.module';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, HttpClientModule, withInterceptors, HttpClient } from '@angular/common/http';
 import { authInterceptor } from './demo/components/auth/auth.interceptor';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http);
+}
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -25,6 +31,13 @@ import { authInterceptor } from './demo/components/auth/auth.interceptor';
         HttpClientModule,
         FormsModule,
         NgxPaginationModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
