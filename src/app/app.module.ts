@@ -15,9 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
 import { authInterceptor } from './demo/components/auth/auth.interceptor';
-authInterceptor;
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -27,7 +25,6 @@ authInterceptor;
         HttpClientModule,
         FormsModule,
         NgxPaginationModule,
-        PaginationModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },

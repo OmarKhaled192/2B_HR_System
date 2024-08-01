@@ -1,21 +1,63 @@
-import { Component, ViewChild } from '@angular/core';
-import { PaginationService } from '../../pages/pagination/pagination.service';
+import { PartitionService } from './partition.service';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
+import { LockupsService } from 'src/app/demo/service/lockups.service';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { RatingModule } from 'primeng/rating';
+import { RippleModule } from 'primeng/ripple';
+import { Table, TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
   selector: 'app-partition',
   templateUrl: './partition.component.html',
-  styleUrl: './partition.component.scss'
+  styleUrl: './partition.component.scss',
+  providers: [MessageService],
+  standalone: true,
+  imports: [
+    CommonModule,
+    NgxPaginationModule,
+    ToolbarModule,
+    TableModule,
+    RippleModule,
+    FileUploadModule,
+    HttpClientModule,
+    ButtonModule,
+    FormsModule,
+    DialogModule,
+    ToastModule,
+    RatingModule,
+    InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
+    RadioButtonModule,
+    InputNumberModule,
+    ReactiveFormsModule,
+    AutoCompleteModule
+  ],
 })
 export class PartitionComponent {
     constructor(
-        private _PaginationService: PaginationService,
-        private messageService: MessageService
+        private _LockupsService: LockupsService,
+        private messageService: MessageService,
+        private _PartitionService:PartitionService
     ) {}
 
     @ViewChild('dt') dt: Table;
-    endPoint!: string;
+    @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
     itemsPerPage = 3;
@@ -35,29 +77,74 @@ export class PartitionComponent {
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-
+    newNameAr!: string;
+    newNameEn!: string;
+    departmentDropDown: any[] = [];
+    selectedDepartment: string = "";
+    selectedDepartmentId: number = -1;
+    selectedEditsDepartment: any;
     ngOnInit() {
-
-        // this is the Only Diffrent with any Components Of Lookups
         this.endPoint = "Partation"
-        //-------------------------------------------------------
-
-        this._PaginationService.setEndPoint(this.endPoint);
+        this._LockupsService.setEndPoint(this.endPoint);
+        this._PartitionService.setEndPoint(this.endPoint);
 
         this.cols = [
             { field: 'name', header: 'Name' },
             { field: 'notes', header: 'Notes' },
+
+            // Generic Fields
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
         ];
+
+        // get all drop downs departments
+        this.getDropDownDepartment();
+
+    }
+
+    getDartmentNameById(id: number) {
+        console.log("id edited");
+        console.log(id);
+        let dept = this.departmentDropDown.find(dept => dept.id == id)
+        return dept;
     }
 
     editProduct(rowData: any) {
-        this.product = { ...rowData };
-        this.productDialog = true;
+        console.log(rowData.id)
+        this._LockupsService.GetById(rowData.id).subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.product = { ...res.data };
+                this.productDialog = true;
+                this.selectedEditsDepartment = this.getDartmentNameById(this.product.departmentId)
+                console.log("dept name is ", this.selectedEditsDepartment)
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+    }
+
+    changedSelected(event: any) {
+        this.selectedDepartmentId = this.selectedDepartment["id"];
+    }
+
+    getDropDownDepartment() {
+        this._PartitionService.getDropDown("Department").subscribe({
+            next: (res)=> {
+                this.departmentDropDown = res["data"];
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
     }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._PaginationService.DeleteSoftById(id).subscribe({
+        this._LockupsService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -69,6 +156,16 @@ export class PartitionComponent {
                     detail: 'Product Deleted',
                     life: 3000,
                 });
+
+                // load data here
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+
             },
             error: (err) => {
                 console.log(err);
@@ -78,13 +175,16 @@ export class PartitionComponent {
 
     addNew() {
         let body = {
-            name: this.newName,
+            name: this.newNameAr,
             notes: this.newNotes,
+            engName: this.newNameEn,
+            departmentId: this.selectedDepartmentId
         };
 
-        this._PaginationService.Register(body).subscribe({
+        this._LockupsService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
+                this.showFormNew = false;
                 // show message for success inserted
                 this.messageService.add({
                     severity: 'success',
@@ -106,6 +206,8 @@ export class PartitionComponent {
                 );
             },
             error: (err) => {
+                this.showFormNew = false;
+
                 console.log(err);
             },
         });
@@ -122,7 +224,7 @@ export class PartitionComponent {
     }
 
     setFieldsNulls() {
-        (this.newName = null), (this.newNotes = null);
+        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null), (this.selectedDepartment = null)
     }
 
     loadData(
@@ -130,7 +232,7 @@ export class PartitionComponent {
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string ="asc"
+        sortType: string
     ) {
         this.loading = true;
         let filteredData = {
@@ -142,9 +244,7 @@ export class PartitionComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-
-
-        this._PaginationService.GetPage(filteredData).subscribe({
+        this._LockupsService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -152,11 +252,8 @@ export class PartitionComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                // this.selectedItems = this.allData;
+                this.selectedItems = this.allData;
                 console.log(this.selectedItems);
-
-
-                console.log(sortType)
             },
             error: (err) => {
                 console.log(err);
@@ -192,6 +289,7 @@ export class PartitionComponent {
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
+
     }
 
     deleteProduct(product: any) {
@@ -205,12 +303,14 @@ export class PartitionComponent {
         console.log(product);
 
         let body = {
-            id: product.id,
+            engName: product.engName,
             name: product.name,
+            id: product.id,
             notes: product.notes,
+            departmentId: this.selectedEditsDepartment.id
         };
 
-        this._PaginationService.Edit(body).subscribe({
+        this._LockupsService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -242,10 +342,12 @@ export class PartitionComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            this.setFieldsNulls();
         }
     }
 
     exportCSV() {
+        console.log(this.selectedItems)
         // Convert data to CSV format
         const csvData = this.convertToCSV(this.selectedItems);
 
@@ -281,6 +383,7 @@ export class PartitionComponent {
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
+
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -289,7 +392,7 @@ export class PartitionComponent {
             selectedIds.push(item.id);
         });
 
-        this._PaginationService.DeleteRangeSoft(selectedIds).subscribe({
+        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -324,6 +427,7 @@ export class PartitionComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -333,7 +437,9 @@ export class PartitionComponent {
             this.sortOrder = 'asc';
         }
     }
+
     sortByName(event: any) {
         this.sortField = 'name';
     }
+
 }

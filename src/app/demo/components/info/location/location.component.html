@@ -36,37 +36,91 @@
     </ng-template>
 </p-toolbar>
 
-<div class="card p-fluid" *ngIf="showFormNew">
-    <h5>Add New</h5>
-    <div class="field">
-        <label htmlFor="new-name">Name</label>
-        <input
-            pInputText
-            [(ngModel)]="newName"
-            placeholder="Enter Name Here"
-            id="new-name"
-            type="text"
-        />
-    </div>
-    <div class="field">
-        <label htmlFor="new-notes">Notes</label>
-        <textarea
-            pInputTextarea
-            [(ngModel)]="newNotes"
-            id="new-notes"
-            placeholder="Enter Notes Here"
-            type="text"
-        ></textarea>
-    </div>
-    <div class="field">
-        <button
-            class="w-25"
-            pButton
-            label="Insert New"
-            (click)="addNew()"
-        ></button>
-    </div>
-</div>
+<p-dialog
+    [(visible)]="showFormNew"
+    [style]="{ width: '450px' }"
+    header="Add New"
+    [modal]="true"
+    class="p-fluid"
+>
+    <ng-template pTemplate="content">
+
+
+        <div class="field">
+            <label htmlFor="name-en">Name English </label>
+            <input
+                pInputText
+                [(ngModel)]="newNameAr"
+                placeholder="Enter Name Here"
+                id="name-en"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="name-ar">Name Arabic </label>
+            <input
+                pInputText
+                [(ngModel)]="newNameEn"
+                placeholder="Enter Name Here"
+                id="name-ar"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-latitude">Latitude</label>
+            <input
+                pInputText
+                [(ngModel)]="newLatitude"
+                id="new-latitude"
+                placeholder="Enter Latitude Here"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-longitude">Longitude</label>
+            <input
+                pInputText
+                [(ngModel)]="newLongitude"
+                id="new-longitude"
+                placeholder="Enter Longitude Here"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-discription">discription</label>
+            <textarea
+                pInputTextarea
+                [(ngModel)]="newDiscription"
+                id="new-discription"
+                placeholder="Enter discription Here"
+                type="text"
+            ></textarea>
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-notes">Notes</label>
+            <textarea
+                pInputTextarea
+                [(ngModel)]="newNotes"
+                id="new-notes"
+                placeholder="Enter Notes Here"
+                type="text"
+            ></textarea>
+        </div>
+        <div class="field">
+            <button
+                class="w-25"
+                pButton
+                label="Insert New"
+                (click)="addNew()"
+            ></button>
+        </div>
+    </ng-template>
+</p-dialog>
 
 <p-table
     #dt
@@ -115,7 +169,18 @@
             <th pSortableColumn="name" (click)="sortByName($event)">
                 Name <p-sortIcon field="name"></p-sortIcon>
             </th>
+
+            <!-- custom columns -->
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Discription</th>
+
+            <!-- generic columns -->
             <th>Notes</th>
+            <th>creationTime</th>
+            <th>lastModificationTime</th>
+            <th>creatorName</th>
+            <th>lastModifierName</th>
             <th>Actions</th>
         </tr>
     </ng-template>
@@ -127,24 +192,46 @@
             </td>
             <td><span class="p-column-title">Id</span> {{ rowData.id }}</td>
 
-            <td><span class="p-column-title">Name</span> {{ rowData.name }}</td>
-            <td>
-                <span class="p-column-title">Notes</span> {{ rowData.notes }}
+            <td [ngClass]="{'null-color':!rowData.name}"><span class="p-column-title">Name</span> {{ rowData.name? rowData.name: 'null'}}</td>
+
+            <!-- custom fields -->
+            <td [ngClass]="{'null-color':!rowData.latitude}"><span class="p-column-title">Latitude</span> {{ rowData.latitude? rowData.latitude: 'null'  }}</td>
+            <td [ngClass]="{'null-color':!rowData.longitude}"><span class="p-column-title">Longitude</span> {{ rowData.longitude? rowData.longitude: 'null' }}</td>
+            <td [ngClass]="{'null-color':!rowData.discription}"><span class="p-column-title">Discription</span> {{ rowData.discription? rowData.discription: 'null' }}</td>
+
+            <td [ngClass]="{'null-color':!rowData.notes}">
+                <span class="p-column-title">Notes</span> {{ rowData.notes? rowData.notes: 'null' }}
             </td>
+
+            <td [ngClass]="{'null-color':!rowData.creationTime}">
+                <span class="p-column-title">creationTime</span> {{ rowData.creationTime? rowData.creationTime: 'null' }}
+            </td>
+            <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
+                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime? rowData.lastModificationTime: 'null'  }}
+            </td>
+
+            <td [ngClass]="{'null-color':!rowData.creatorName}">
+                <span class="p-column-title">creatorName</span> {{ rowData.creatorName? rowData.creatorName: 'null'  }}
+            </td>
+            <td [ngClass]="{'null-color':!rowData.lastModifierName}">
+                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName? rowData.lastModifierName: 'null' }}
+            </td>
+
+
             <td>
                 <div class="flex crud-operations">
                     <button
                         pButton
                         pRipple
                         icon="pi pi-pencil"
-                        class="p-button-rounded p-button-success mr-2"
+                        class="p-button-rounded p-button-info p-button-outlined mr-2"
                         (click)="editProduct(rowData)"
                     ></button>
                     <button
                         pButton
                         pRipple
                         icon="pi pi-trash"
-                        class="p-button-rounded p-button-warning"
+                        class="p-button-rounded p-button-outlined p-button-danger"
                         (click)="deleteProduct(rowData)"
                     ></button>
                 </div>
@@ -161,32 +248,112 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
+        <!-- EN Name -->
         <div class="field">
-            <label for="name">Name</label>
+            <label for="name">Arabic Name</label>
+            <input
+            type="text"
+            pInputText
+            id="name"
+            [(ngModel)]="product.name"
+            required
+            autofocus
+            [ngClass]="{
+                'ng-invalid ng-dirty': submitted && !product.name
+            }"
+            />
+            <small
+            class="ng-dirty ng-invalid"
+            *ngIf="submitted && !product.name"
+            >Arabic Name is required.</small
+            >
+        </div>
+
+        <!-- AR Name -->
+        <div class="field">
+            <label for="engName">English Name</label>
             <input
                 type="text"
                 pInputText
-                id="name"
-                [(ngModel)]="product.name"
+                id="engName"
+                [(ngModel)]="product.engName"
                 required
                 autofocus
                 [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.name
+                    'ng-invalid ng-dirty': submitted && !product.engName
                 }"
             />
             <small
                 class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.name"
-                >Name is required.</small
+                *ngIf="submitted && !product.engName"
+                >English Name is required.</small
             >
         </div>
 
+
+        <!-- Latitude -->
+        <div class="field">
+            <label for="latitude">Latitude</label>
+            <input
+                type="text"
+                pInputText
+                id="latitude"
+                [(ngModel)]="product.latitude"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.latitude
+                }"
+            />
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.latitude"
+                >Latitude is required.</small
+            >
+        </div>
+
+
+         <!-- Longitude -->
+         <div class="field">
+            <label for="longitude">Longitude</label>
+            <input
+                type="text"
+                pInputText
+                id="longitude"
+                [(ngModel)]="product.longitude"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.longitude
+                }"
+            />
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.longitude"
+                >Longitude is required.</small
+            >
+        </div>
+
+        <!-- Notes -->
         <div class="field">
             <label for="notes">Notes</label>
             <textarea
                 id="notes"
                 pInputTextarea
                 [(ngModel)]="product.notes"
+                required
+                rows="3"
+                cols="20"
+            ></textarea>
+        </div>x
+
+        <!-- Description -->
+        <div class="field">
+            <label for="discription">Discription</label>
+            <textarea
+                id="discription"
+                pInputTextarea
+                [(ngModel)]="product.discription"
                 required
                 rows="3"
                 cols="20"
