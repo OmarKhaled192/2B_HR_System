@@ -15,13 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { provideHttpClient, HttpClientModule, withInterceptors, HttpClient } from '@angular/common/http';
 import { authInterceptor } from './demo/components/auth/auth.interceptor';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http);
-}
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -31,13 +25,6 @@ export function HttpLoaderFactory(http: HttpClient) {
         HttpClientModule,
         FormsModule,
         NgxPaginationModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },

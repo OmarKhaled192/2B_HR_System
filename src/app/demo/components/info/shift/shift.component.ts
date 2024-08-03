@@ -81,6 +81,7 @@ export class ShiftComponent {
     numberOfHours!: number;
     startAttendeesTime: Date;
     endAttendeesTime: Date;
+    
 
     ngOnInit() {
         this.endPoint = "Shift";
@@ -225,6 +226,7 @@ export class ShiftComponent {
 
     setFieldsNulls() {
         (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.numberOfHours = null), (this.startAttendeesTime = null), (this.endAttendeesTime = null)
     }
 
     loadData(
@@ -312,6 +314,9 @@ export class ShiftComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
+            startAttendeesTime: product.startAttendeesTime,
+            endAttendeesTime: product.endAttendeesTime,
+            numberOfHours: product.numberOfHours
         };
 
         this._LockupsService.Edit(body).subscribe({

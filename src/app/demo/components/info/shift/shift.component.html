@@ -103,7 +103,7 @@
         </div>
 
         <div class="field">
-            <label htmlFor="numberOfHours">  number Of Hours</label>
+            <label htmlFor="numberOfHours">number Of Hours</label>
             <input
                 pInputText
                 [(ngModel)]="numberOfHours"
@@ -302,7 +302,7 @@
             >
         </div>
 
-        <!-- <div class="field">
+        <div class="field">
             <label for="startAttendeesTimeEdit">startAttendeesTime</label>
             <p-calendar
             [(ngModel)]="product.startAttendeesTime"
@@ -321,7 +321,28 @@
             </p-calendar>
             <small class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.startAttendeesTime">startAttendeesTime is required.</small>
-        </div> -->
+        </div>
+
+        <div class="field">
+            <label for="endAttendeesTimeEdit">endAttendeesTime</label>
+            <p-calendar [(ngModel)]="product.endAttendeesTime" [iconDisplay]="'input'" [showIcon]="true" [showSeconds]="true"
+                [timeOnly]="true" placeholder="00:00:00" inputId="endAttendeesTimeEdit">
+        
+                <ng-template pTemplate="inputicon" let-clickCallBack="endAttendeesTimeClickEdit">
+                    <i class="pi pi-clock pointer-events-none pointer-events-none"
+                        (click)="endAttendeesTimeClickEdit($event)"></i>
+                </ng-template>
+        
+            </p-calendar>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.endAttendeesTime">endAttendeesTime is
+                required.</small>
+        </div>
+
+        <div class="field">
+            <label htmlFor="numberOfHoursEdit">number Of Hours</label>
+            <input pInputText [(ngModel)]="product.numberOfHours" placeholder="Enter number Of Hours" id="numberOfHoursEdit"
+                type="number" />
+        </div>
 
 
         <div class="field">
