@@ -12,6 +12,7 @@ import { ShiftComponent } from './shift/shift.component';
 import { NotfoundComponent } from '../notfound/notfound.component';
 import { authGuard } from '../auth/auth.guard';
 import { PublicVacationComponent } from './public-vacation/public-vacation.component';
+import { ShiftVacationComponent } from './shift-vacation/shift-vacation.component';
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { PublicVacationComponent } from './public-vacation/public-vacation.compo
             { path: 'qualification', canActivate: [authGuard], component: QualificationComponent },
             { path: 'shift', canActivate: [authGuard], component: ShiftComponent },
             { path: 'publicVacation', canActivate: [authGuard], component: PublicVacationComponent },
+            { path: 'shiftVacation', canActivate: [authGuard], component: ShiftVacationComponent },
             { path: '**', component: NotfoundComponent}
         ]),
     ],

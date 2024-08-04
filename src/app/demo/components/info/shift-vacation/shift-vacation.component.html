@@ -1,0 +1,170 @@
+<p-toast></p-toast>
+
+<p-toolbar styleClass="mb-4">
+  <ng-template pTemplate="left">
+    <div class="my-2">
+      <button pButton pRipple label="Add New" icon="pi pi-plus" class="p-button-info mx-2 px-5"
+        (click)="toggleNew()"></button>
+
+      <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger mx-2 px-5"
+        (click)="deleteSelectedProducts()" [disabled]="!selectedItems || !selectedItems.length"></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="right">
+    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help mx-2 px-5" pTooltip="CSV"
+      (click)="exportCSV()"></button>
+  </ng-template>
+</p-toolbar>
+
+<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" header="Add New" [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+
+        <div class="field">
+            <label htmlFor="shift">shift</label>
+            <p-dropdown [options]="shiftDropDown" (ngModelChange)="onChangeShift()"  [(ngModel)]="selectedShift" optionLabel="name" placeholder="Select a Shift" [showClear]="true"></p-dropdown>
+        </div>
+
+        <div class="field">
+            <label htmlFor="day">Day</label>
+            <p-dropdown [options]="AllDays" [(ngModel)]="selectedDay"  (ngModelChange)="onChangeDay()" optionLabel="name" placeholder="Select a Day" [showClear]="true"></p-dropdown>
+        </div>
+
+        <div class="field">
+            <button class="w-25" pButton label="Insert New" (click)="addNew()"></button>
+        </div>
+
+    </ng-template>
+</p-dialog>
+
+<p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
+  selectionMode="multiple" [(selection)]="selectedItems" [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [lazy]="true"
+  (onLazyLoad)="onPageChange($event)" dataKey="id">
+  <ng-template pTemplate="caption">
+    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+      <h5 class="m-0">Manage Items</h5>
+      <span class="block mt-2 md:mt-0 p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
+          placeholder="Search..." class="w-full sm:w-auto" />
+      </span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th pSortableColumn="id" (click)="sortById($event)">
+        Id
+        <p-sortIcon field="id"></p-sortIcon>
+      </th>
+
+      <!-- custom fields -->
+      <th>Day</th>
+      <th>Shift</th>
+
+      <!-- generic fields -->
+      <th>creationTime</th>
+      <th>lastModificationTime</th>
+      <th>creatorName</th>
+      <th>lastModifierName</th>
+      <th>Actions</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData>
+    <tr>
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+      <td><span class="p-column-title">Id</span> {{ rowData.id?rowData.id:'' }}</td>
+
+      <!-- custom fields -->
+      <td [ngClass]="{'null-color':!rowData.day}">
+        <span class="p-column-title">day</span> {{ rowData.dayName }}
+      </td>
+
+      <td [ngClass]="{'null-color':!rowData.shiftName}">
+        <span class="p-column-title">shiftName</span> {{ rowData.shiftName?rowData.shiftName:'' }}
+      </td>
+
+      <!-- generic fields -->
+      <td [ngClass]="{'null-color':!rowData.creationTime}">
+        <span class="p-column-title">creationTime</span> {{ rowData.creationTime | date :'dd/MM/YYYY - hh:mm a'}}
+      </td>
+      <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
+        <span class="p-column-title">lastModificationTime</span>
+        {{ rowData.lastModificationTime | date :'dd/MM/YYYY - h:mm a' }}
+      </td>
+
+      <td [ngClass]="{'null-color':!rowData.creatorName}">
+        <span class="p-column-title">creatorName</span> {{ rowData.creatorName?rowData.creatorName:'' }}
+      </td>
+      <td [ngClass]="{'null-color':!rowData.lastModifierName}">
+        <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName?rowData.lastModifierName:'' }}
+      </td>
+
+      <td>
+        <div class="flex crud-operations">
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-info p-button-outlined mr-2"
+            (click)="editProduct(rowData)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger"
+            (click)="deleteProduct(rowData)"></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"
+  class="p-fluid">
+  <ng-template pTemplate="content">
+
+        <div class="field">
+            <label for="shiftId">Select Shift</label>
+            <p-dropdown [options]="shiftDropDown" (onChange)="changedSelectedEdit()" [(ngModel)]="selectedShiftEdit" optionLabel="name" placeholder="Select a Shift" [showClear]="true"></p-dropdown>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.shiftId">Shift is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="day">Enter day</label>
+            <p-calendar  [timezone]=" 'UTC' "  [showIcon]="true" [(ngModel)]="product.day" inputId="icon" ></p-calendar>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.day">day is required.</small>
+        </div>
+
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+      (click)="saveProduct(product.id, product)"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+  <div class="flex align-items-center justify-content-center">
+    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+    <span *ngIf="product">Are you sure you want to delete <b>{{ product.name }}</b>?</span>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+      (click)="deleteProductDialog = false"></button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+      (click)="confirmDelete(product.id)"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
+  <div class="flex align-items-center justify-content-center">
+    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+    <span>Are you sure you want to delete selected products?</span>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+      (click)="deleteProductsDialog = false"></button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+      (click)="confirmDeleteSelected()"></button>
+  </ng-template>
+</p-dialog>

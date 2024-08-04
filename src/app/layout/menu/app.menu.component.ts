@@ -76,6 +76,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Public Vacation',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/publicVacation'],
+                    },
+                    {
+                        label: 'Shift Vacation',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/shiftVacation'],
                     }
                 ],
 

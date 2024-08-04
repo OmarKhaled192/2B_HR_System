@@ -1,4 +1,4 @@
-import { CommonModule, Time } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,12 +18,11 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from 'src/app/demo/service/lockups.service';
+import { ShiftVacationService } from './shift-vacation.service';
+import { DayNamePipe } from './day-name.pipe';
 
 @Component({
-  selector: 'app-shift',
-  templateUrl: './shift.component.html',
-  styleUrl: './shift.component.scss',
+  selector: 'app-shift-vacation',
   standalone: true,
   imports: [
     CommonModule,
@@ -44,15 +43,18 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
-    CalendarModule
+    CalendarModule,
+    DayNamePipe
   ],
-  providers: [MessageService],
+  providers: [MessageService, DatePipe, DayNamePipe],
+  templateUrl: './shift-vacation.component.html',
+  styleUrl: './shift-vacation.component.scss'
 })
-export class ShiftComponent {
-
+export class ShiftVacationComponent {
     constructor(
-        private _LockupsService: LockupsService,
-        private messageService: MessageService
+        private _ShiftVacationService : ShiftVacationService,
+        private messageService: MessageService,
+        private DatePipe: DatePipe,
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -71,51 +73,82 @@ export class ShiftComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
 
-    newNameAr!: string;
-    newNameEn!: string;
-    numberOfHours!: number;
-    startAttendeesTime: Date;
-    endAttendeesTime: Date;
+    // custom variables
 
+    shiftDropDown: any;
+    selectedShift: string;
+    selectedShiftId: number;
+
+    selectedShiftEdit: string;
+    selectedShiftIdEdit: number;
+
+
+    oldDate: any;
+    AllDays: any;
 
     ngOnInit() {
-        this.endPoint = "Shift";
 
-        this._LockupsService.setEndPoint(this.endPoint);
+        this.endPoint = "ShiftVacation";
+
+        this._ShiftVacationService .setEndPoint(this.endPoint);
 
         this.cols = [
-            // main field
-            { field: 'name', header: 'Name' },
-
-            // personal fields
-            { field: 'startAttendeesTime', header: 'StartAttendeesTime' },
-            { field: 'endAttendeesTime', header: 'EndAttendeesTime' },
-            { field: 'numberOfHours', header: 'NumberOfHours' },
-
-
-            // main field
-            { field: 'notes', header: 'Notes' },
+            // custom fields
+            { field: 'day', header: 'Day' },
+            { field: 'shiftName', header: 'Shift' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
+
         ];
+
+        this.AllDays = [
+            {id: 0, name: "Saturday"},
+            {id: 1, name: "Sunday"},
+            {id: 2, name: "Monday"},
+            {id: 3, name: "Tuesday"},
+            {id: 4, name: "Wednesday"},
+            {id: 5, name: "Thursday"},
+            {id: 6, name: "Friday"},
+        ]
+
+        this.gitAllShifts();
+    }
+
+    gitAllShifts() {
+        this._ShiftVacationService .getDropDown("shift").subscribe({
+            next: (res) => {
+                console.log(res['data']);
+                this.shiftDropDown = res['data'];
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        })
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        console.log(rowData.id);
+        this._ShiftVacationService .GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
+
+                // get product.shiftId
+                 this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
+
+                // get product.date
+                this.oldDate = this.DatePipe.transform( this.product.date, "MM/dd/yyyy" );
+                this.product.date = this.DatePipe.transform( this.product.date, "MM/dd/yyyy" );
+
             },
             error: (err) => {
                 console.log(err);
@@ -123,17 +156,17 @@ export class ShiftComponent {
         })
     }
 
-    startAttendeesTimeClick(event: any) {
-
+    changedSelected() {
+        this.selectedShiftId = this.selectedShift["id"];
     }
 
-    endAttendeesTimeClick(event: any) {
-
+    changedSelectedEdit() {
+        this.selectedShiftId = this.selectedShift["id"];
     }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._ShiftVacationService .DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -157,31 +190,24 @@ export class ShiftComponent {
             },
             error: (err) => {
                 console.log(err);
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'error field',
+                    detail: 'Product Deleted',
+                    life: 3000,
+                });
             },
         });
     }
 
     addNew() {
-        
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
-        let startAttendeesTime = this.startAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
-        let endAttendeesTime = this.endAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
-
-        // set body of request
         let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-            startAttendeesTime: startAttendeesTime,
-            endAttendeesTime: endAttendeesTime,
-            numberOfHours: this.numberOfHours
+
+            shiftId: this.selectedShiftId
         };
 
-        console.log(body);
-
-        // Confirm add new
-        this._LockupsService.Register(body).subscribe({
+        this._ShiftVacationService .Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -206,13 +232,16 @@ export class ShiftComponent {
                 );
             },
             error: (err) => {
-                this.showFormNew = false;
+                // this.showFormNew = false;
+
                 this.messageService.add({
                     severity: 'error',
-                    summary: 'Error',
-                    detail: err,
+                    summary: 'error field',
+                    detail: 'All Fields is required',
                     life: 3000,
                 });
+
+                console.log(err);
             },
         });
     }
@@ -228,8 +257,9 @@ export class ShiftComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
-        (this.numberOfHours = null), (this.startAttendeesTime = null), (this.endAttendeesTime = null)
+
+        this.selectedShift = null;
+        this.selectedShiftId = null;
     }
 
     loadData(
@@ -249,7 +279,7 @@ export class ShiftComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._ShiftVacationService .GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -262,12 +292,6 @@ export class ShiftComponent {
             },
             error: (err) => {
                 console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
                 this.loading = false;
             },
         });
@@ -312,17 +336,29 @@ export class ShiftComponent {
         console.log(id);
         console.log(product);
 
+        this.oldDate = this.DatePipe.transform(this.product.date, 'yyyy-MM-ddTHH:mm:ss');
+        this.product.date = this.DatePipe.transform(this.product.date, 'yyyy-MM-ddTHH:mm:ss');
+
+        console.log("oldDate");
+        console.log(this.oldDate);
+
+
+        console.log("product data");
+        console.log(product.data);
+
         let body = {
-            engName: product.engName,
-            name: product.name,
             id: product.id,
-            notes: product.notes,
-            startAttendeesTime: product.startAttendeesTime,
-            endAttendeesTime: product.endAttendeesTime,
-            numberOfHours: product.numberOfHours
+            date: product.date,
+            reason: product.reason,
+            shiftId: product.shiftId
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        console.clear();
+        console.log("body here ");
+
+        console.log(body);
+
+        this._ShiftVacationService .Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -347,6 +383,7 @@ export class ShiftComponent {
                 alert(err);
             },
         });
+
     }
 
     toggleNew() {
@@ -354,6 +391,7 @@ export class ShiftComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            this.setFieldsNulls();
         }
     }
 
@@ -371,7 +409,7 @@ export class ShiftComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
+        link.download = `${this.endPoint}_` + new Date().getTime() + '.csv';
         link.click();
     }
 
@@ -387,7 +425,14 @@ export class ShiftComponent {
         console.log(keys);
 
         const csvContent = data.map((row) =>
-            keys.map((key) => `"${row[key]}"`).join(separator)
+            keys.map((key) => {
+                if(key == "shift") {
+                    console.log(row["shiftName"])
+                }
+
+                return  key == "Shift"? `"${row[key]}"`: `"${row[key]}"`
+
+            }).join(separator)
         );
 
         csvContent.unshift(keys.join(separator)); // Add header row
@@ -402,7 +447,7 @@ export class ShiftComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._ShiftVacationService .DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -420,16 +465,24 @@ export class ShiftComponent {
                 );
             },
             error: (err) => {
-                this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Failure',
                     detail: err.statusText,
                     life: 3000,
                 });
+                this.deleteProductsDialog = false;
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -441,5 +494,5 @@ export class ShiftComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
-    }
+  }
 }

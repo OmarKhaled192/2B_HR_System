@@ -13,7 +13,7 @@ export class LockupsService {
     baseurl: string;
     endPoint: string;
 
-    constructor(private http: HttpClient) {
+    constructor(protected http: HttpClient) {
         this.baseurl = environment.baseurl;
     }
 
