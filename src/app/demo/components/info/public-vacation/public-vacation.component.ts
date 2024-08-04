@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -17,7 +18,7 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from 'src/app/demo/service/lockups.service';
+import { PublicVacationService } from './public-vacation.service';
 
 @Component({
   selector: 'app-public-vacation',
@@ -41,15 +42,17 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
+    CalendarModule
   ],
   providers: [MessageService, DatePipe],
   templateUrl: './public-vacation.component.html',
   styleUrl: './public-vacation.component.scss'
 })
 export class PublicVacationComponent {
-  constructor(
-        private _LockupsService: LockupsService,
-        private messageService: MessageService
+    constructor(
+        private _PublicVacationService: PublicVacationService,
+        private messageService: MessageService,
+        private DatePipe: DatePipe
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -68,26 +71,33 @@ export class PublicVacationComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    newName!: string;
-    newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-    newNameAr!: string;
-    newNameEn!: string;
+
+    // custom variables
+    date: string;
+    reason: string;
+    shiftDropDown: any;
+    selectedShift: string;
+    selectedShiftId: number;
+
+    selectedShiftEdit: string;
+    selectedShiftIdEdit: number;
+    oldDate: any;
+
 
     ngOnInit() {
 
-      this.endPoint = "PublicVacation"
+      this.endPoint = "PublicVacation";
 
-        this._LockupsService.setEndPoint(this.endPoint);
+        this._PublicVacationService.setEndPoint(this.endPoint);
 
         this.cols = [
-
+            // custom fields
             { field: 'date', header: 'Date' },
             { field: 'reason', header: 'Reason' },
-            { field: 'Shift', header: 'Shift' },
-
+            { field: 'shiftName', header: 'Shift' },
 
               // Generic Fields
             { field: 'creationTime', header: 'creationTime' },
@@ -95,15 +105,44 @@ export class PublicVacationComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
+
+        this.gitAllShifts();
+    }
+
+    gitAllShifts() {
+        this._PublicVacationService.getDropDown("shift").subscribe({
+            next: (res) => {
+                console.log(res['data']);
+                this.shiftDropDown = res['data'];
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        })
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        console.log(rowData.id);
+        this._PublicVacationService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
+
+                // get product.shiftId
+                 this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
+
+                // get product.date
+                this.oldDate = this.DatePipe.transform( this.product.date, "MM/dd/yyyy" );
+                this.product.date = this.DatePipe.transform( this.product.date, "MM/dd/yyyy" );
+
+
+                // console.log("product date")
+                // console.log(this.product.date)
+
+                // console.log("old date")
+                // console.log(this.oldDate)
+
             },
             error: (err) => {
                 console.log(err);
@@ -111,9 +150,17 @@ export class PublicVacationComponent {
         })
     }
 
+    changedSelected() {
+        this.selectedShiftId = this.selectedShift["id"];
+    }
+
+    changedSelectedEdit() {
+        this.selectedShiftId = this.selectedShift["id"];
+    }
+
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._PublicVacationService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -137,18 +184,25 @@ export class PublicVacationComponent {
             },
             error: (err) => {
                 console.log(err);
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'error field',
+                    detail: 'Product Deleted',
+                    life: 3000,
+                });
             },
         });
     }
 
     addNew() {
         let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn
+            date: this.date,
+            reason: this.reason,
+            shiftId: this.selectedShiftId
         };
 
-        this._LockupsService.Register(body).subscribe({
+        this._PublicVacationService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -173,7 +227,14 @@ export class PublicVacationComponent {
                 );
             },
             error: (err) => {
-                this.showFormNew = false;
+                // this.showFormNew = false;
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'error field',
+                    detail: 'All Fields is required',
+                    life: 3000,
+                });
 
                 console.log(err);
             },
@@ -191,7 +252,10 @@ export class PublicVacationComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        this.date = null;
+        this.reason = null;
+        this.selectedShift = null;
+        this.selectedShiftId = null;
     }
 
     loadData(
@@ -211,7 +275,7 @@ export class PublicVacationComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._PublicVacationService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -268,14 +332,29 @@ export class PublicVacationComponent {
         console.log(id);
         console.log(product);
 
+        this.oldDate = this.DatePipe.transform(this.product.date, 'yyyy-MM-ddTHH:mm:ss');
+        this.product.date = this.DatePipe.transform(this.product.date, 'yyyy-MM-ddTHH:mm:ss');
+
+        console.log("oldDate");
+        console.log(this.oldDate);
+
+
+        console.log("product data");
+        console.log(product.data);
+
         let body = {
-            engName: product.engName,
-            name: product.name,
             id: product.id,
-            notes: product.notes,
+            date: product.date,
+            reason: product.reason,
+            shiftId: product.shiftId
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        console.clear();
+        console.log("body here ");
+
+        console.log(body);
+
+        this._PublicVacationService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -300,6 +379,7 @@ export class PublicVacationComponent {
                 alert(err);
             },
         });
+
     }
 
     toggleNew() {
@@ -307,6 +387,7 @@ export class PublicVacationComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            this.setFieldsNulls();
         }
     }
 
@@ -324,7 +405,7 @@ export class PublicVacationComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
+        link.download = `${this.endPoint}_` + new Date().getTime() + '.csv';
         link.click();
     }
 
@@ -340,12 +421,20 @@ export class PublicVacationComponent {
         console.log(keys);
 
         const csvContent = data.map((row) =>
-            keys.map((key) => `"${row[key]}"`).join(separator)
+            keys.map((key) => {
+                if(key == "shift") {
+                    console.log(row["shiftName"])
+                }
+
+                return  key == "Shift"? `"${row[key]}"`: `"${row[key]}"`
+
+            }).join(separator)
         );
 
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
+
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -354,7 +443,7 @@ export class PublicVacationComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._PublicVacationService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -389,6 +478,7 @@ export class PublicVacationComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 

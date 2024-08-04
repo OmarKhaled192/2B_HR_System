@@ -19,26 +19,27 @@
 <p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" header="Add New" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content">
 
+        <div class="field">
+            <label htmlFor="shift">shift</label>
+            <p-dropdown [options]="shiftDropDown" (onChange)="changedSelected()" [(ngModel)]="selectedShift" optionLabel="name" placeholder="Select a Shift" [showClear]="true"></p-dropdown>
+        </div>
 
-    <div class="field">
-      <label htmlFor="name-en">Name English </label>
-      <input pInputText [(ngModel)]="newNameAr" placeholder="Enter Name Here" id="name-en" type="text" />
-    </div>
+        <div class="field">
+            <label htmlFor="date">Date </label>
+            <p-calendar [showIcon]="true" placeholder="MM/DD/YYYY" [(ngModel)]="date" inputId="icon"></p-calendar>
+        </div>
 
-    <div class="field">
-      <label htmlFor="name-ar">Name Arabic </label>
-      <input pInputText [(ngModel)]="newNameEn" placeholder="Enter Name Here" id="name-ar" type="text" />
-    </div>
+        <div class="field">
+            <label htmlFor="reason">Reason</label>
+            <textarea pInputTextarea [(ngModel)]="reason" id="reason" placeholder="Enter Reason Here"
+                type="text"></textarea>
+        </div>
 
-    <div class="field">
-      <label htmlFor="new-notes">Notes</label>
-      <textarea pInputTextarea [(ngModel)]="newNotes" id="new-notes" placeholder="Enter Notes Here"
-        type="text"></textarea>
-    </div>
-    <div class="field">
-      <button class="w-25" pButton label="Insert New" (click)="addNew()"></button>
-    </div>
-  </ng-template>
+        <div class="field">
+            <button class="w-25" pButton label="Insert New" (click)="addNew()"></button>
+        </div>
+
+    </ng-template>
 </p-dialog>
 
 <p-table #dt [value]="allData" [paginator]="true" [rows]="itemsPerPage" [columns]="cols" [totalRecords]="totalItems"
@@ -89,20 +90,20 @@
 
       <!-- custom fields -->
       <td [ngClass]="{'null-color':!rowData.date}">
-        <span class="p-column-title">date</span> {{ rowData.date | date }}
+        <span class="p-column-title">Date</span> {{ rowData.date | date: 'dd/MM/yyyy'}}
       </td>
 
       <td [ngClass]="{'null-color':!rowData.reason}">
         <span class="p-column-title">Reason</span> {{ rowData.reason?rowData.reason:'' }}
       </td>
 
-      <td [ngClass]="{'null-color':!rowData.shiftId}">
-        <span class="p-column-title">shiftId</span> {{ rowData.shiftId?rowData.shiftId:'' }}
+      <td [ngClass]="{'null-color':!rowData.shiftName}">
+        <span class="p-column-title">shiftName</span> {{ rowData.shiftName?rowData.shiftName:'' }}
       </td>
 
       <!-- generic fields -->
       <td [ngClass]="{'null-color':!rowData.creationTime}">
-        <span class="p-column-title">creationTime</span> {{ rowData.creationTime | date :'dd/MM/YYYY - h:mm a'}}
+        <span class="p-column-title">creationTime</span> {{ rowData.creationTime | date :'dd/MM/YYYY - hh:mm a'}}
       </td>
       <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
         <span class="p-column-title">lastModificationTime</span>
@@ -131,26 +132,29 @@
 <p-dialog [(visible)]="productDialog" [style]="{ width: '450px' }" header="Product Details" [modal]="true"
   class="p-fluid">
   <ng-template pTemplate="content">
-    <div class="field">
-      <label for="name">Arabic Name</label>
-      <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.name
-                }" />
-      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Arabic Name is required.</small>
-    </div>
 
     <div class="field">
-      <label for="engName">English Name</label>
-      <input type="text" pInputText id="engName" [(ngModel)]="product.engName" required autofocus [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.engName
-                }" />
-      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.engName">English Name is required.</small>
-    </div>
+        <label for="shiftId">Select Shift</label>
+        <p-dropdown [options]="shiftDropDown" (onChange)="changedSelectedEdit()" [(ngModel)]="selectedShiftEdit" optionLabel="name" placeholder="Select a Shift" [showClear]="true"></p-dropdown>
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.shiftId">Shift is required.</small>
+      </div>
 
     <div class="field">
-      <label for="notes">Notes</label>
-      <textarea id="notes" pInputTextarea [(ngModel)]="product.notes" required rows="3" cols="20"></textarea>
-    </div>
+        <label for="date">Enter Date</label>
+
+        <p-calendar  [timezone]=" 'UTC' "  [showIcon]="true" [(ngModel)]="product.date" inputId="icon" ></p-calendar>
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.date">Date is required.</small>
+      </div>
+
+
+    <div class="field">
+        <label for="reason">Enter Reason</label>
+        <input type="text" pInputText id="reason" [(ngModel)]="product.reason" required autofocus [ngClass]="{
+                      'ng-invalid ng-dirty': submitted && !product.reason
+                  }" />
+        <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.reason">Date is required.</small>
+      </div>
+
   </ng-template>
 
   <ng-template pTemplate="footer">
