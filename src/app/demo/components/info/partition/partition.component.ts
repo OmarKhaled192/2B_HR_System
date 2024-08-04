@@ -253,7 +253,6 @@ export class PartitionComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                this.selectedItems = this.allData;
                 console.log(this.selectedItems);
             },
             error: (err) => {
@@ -280,7 +279,6 @@ export class PartitionComponent {
             this.sortOrder
         );
 
-        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {

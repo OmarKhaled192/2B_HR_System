@@ -318,7 +318,7 @@ export class StdPaginationsWithPopupComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
+        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
         link.click();
     }
 

@@ -232,7 +232,6 @@ export class LocationComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                this.selectedItems = this.allData;
                 console.log(this.selectedItems);
             },
             error: (err) => {
