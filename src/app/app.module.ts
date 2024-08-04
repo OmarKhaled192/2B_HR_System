@@ -11,12 +11,16 @@ import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { AppLayoutModule } from './layout/app.layout.module';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './demo/components/auth/auth.interceptor';
-
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+    return new TranslateHttpLoader(http);
+  }
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
     imports: [
@@ -25,6 +29,13 @@ import { authInterceptor } from './demo/components/auth/auth.interceptor';
         HttpClientModule,
         FormsModule,
         NgxPaginationModule,
+        TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: HttpLoaderFactory,
+              deps: [HttpClient]
+            }
+          })
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },

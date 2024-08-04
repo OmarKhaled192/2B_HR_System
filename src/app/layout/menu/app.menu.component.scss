@@ -1,0 +1,24 @@
+a.parent-item {
+    font-size: 0.857rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--surface-900);
+    margin: 0.75rem 0;
+    display: block;
+}
+
+.active {
+    color: #f37021;
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+.layout-menu ul a
+{
+    display: flex;
+    gap: 5px;
+}
+.layout-menu ul a:focus
+{
+    box-shadow: none !important;
+}

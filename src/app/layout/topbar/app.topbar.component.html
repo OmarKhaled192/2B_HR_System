@@ -59,4 +59,38 @@
             </div>
         </div>
     </div>
+    <div class="card flex justify-content-center">
+        <p-dropdown
+            [options]="countries"
+            [(ngModel)]="selectedCountry"
+            optionLabel="name"
+            (onChange)="changeLang($event)"
+        >
+            <ng-template pTemplate="selectedItem">
+                <div
+                    class="flex align-items-center gap-2"
+                    *ngIf="selectedCountry"
+                >
+                    <img
+                        src="assets/demo/images/flag/flag_placeholder.png"
+                        [class]="
+                            'flag flag-' + selectedCountry.code.toLowerCase()
+                        "
+                        style="width: 18px"
+                    />
+                    <div>{{ selectedCountry.name }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-country pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <img
+                        src="assets/demo/images/flag/flag_placeholder.png"
+                        [class]="'flag flag-' + country.code.toLowerCase()"
+                        style="width: 18px"
+                    />
+                    <div>{{ country.name }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
 </div>

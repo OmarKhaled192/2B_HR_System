@@ -1,12 +1,51 @@
+<!-- your-component.component.html -->
 <ul class="layout-menu">
-    <ng-container *ngFor="let item of model; let i = index">
-        <li
-            app-menuitem
-            *ngIf="!item.separator"
-            [item]="item"
-            [index]="i"
-            [root]="true"
-        ></li>
+    <ng-container *ngFor="let item of model">
+        <li *ngIf="!item.separator">
+            <!-- Render the top-level item -->
+            <a [routerLink]="item.routerLink" class="parent-item">
+                <i [ngClass]="item.icon"></i>
+                {{ item.label | translate }}
+            </a>
+
+            <!-- Render nested items if they exist -->
+            <ul *ngIf="item.items">
+                <ng-container *ngFor="let subItem of item.items">
+                    <li *ngIf="!subItem.separator">
+                        <a
+                            class="layout-menuitem-root-text"
+                            [routerLink]="subItem.routerLink"
+                            routerLinkActive="active"
+                        >
+                            <i [ngClass]="subItem.icon"></i>
+                            {{ subItem.label | translate }}
+                        </a>
+
+                        <!-- Handle further nesting if needed -->
+                        <ul *ngIf="subItem.items">
+                            <ng-container
+                                *ngFor="let subSubItem of subItem.items"
+                            >
+                                <li *ngIf="!subSubItem.separator">
+                                    <a
+                                        [routerLink]="subSubItem.routerLink"
+                                        routerLinkActive="active"
+                                    >
+                                        <i [ngClass]="subSubItem.icon"></i>
+                                        {{ subSubItem.label | translate }}
+                                    </a>
+                                </li>
+                                <li
+                                    *ngIf="subSubItem.separator"
+                                    class="menu-separator"
+                                ></li>
+                            </ng-container>
+                        </ul>
+                    </li>
+                    <li *ngIf="subItem.separator" class="menu-separator"></li>
+                </ng-container>
+            </ul>
+        </li>
         <li *ngIf="item.separator" class="menu-separator"></li>
     </ng-container>
 </ul>

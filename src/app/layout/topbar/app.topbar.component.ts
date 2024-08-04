@@ -1,13 +1,32 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../service/app.layout.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
     styleUrls: ['./app.topbar.component.scss'],
 })
-export class AppTopBarComponent {
+export class AppTopBarComponent implements OnInit {
+    constructor(public layoutService: LayoutService, private translate: TranslateService) {}
+    countries: any[] | undefined;
+
+    selectedCountry: string | undefined;
+
+    ngOnInit()
+    {
+        this.translate.setDefaultLang('ar') ;
+        document.dir = 'rtl';
+        document.documentElement.lang = "ar";
+
+
+       this.countries = [
+        { name: 'العربية', code: 'EG', lang: 'ar' },
+        { name: 'English', code: 'US' , lang: 'en' }
+    ];
+        this.selectedCountry = this.countries[0]
+    }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({
             ...config,
@@ -25,7 +44,6 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService) {}
 
     changeThemeFun() {
         // entry 0 % 2 == 0 ==> true
@@ -35,4 +53,18 @@ export class AppTopBarComponent {
             this.theme = 'saga-orange';
         }
     }
+    changeLang(event: any) {
+        const lang = event.value.lang;
+        localStorage.setItem('currentLang', lang);
+    
+        this.translate.use(lang).subscribe(() => {
+            const langData = this.translate.translations[lang];
+            
+            if (langData) {
+                document.dir = langData.DIR  // Default to 'ltr' if dir is undefined
+                document.documentElement.lang = langData.lang // Default to lang if lang is undefined
+            } 
+        });
+    }
+   
 }
