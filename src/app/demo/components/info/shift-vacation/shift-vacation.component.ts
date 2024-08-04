@@ -78,15 +78,18 @@ export class ShiftVacationComponent {
     sortOrder: string = 'asc';
 
     // custom variables
-
     shiftDropDown: any;
+    // for new
     selectedShift: string;
     selectedShiftId: number;
+    selectedDay: number;
+    day: number;
 
+    // for edit
     selectedShiftEdit: string;
     selectedShiftIdEdit: number;
-
-
+    selectedDayEdit: number;
+    dayEdit: number;
     oldDate: any;
     AllDays: any;
 
@@ -98,7 +101,7 @@ export class ShiftVacationComponent {
 
         this.cols = [
             // custom fields
-            { field: 'day', header: 'Day' },
+            { field: 'dayName', header: 'Day' },
             { field: 'shiftName', header: 'Shift' },
 
             // Generic Fields
@@ -110,20 +113,20 @@ export class ShiftVacationComponent {
         ];
 
         this.AllDays = [
-            {id: 0, name: "Saturday"},
-            {id: 1, name: "Sunday"},
-            {id: 2, name: "Monday"},
-            {id: 3, name: "Tuesday"},
-            {id: 4, name: "Wednesday"},
-            {id: 5, name: "Thursday"},
-            {id: 6, name: "Friday"},
+            {id: 0, name: "Sunday"},
+            {id: 1, name: "Monday"},
+            {id: 2, name: "Tuesday"},
+            {id: 3, name: "Wednesday"},
+            {id: 4, name: "Thursday"},
+            {id: 5, name: "Friday"},
+            {id: 6, name: "Saturday"},
         ]
 
         this.gitAllShifts();
     }
 
     gitAllShifts() {
-        this._ShiftVacationService .getDropDown("shift").subscribe({
+        this._ShiftVacationService.getDropDown("shift").subscribe({
             next: (res) => {
                 console.log(res['data']);
                 this.shiftDropDown = res['data'];
@@ -143,25 +146,21 @@ export class ShiftVacationComponent {
                 this.productDialog = true;
 
                 // get product.shiftId
-                 this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
+                this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
+                console.log("selectedShiftEdit : ", this.selectedShiftEdit)
+                
+                console.log(this.product.day)
+                console.log(this.product.day)
+                // get product.day
+                this.selectedDayEdit = this.AllDays.find((day:any) => day.id == this.product.day);
 
-                // get product.date
-                this.oldDate = this.DatePipe.transform( this.product.date, "MM/dd/yyyy" );
-                this.product.date = this.DatePipe.transform( this.product.date, "MM/dd/yyyy" );
+                console.log("selectedDayEdit : ", this.selectedDayEdit)
 
             },
             error: (err) => {
                 console.log(err);
             }
         })
-    }
-
-    changedSelected() {
-        this.selectedShiftId = this.selectedShift["id"];
-    }
-
-    changedSelectedEdit() {
-        this.selectedShiftId = this.selectedShift["id"];
     }
 
     confirmDelete(id: number) {
@@ -201,9 +200,19 @@ export class ShiftVacationComponent {
         });
     }
 
+    // for new
+    onChangeDay() {
+        this.day = this.selectedDay["id"];
+    }
+
+    onChangeShift() {
+        this.selectedShiftId = this.selectedShift["id"];
+    }
+
+
     addNew() {
         let body = {
-
+            day: this.day,
             shiftId: this.selectedShiftId
         };
 
@@ -257,7 +266,6 @@ export class ShiftVacationComponent {
     }
 
     setFieldsNulls() {
-
         this.selectedShift = null;
         this.selectedShiftId = null;
     }
@@ -287,7 +295,6 @@ export class ShiftVacationComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                this.selectedItems = this.allData;
                 console.log(this.selectedItems);
             },
             error: (err) => {
@@ -333,32 +340,25 @@ export class ShiftVacationComponent {
 
     saveProduct(id: number, product: any) {
         this.submitted = true;
+
         console.log(id);
         console.log(product);
 
-        this.oldDate = this.DatePipe.transform(this.product.date, 'yyyy-MM-ddTHH:mm:ss');
-        this.product.date = this.DatePipe.transform(this.product.date, 'yyyy-MM-ddTHH:mm:ss');
-
-        console.log("oldDate");
-        console.log(this.oldDate);
-
-
-        console.log("product data");
-        console.log(product.data);
+        console.log(this.selectedShiftEdit)
 
         let body = {
             id: product.id,
-            date: product.date,
-            reason: product.reason,
-            shiftId: product.shiftId
+            day: this.selectedDayEdit["id"],
+            shiftId: this.selectedShiftEdit["id"]
         };
 
+
         console.clear();
-        console.log("body here ");
+        console.log("body here for editing..........");
 
         console.log(body);
 
-        this._ShiftVacationService .Edit(body).subscribe({
+        this._ShiftVacationService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.

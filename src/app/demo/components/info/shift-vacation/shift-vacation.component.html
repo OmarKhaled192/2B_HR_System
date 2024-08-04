@@ -18,21 +18,19 @@
 
 <p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" header="Add New" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content">
-
         <div class="field">
             <label htmlFor="shift">shift</label>
-            <p-dropdown [options]="shiftDropDown" (ngModelChange)="onChangeShift()"  [(ngModel)]="selectedShift" optionLabel="name" placeholder="Select a Shift" [showClear]="true"></p-dropdown>
+            <p-dropdown [options]="shiftDropDown" (onChange)="onChangeShift()"  [(ngModel)]="selectedShift" optionLabel="name" placeholder="Select a Shift" [showClear]="true"></p-dropdown>
         </div>
 
         <div class="field">
             <label htmlFor="day">Day</label>
-            <p-dropdown [options]="AllDays" [(ngModel)]="selectedDay"  (ngModelChange)="onChangeDay()" optionLabel="name" placeholder="Select a Day" [showClear]="true"></p-dropdown>
+            <p-dropdown [options]="AllDays" [(ngModel)]="selectedDay"  (onChange)="onChangeDay()" optionLabel="name" placeholder="Select a Day" [showClear]="true"></p-dropdown>
         </div>
 
         <div class="field">
             <button class="w-25" pButton label="Insert New" (click)="addNew()"></button>
         </div>
-
     </ng-template>
 </p-dialog>
 
@@ -82,8 +80,8 @@
       <td><span class="p-column-title">Id</span> {{ rowData.id?rowData.id:'' }}</td>
 
       <!-- custom fields -->
-      <td [ngClass]="{'null-color':!rowData.day}">
-        <span class="p-column-title">day</span> {{ rowData.dayName }}
+      <td [ngClass]="{'null-color':!rowData.dayName}">
+        <span class="p-column-title">dayName</span> {{ rowData.dayName }}
       </td>
 
       <td [ngClass]="{'null-color':!rowData.shiftName}">
@@ -124,13 +122,13 @@
 
         <div class="field">
             <label for="shiftId">Select Shift</label>
-            <p-dropdown [options]="shiftDropDown" (onChange)="changedSelectedEdit()" [(ngModel)]="selectedShiftEdit" optionLabel="name" placeholder="Select a Shift" [showClear]="true"></p-dropdown>
+            <p-dropdown [options]="shiftDropDown"  [(ngModel)]="selectedShiftEdit" optionLabel="name" placeholder="Select a Shift" [showClear]="true"></p-dropdown>
             <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.shiftId">Shift is required.</small>
         </div>
 
         <div class="field">
             <label for="day">Enter day</label>
-            <p-calendar  [timezone]=" 'UTC' "  [showIcon]="true" [(ngModel)]="product.day" inputId="icon" ></p-calendar>
+            <p-dropdown [options]="AllDays" [(ngModel)]="selectedDayEdit" optionLabel="name" placeholder="Select a Day" [showClear]="true"></p-dropdown>
             <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.day">day is required.</small>
         </div>
 
