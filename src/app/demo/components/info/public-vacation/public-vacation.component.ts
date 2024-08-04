@@ -1,11 +1,10 @@
-import { CommonModule, Time } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -21,10 +20,8 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { LockupsService } from 'src/app/demo/service/lockups.service';
 
 @Component({
-  selector: 'app-shift',
-  templateUrl: './shift.component.html',
-  styleUrl: './shift.component.scss',
-  standalone: true,
+  selector: 'app-public-vacation',
+    standalone: true,
   imports: [
     CommonModule,
     NgxPaginationModule,
@@ -44,13 +41,13 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
-    CalendarModule
   ],
-  providers: [MessageService],
+  providers: [MessageService, DatePipe],
+  templateUrl: './public-vacation.component.html',
+  styleUrl: './public-vacation.component.scss'
 })
-export class ShiftComponent {
-
-    constructor(
+export class PublicVacationComponent {
+  constructor(
         private _LockupsService: LockupsService,
         private messageService: MessageService
     ) {}
@@ -71,41 +68,32 @@ export class ShiftComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
+    newName!: string;
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-
     newNameAr!: string;
     newNameEn!: string;
-    numberOfHours!: number;
-    startAttendeesTime: Date;
-    endAttendeesTime: Date;
-
 
     ngOnInit() {
-        this.endPoint = "Shift";
+
+      this.endPoint = "PublicVacation"
 
         this._LockupsService.setEndPoint(this.endPoint);
 
         this.cols = [
-            // main field
-            { field: 'name', header: 'Name' },
 
-            // personal fields
-            { field: 'startAttendeesTime', header: 'StartAttendeesTime' },
-            { field: 'endAttendeesTime', header: 'EndAttendeesTime' },
-            { field: 'numberOfHours', header: 'NumberOfHours' },
+            { field: 'date', header: 'Date' },
+            { field: 'reason', header: 'Reason' },
+            { field: 'Shift', header: 'Shift' },
 
-            
-            // main field
-            { field: 'notes', header: 'Notes' },
 
-            // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
+              // Generic Fields
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
         ];
     }
 
@@ -121,14 +109,6 @@ export class ShiftComponent {
                 console.log(err);
             }
         })
-    }
-
-    startAttendeesTimeClick(event: any) {
-
-    }
-
-    endAttendeesTimeClick(event: any) {
-
     }
 
     confirmDelete(id: number) {
@@ -162,25 +142,12 @@ export class ShiftComponent {
     }
 
     addNew() {
-
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
-        let startAttendeesTime = this.startAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
-        let endAttendeesTime = this.endAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
-
-        // set body of request
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn,
-            startAttendeesTime: startAttendeesTime,
-            endAttendeesTime: endAttendeesTime,
-            numberOfHours: this.numberOfHours
+            engName: this.newNameEn
         };
 
-        console.log(body);
-
-        // Confirm add new
         this._LockupsService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
@@ -207,12 +174,8 @@ export class ShiftComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
+
+                console.log(err);
             },
         });
     }
@@ -229,7 +192,6 @@ export class ShiftComponent {
 
     setFieldsNulls() {
         (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
-        (this.numberOfHours = null), (this.startAttendeesTime = null), (this.endAttendeesTime = null)
     }
 
     loadData(
@@ -262,12 +224,6 @@ export class ShiftComponent {
             },
             error: (err) => {
                 console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
                 this.loading = false;
             },
         });
@@ -317,9 +273,6 @@ export class ShiftComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
-            startAttendeesTime: product.startAttendeesTime,
-            endAttendeesTime: product.endAttendeesTime,
-            numberOfHours: product.numberOfHours
         };
 
         this._LockupsService.Edit(body).subscribe({
@@ -393,7 +346,6 @@ export class ShiftComponent {
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
-
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -420,13 +372,20 @@ export class ShiftComponent {
                 );
             },
             error: (err) => {
-                this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Failure',
                     detail: err.statusText,
                     life: 3000,
                 });
+                this.deleteProductsDialog = false;
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
             },
         });
     }
@@ -441,5 +400,5 @@ export class ShiftComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
-    }
+  }
 }

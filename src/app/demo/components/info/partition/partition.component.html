@@ -169,10 +169,10 @@
             </td>
 
             <td>
-                <span class="p-column-title">creationTime</span> {{ rowData.creationTime }}
+                <span class="p-column-title">creationTime</span> {{ rowData.creationTime | date :'dd/MM/YYYY - h:mm a' }}
             </td>
             <td>
-                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime }}
+                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YYYY - h:mm a' }}
             </td>
 
             <td>

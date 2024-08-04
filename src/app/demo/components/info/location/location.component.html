@@ -204,10 +204,10 @@
             </td>
 
             <td [ngClass]="{'null-color':!rowData.creationTime}">
-                <span class="p-column-title">creationTime</span> {{ rowData.creationTime? rowData.creationTime: '' }}
+                <span class="p-column-title">creationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YY - h:mm a' }}
             </td>
             <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
-                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime? rowData.lastModificationTime: ''  }}
+                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YYYY - h:mm a' }}
             </td>
 
             <td [ngClass]="{'null-color':!rowData.creatorName}">
