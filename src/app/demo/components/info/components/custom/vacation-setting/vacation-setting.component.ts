@@ -64,14 +64,6 @@ export class VacationSettingComponent {
 					this.regularVacationNumber = data.regularVacationNumber;
 					this.maxExcuesHours = data.maxExcuesHours;
 					this.casualVacationNumber = data.casualVacationNumber;
-
-					// show success message
-					this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
 				},
 				error: (err) => {
 					console.log(err);
