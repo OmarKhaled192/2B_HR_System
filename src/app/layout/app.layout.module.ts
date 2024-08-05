@@ -19,6 +19,7 @@ import { AppSidebarComponent } from './sidebar/app.sidebar.component';
 import { AppTopBarComponent } from './topbar/app.topbar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [
@@ -44,7 +45,8 @@ import { DropdownModule } from 'primeng/dropdown';
         AppConfigModule,
         TranslateModule,
         DropdownModule,
-        FormsModule
+        FormsModule,
+        CalendarModule,
     ],
     exports: [AppLayoutComponent],
 })

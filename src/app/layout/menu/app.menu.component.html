@@ -8,7 +8,6 @@
                 {{ item.label | translate }}
             </a>
 
-            <!-- Render nested items if they exist -->
             <ul *ngIf="item.items">
                 <ng-container *ngFor="let subItem of item.items">
                     <li *ngIf="!subItem.separator">
@@ -44,8 +43,6 @@
                     </li>
                     <li *ngIf="subItem.separator" class="menu-separator"></li>
                 </ng-container>
-            </ul>
-        </li>
-        <li *ngIf="item.separator" class="menu-separator"></li>
-    </ng-container>
+            </ul></li
+    ></ng-container>
 </ul>

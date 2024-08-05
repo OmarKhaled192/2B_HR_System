@@ -9,23 +9,24 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./app.topbar.component.scss'],
 })
 export class AppTopBarComponent implements OnInit {
-    constructor(public layoutService: LayoutService, private translate: TranslateService) {}
+    constructor(
+        public layoutService: LayoutService,
+        private translate: TranslateService
+    ) {}
     countries: any[] | undefined;
 
     selectedCountry: string | undefined;
 
-    ngOnInit()
-    {
-        this.translate.setDefaultLang('ar') ;
+    ngOnInit() {
+        this.translate.setDefaultLang('ar');
         document.dir = 'rtl';
-        document.documentElement.lang = "ar";
+        document.documentElement.lang = 'ar';
 
-
-       this.countries = [
-        { name: 'العربية', code: 'EG', lang: 'ar' },
-        { name: 'English', code: 'US' , lang: 'en' }
-    ];
-        this.selectedCountry = this.countries[0]
+        this.countries = [
+            { name: 'العربية', code: 'EG', lang: 'ar' },
+            { name: 'English', code: 'US', lang: 'en' },
+        ];
+        this.selectedCountry = this.countries[0];
     }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({
@@ -44,7 +45,6 @@ export class AppTopBarComponent implements OnInit {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-
     changeThemeFun() {
         // entry 0 % 2 == 0 ==> true
         if (this.theme == 'saga-orange') {
@@ -56,15 +56,14 @@ export class AppTopBarComponent implements OnInit {
     changeLang(event: any) {
         const lang = event.value.lang;
         localStorage.setItem('currentLang', lang);
-    
+
         this.translate.use(lang).subscribe(() => {
             const langData = this.translate.translations[lang];
-            
+
             if (langData) {
-                document.dir = langData.DIR  // Default to 'ltr' if dir is undefined
-                document.documentElement.lang = langData.lang // Default to lang if lang is undefined
-            } 
+                document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
+                document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
+            }
         });
     }
-   
 }
