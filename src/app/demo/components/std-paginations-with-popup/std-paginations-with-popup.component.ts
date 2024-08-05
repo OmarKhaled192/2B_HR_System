@@ -213,7 +213,7 @@ export class StdPaginationsWithPopupComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                this.selectedItems = this.allData;
+                // this.selectedItems = this.allData;
                 console.log(this.selectedItems);
             },
             error: (err) => {

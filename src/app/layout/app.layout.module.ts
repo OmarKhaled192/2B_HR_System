@@ -17,6 +17,9 @@ import { AppMenuComponent } from './menu/app.menu.component';
 import { AppMenuitemComponent } from './menu-item/app.menuitem.component';
 import { AppSidebarComponent } from './sidebar/app.sidebar.component';
 import { AppTopBarComponent } from './topbar/app.topbar.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [
@@ -40,6 +43,10 @@ import { AppTopBarComponent } from './topbar/app.topbar.component';
         RippleModule,
         RouterModule,
         AppConfigModule,
+        TranslateModule,
+        DropdownModule,
+        FormsModule,
+        CalendarModule,
     ],
     exports: [AppLayoutComponent],
 })
