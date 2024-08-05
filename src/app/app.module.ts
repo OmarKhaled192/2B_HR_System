@@ -15,6 +15,13 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { provideHttpClient, HttpClientModule, withInterceptors, HttpClient } from '@angular/common/http';
 import { authInterceptor } from './demo/components/auth/auth.interceptor';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+    return new TranslateHttpLoader(http);
+}
 
 
 @NgModule({
@@ -25,6 +32,15 @@ import { authInterceptor } from './demo/components/auth/auth.interceptor';
         HttpClientModule,
         FormsModule,
         NgxPaginationModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        }),
+        PaginationModule,
+        HttpClientModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
