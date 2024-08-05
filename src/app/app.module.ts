@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { provideHttpClient, HttpClientModule, withInterceptors, HttpClient } from '@angular/common/http';
 import { authInterceptor } from './demo/components/auth/auth.interceptor';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
