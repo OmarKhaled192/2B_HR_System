@@ -19,31 +19,31 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { LockupsService } from 'src/app/demo/service/lockups.service';
 @Component({
-  selector: 'app-location',
-  templateUrl: './location.component.html',
-  styleUrl: './location.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-  ],
-  providers: [MessageService],
+    selector: 'app-location',
+    templateUrl: './location.component.html',
+    styleUrl: './location.component.scss',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+    ],
+    providers: [MessageService],
 })
 export class LocationComponent {
     constructor(
@@ -80,8 +80,7 @@ export class LocationComponent {
     newDiscription: string;
 
     ngOnInit() {
-
-        this.endPoint = "Location"
+        this.endPoint = 'Location';
 
         this._LockupsService.setEndPoint(this.endPoint);
 
@@ -102,7 +101,7 @@ export class LocationComponent {
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id)
+        console.log(rowData.id);
         this._LockupsService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
@@ -111,8 +110,8 @@ export class LocationComponent {
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     confirmDelete(id: number) {
@@ -152,7 +151,7 @@ export class LocationComponent {
             engName: this.newNameEn,
             latitude: this.newLatitude,
             longitude: this.newLongitude,
-            discription: this.newDiscription
+            discription: this.newDiscription,
         };
 
         this._LockupsService.Register(body).subscribe({
@@ -199,12 +198,11 @@ export class LocationComponent {
 
     setFieldsNulls() {
         (this.newNameAr = null),
-        (this.newNameEn = null),
-        (this.newNotes = null),
-
-        (this.newDiscription = null),
-        (this.newLatitude = null),
-        (this.newLongitude = null)
+            (this.newNameEn = null),
+            (this.newNotes = null),
+            (this.newDiscription = null),
+            (this.newLatitude = null),
+            (this.newLongitude = null);
     }
 
     loadData(
@@ -287,7 +285,7 @@ export class LocationComponent {
             notes: product.notes,
             latitude: product.latitude,
             longitude: product.longitude,
-            discription: product.discription
+            discription: product.discription,
         };
 
         this._LockupsService.Edit(body).subscribe({
@@ -378,6 +376,8 @@ export class LocationComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -416,5 +416,4 @@ export class LocationComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
 }
