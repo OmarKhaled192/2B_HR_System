@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Time } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -17,10 +18,12 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from '../../service/lockups.service';
+import { LockupsService } from 'src/app/demo/service/lockups.service';
 
 @Component({
-  selector: 'app-std-paginations-with-popup',
+  selector: 'app-shift',
+  templateUrl: './shift.component.html',
+  styleUrl: './shift.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,12 +44,12 @@ import { LockupsService } from '../../service/lockups.service';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
+    CalendarModule
   ],
   providers: [MessageService],
-  templateUrl: './std-paginations-with-popup.component.html',
-  styleUrl: './std-paginations-with-popup.component.scss'
 })
-export class StdPaginationsWithPopupComponent {
+export class ShiftComponent {
+
     constructor(
         private _LockupsService: LockupsService,
         private messageService: MessageService
@@ -68,26 +71,41 @@ export class StdPaginationsWithPopupComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    newName!: string;
     newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
+
     newNameAr!: string;
     newNameEn!: string;
+    numberOfHours!: number;
+    startAttendeesTime: Date;
+    endAttendeesTime: Date;
+
 
     ngOnInit() {
+        this.endPoint = "Shift";
+
         this._LockupsService.setEndPoint(this.endPoint);
 
         this.cols = [
+            // main field
             { field: 'name', header: 'Name' },
+
+            // personal fields
+            { field: 'startAttendeesTime', header: 'StartAttendeesTime' },
+            { field: 'endAttendeesTime', header: 'EndAttendeesTime' },
+            { field: 'numberOfHours', header: 'NumberOfHours' },
+
+
+            // main field
             { field: 'notes', header: 'Notes' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
+            { field: 'creationTime', header: 'CreationTime' },
+            { field: 'lastModificationTime', header: 'LastModificationTime' },
+            { field: 'creatorName', header: 'CreatorName' },
+            { field: 'lastModifierName', header: 'LastModifierName' },
         ];
     }
 
@@ -103,6 +121,14 @@ export class StdPaginationsWithPopupComponent {
                 console.log(err);
             }
         })
+    }
+
+    startAttendeesTimeClick(event: any) {
+
+    }
+
+    endAttendeesTimeClick(event: any) {
+
     }
 
     confirmDelete(id: number) {
@@ -136,12 +162,25 @@ export class StdPaginationsWithPopupComponent {
     }
 
     addNew() {
+        
+        // first convert from date full format to time only
+        // why? because prime ng calender component returned the value as a full Date Format
+        let startAttendeesTime = this.startAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
+        let endAttendeesTime = this.endAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
+
+        // set body of request
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn
+            engName: this.newNameEn,
+            startAttendeesTime: startAttendeesTime,
+            endAttendeesTime: endAttendeesTime,
+            numberOfHours: this.numberOfHours
         };
 
+        console.log(body);
+
+        // Confirm add new
         this._LockupsService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
@@ -168,8 +207,12 @@ export class StdPaginationsWithPopupComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-
-                console.log(err);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: err,
+                    life: 3000,
+                });
             },
         });
     }
@@ -186,6 +229,7 @@ export class StdPaginationsWithPopupComponent {
 
     setFieldsNulls() {
         (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.numberOfHours = null), (this.startAttendeesTime = null), (this.endAttendeesTime = null)
     }
 
     loadData(
@@ -213,9 +257,16 @@ export class StdPaginationsWithPopupComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
+                console.log(this.selectedItems);
             },
             error: (err) => {
                 console.log(err);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: err,
+                    life: 3000,
+                });
                 this.loading = false;
             },
         });
@@ -265,6 +316,9 @@ export class StdPaginationsWithPopupComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
+            startAttendeesTime: product.startAttendeesTime,
+            endAttendeesTime: product.endAttendeesTime,
+            numberOfHours: product.numberOfHours
         };
 
         this._LockupsService.Edit(body).subscribe({
@@ -316,7 +370,7 @@ export class StdPaginationsWithPopupComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+        link.download = 'data_export_' + new Date().getTime() + '.csv';
         link.click();
     }
 
@@ -338,6 +392,7 @@ export class StdPaginationsWithPopupComponent {
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
+
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -364,20 +419,13 @@ export class StdPaginationsWithPopupComponent {
                 );
             },
             error: (err) => {
+                this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Failure',
                     detail: err.statusText,
                     life: 3000,
                 });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
             },
         });
     }
@@ -393,5 +441,4 @@ export class StdPaginationsWithPopupComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
 }

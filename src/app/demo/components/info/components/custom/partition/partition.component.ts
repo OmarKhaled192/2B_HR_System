@@ -1,9 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { PartitionService } from './partition.service';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
+import { LockupsService } from 'src/app/demo/service/lockups.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
@@ -17,10 +16,17 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from '../../service/lockups.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
-  selector: 'app-std-paginations-with-popup',
+  selector: 'app-partition',
+  templateUrl: './partition.component.html',
+  styleUrl: './partition.component.scss',
+  providers: [MessageService],
+
   standalone: true,
   imports: [
     CommonModule,
@@ -41,15 +47,14 @@ import { LockupsService } from '../../service/lockups.service';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
+    AutoCompleteModule,
   ],
-  providers: [MessageService],
-  templateUrl: './std-paginations-with-popup.component.html',
-  styleUrl: './std-paginations-with-popup.component.scss'
 })
-export class StdPaginationsWithPopupComponent {
+export class PartitionComponent {
     constructor(
         private _LockupsService: LockupsService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private _PartitionService:PartitionService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -75,9 +80,14 @@ export class StdPaginationsWithPopupComponent {
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
-
+    departmentDropDown: any[] = [];
+    selectedDepartment: string = "";
+    selectedDepartmentId: number = -1;
+    selectedEditsDepartment: any;
     ngOnInit() {
+        this.endPoint = "Partation"
         this._LockupsService.setEndPoint(this.endPoint);
+        this._PartitionService.setEndPoint(this.endPoint);
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -89,6 +99,17 @@ export class StdPaginationsWithPopupComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
+
+        // get all drop downs departments
+        this.getDropDownDepartment();
+
+    }
+
+    getDartmentNameById(id: number) {
+        console.log("id edited");
+        console.log(id);
+        let dept = this.departmentDropDown.find(dept => dept.id == id)
+        return dept;
     }
 
     editProduct(rowData: any) {
@@ -98,6 +119,23 @@ export class StdPaginationsWithPopupComponent {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
+                this.selectedEditsDepartment = this.getDartmentNameById(this.product.departmentId)
+                console.log("dept name is ", this.selectedEditsDepartment)
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+    }
+
+    changedSelected(event: any) {
+        this.selectedDepartmentId = this.selectedDepartment["id"];
+    }
+
+    getDropDownDepartment() {
+        this._PartitionService.getDropDown("Department").subscribe({
+            next: (res)=> {
+                this.departmentDropDown = res["data"];
             },
             error: (err) => {
                 console.log(err);
@@ -128,6 +166,7 @@ export class StdPaginationsWithPopupComponent {
                     this.sortField,
                     this.sortOrder
                 );
+
             },
             error: (err) => {
                 console.log(err);
@@ -139,7 +178,8 @@ export class StdPaginationsWithPopupComponent {
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn
+            engName: this.newNameEn,
+            departmentId: this.selectedDepartmentId
         };
 
         this._LockupsService.Register(body).subscribe({
@@ -185,7 +225,7 @@ export class StdPaginationsWithPopupComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null), (this.selectedDepartment = null)
     }
 
     loadData(
@@ -213,6 +253,7 @@ export class StdPaginationsWithPopupComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
+                console.log(this.selectedItems);
             },
             error: (err) => {
                 console.log(err);
@@ -238,7 +279,6 @@ export class StdPaginationsWithPopupComponent {
             this.sortOrder
         );
 
-        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
@@ -248,6 +288,7 @@ export class StdPaginationsWithPopupComponent {
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
+
     }
 
     deleteProduct(product: any) {
@@ -265,6 +306,7 @@ export class StdPaginationsWithPopupComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
+            departmentId: this.selectedEditsDepartment.id
         };
 
         this._LockupsService.Edit(body).subscribe({
@@ -299,10 +341,12 @@ export class StdPaginationsWithPopupComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            this.setFieldsNulls();
         }
     }
 
     exportCSV() {
+        console.log(this.selectedItems)
         // Convert data to CSV format
         const csvData = this.convertToCSV(this.selectedItems);
 
@@ -316,7 +360,7 @@ export class StdPaginationsWithPopupComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+        link.download = 'data_export_' + new Date().getTime() + '.csv';
         link.click();
     }
 
@@ -338,6 +382,7 @@ export class StdPaginationsWithPopupComponent {
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
+
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -381,6 +426,7 @@ export class StdPaginationsWithPopupComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -390,6 +436,7 @@ export class StdPaginationsWithPopupComponent {
             this.sortOrder = 'asc';
         }
     }
+
     sortByName(event: any) {
         this.sortField = 'name';
     }

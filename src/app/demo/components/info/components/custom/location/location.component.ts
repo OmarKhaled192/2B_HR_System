@@ -17,10 +17,11 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from '../../service/lockups.service';
-
+import { LockupsService } from 'src/app/demo/service/lockups.service';
 @Component({
-  selector: 'app-std-paginations-with-popup',
+  selector: 'app-location',
+  templateUrl: './location.component.html',
+  styleUrl: './location.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -43,10 +44,8 @@ import { LockupsService } from '../../service/lockups.service';
     ReactiveFormsModule,
   ],
   providers: [MessageService],
-  templateUrl: './std-paginations-with-popup.component.html',
-  styleUrl: './std-paginations-with-popup.component.scss'
 })
-export class StdPaginationsWithPopupComponent {
+export class LocationComponent {
     constructor(
         private _LockupsService: LockupsService,
         private messageService: MessageService
@@ -76,11 +75,22 @@ export class StdPaginationsWithPopupComponent {
     newNameAr!: string;
     newNameEn!: string;
 
+    newLatitude: DoubleRange;
+    newLongitude: DoubleRange;
+    newDiscription: string;
+
     ngOnInit() {
+
+        this.endPoint = "Location"
+
         this._LockupsService.setEndPoint(this.endPoint);
 
         this.cols = [
             { field: 'name', header: 'Name' },
+
+            { field: 'latitude', header: 'Lotes' },
+            { field: 'longitude', header: 'Longitude' },
+            { field: 'discription', header: 'Discription' },
             { field: 'notes', header: 'Notes' },
 
             // Generic Fields
@@ -139,7 +149,10 @@ export class StdPaginationsWithPopupComponent {
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn
+            engName: this.newNameEn,
+            latitude: this.newLatitude,
+            longitude: this.newLongitude,
+            discription: this.newDiscription
         };
 
         this._LockupsService.Register(body).subscribe({
@@ -185,7 +198,13 @@ export class StdPaginationsWithPopupComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.newNameAr = null),
+        (this.newNameEn = null),
+        (this.newNotes = null),
+
+        (this.newDiscription = null),
+        (this.newLatitude = null),
+        (this.newLongitude = null)
     }
 
     loadData(
@@ -213,6 +232,7 @@ export class StdPaginationsWithPopupComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
+                console.log(this.selectedItems);
             },
             error: (err) => {
                 console.log(err);
@@ -265,6 +285,9 @@ export class StdPaginationsWithPopupComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
+            latitude: product.latitude,
+            longitude: product.longitude,
+            discription: product.discription
         };
 
         this._LockupsService.Edit(body).subscribe({
@@ -316,7 +339,7 @@ export class StdPaginationsWithPopupComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+        link.download = 'data_export_' + new Date().getTime() + '.csv';
         link.click();
     }
 
