@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ShiftVacationService } from './shift-vacation/shift-vacation.service';
+import { ShiftVacationService } from './components/custom/shift-vacation/shift-vacation.service';
 
 describe('ShiftVacationService', () => {
   let service: ShiftVacationService;

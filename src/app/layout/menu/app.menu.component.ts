@@ -81,7 +81,42 @@ export class AppMenuComponent implements OnInit {
                         label: 'Shift Vacation',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/shiftVacation'],
-                    }
+                    },
+                    {
+                        label: 'Relative Relation',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/relativeRelation'],
+                    },
+                    {
+                        label: 'Contract Type',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/contractType'],
+                    },
+                    {
+                        label: 'Job Nature',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/jobNature'],
+                    },
+                    {
+                        label: 'Recuritment Source',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/recuritmentSource'],
+                    },
+                    {
+                        label: 'Document Required',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/documentRequired'],
+                    },
+                    {
+                        label: 'Uniform Codes',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/uniformCodes'],
+                    },
+                    {
+                        label: 'Vacation Setting',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/vacationSetting'],
+                    },
                 ],
 
             },

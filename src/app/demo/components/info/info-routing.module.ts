@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DepartmentComponent } from './department/department.component';
-import { BankComponent } from './bank/bank.component';
-import { GovenmentComponent } from './govenment/govenment.component';
-import { GradeComponent } from './grade/grade.component';
-import { JobComponent } from './job/job.component';
-import { LocationComponent } from './location/location.component';
-import { PartitionComponent } from './partition/partition.component';
-import { QualificationComponent } from './qualification/qualification.component';
-import { ShiftComponent } from './shift/shift.component';
+import { DepartmentComponent } from './components/standard/department/department.component';
+import { BankComponent } from './components/standard/bank/bank.component';
+import { GovenmentComponent } from './components/standard/govenment/govenment.component';
+import { LocationComponent } from './components/custom/location/location.component';
+import { PartitionComponent } from './components/custom/partition/partition.component';
+import { QualificationComponent } from './components/standard/qualification/qualification.component';
+import { ShiftComponent } from './components/custom/shift/shift.component';
 import { NotfoundComponent } from '../notfound/notfound.component';
 import { authGuard } from '../auth/auth.guard';
-import { PublicVacationComponent } from './public-vacation/public-vacation.component';
-import { ShiftVacationComponent } from './shift-vacation/shift-vacation.component';
+import { PublicVacationComponent } from './components/custom/public-vacation/public-vacation.component';
+import { ShiftVacationComponent } from './components/custom/shift-vacation/shift-vacation.component';
+import { GradeComponent } from './components/standard/grade/grade.component';
+import { JobComponent } from './components/standard/job/job.component';
+import { RelativeRelationComponent } from './components/custom/relative-relation/relative-relation.component';
+import { ContractTypeComponent } from './components/standard/contract-type/contract-type.component';
+import { JobNatureComponent } from './components/standard/job-nature/job-nature.component';
+import { RecuritmentSourceComponent } from './components/standard/recuritment-source/recuritment-source.component';
+import { DocumentRequiredComponent } from './components/standard/document-required/document-required.component';
+import { UniformCodesComponent } from './components/standard/uniform-codes/uniform-codes.component';
+import { VacationSettingComponent } from './components/custom/vacation-setting/vacation-setting.component';
 
 @NgModule({
     imports: [
@@ -28,6 +35,13 @@ import { ShiftVacationComponent } from './shift-vacation/shift-vacation.componen
             { path: 'shift', canActivate: [authGuard], component: ShiftComponent },
             { path: 'publicVacation', canActivate: [authGuard], component: PublicVacationComponent },
             { path: 'shiftVacation', canActivate: [authGuard], component: ShiftVacationComponent },
+            { path: 'relativeRelation', canActivate: [authGuard], component: RelativeRelationComponent },
+            { path: 'contractType', canActivate: [authGuard], component: ContractTypeComponent },
+            { path: 'jobNature', canActivate: [authGuard], component: JobNatureComponent },
+            { path: 'recuritmentSource', canActivate: [authGuard], component: RecuritmentSourceComponent },
+            { path: 'documentRequired', canActivate: [authGuard], component: DocumentRequiredComponent },
+            { path: 'uniformCodes', canActivate: [authGuard], component: UniformCodesComponent },
+            { path: 'vacationSetting', canActivate: [authGuard], component: VacationSettingComponent },
             { path: '**', component: NotfoundComponent}
         ]),
     ],
