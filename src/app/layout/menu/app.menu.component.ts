@@ -77,9 +77,7 @@ export class AppMenuComponent implements OnInit {
                     },
                 ],
             },
-            {
-                label: this.translate.instant('UI_COMPONENTS'),
-            },
+
             {
                 label: 'UI Components',
                 items: [

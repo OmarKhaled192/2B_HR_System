@@ -147,8 +147,7 @@ textarea {
 .p-fluid .p-element.w-25.p-button.p-component {
     width: 25% !important;
 }
-html:lang(ar) .layout-sidebar
-{
+html:lang(ar) .layout-sidebar {
     left: unset;
     right: 2rem;
 }
@@ -158,16 +157,27 @@ html:lang(ar) .layout-sidebar
         margin-right: 300px;
         padding-left: 2rem;
     }
-    html:lang(ar) .layout-wrapper.layout-static.layout-static-inactive .layout-sidebar {
+    html:lang(ar)
+        .layout-wrapper.layout-static.layout-static-inactive
+        .layout-sidebar {
         transform: translateX(100%);
         right: 0;
     }
-    html:lang(ar) .layout-wrapper.layout-static.layout-static-inactive .layout-main-container
-    {
+    html:lang(ar)
+        .layout-wrapper.layout-static.layout-static-inactive
+        .layout-main-container {
         margin-right: 0px;
     }
-    html:lang(ar) .layout-main-container
-    {
+    html:lang(ar) .layout-main-container {
         padding: 7rem 4rem 2rem 2rem;
+    }
+}
+@media (max-width: 991px) {
+    html:lang(ar) .layout-wrapper .layout-sidebar {
+        right: 0;
+        transform: translateX(100%);
+    }
+    html:lang(ar) .layout-mobile-active .layout-sidebar {
+        transform: translateX(0);
     }
 }
