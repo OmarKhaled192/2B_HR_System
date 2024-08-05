@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -17,10 +18,11 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from '../../service/lockups.service';
+import { ShiftVacationService } from './shift-vacation.service';
+import { DayNamePipe } from './day-name.pipe';
 
 @Component({
-  selector: 'app-std-paginations-with-popup',
+  selector: 'app-shift-vacation',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,15 +43,18 @@ import { LockupsService } from '../../service/lockups.service';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
+    CalendarModule,
+    DayNamePipe
   ],
-  providers: [MessageService],
-  templateUrl: './std-paginations-with-popup.component.html',
-  styleUrl: './std-paginations-with-popup.component.scss'
+  providers: [MessageService, DatePipe, DayNamePipe],
+  templateUrl: './shift-vacation.component.html',
+  styleUrl: './shift-vacation.component.scss'
 })
-export class StdPaginationsWithPopupComponent {
+export class ShiftVacationComponent {
     constructor(
-        private _LockupsService: LockupsService,
-        private messageService: MessageService
+        private _ShiftVacationService : ShiftVacationService,
+        private messageService: MessageService,
+        private DatePipe: DatePipe,
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -68,36 +73,89 @@ export class StdPaginationsWithPopupComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    newName!: string;
-    newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-    newNameAr!: string;
-    newNameEn!: string;
+
+    // custom variables
+    shiftDropDown: any;
+    // for new
+    selectedShift: string;
+    selectedShiftId: number;
+    selectedDay: number;
+    day: number;
+
+    // for edit
+    selectedShiftEdit: string;
+    selectedShiftIdEdit: number;
+    selectedDayEdit: number;
+    dayEdit: number;
+    oldDate: any;
+    AllDays: any;
 
     ngOnInit() {
-        this._LockupsService.setEndPoint(this.endPoint);
+
+        this.endPoint = "ShiftVacation";
+
+        this._ShiftVacationService .setEndPoint(this.endPoint);
 
         this.cols = [
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
+            // custom fields
+            { field: 'dayName', header: 'Day' },
+            { field: 'shiftName', header: 'Shift' },
 
             // Generic Fields
             { field: 'creationTime', header: 'creationTime' },
             { field: 'lastModificationTime', header: 'lastModificationTime' },
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
+
         ];
+
+        this.AllDays = [
+            {id: 0, name: "Sunday"},
+            {id: 1, name: "Monday"},
+            {id: 2, name: "Tuesday"},
+            {id: 3, name: "Wednesday"},
+            {id: 4, name: "Thursday"},
+            {id: 5, name: "Friday"},
+            {id: 6, name: "Saturday"},
+        ]
+
+        this.gitAllShifts();
+    }
+
+    gitAllShifts() {
+        this._ShiftVacationService.getDropDown("shift").subscribe({
+            next: (res) => {
+                console.log(res['data']);
+                this.shiftDropDown = res['data'];
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        })
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        console.log(rowData.id);
+        this._ShiftVacationService .GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
+
+                // get product.shiftId
+                this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
+                console.log("selectedShiftEdit : ", this.selectedShiftEdit)
+                
+                console.log(this.product.day)
+                console.log(this.product.day)
+                // get product.day
+                this.selectedDayEdit = this.AllDays.find((day:any) => day.id == this.product.day);
+
+                console.log("selectedDayEdit : ", this.selectedDayEdit)
+
             },
             error: (err) => {
                 console.log(err);
@@ -107,7 +165,7 @@ export class StdPaginationsWithPopupComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._ShiftVacationService .DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -131,18 +189,34 @@ export class StdPaginationsWithPopupComponent {
             },
             error: (err) => {
                 console.log(err);
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'error field',
+                    detail: 'Product Deleted',
+                    life: 3000,
+                });
             },
         });
     }
 
+    // for new
+    onChangeDay() {
+        this.day = this.selectedDay["id"];
+    }
+
+    onChangeShift() {
+        this.selectedShiftId = this.selectedShift["id"];
+    }
+
+
     addNew() {
         let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn
+            day: this.day,
+            shiftId: this.selectedShiftId
         };
 
-        this._LockupsService.Register(body).subscribe({
+        this._ShiftVacationService .Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -167,7 +241,14 @@ export class StdPaginationsWithPopupComponent {
                 );
             },
             error: (err) => {
-                this.showFormNew = false;
+                // this.showFormNew = false;
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'error field',
+                    detail: 'All Fields is required',
+                    life: 3000,
+                });
 
                 console.log(err);
             },
@@ -185,7 +266,8 @@ export class StdPaginationsWithPopupComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        this.selectedShift = null;
+        this.selectedShiftId = null;
     }
 
     loadData(
@@ -205,7 +287,7 @@ export class StdPaginationsWithPopupComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._ShiftVacationService .GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -213,6 +295,7 @@ export class StdPaginationsWithPopupComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
+                console.log(this.selectedItems);
             },
             error: (err) => {
                 console.log(err);
@@ -257,17 +340,25 @@ export class StdPaginationsWithPopupComponent {
 
     saveProduct(id: number, product: any) {
         this.submitted = true;
+
         console.log(id);
         console.log(product);
 
+        console.log(this.selectedShiftEdit)
+
         let body = {
-            engName: product.engName,
-            name: product.name,
             id: product.id,
-            notes: product.notes,
+            day: this.selectedDayEdit["id"],
+            shiftId: this.selectedShiftEdit["id"]
         };
 
-        this._LockupsService.Edit(body).subscribe({
+
+        console.clear();
+        console.log("body here for editing..........");
+
+        console.log(body);
+
+        this._ShiftVacationService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -292,6 +383,7 @@ export class StdPaginationsWithPopupComponent {
                 alert(err);
             },
         });
+
     }
 
     toggleNew() {
@@ -299,6 +391,7 @@ export class StdPaginationsWithPopupComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            this.setFieldsNulls();
         }
     }
 
@@ -316,7 +409,7 @@ export class StdPaginationsWithPopupComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+        link.download = `${this.endPoint}_` + new Date().getTime() + '.csv';
         link.click();
     }
 
@@ -332,12 +425,20 @@ export class StdPaginationsWithPopupComponent {
         console.log(keys);
 
         const csvContent = data.map((row) =>
-            keys.map((key) => `"${row[key]}"`).join(separator)
+            keys.map((key) => {
+                if(key == "shift") {
+                    console.log(row["shiftName"])
+                }
+
+                return  key == "Shift"? `"${row[key]}"`: `"${row[key]}"`
+
+            }).join(separator)
         );
 
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
+
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -346,7 +447,7 @@ export class StdPaginationsWithPopupComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._ShiftVacationService .DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -381,6 +482,7 @@ export class StdPaginationsWithPopupComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -392,6 +494,5 @@ export class StdPaginationsWithPopupComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
-    }
-
+  }
 }

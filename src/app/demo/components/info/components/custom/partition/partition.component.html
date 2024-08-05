@@ -69,6 +69,11 @@
         </div>
 
         <div class="field">
+            <label for="department">Department :</label>
+			<p-dropdown [options]="departmentDropDown" id="department" (onChange)="changedSelected()" [(ngModel)]="selectedDepartment" placeholder="Select a Department" [showClear]="true" optionLabel="name"></p-dropdown>
+        </div>
+
+        <div class="field">
             <label htmlFor="new-notes">Notes</label>
             <textarea
                 pInputTextarea
@@ -78,6 +83,7 @@
                 type="text"
             ></textarea>
         </div>
+
         <div class="field">
             <button
                 class="w-25"
@@ -137,6 +143,7 @@
                 Name <p-sortIcon field="name"></p-sortIcon>
             </th>
             <th>Notes</th>
+            <th>Department</th>
             <th>creationTime</th>
             <th>lastModificationTime</th>
             <th>creatorName</th>
@@ -150,26 +157,31 @@
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td><span class="p-column-title">Id</span> {{ rowData.id?rowData.id:'' }}</td>
+            <td><span class="p-column-title">Id</span> {{ rowData.id }}</td>
 
-            <td [ngClass]="{'null-color':!rowData.name}"><span class="p-column-title">Name</span> {{ rowData.name?rowData.name:'' }}</td>
-            <td [ngClass]="{'null-color':!rowData.notes}">
-                <span class="p-column-title">Notes</span> {{ rowData.notes?rowData.notes:'' }}
-            </td>
-
-            <td [ngClass]="{'null-color':!rowData.creationTime}">
-                <span class="p-column-title">creationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YYYY - h:mm a' }}
-            </td>
-            <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
-                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YY - h:mm a' }}
+            <td><span class="p-column-title">Name</span> {{ rowData.name }}</td>
+            <td>
+                <span class="p-column-title">Notes</span> {{ rowData.notes }}
             </td>
 
-            <td [ngClass]="{'null-color':!rowData.creatorName}">
-                <span class="p-column-title">creatorName</span> {{ rowData.creatorName?rowData.creatorName:'' }}
+            <td>
+                <span class="p-column-title">Notes</span> {{ rowData.departmentName }}
             </td>
-            <td [ngClass]="{'null-color':!rowData.lastModifierName}">
-                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName?rowData.lastModifierName:'' }}
+
+            <td>
+                <span class="p-column-title">creationTime</span> {{ rowData.creationTime | date :'dd/MM/YYYY - h:mm a' }}
             </td>
+            <td>
+                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YYYY - h:mm a' }}
+            </td>
+
+            <td>
+                <span class="p-column-title">creatorName</span> {{ rowData.creatorName }}
+            </td>
+            <td>
+                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName }}
+            </td>
+
 
             <td>
                 <div class="flex crud-operations">
@@ -238,6 +250,17 @@
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.engName"
                 >English Name is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="departmentEdit">Department</label>
+            <p-dropdown [options]="departmentDropDown" optionLabel="name" id="edit_Dept"  [(ngModel)]="selectedEditsDepartment" placeholder="Select a Department" [showClear]="true"></p-dropdown>
+
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="product.departmentId"
+                >Department is required.</small
             >
         </div>
 
