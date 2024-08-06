@@ -20,6 +20,7 @@ import { RecuritmentSourceComponent } from './components/standard/recuritment-so
 import { DocumentRequiredComponent } from './components/standard/document-required/document-required.component';
 import { UniformCodesComponent } from './components/standard/uniform-codes/uniform-codes.component';
 import { VacationSettingComponent } from './components/custom/vacation-setting/vacation-setting.component';
+import { CovenantCategoryComponent } from './components/standard/covenant-category/covenant-category.component';
 
 @NgModule({
     imports: [
@@ -42,6 +43,7 @@ import { VacationSettingComponent } from './components/custom/vacation-setting/v
             { path: 'documentRequired', canActivate: [authGuard], component: DocumentRequiredComponent },
             { path: 'uniformCodes', canActivate: [authGuard], component: UniformCodesComponent },
             { path: 'vacationSetting', canActivate: [authGuard], component: VacationSettingComponent },
+            { path: 'CovenantCategory', canActivate: [authGuard], component: CovenantCategoryComponent },
             { path: '**', component: NotfoundComponent}
         ]),
     ],

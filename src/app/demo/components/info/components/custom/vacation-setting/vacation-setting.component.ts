@@ -15,29 +15,28 @@ import { VacationSettingService } from './vacation-setting.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
-
 @Component({
   selector: 'app-vacation-setting',
   templateUrl: './vacation-setting.component.html',
   styleUrl: './vacation-setting.component.scss',
   standalone: true,
 	providers: [MessageService],
-  imports: [
-    CommonModule,
-    FormsModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		InputTextareaModule,
-		InputTextModule,
-		InputNumberModule,
-		ToastModule
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AutoCompleteModule,
+        CalendarModule,
+        ChipsModule,
+        DropdownModule,
+        InputMaskModule,
+        InputNumberModule,
+        CascadeSelectModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        InputTextModule,
+        InputNumberModule,
+        ToastModule
+    ],
 })
 export class VacationSettingComponent {
 		// main fields

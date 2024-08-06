@@ -120,6 +120,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/vacationSetting'],
                     },
+                    {
+                        label: 'Covenant Category',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/CovenantCategory'],
+                    },
                 ],
             },
 
@@ -294,6 +299,7 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-th-large',
                         routerLink: ['/pages/pagination-popup'],
                     },
+
                 ],
             },
             {
