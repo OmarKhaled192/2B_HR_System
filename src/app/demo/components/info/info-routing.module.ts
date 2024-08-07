@@ -13,7 +13,7 @@ import { PublicVacationComponent } from './components/custom/public-vacation/pub
 import { ShiftVacationComponent } from './components/custom/shift-vacation/shift-vacation.component';
 import { GradeComponent } from './components/standard/grade/grade.component';
 import { JobComponent } from './components/standard/job/job.component';
-import { RelativeRelationComponent } from './components/custom/relative-relation/relative-relation.component';
+import { RelativeRelationComponent } from './components/standard/relative-relation/relative-relation.component';
 import { ContractTypeComponent } from './components/standard/contract-type/contract-type.component';
 import { JobNatureComponent } from './components/standard/job-nature/job-nature.component';
 import { RecuritmentSourceComponent } from './components/standard/recuritment-source/recuritment-source.component';

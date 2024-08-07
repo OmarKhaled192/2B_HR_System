@@ -2,37 +2,40 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
     styleUrls: ['./app.topbar.component.scss'],
 })
-export class AppTopBarComponent implements OnInit {
+export class AppTopBarComponent implements OnInit  {
     constructor(
         public layoutService: LayoutService,
-        private translate: TranslateService
-    ) {}
+        private translate: TranslateService) {
+    }
     countries: any[] | undefined;
 
     selectedCountry: string | undefined;
 
     ngOnInit() {
-        // for arabic
-        // this.translate.setDefaultLang('ar');
-        // document.dir = 'rtl';
-        // document.documentElement.lang = 'ar';
-
-        // for english
-        this.translate.setDefaultLang('en');
-        document.dir = 'ltr';
-        document.documentElement.lang = 'en';
 
         this.countries = [
             { name: 'العربية', code: 'EG', lang: 'ar' },
             { name: 'English', code: 'US', lang: 'en' },
         ];
+
+        // for arabic
+        this.translate.setDefaultLang('ar');
+        document.dir = 'rtl';
+        document.documentElement.lang = 'ar';
         this.selectedCountry = this.countries[0];
+
+        // for english
+        // this.translate.setDefaultLang('en');
+        // document.dir = 'ltr';
+        // document.documentElement.lang = 'en';
+        // this.selectedCountry = this.countries[1];
     }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({
@@ -70,6 +73,12 @@ export class AppTopBarComponent implements OnInit {
                 document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
                 document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
             }
+
+            // set lang at Globals
+            Globals.setMainLang(lang);
         });
+
+
+
     }
 }

@@ -13,6 +13,8 @@
     "PARTITION": "Partition",
     "QUALIFICATION": "Qualification",
     "SHIFT": "Shift",
+    "CONVENATCATEGORY": "Covenant Category",
+    "CONVENAT": "Covenant",
     "FORM_LAYOUT": "Form Layout",
     "INPUT": "Input",
     "FLOAT_LABEL": "Float Label",
@@ -51,4 +53,3 @@
     "SUBMENU_1_2": "Submenu 1.2",
     "SUBMENU_1_2_1": "Submenu 1.2.1"
   }
-  

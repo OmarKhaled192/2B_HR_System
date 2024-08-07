@@ -19,6 +19,7 @@ import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PublicVacationService } from './public-vacation.service';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
   selector: 'app-public-vacation',
@@ -91,7 +92,25 @@ export class PublicVacationComponent {
 
       this.endPoint = "PublicVacation";
 
-        this._PublicVacationService.setEndPoint(this.endPoint);
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._PublicVacationService.setCulture(mainLang);
+
+            // update endpoint
+            this._PublicVacationService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
             // custom fields

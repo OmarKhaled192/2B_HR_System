@@ -1,1 +1,29 @@
 
+::ng-deep html:lang(ar) {
+
+    .p-button {
+        gap: 5px;
+        flex-direction: row-reverse;
+    }
+
+    .flex.crud-operations  {
+        $this: &;
+
+        & {
+            gap: 5px;
+        }
+
+        .p-button {
+            gap: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .p-dropdown .p-dropdown-clear-icon {
+        right: unset;
+        left: 2.357rem;
+    }
+
+}

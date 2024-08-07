@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
   selector: 'app-partition',
@@ -85,7 +86,26 @@ export class PartitionComponent {
 
     ngOnInit() {
         this.endPoint = "Partation"
+
+    // adding this Configurations in each Component Customized
+    Globals.getMainLangChanges().subscribe((mainLang) => {
+        console.log('Main language changed to:', mainLang);
+
+        // update mainLang at Service
+        this._PartitionService.setCulture(mainLang);
+
+        // update endpoint
         this._PartitionService.setEndPoint(this.endPoint);
+
+        // then, load data again to lens on the changes of mainLang & endPoints Call
+        this.loadData(
+            this.page,
+            this.itemsPerPage,
+            this.nameFilter,
+            this.sortField,
+            this.sortOrder
+        );
+    });
 
         this.cols = [
             // basic fields

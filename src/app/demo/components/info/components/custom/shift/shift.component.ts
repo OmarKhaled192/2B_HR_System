@@ -18,7 +18,8 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from 'src/app/demo/service/lockups.service';
+import { ShiftService } from './shift.service';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
   selector: 'app-shift',
@@ -51,7 +52,7 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
 export class ShiftComponent {
 
     constructor(
-        private _LockupsService: LockupsService,
+        private _ShiftService: ShiftService,
         private messageService: MessageService
     ) {}
 
@@ -86,7 +87,25 @@ export class ShiftComponent {
     ngOnInit() {
         this.endPoint = "Shift";
 
-        this._LockupsService.setEndPoint(this.endPoint);
+         // adding this Configurations in each Component Customized
+         Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._ShiftService.setCulture(mainLang);
+
+            // update endpoint
+            this._ShiftService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
             // main field
@@ -111,7 +130,7 @@ export class ShiftComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        this._ShiftService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -133,7 +152,7 @@ export class ShiftComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._ShiftService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -162,7 +181,7 @@ export class ShiftComponent {
     }
 
     addNew() {
-        
+
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
         let startAttendeesTime = this.startAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
@@ -181,7 +200,7 @@ export class ShiftComponent {
         console.log(body);
 
         // Confirm add new
-        this._LockupsService.Register(body).subscribe({
+        this._ShiftService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -249,7 +268,7 @@ export class ShiftComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._ShiftService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -321,7 +340,7 @@ export class ShiftComponent {
             numberOfHours: product.numberOfHours
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        this._ShiftService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -401,7 +420,7 @@ export class ShiftComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._ShiftService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({

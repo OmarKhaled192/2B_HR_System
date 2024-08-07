@@ -121,12 +121,12 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/info/vacationSetting'],
                     },
                     {
-                        label: 'Covenant Category',
+                        label: this.translate.instant('CONVENATCATEGORY'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/CovenantCategory'],
                     },
                     {
-                        label: 'Covenant',
+                        label: this.translate.instant('CONVENAT'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/Covenant'],
                     },

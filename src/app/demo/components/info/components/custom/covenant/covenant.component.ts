@@ -18,6 +18,7 @@ import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CovenantService } from './covenant.service';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
   selector: 'app-covenant',
@@ -86,7 +87,25 @@ export class CovenantComponent {
 
         this.endPoint = "Covenant";
 
-        this._CovenantService.setEndPoint(this.endPoint);
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._CovenantService.setCulture(mainLang);
+
+            // update endpoint
+            this._CovenantService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
             // basic fields

@@ -17,7 +17,8 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from 'src/app/demo/service/lockups.service';
+import { Globals } from 'src/app/class/globals';
+import { LocationService } from './location.service';
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
@@ -47,7 +48,7 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
 })
 export class LocationComponent {
     constructor(
-        private _LockupsService: LockupsService,
+        private _LocationService: LocationService,
         private messageService: MessageService
     ) {}
 
@@ -83,7 +84,25 @@ export class LocationComponent {
 
         this.endPoint = "Location"
 
-        this._LockupsService.setEndPoint(this.endPoint);
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._LocationService.setCulture(mainLang);
+
+            // update endpoint
+            this._LocationService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
             { field: 'name', header: 'Name' },
@@ -103,7 +122,7 @@ export class LocationComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        this._LocationService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -117,7 +136,7 @@ export class LocationComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._LocationService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -155,7 +174,7 @@ export class LocationComponent {
             discription: this.newDiscription
         };
 
-        this._LockupsService.Register(body).subscribe({
+        this._LocationService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -224,7 +243,7 @@ export class LocationComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._LocationService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -290,7 +309,7 @@ export class LocationComponent {
             discription: product.discription
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        this._LocationService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -369,7 +388,7 @@ export class LocationComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._LocationService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({

@@ -20,6 +20,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ShiftVacationService } from './shift-vacation.service';
 import { DayNamePipe } from './day-name.pipe';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
   selector: 'app-shift-vacation',
@@ -54,7 +55,6 @@ export class ShiftVacationComponent {
     constructor(
         private _ShiftVacationService : ShiftVacationService,
         private messageService: MessageService,
-        private DatePipe: DatePipe,
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -97,7 +97,25 @@ export class ShiftVacationComponent {
 
         this.endPoint = "ShiftVacation";
 
-        this._ShiftVacationService .setEndPoint(this.endPoint);
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._ShiftVacationService.setCulture(mainLang);
+
+            // update endpoint
+            this._ShiftVacationService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
             // custom fields
@@ -148,7 +166,7 @@ export class ShiftVacationComponent {
                 // get product.shiftId
                 this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
                 console.log("selectedShiftEdit : ", this.selectedShiftEdit)
-                
+
                 console.log(this.product.day)
                 console.log(this.product.day)
                 // get product.day
