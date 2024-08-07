@@ -21,6 +21,7 @@ import { DocumentRequiredComponent } from './components/standard/document-requir
 import { UniformCodesComponent } from './components/standard/uniform-codes/uniform-codes.component';
 import { VacationSettingComponent } from './components/custom/vacation-setting/vacation-setting.component';
 import { CovenantCategoryComponent } from './components/standard/covenant-category/covenant-category.component';
+import { CovenantComponent } from './components/custom/covenant/covenant.component';
 
 @NgModule({
     imports: [
@@ -44,6 +45,7 @@ import { CovenantCategoryComponent } from './components/standard/covenant-catego
             { path: 'uniformCodes', canActivate: [authGuard], component: UniformCodesComponent },
             { path: 'vacationSetting', canActivate: [authGuard], component: VacationSettingComponent },
             { path: 'CovenantCategory', canActivate: [authGuard], component: CovenantCategoryComponent },
+            { path: 'Covenant', canActivate: [authGuard], component: CovenantComponent },
             { path: '**', component: NotfoundComponent}
         ]),
     ],

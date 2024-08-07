@@ -125,6 +125,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/CovenantCategory'],
                     },
+                    {
+                        label: 'Covenant',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/Covenant'],
+                    },
                 ],
             },
 

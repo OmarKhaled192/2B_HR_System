@@ -18,9 +18,15 @@ export class AppTopBarComponent implements OnInit {
     selectedCountry: string | undefined;
 
     ngOnInit() {
-        this.translate.setDefaultLang('ar');
-        document.dir = 'rtl';
-        document.documentElement.lang = 'ar';
+        // for arabic
+        // this.translate.setDefaultLang('ar');
+        // document.dir = 'rtl';
+        // document.documentElement.lang = 'ar';
+
+        // for english
+        this.translate.setDefaultLang('en');
+        document.dir = 'ltr';
+        document.documentElement.lang = 'en';
 
         this.countries = [
             { name: 'العربية', code: 'EG', lang: 'ar' },

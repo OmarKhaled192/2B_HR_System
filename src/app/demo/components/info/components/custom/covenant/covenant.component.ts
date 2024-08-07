@@ -1,8 +1,9 @@
-import { PartitionService } from './partition.service';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { LockupsService } from 'src/app/demo/service/lockups.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
@@ -16,17 +17,12 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CovenantService } from './covenant.service';
 
 @Component({
-  selector: 'app-partition',
-  templateUrl: './partition.component.html',
-  styleUrl: './partition.component.scss',
-  providers: [MessageService],
-
+  selector: 'app-covenant',
+  templateUrl: './covenant.component.html',
+  styleUrl: './covenant.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -47,14 +43,13 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
-    AutoCompleteModule,
   ],
+  providers: [MessageService],
 })
-export class PartitionComponent {
+export class CovenantComponent {
     constructor(
-        private _LockupsService: LockupsService,
-        private messageService: MessageService,
-        private _PartitionService:PartitionService
+        private _CovenantService: CovenantService,
+        private messageService: MessageService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -80,49 +75,45 @@ export class PartitionComponent {
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
-    departmentDropDown: any[] = [];
-    selectedDepartment: string = "";
-    selectedDepartmentId: number = -1;
-    selectedEditsDepartment: any;
+    CovenantCategoryDropDown: any;
+    CovenantCategoryIdSelected: any;
+    selectedCovenantCategory: any;
+    selectedCovenantCategoryOnEdit: any;
+
+    selectedItemsData: any;
 
     ngOnInit() {
-        this.endPoint = "Partation"
-        this._LockupsService.setEndPoint(this.endPoint);
-        this._PartitionService.setEndPoint(this.endPoint);
+
+        this.endPoint = "Covenant";
+
+        this._CovenantService.setEndPoint(this.endPoint);
 
         this.cols = [
             // basic fields
             { field: 'name', header: 'Name' },
             { field: 'notes', header: 'Notes' },
 
+            // custom fields
+            { field: 'category', header: 'Category' },
+
             // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
+            { field: 'creationTime', header: 'CreationTime' },
+            { field: 'lastModificationTime', header: 'LastModificationTime' },
+            { field: 'creatorName', header: 'CreatorName' },
+            { field: 'lastModifierName', header: 'LastModifierName' },
         ];
 
-        // get all drop downs departments
-        this.getDropDownDepartment();
-
+        // get drop down of CovenantCategory
+        this.getDropDown("CovenantCategory");
     }
 
-    getDartmentNameById(id: number) {
-        console.log("id edited");
-        console.log(id);
-        let dept = this.departmentDropDown.find(dept => dept.id == id)
-        return dept;
-    }
-    
-    editProduct(rowData: any) {
-        console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
-            next: (res) => {
+
+    getDropDown(field: string) {
+        this._CovenantService.getDropDown(field).subscribe({
+            next: (res:any) => {
                 console.log(res.data);
-                this.product = { ...res.data };
-                this.productDialog = true;
-                this.selectedEditsDepartment = this.getDartmentNameById(this.product.departmentId)
-                console.log("dept name is ", this.selectedEditsDepartment)
+                this.CovenantCategoryDropDown = res.data;
+
             },
             error: (err) => {
                 console.log(err);
@@ -130,14 +121,21 @@ export class PartitionComponent {
         })
     }
 
-    changedSelected(event: any) {
-        this.selectedDepartmentId = this.selectedDepartment["id"];
+    changeCovenantCategory() {
+        this.CovenantCategoryIdSelected = this.selectedCovenantCategory.id
     }
 
-    getDropDownDepartment() {
-        this._PartitionService.getDropDown("Department").subscribe({
-            next: (res)=> {
-                this.departmentDropDown = res["data"];
+
+    editProduct(rowData: any) {
+        console.log(rowData.id)
+        this._CovenantService.GetById(rowData.id).subscribe({
+            next: (res) => {
+                console.log(res.data);
+                this.product = { ...res.data };
+                this.productDialog = true;
+                this.selectedCovenantCategoryOnEdit = this.CovenantCategoryDropDown.find((cat: any) =>
+                    this.product.covenantCategoryId == cat.id
+                );
             },
             error: (err) => {
                 console.log(err);
@@ -147,7 +145,7 @@ export class PartitionComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._CovenantService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -168,7 +166,6 @@ export class PartitionComponent {
                     this.sortField,
                     this.sortOrder
                 );
-
             },
             error: (err) => {
                 console.log(err);
@@ -181,10 +178,10 @@ export class PartitionComponent {
             name: this.newNameAr,
             notes: this.newNotes,
             engName: this.newNameEn,
-            departmentId: this.selectedDepartmentId
+            covenantCategoryId: this.CovenantCategoryIdSelected,
         };
 
-        this._LockupsService.Register(body).subscribe({
+        this._CovenantService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -227,7 +224,9 @@ export class PartitionComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null), (this.selectedDepartment = null)
+        (this.newNameAr = null), (this.newNameEn = null),
+        (this.newNotes = null)
+
     }
 
     loadData(
@@ -247,15 +246,15 @@ export class PartitionComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._CovenantService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
                 console.log(res.data);
-
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                console.log(this.selectedItems);
+
+                this.selectedItemsData = this.allData;
             },
             error: (err) => {
                 console.log(err);
@@ -280,7 +279,6 @@ export class PartitionComponent {
             this.sortField,
             this.sortOrder
         );
-
     }
 
     deleteSelectedProducts() {
@@ -290,7 +288,6 @@ export class PartitionComponent {
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
-
     }
 
     deleteProduct(product: any) {
@@ -308,10 +305,10 @@ export class PartitionComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
-            departmentId: this.selectedEditsDepartment.id
+            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        this._CovenantService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -343,14 +340,12 @@ export class PartitionComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
-            this.setFieldsNulls();
         }
     }
 
     exportCSV() {
-        console.log(this.selectedItems)
         // Convert data to CSV format
-        const csvData = this.convertToCSV(this.selectedItems);
+        const csvData = this.convertToCSV(this.selectedItemsData);
 
         // Adding UTF-8 BOM
         const bom = '\uFEFF';
@@ -361,8 +356,9 @@ export class PartitionComponent {
             type: 'text/csv;charset=utf-8;',
         });
         const link = document.createElement('a');
+        link.id = `${this.endPoint}_${new Date().getTime()}`;
         link.href = URL.createObjectURL(blob);
-        link.download = 'data_export_' + new Date().getTime() + '.csv';
+        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
         link.click();
     }
 
@@ -372,9 +368,11 @@ export class PartitionComponent {
         const separator = ',';
         let keys = [];
 
+
         this.cols.forEach((row) => {
             keys.push(row.field);
         });
+
         console.log(keys);
 
         const csvContent = data.map((row) =>
@@ -393,7 +391,7 @@ export class PartitionComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._CovenantService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -438,6 +436,7 @@ export class PartitionComponent {
             this.sortOrder = 'asc';
         }
     }
+
 
     sortByName(event: any) {
         this.sortField = 'name';
