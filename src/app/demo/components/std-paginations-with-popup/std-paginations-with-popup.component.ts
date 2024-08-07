@@ -20,31 +20,31 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { LockupsService } from '../../service/lockups.service';
 
 @Component({
-  selector: 'app-std-paginations-with-popup',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-  ],
-  providers: [MessageService],
-  templateUrl: './std-paginations-with-popup.component.html',
-  styleUrl: './std-paginations-with-popup.component.scss'
+    selector: 'app-std-paginations-with-popup',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+    ],
+    providers: [MessageService],
+    templateUrl: './std-paginations-with-popup.component.html',
+    styleUrl: './std-paginations-with-popup.component.scss',
 })
 export class StdPaginationsWithPopupComponent {
     constructor(
@@ -92,7 +92,7 @@ export class StdPaginationsWithPopupComponent {
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id)
+        console.log(rowData.id);
         this._LockupsService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
@@ -101,8 +101,8 @@ export class StdPaginationsWithPopupComponent {
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     confirmDelete(id: number) {
@@ -139,7 +139,7 @@ export class StdPaginationsWithPopupComponent {
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn
+            engName: this.newNameEn,
         };
 
         this._LockupsService.Register(body).subscribe({
@@ -185,7 +185,9 @@ export class StdPaginationsWithPopupComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null);
     }
 
     loadData(
@@ -355,6 +357,7 @@ export class StdPaginationsWithPopupComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -393,5 +396,4 @@ export class StdPaginationsWithPopupComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
 }
