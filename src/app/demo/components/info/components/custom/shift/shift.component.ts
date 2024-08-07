@@ -127,7 +127,8 @@ export class ShiftComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        this._ShiftService.GetById(rowData.id).subscribe({
+
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -174,7 +175,6 @@ export class ShiftComponent {
     }
 
     addNew() {
-
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
         let startAttendeesTime = this.startAttendeesTime.toLocaleTimeString(
