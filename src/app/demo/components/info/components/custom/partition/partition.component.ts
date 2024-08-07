@@ -86,25 +86,27 @@ export class PartitionComponent {
 
     ngOnInit() {
 
-    // adding this Configurations in each Component Customized
-    Globals.getMainLangChanges().subscribe((mainLang) => {
-        console.log('Main language changed to:', mainLang);
+        this.endPoint = "Partation"
 
-        // update mainLang at Service
-        this._PartitionService.setCulture(mainLang);
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
 
-        // update endpoint
-        this._PartitionService.setEndPoint(this.endPoint);
+            // update mainLang at Service
+            this._PartitionService.setCulture(mainLang);
 
-        // then, load data again to lens on the changes of mainLang & endPoints Call
-        this.loadData(
-            this.page,
-            this.itemsPerPage,
-            this.nameFilter,
-            this.sortField,
-            this.sortOrder
-        );
-    });
+            // update endpoint
+            this._PartitionService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            });
 
         this.cols = [
             // basic fields

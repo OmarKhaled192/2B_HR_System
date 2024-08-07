@@ -121,7 +121,7 @@ export class LocationComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        this._LocationService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
