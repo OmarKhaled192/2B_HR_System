@@ -20,31 +20,31 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
 import { LocationService } from './location.service';
 @Component({
-  selector: 'app-location',
-  templateUrl: './location.component.html',
-  styleUrl: './location.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-  ],
-  providers: [MessageService],
+    selector: 'app-location',
+    templateUrl: './location.component.html',
+    styleUrl: './location.component.scss',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+    ],
+    providers: [MessageService],
 })
 export class LocationComponent {
     constructor(
@@ -81,8 +81,7 @@ export class LocationComponent {
     newDiscription: string;
 
     ngOnInit() {
-
-        this.endPoint = "Location"
+        this.endPoint = 'Location';
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
@@ -122,7 +121,7 @@ export class LocationComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id)
-        this._LocationService.GetById(rowData.id).subscribe({
+        this._LockupsService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -130,8 +129,8 @@ export class LocationComponent {
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     confirmDelete(id: number) {
@@ -171,7 +170,7 @@ export class LocationComponent {
             engName: this.newNameEn,
             latitude: this.newLatitude,
             longitude: this.newLongitude,
-            discription: this.newDiscription
+            discription: this.newDiscription,
         };
 
         this._LocationService.Register(body).subscribe({
@@ -218,12 +217,11 @@ export class LocationComponent {
 
     setFieldsNulls() {
         (this.newNameAr = null),
-        (this.newNameEn = null),
-        (this.newNotes = null),
-
-        (this.newDiscription = null),
-        (this.newLatitude = null),
-        (this.newLongitude = null)
+            (this.newNameEn = null),
+            (this.newNotes = null),
+            (this.newDiscription = null),
+            (this.newLatitude = null),
+            (this.newLongitude = null);
     }
 
     loadData(
@@ -306,7 +304,7 @@ export class LocationComponent {
             notes: product.notes,
             latitude: product.latitude,
             longitude: product.longitude,
-            discription: product.discription
+            discription: product.discription,
         };
 
         this._LocationService.Edit(body).subscribe({
@@ -397,6 +395,8 @@ export class LocationComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -435,5 +435,4 @@ export class LocationComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
 }

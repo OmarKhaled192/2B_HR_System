@@ -22,32 +22,32 @@ import { PublicVacationService } from './public-vacation.service';
 import { Globals } from 'src/app/class/globals';
 
 @Component({
-  selector: 'app-public-vacation',
+    selector: 'app-public-vacation',
     standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-    CalendarModule
-  ],
-  providers: [MessageService, DatePipe],
-  templateUrl: './public-vacation.component.html',
-  styleUrl: './public-vacation.component.scss'
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+        CalendarModule,
+    ],
+    providers: [MessageService, DatePipe],
+    templateUrl: './public-vacation.component.html',
+    styleUrl: './public-vacation.component.scss',
 })
 export class PublicVacationComponent {
     constructor(
@@ -87,10 +87,8 @@ export class PublicVacationComponent {
     selectedShiftIdEdit: number;
     oldDate: any;
 
-
     ngOnInit() {
-
-      this.endPoint = "PublicVacation";
+        this.endPoint = 'PublicVacation';
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
@@ -118,7 +116,7 @@ export class PublicVacationComponent {
             { field: 'reason', header: 'Reason' },
             { field: 'shiftName', header: 'Shift' },
 
-              // Generic Fields
+            // Generic Fields
             { field: 'creationTime', header: 'creationTime' },
             { field: 'lastModificationTime', header: 'lastModificationTime' },
             { field: 'creatorName', header: 'creatorName' },
@@ -129,15 +127,15 @@ export class PublicVacationComponent {
     }
 
     gitAllShifts() {
-        this._PublicVacationService.getDropDown("shift").subscribe({
+        this._PublicVacationService.getDropDown('shift').subscribe({
             next: (res) => {
                 console.log(res['data']);
                 this.shiftDropDown = res['data'];
             },
             error: (error) => {
                 console.log(error);
-            }
-        })
+            },
+        });
     }
 
     editProduct(rowData: any) {
@@ -149,32 +147,38 @@ export class PublicVacationComponent {
                 this.productDialog = true;
 
                 // get product.shiftId
-                 this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
+                this.selectedShiftEdit = this.shiftDropDown.find(
+                    (shift: any) => this.product.shiftId == shift.id
+                );
 
                 // get product.date
-                this.oldDate = this.DatePipe.transform( this.product.date, "MM/dd/yyyy" );
-                this.product.date = this.DatePipe.transform( this.product.date, "MM/dd/yyyy" );
-
+                this.oldDate = this.DatePipe.transform(
+                    this.product.date,
+                    'MM/dd/yyyy'
+                );
+                this.product.date = this.DatePipe.transform(
+                    this.product.date,
+                    'MM/dd/yyyy'
+                );
 
                 // console.log("product date")
                 // console.log(this.product.date)
 
                 // console.log("old date")
                 // console.log(this.oldDate)
-
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     changedSelected() {
-        this.selectedShiftId = this.selectedShift["id"];
+        this.selectedShiftId = this.selectedShift['id'];
     }
 
     changedSelectedEdit() {
-        this.selectedShiftId = this.selectedShift["id"];
+        this.selectedShiftId = this.selectedShift['id'];
     }
 
     confirmDelete(id: number) {
@@ -218,7 +222,7 @@ export class PublicVacationComponent {
         let body = {
             date: this.date,
             reason: this.reason,
-            shiftId: this.selectedShiftId
+            shiftId: this.selectedShiftId,
         };
 
         this._PublicVacationService.Register(body).subscribe({
@@ -348,25 +352,30 @@ export class PublicVacationComponent {
         console.log(id);
         console.log(product);
 
-        this.oldDate = this.DatePipe.transform(this.product.date, 'yyyy-MM-ddTHH:mm:ss');
-        this.product.date = this.DatePipe.transform(this.product.date, 'yyyy-MM-ddTHH:mm:ss');
+        this.oldDate = this.DatePipe.transform(
+            this.product.date,
+            'yyyy-MM-ddTHH:mm:ss'
+        );
+        this.product.date = this.DatePipe.transform(
+            this.product.date,
+            'yyyy-MM-ddTHH:mm:ss'
+        );
 
-        console.log("oldDate");
+        console.log('oldDate');
         console.log(this.oldDate);
 
-
-        console.log("product data");
+        console.log('product data');
         console.log(product.data);
 
         let body = {
             id: product.id,
             date: product.date,
             reason: product.reason,
-            shiftId: product.shiftId
+            shiftId: product.shiftId,
         };
 
         console.clear();
-        console.log("body here ");
+        console.log('body here ');
 
         console.log(body);
 
@@ -395,7 +404,6 @@ export class PublicVacationComponent {
                 alert(err);
             },
         });
-
     }
 
     toggleNew() {
@@ -437,14 +445,15 @@ export class PublicVacationComponent {
         console.log(keys);
 
         const csvContent = data.map((row) =>
-            keys.map((key) => {
-                if(key == "shift") {
-                    console.log(row["shiftName"])
-                }
+            keys
+                .map((key) => {
+                    if (key == 'shift') {
+                        console.log(row['shiftName']);
+                    }
 
-                return  key == "Shift"? `"${row[key]}"`: `"${row[key]}"`
-
-            }).join(separator)
+                    return key == 'Shift' ? `"${row[key]}"` : `"${row[key]}"`;
+                })
+                .join(separator)
         );
 
         csvContent.unshift(keys.join(separator)); // Add header row
@@ -468,6 +477,8 @@ export class PublicVacationComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -506,5 +517,5 @@ export class PublicVacationComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
-  }
+    }
 }

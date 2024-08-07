@@ -22,35 +22,34 @@ import { ShiftService } from './shift.service';
 import { Globals } from 'src/app/class/globals';
 
 @Component({
-  selector: 'app-shift',
-  templateUrl: './shift.component.html',
-  styleUrl: './shift.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-    CalendarModule
-  ],
-  providers: [MessageService],
+    selector: 'app-shift',
+    templateUrl: './shift.component.html',
+    styleUrl: './shift.component.scss',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+        CalendarModule,
+    ],
+    providers: [MessageService],
 })
 export class ShiftComponent {
-
     constructor(
         private _ShiftService: ShiftService,
         private messageService: MessageService
@@ -83,9 +82,8 @@ export class ShiftComponent {
     startAttendeesTime: Date;
     endAttendeesTime: Date;
 
-
     ngOnInit() {
-        this.endPoint = "Shift";
+        this.endPoint = 'Shift';
 
          // adding this Configurations in each Component Customized
          Globals.getMainLangChanges().subscribe((mainLang) => {
@@ -116,7 +114,6 @@ export class ShiftComponent {
             { field: 'endAttendeesTime', header: 'EndAttendeesTime' },
             { field: 'numberOfHours', header: 'NumberOfHours' },
 
-
             // main field
             { field: 'notes', header: 'Notes' },
 
@@ -130,7 +127,7 @@ export class ShiftComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id)
-        this._ShiftService.GetById(rowData.id).subscribe({
+        this._LockupsService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -138,17 +135,13 @@ export class ShiftComponent {
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
-    startAttendeesTimeClick(event: any) {
+    startAttendeesTimeClick(event: any) {}
 
-    }
-
-    endAttendeesTimeClick(event: any) {
-
-    }
+    endAttendeesTimeClick(event: any) {}
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -184,8 +177,14 @@ export class ShiftComponent {
 
         // first convert from date full format to time only
         // why? because prime ng calender component returned the value as a full Date Format
-        let startAttendeesTime = this.startAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
-        let endAttendeesTime = this.endAttendeesTime.toLocaleTimeString('en-US', { hour12: false });
+        let startAttendeesTime = this.startAttendeesTime.toLocaleTimeString(
+            'en-US',
+            { hour12: false }
+        );
+        let endAttendeesTime = this.endAttendeesTime.toLocaleTimeString(
+            'en-US',
+            { hour12: false }
+        );
 
         // set body of request
         let body = {
@@ -194,7 +193,7 @@ export class ShiftComponent {
             engName: this.newNameEn,
             startAttendeesTime: startAttendeesTime,
             endAttendeesTime: endAttendeesTime,
-            numberOfHours: this.numberOfHours
+            numberOfHours: this.numberOfHours,
         };
 
         console.log(body);
@@ -247,8 +246,12 @@ export class ShiftComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
-        (this.numberOfHours = null), (this.startAttendeesTime = null), (this.endAttendeesTime = null)
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null);
+        (this.numberOfHours = null),
+            (this.startAttendeesTime = null),
+            (this.endAttendeesTime = null);
     }
 
     loadData(
@@ -337,7 +340,7 @@ export class ShiftComponent {
             notes: product.notes,
             startAttendeesTime: product.startAttendeesTime,
             endAttendeesTime: product.endAttendeesTime,
-            numberOfHours: product.numberOfHours
+            numberOfHours: product.numberOfHours,
         };
 
         this._ShiftService.Edit(body).subscribe({
@@ -429,6 +432,8 @@ export class ShiftComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
