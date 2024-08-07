@@ -21,6 +21,8 @@ import { LockupsService } from '../../service/lockups.service';
 
 @Component({
   selector: 'app-std-paginations-with-popup',
+  templateUrl: './std-paginations-with-popup.component.html',
+  styleUrl: './std-paginations-with-popup.component.scss',
   standalone: true,
   imports: [
     CommonModule,
@@ -43,8 +45,6 @@ import { LockupsService } from '../../service/lockups.service';
     ReactiveFormsModule,
   ],
   providers: [MessageService],
-  templateUrl: './std-paginations-with-popup.component.html',
-  styleUrl: './std-paginations-with-popup.component.scss'
 })
 export class StdPaginationsWithPopupComponent {
     constructor(

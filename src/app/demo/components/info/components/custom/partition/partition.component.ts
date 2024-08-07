@@ -1,7 +1,6 @@
 import { PartitionService } from './partition.service';
 import { Component, Input, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { LockupsService } from 'src/app/demo/service/lockups.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -52,9 +51,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 })
 export class PartitionComponent {
     constructor(
-        private _LockupsService: LockupsService,
+        private _PartitionService: PartitionService,
         private messageService: MessageService,
-        private _PartitionService:PartitionService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -87,7 +85,6 @@ export class PartitionComponent {
 
     ngOnInit() {
         this.endPoint = "Partation"
-        this._LockupsService.setEndPoint(this.endPoint);
         this._PartitionService.setEndPoint(this.endPoint);
 
         this.cols = [
@@ -113,10 +110,10 @@ export class PartitionComponent {
         let dept = this.departmentDropDown.find(dept => dept.id == id)
         return dept;
     }
-    
+
     editProduct(rowData: any) {
         console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        this._PartitionService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -147,7 +144,7 @@ export class PartitionComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._PartitionService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -184,7 +181,7 @@ export class PartitionComponent {
             departmentId: this.selectedDepartmentId
         };
 
-        this._LockupsService.Register(body).subscribe({
+        this._PartitionService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -247,7 +244,7 @@ export class PartitionComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._PartitionService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -311,7 +308,7 @@ export class PartitionComponent {
             departmentId: this.selectedEditsDepartment.id
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        this._PartitionService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -393,7 +390,7 @@ export class PartitionComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._PartitionService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({

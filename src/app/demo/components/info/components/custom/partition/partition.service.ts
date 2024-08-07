@@ -1,21 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LockupsService } from 'src/app/demo/service/lockups.service';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PartitionService {
+export class PartitionService extends LockupsService {
 
-    baseurl: string;
-    endPoint: string;
-
-    constructor(private http: HttpClient) {
-        this.baseurl = environment.baseurl;
-    }
-
-    setEndPoint(val: string) {
-        this.endPoint = val;
+    constructor( http: HttpClient) {
+        super(http);
     }
 
     getDropDown(field: string) {

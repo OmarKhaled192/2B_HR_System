@@ -225,8 +225,8 @@ export class CovenantComponent {
 
     setFieldsNulls() {
         (this.newNameAr = null), (this.newNameEn = null),
-        (this.newNotes = null)
-
+        (this.newNotes = null), (this.CovenantCategoryIdSelected = null),
+        (this.selectedCovenantCategory = null)
     }
 
     loadData(
@@ -340,6 +340,7 @@ export class CovenantComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            this.setFieldsNulls()
         }
     }
 

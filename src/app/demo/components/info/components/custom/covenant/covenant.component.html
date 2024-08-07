@@ -203,14 +203,14 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    header="Item Details"
     [modal]="true"
-    class="p-fluid"
->
+    class="p-fluid">
+
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="name">Category</label>
-            <p-dropdown [options]="CovenantCategoryDropDown" id="CovenantCategory" (onChange)="changeCovenantCategoryOnEdit()" [(ngModel)]="selectedCovenantCategoryOnEdit" placeholder="Select a Covenant Category" [showClear]="true" optionLabel="name"></p-dropdown>
+            <label for="CovenantCategory">Category</label>
+            <p-dropdown autofocus [options]="CovenantCategoryDropDown" id="CovenantCategory" (onChange)="changeCovenantCategoryOnEdit()" [(ngModel)]="selectedCovenantCategoryOnEdit" placeholder="Select a Covenant Category" [showClear]="true" optionLabel="name"></p-dropdown>
             <small
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.covenantCategoryId"
