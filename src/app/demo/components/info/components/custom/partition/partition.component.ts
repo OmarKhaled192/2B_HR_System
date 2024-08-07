@@ -22,39 +22,39 @@ import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @Component({
-  selector: 'app-partition',
-  templateUrl: './partition.component.html',
-  styleUrl: './partition.component.scss',
-  providers: [MessageService],
+    selector: 'app-partition',
+    templateUrl: './partition.component.html',
+    styleUrl: './partition.component.scss',
+    providers: [MessageService],
 
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-    AutoCompleteModule,
-  ],
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+        AutoCompleteModule,
+    ],
 })
 export class PartitionComponent {
     constructor(
         private _LockupsService: LockupsService,
         private messageService: MessageService,
-        private _PartitionService:PartitionService
+        private _PartitionService: PartitionService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -81,11 +81,11 @@ export class PartitionComponent {
     newNameAr!: string;
     newNameEn!: string;
     departmentDropDown: any[] = [];
-    selectedDepartment: string = "";
+    selectedDepartment: string = '';
     selectedDepartmentId: number = -1;
     selectedEditsDepartment: any;
     ngOnInit() {
-        this.endPoint = "Partation"
+        this.endPoint = 'Partation';
         this._LockupsService.setEndPoint(this.endPoint);
         this._PartitionService.setEndPoint(this.endPoint);
 
@@ -102,45 +102,46 @@ export class PartitionComponent {
 
         // get all drop downs departments
         this.getDropDownDepartment();
-
     }
 
     getDartmentNameById(id: number) {
-        console.log("id edited");
+        console.log('id edited');
         console.log(id);
-        let dept = this.departmentDropDown.find(dept => dept.id == id)
+        let dept = this.departmentDropDown.find((dept) => dept.id == id);
         return dept;
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id)
+        console.log(rowData.id);
         this._LockupsService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
-                this.selectedEditsDepartment = this.getDartmentNameById(this.product.departmentId)
-                console.log("dept name is ", this.selectedEditsDepartment)
+                this.selectedEditsDepartment = this.getDartmentNameById(
+                    this.product.departmentId
+                );
+                console.log('dept name is ', this.selectedEditsDepartment);
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     changedSelected(event: any) {
-        this.selectedDepartmentId = this.selectedDepartment["id"];
+        this.selectedDepartmentId = this.selectedDepartment['id'];
     }
 
     getDropDownDepartment() {
-        this._PartitionService.getDropDown("Department").subscribe({
-            next: (res)=> {
-                this.departmentDropDown = res["data"];
+        this._PartitionService.getDropDown('Department').subscribe({
+            next: (res) => {
+                this.departmentDropDown = res['data'];
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     confirmDelete(id: number) {
@@ -166,7 +167,6 @@ export class PartitionComponent {
                     this.sortField,
                     this.sortOrder
                 );
-
             },
             error: (err) => {
                 console.log(err);
@@ -179,7 +179,7 @@ export class PartitionComponent {
             name: this.newNameAr,
             notes: this.newNotes,
             engName: this.newNameEn,
-            departmentId: this.selectedDepartmentId
+            departmentId: this.selectedDepartmentId,
         };
 
         this._LockupsService.Register(body).subscribe({
@@ -225,7 +225,10 @@ export class PartitionComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null), (this.selectedDepartment = null)
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null),
+            (this.selectedDepartment = null);
     }
 
     loadData(
@@ -278,7 +281,6 @@ export class PartitionComponent {
             this.sortField,
             this.sortOrder
         );
-
     }
 
     deleteSelectedProducts() {
@@ -288,7 +290,6 @@ export class PartitionComponent {
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
-
     }
 
     deleteProduct(product: any) {
@@ -306,7 +307,7 @@ export class PartitionComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
-            departmentId: this.selectedEditsDepartment.id
+            departmentId: this.selectedEditsDepartment.id,
         };
 
         this._LockupsService.Edit(body).subscribe({
@@ -346,7 +347,7 @@ export class PartitionComponent {
     }
 
     exportCSV() {
-        console.log(this.selectedItems)
+        console.log(this.selectedItems);
         // Convert data to CSV format
         const csvData = this.convertToCSV(this.selectedItems);
 
@@ -400,6 +401,8 @@ export class PartitionComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -440,5 +443,4 @@ export class PartitionComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
 }

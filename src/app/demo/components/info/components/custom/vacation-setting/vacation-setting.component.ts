@@ -1,43 +1,42 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AutoCompleteModule } from "primeng/autocomplete";
-import { CalendarModule } from "primeng/calendar";
-import { ChipsModule } from "primeng/chips";
-import { DropdownModule } from "primeng/dropdown";
-import { InputMaskModule } from "primeng/inputmask";
-import { InputNumberModule } from "primeng/inputnumber";
-import { CascadeSelectModule } from "primeng/cascadeselect";
-import { MultiSelectModule } from "primeng/multiselect";
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { InputTextModule } from "primeng/inputtext";
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CalendarModule } from 'primeng/calendar';
+import { ChipsModule } from 'primeng/chips';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CascadeSelectModule } from 'primeng/cascadeselect';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 import { VacationSettingService } from './vacation-setting.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
-
 @Component({
-  selector: 'app-vacation-setting',
-  templateUrl: './vacation-setting.component.html',
-  styleUrl: './vacation-setting.component.scss',
-  standalone: true,
-	providers: [MessageService],
-  imports: [
-    CommonModule,
-    FormsModule,
-		AutoCompleteModule,
-		CalendarModule,
-		ChipsModule,
-		DropdownModule,
-		InputMaskModule,
-		InputNumberModule,
-		CascadeSelectModule,
-		MultiSelectModule,
-		InputTextareaModule,
-		InputTextModule,
-		InputNumberModule,
-		ToastModule
-  ],
+    selector: 'app-vacation-setting',
+    templateUrl: './vacation-setting.component.html',
+    styleUrl: './vacation-setting.component.scss',
+    standalone: true,
+    providers: [MessageService],
+    imports: [
+        CommonModule,
+        FormsModule,
+        AutoCompleteModule,
+        CalendarModule,
+        ChipsModule,
+        DropdownModule,
+        InputMaskModule,
+        InputNumberModule,
+        CascadeSelectModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        InputTextModule,
+        InputNumberModule,
+        ToastModule,
+    ],
 })
 export class VacationSettingComponent {
 		// main fields
@@ -76,10 +75,10 @@ export class VacationSettingComponent {
                     detail: 'You Edit This Item',
                     life: 3000,
                 });
-				}
-			})
+            },
+        });
+    }
 
-		}
 
 	onSubmit() {
 
@@ -92,29 +91,29 @@ export class VacationSettingComponent {
             id: this.id
 		}
 
-		// perform edit
-		this._VacationSettingService.Register(body).subscribe({
-			next: (res)=> {
-				console.log(res);
+        // perform edit
+        this._VacationSettingService.Register(body).subscribe({
+            next: (res) => {
+                console.log(res);
 
-					// show success message
-					this.messageService.add({
-							severity: 'success',
-							summary: 'Successful',
-							detail: 'You Edit This Item',
-							life: 3000,
-          });
-				},
-				error: (err) => {
-					console.log(err);
-					// show an error msg here
-					this.messageService.add({
-							severity: 'error',
-							summary: 'server error',
-							detail: 'You Edit This Item',
-							life: 3000,
-          });
-			}
-		})
-	}
+                // show success message
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successful',
+                    detail: 'You Edit This Item',
+                    life: 3000,
+                });
+            },
+            error: (err) => {
+                console.log(err);
+                // show an error msg here
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'server error',
+                    detail: 'You Edit This Item',
+                    life: 3000,
+                });
+            },
+        });
+    }
 }
