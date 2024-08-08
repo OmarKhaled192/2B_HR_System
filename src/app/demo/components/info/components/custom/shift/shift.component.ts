@@ -2,6 +2,7 @@ import { CommonModule, Time } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -45,6 +46,7 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
         InputNumberModule,
         ReactiveFormsModule,
         CalendarModule,
+        TranslateModule,
     ],
     providers: [MessageService],
 })
