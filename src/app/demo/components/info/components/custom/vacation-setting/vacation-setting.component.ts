@@ -14,6 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { VacationSettingService } from './vacation-setting.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-vacation-setting',
@@ -36,6 +37,7 @@ import { ToastModule } from 'primeng/toast';
         InputTextModule,
         InputNumberModule,
         ToastModule,
+        TranslateModule,
     ],
 })
 export class VacationSettingComponent {
@@ -66,12 +68,12 @@ export class VacationSettingComponent {
                 this.casualVacationNumber = data.casualVacationNumber;
 
                 // show success message
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+                // this.messageService.add({
+                //     severity: 'success',
+                //     summary: 'Successful',
+                //     detail: 'You Edit This Item',
+                //     life: 3000,
+                // });
             },
             error: (err) => {
                 console.log(err);

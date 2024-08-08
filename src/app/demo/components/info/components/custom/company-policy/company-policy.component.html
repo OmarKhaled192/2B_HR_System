@@ -45,76 +45,44 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="name-en">Name English </label>
-            <input
-                pInputText
-                [(ngModel)]="newNameAr"
-                placeholder="Enter Name Here"
-                id="name-en"
-                type="text"
+            <label htmlFor="date">English Name</label>
+            <input pInputText [(ngModel)]="enName" />
+        </div>
+        <div class="field">
+            <label htmlFor="date">Arabic Name </label>
+            <input pInputText [(ngModel)]="arName" />
+        </div>
+        <div class="field">
+            <label htmlFor="date">Notes </label>
+            <input pInputText [(ngModel)]="notes" />
+        </div>
+
+        <div class="field">
+            <label htmlFor="date">Discreption </label>
+            <input pInputText [(ngModel)]="discreption" />
+        </div>
+
+        <div class="field">
+            <label htmlFor="date">Upload File </label>
+            <p-fileUpload
+                mode="basic"
+                chooseLabel="Choose"
+                chooseIcon="pi pi-upload"
+                name="demo[]"
+                url="https://www.primefaces.org/cdn/api/upload.php"
+                accept="application/pdf"
+                maxFileSize="1000000"
+                (onSelect)="onFileSelect($event)"
             />
+            <!-- <button (click)="uploadFile()">Upload</button> -->
         </div>
 
-        <div class="field">
-            <label htmlFor="name-ar">Name Arabic </label>
-            <input
-                pInputText
-                [(ngModel)]="newNameEn"
-                placeholder="Enter Name Here"
-                id="name-ar"
-                type="text"
-            />
-        </div>
-
-        <div class="field">
-            <label htmlFor="new-latitude">Latitude</label>
-            <input
-                pInputText
-                [(ngModel)]="newLatitude"
-                id="new-latitude"
-                placeholder="Enter Latitude Here"
-                type="text"
-            />
-        </div>
-
-        <div class="field">
-            <label htmlFor="new-longitude">Longitude</label>
-            <input
-                pInputText
-                [(ngModel)]="newLongitude"
-                id="new-longitude"
-                placeholder="Enter Longitude Here"
-                type="text"
-            />
-        </div>
-
-        <div class="field">
-            <label htmlFor="new-discription">discription</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="newDiscription"
-                id="new-discription"
-                placeholder="Enter discription Here"
-                type="text"
-            ></textarea>
-        </div>
-
-        <div class="field">
-            <label htmlFor="new-notes">Notes</label>
-            <textarea
-                pInputTextarea
-                [(ngModel)]="newNotes"
-                id="new-notes"
-                placeholder="Enter Notes Here"
-                type="text"
-            ></textarea>
-        </div>
-        <div class="field">
+        <div class="field insertNew">
             <button
                 class="w-25"
                 pButton
                 label="Insert New"
-                (click)="addNew()"
+                (click)="uploadFile()"
             ></button>
         </div>
     </ng-template>
@@ -164,18 +132,14 @@
                 {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
             </th>
-            <th pSortableColumn="name" (click)="sortByName($event)">
-                {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
-            </th>
 
-            <!-- custom columns -->
-            <th>{{ "Latitude" | translate }}</th>
-            <th>{{ "Longitude" | translate }}</th>
-            <th>{{ "Discription" | translate }}</th>
-
-            <!-- generic columns -->
-
+            <!-- custom fields -->
+            <th>{{ "Name" | translate }}</th>
             <th>{{ "Notes" | translate }}</th>
+            <th>{{ "Url" | translate }}</th>
+            <th>{{ "Discreption" | translate }}</th>
+
+            <!-- generic fields -->
             <th>{{ "creationTime" | translate }}</th>
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
@@ -189,35 +153,34 @@
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td><span class="p-column-title">Id</span> {{ rowData.id }}</td>
-
-            <td [ngClass]="{ 'null-color': !rowData.name }">
+            <td>
+                <span class="p-column-title">Id</span>
+                {{ rowData.id ? rowData.id : "" }}
+            </td>
+            <td>
                 <span class="p-column-title">Name</span>
                 {{ rowData.name ? rowData.name : "" }}
             </td>
-
-            <!-- custom fields -->
-            <td [ngClass]="{ 'null-color': !rowData.latitude }">
-                <span class="p-column-title">Latitude</span>
-                {{ rowData.latitude ? rowData.latitude : "" }}
-            </td>
-            <td [ngClass]="{ 'null-color': !rowData.longitude }">
-                <span class="p-column-title">Longitude</span>
-                {{ rowData.longitude ? rowData.longitude : "" }}
-            </td>
-            <td [ngClass]="{ 'null-color': !rowData.discription }">
-                <span class="p-column-title">Discription</span>
-                {{ rowData.discription ? rowData.discription : "" }}
-            </td>
-
-            <td [ngClass]="{ 'null-color': !rowData.notes }">
+            <td>
                 <span class="p-column-title">Notes</span>
                 {{ rowData.notes ? rowData.notes : "" }}
             </td>
 
+            <td>
+                <span class="p-column-title">Url</span>
+                {{ rowData.url ? rowData.url : "" }}
+            </td>
+            <td>
+                <span class="p-column-title">Discreption</span>
+                {{ rowData.discreption ? rowData.discreption : "" }}
+            </td>
+
+            <!-- custom fields -->
+
+            <!-- generic fields -->
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
                 <span class="p-column-title">creationTime</span>
-                {{ rowData.lastModificationTime | date : "dd/MM/YY - h:mm a" }}
+                {{ rowData.creationTime | date : "dd/MM/YYYY - hh:mm a" }}
             </td>
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
@@ -265,115 +228,57 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <!-- EN Name -->
         <div class="field">
-            <label for="name">Arabic Name</label>
+            <label for="shiftId">Select Shift</label>
+            <p-dropdown
+                [options]="shiftDropDown"
+                (onChange)="changedSelectedEdit()"
+                [(ngModel)]="selectedShiftEdit"
+                optionLabel="name"
+                placeholder="Select a Shift"
+                [showClear]="true"
+            ></p-dropdown>
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.shiftId"
+                >Shift is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="date">Enter Date</label>
+
+            <p-calendar
+                [timezone]="'UTC'"
+                [showIcon]="true"
+                [(ngModel)]="product.date"
+                inputId="icon"
+            ></p-calendar>
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.date"
+                >Date is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="reason">Enter Reason</label>
             <input
                 type="text"
                 pInputText
-                id="name"
-                [(ngModel)]="product.name"
+                id="reason"
+                [(ngModel)]="product.reason"
                 required
                 autofocus
                 [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.name
+                    'ng-invalid ng-dirty': submitted && !product.reason
                 }"
             />
             <small
                 class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.name"
-                >Arabic Name is required.</small
+                *ngIf="submitted && !product.reason"
+                >Date is required.</small
             >
-        </div>
-
-        <!-- AR Name -->
-        <div class="field">
-            <label for="engName">English Name</label>
-            <input
-                type="text"
-                pInputText
-                id="engName"
-                [(ngModel)]="product.engName"
-                required
-                autofocus
-                [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.engName
-                }"
-            />
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.engName"
-                >English Name is required.</small
-            >
-        </div>
-
-        <!-- Latitude -->
-        <div class="field">
-            <label for="latitude">Latitude</label>
-            <input
-                type="text"
-                pInputText
-                id="latitude"
-                [(ngModel)]="product.latitude"
-                required
-                autofocus
-                [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.latitude
-                }"
-            />
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.latitude"
-                >Latitude is required.</small
-            >
-        </div>
-
-        <!-- Longitude -->
-        <div class="field">
-            <label for="longitude">Longitude</label>
-            <input
-                type="text"
-                pInputText
-                id="longitude"
-                [(ngModel)]="product.longitude"
-                required
-                autofocus
-                [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.longitude
-                }"
-            />
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.longitude"
-                >Longitude is required.</small
-            >
-        </div>
-
-        <!-- Notes -->
-        <div class="field">
-            <label for="notes">Notes</label>
-            <textarea
-                id="notes"
-                pInputTextarea
-                [(ngModel)]="product.notes"
-                required
-                rows="3"
-                cols="20"
-            ></textarea>
-        </div>
-        x
-
-        <!-- Description -->
-        <div class="field">
-            <label for="discription">Discription</label>
-            <textarea
-                id="discription"
-                pInputTextarea
-                [(ngModel)]="product.discription"
-                required
-                rows="3"
-                cols="20"
-            ></textarea>
         </div>
     </ng-template>
 
