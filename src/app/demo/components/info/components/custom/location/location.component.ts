@@ -104,8 +104,10 @@ export class LocationComponent {
         });
 
         this.cols = [
+            // basic data 
             { field: 'name', header: 'Name' },
 
+            // custom fields
             { field: 'latitude', header: 'Lotes' },
             { field: 'longitude', header: 'Longitude' },
             { field: 'discription', header: 'Discription' },

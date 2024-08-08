@@ -155,8 +155,8 @@ export class PartitionComponent {
 
     getDropDownDepartment() {
         this._PartitionService.getDropDown('Department').subscribe({
-            next: (res) => {
-                this.departmentDropDown = res['data'];
+            next: (res:any) => {
+                this.departmentDropDown = res.data;
             },
             error: (err) => {
                 console.log(err);
@@ -228,7 +228,6 @@ export class PartitionComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-
                 console.log(err);
             },
         });
