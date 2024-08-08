@@ -17,6 +17,8 @@ export class AppTopBarComponent implements OnInit  {
     countries: any[] | undefined;
 
     selectedCountry: string | undefined;
+    lang: any;
+    langData: any;
 
     ngOnInit() {
 
@@ -24,6 +26,7 @@ export class AppTopBarComponent implements OnInit  {
             { name: 'العربية', code: 'EG', lang: 'ar' },
             { name: 'English', code: 'US', lang: 'en' },
         ];
+        
 
         // for arabic
         this.translate.setDefaultLang('ar');
@@ -36,6 +39,20 @@ export class AppTopBarComponent implements OnInit  {
         // document.dir = 'ltr';
         // document.documentElement.lang = 'en';
         // this.selectedCountry = this.countries[1];
+
+
+       this.theme = localStorage.getItem("theme").toString();
+
+
+        this.translate.use(this.lang).subscribe(() => {
+                document.dir = this.langData.DIR; // Default to 'ltr' if dir is undefined
+                document.documentElement.lang = this.langData.lang; // Default to lang if lang is undefined
+
+                // set lang at Globals
+                Globals.setMainLang(this.lang);
+        });
+
+
     }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({
@@ -55,15 +72,18 @@ export class AppTopBarComponent implements OnInit  {
     @ViewChild('topbarmenu') menu!: ElementRef;
 
     changeThemeFun() {
-        // entry 0 % 2 == 0 ==> true
         if (this.theme == 'saga-orange') {
+            localStorage.setItem("theme", "arya-orange");
             this.theme = 'arya-orange';
         } else {
             this.theme = 'saga-orange';
+            localStorage.setItem("theme", "saga-orange");
         }
     }
+
     changeLang(event: any) {
         const lang = event.value.lang;
+
         localStorage.setItem('currentLang', lang);
 
         this.translate.use(lang).subscribe(() => {
