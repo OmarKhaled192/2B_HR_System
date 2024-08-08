@@ -106,7 +106,7 @@ export class LocationComponent {
         });
 
         this.cols = [
-            // basic data 
+            // basic data
             { field: 'name', header: 'Name' },
 
             // custom fields
@@ -362,6 +362,15 @@ export class LocationComponent {
         link.href = URL.createObjectURL(blob);
         link.download = 'data_export_' + new Date().getTime() + '.csv';
         link.click();
+    }
+
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     }
 
     convertToCSV(data: any[]): string {

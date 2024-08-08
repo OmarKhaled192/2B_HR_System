@@ -19,6 +19,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CovenantService } from './covenant.service';
 import { Globals } from 'src/app/class/globals';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-covenant',
@@ -44,8 +45,9 @@ import { Globals } from 'src/app/class/globals';
     RadioButtonModule,
     InputNumberModule,
     ReactiveFormsModule,
+    TranslateModule
   ],
-  providers: [MessageService],
+  providers: [MessageService, TranslateService],
 })
 export class CovenantComponent {
     constructor(
@@ -138,6 +140,15 @@ export class CovenantComponent {
                 console.log(err);
             }
         })
+    }
+
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     }
 
     changeCovenantCategory() {

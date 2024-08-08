@@ -19,6 +19,8 @@ import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PublicVacationService } from './public-vacation.service';
+import { Globals } from 'src/app/class/globals';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-public-vacation',
@@ -136,6 +138,15 @@ export class PublicVacationComponent {
                 console.log(error);
             },
         });
+    }
+
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     }
 
     editProduct(rowData: any) {

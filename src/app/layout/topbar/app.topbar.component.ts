@@ -19,6 +19,7 @@ export class AppTopBarComponent implements OnInit  {
     selectedCountry: string | undefined;
     lang: any;
     langData: any;
+    themeSelected: any;
 
     ngOnInit() {
 
@@ -26,7 +27,7 @@ export class AppTopBarComponent implements OnInit  {
             { name: 'العربية', code: 'EG', lang: 'ar' },
             { name: 'English', code: 'US', lang: 'en' },
         ];
-        
+
 
         // for arabic
         this.translate.setDefaultLang('ar');
@@ -43,15 +44,18 @@ export class AppTopBarComponent implements OnInit  {
 
        this.theme = localStorage.getItem("theme").toString();
 
+       if(this.theme == "arya-orange") {
+            this.themeSelected = true;
+       } else {
+            this.themeSelected = false;
+       }
 
-        this.translate.use(this.lang).subscribe(() => {
-                document.dir = this.langData.DIR; // Default to 'ltr' if dir is undefined
-                document.documentElement.lang = this.langData.lang; // Default to lang if lang is undefined
+        //    this.lang =  localStorage.getItem("currentLang").toString();
 
-                // set lang at Globals
-                Globals.setMainLang(this.lang);
-        });
-
+        //     this.translate.use(this.lang).subscribe(() => {
+        //             document.dir = this.langData.DIR; // Default to 'ltr' if dir is undefined
+        //             document.documentElement.lang = this.langData.lang; // Default to lang if lang is undefined
+        //     });
 
     }
     set theme(val: string) {
@@ -75,10 +79,14 @@ export class AppTopBarComponent implements OnInit  {
         if (this.theme == 'saga-orange') {
             localStorage.setItem("theme", "arya-orange");
             this.theme = 'arya-orange';
+            this.themeSelected = false;
         } else {
             this.theme = 'saga-orange';
             localStorage.setItem("theme", "saga-orange");
+            this.themeSelected = true;
         }
+
+
     }
 
     changeLang(event: any) {
@@ -97,8 +105,5 @@ export class AppTopBarComponent implements OnInit  {
             // set lang at Globals
             Globals.setMainLang(lang);
         });
-
-
-
     }
 }

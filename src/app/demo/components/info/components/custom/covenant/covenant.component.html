@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                label="Add New"
+                [label]='"Add New".concat(" ", splitCamelCase(endPoint)) | translate'
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"></button>
