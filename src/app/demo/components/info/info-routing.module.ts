@@ -20,29 +20,103 @@ import { RecuritmentSourceComponent } from './components/standard/recuritment-so
 import { DocumentRequiredComponent } from './components/standard/document-required/document-required.component';
 import { UniformCodesComponent } from './components/standard/uniform-codes/uniform-codes.component';
 import { VacationSettingComponent } from './components/custom/vacation-setting/vacation-setting.component';
+import { CompanyPolicyComponent } from './components/custom/company-policy/company-policy.component';
 
 @NgModule({
     imports: [
         RouterModule.forChild([
-            { path: 'department', canActivate: [authGuard], component: DepartmentComponent },
-            { path: 'bank', canActivate: [authGuard], component: BankComponent },
-            { path: 'government', canActivate: [authGuard], component: GovenmentComponent },
-            { path: 'grade', canActivate: [authGuard], component: GradeComponent },
+            {
+                path: 'department',
+                canActivate: [authGuard],
+                component: DepartmentComponent,
+            },
+            {
+                path: 'bank',
+                canActivate: [authGuard],
+                component: BankComponent,
+            },
+            {
+                path: 'government',
+                canActivate: [authGuard],
+                component: GovenmentComponent,
+            },
+            {
+                path: 'grade',
+                canActivate: [authGuard],
+                component: GradeComponent,
+            },
             { path: 'job', canActivate: [authGuard], component: JobComponent },
-            { path: 'location', canActivate: [authGuard], component: LocationComponent },
-            { path: 'partition', canActivate: [authGuard], component: PartitionComponent },
-            { path: 'qualification', canActivate: [authGuard], component: QualificationComponent },
-            { path: 'shift', canActivate: [authGuard], component: ShiftComponent },
-            { path: 'publicVacation', canActivate: [authGuard], component: PublicVacationComponent },
-            { path: 'shiftVacation', canActivate: [authGuard], component: ShiftVacationComponent },
-            { path: 'relativeRelation', canActivate: [authGuard], component: RelativeRelationComponent },
-            { path: 'contractType', canActivate: [authGuard], component: ContractTypeComponent },
-            { path: 'jobNature', canActivate: [authGuard], component: JobNatureComponent },
-            { path: 'recuritmentSource', canActivate: [authGuard], component: RecuritmentSourceComponent },
-            { path: 'documentRequired', canActivate: [authGuard], component: DocumentRequiredComponent },
-            { path: 'uniformCodes', canActivate: [authGuard], component: UniformCodesComponent },
-            { path: 'vacationSetting', canActivate: [authGuard], component: VacationSettingComponent },
-            { path: '**', component: NotfoundComponent}
+            {
+                path: 'location',
+                canActivate: [authGuard],
+                component: LocationComponent,
+            },
+            {
+                path: 'partition',
+                canActivate: [authGuard],
+                component: PartitionComponent,
+            },
+            {
+                path: 'qualification',
+                canActivate: [authGuard],
+                component: QualificationComponent,
+            },
+            {
+                path: 'shift',
+                canActivate: [authGuard],
+                component: ShiftComponent,
+            },
+            {
+                path: 'publicVacation',
+                canActivate: [authGuard],
+                component: PublicVacationComponent,
+            },
+            {
+                path: 'shiftVacation',
+                canActivate: [authGuard],
+                component: ShiftVacationComponent,
+            },
+            {
+                path: 'relativeRelation',
+                canActivate: [authGuard],
+                component: RelativeRelationComponent,
+            },
+            {
+                path: 'contractType',
+                canActivate: [authGuard],
+                component: ContractTypeComponent,
+            },
+            {
+                path: 'jobNature',
+                canActivate: [authGuard],
+                component: JobNatureComponent,
+            },
+            {
+                path: 'recuritmentSource',
+                canActivate: [authGuard],
+                component: RecuritmentSourceComponent,
+            },
+            {
+                path: 'documentRequired',
+                canActivate: [authGuard],
+                component: DocumentRequiredComponent,
+            },
+            {
+                path: 'uniformCodes',
+                canActivate: [authGuard],
+                component: UniformCodesComponent,
+            },
+            {
+                path: 'vacationSetting',
+                canActivate: [authGuard],
+                component: VacationSettingComponent,
+            },
+            {
+                path: 'companyPolicy',
+                canActivate: [authGuard],
+                component: CompanyPolicyComponent,
+            },
+            { path: '**', component: NotfoundComponent },
         ]),
     ],
     exports: [RouterModule],

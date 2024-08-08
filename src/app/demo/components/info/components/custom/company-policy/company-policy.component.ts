@@ -1,13 +1,14 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -17,11 +18,11 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { LockupsService } from '../../service/lockups.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { CompanyPolicyService } from './company-policy.service';
 
 @Component({
-    selector: 'app-std-paginations-with-popup',
+    selector: 'app-company-policy',
     standalone: true,
     imports: [
         CommonModule,
@@ -42,16 +43,19 @@ import { TranslateModule } from '@ngx-translate/core';
         RadioButtonModule,
         InputNumberModule,
         ReactiveFormsModule,
+        CalendarModule,
         TranslateModule,
     ],
-    providers: [MessageService],
-    templateUrl: './std-paginations-with-popup.component.html',
-    styleUrl: './std-paginations-with-popup.component.scss',
+    providers: [MessageService, DatePipe],
+    templateUrl: './company-policy.component.html',
+    styleUrl: './company-policy.component.scss',
 })
-export class StdPaginationsWithPopupComponent {
+export class CompanyPolicyComponent {
     constructor(
-        private _LockupsService: LockupsService,
-        private messageService: MessageService
+        private companyPolicyService: CompanyPolicyService,
+        private messageService: MessageService,
+        private DatePipe: DatePipe,
+        private http: HttpClient
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -70,20 +74,36 @@ export class StdPaginationsWithPopupComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    newName!: string;
-    newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-    newNameAr!: string;
-    newNameEn!: string;
+
+    // custom variables
+    enName: string;
+    arName: string;
+    notes: string;
+    url: string;
+    discreption: string;
+    selectedShift: string;
+    selectedShiftId: number;
+    file: File;
+    fileBase64: string = '';
+
+    selectedShiftEdit: string;
+    selectedShiftIdEdit: number;
+    oldDate: any;
 
     ngOnInit() {
-        this._LockupsService.setEndPoint(this.endPoint);
+        this.endPoint = 'CompanyPolicy';
+
+        this.companyPolicyService.setEndPoint(this.endPoint);
 
         this.cols = [
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
+            // custom fields
+            { field: 'url', header: 'Url' },
+            { field: 'discreption', header: 'Discreption' },
+            { field: 'file', header: 'File' },
+            { field: 'deletFIle', header: 'deletFIle' },
 
             // Generic Fields
             { field: 'creationTime', header: 'creationTime' },
@@ -95,11 +115,32 @@ export class StdPaginationsWithPopupComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id);
-        this._LockupsService.GetById(rowData.id).subscribe({
+        this.companyPolicyService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
+
+                // get product.shiftId
+                // this.selectedShiftEdit = this.shiftDropDown.find(
+                //     (shift: any) => this.product.shiftId == shift.id
+                // );
+
+                // get product.date
+                this.oldDate = this.DatePipe.transform(
+                    this.product.date,
+                    'MM/dd/yyyy'
+                );
+                this.product.date = this.DatePipe.transform(
+                    this.product.date,
+                    'MM/dd/yyyy'
+                );
+
+                // console.log("product date")
+                // console.log(this.product.date)
+
+                // console.log("old date")
+                // console.log(this.oldDate)
             },
             error: (err) => {
                 console.log(err);
@@ -107,9 +148,17 @@ export class StdPaginationsWithPopupComponent {
         });
     }
 
+    changedSelected() {
+        this.selectedShiftId = this.selectedShift['id'];
+    }
+
+    changedSelectedEdit() {
+        this.selectedShiftId = this.selectedShift['id'];
+    }
+
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this.companyPolicyService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -133,18 +182,27 @@ export class StdPaginationsWithPopupComponent {
             },
             error: (err) => {
                 console.log(err);
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'error field',
+                    detail: 'Product Deleted',
+                    life: 3000,
+                });
             },
         });
     }
 
     addNew() {
         let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
+            engName: this.enName,
+            name: this.arName,
+            notes: this.notes,
+            discreption: this.discreption,
+            file: this.file,
         };
 
-        this._LockupsService.Register(body).subscribe({
+        this.companyPolicyService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -169,7 +227,14 @@ export class StdPaginationsWithPopupComponent {
                 );
             },
             error: (err) => {
-                this.showFormNew = false;
+                // this.showFormNew = false;
+
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'error field',
+                    detail: 'All Fields is required',
+                    life: 3000,
+                });
 
                 console.log(err);
             },
@@ -187,9 +252,10 @@ export class StdPaginationsWithPopupComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null),
-            (this.newNameEn = null),
-            (this.newNotes = null);
+        // this.date = null;
+        // this.reason = null;
+        // this.selectedShift = null;
+        // this.selectedShiftId = null;
     }
 
     loadData(
@@ -209,7 +275,7 @@ export class StdPaginationsWithPopupComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this.companyPolicyService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -217,6 +283,7 @@ export class StdPaginationsWithPopupComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
+                console.log(this.selectedItems);
             },
             error: (err) => {
                 console.log(err);
@@ -241,8 +308,6 @@ export class StdPaginationsWithPopupComponent {
             this.sortField,
             this.sortOrder
         );
-
-        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
@@ -264,14 +329,34 @@ export class StdPaginationsWithPopupComponent {
         console.log(id);
         console.log(product);
 
+        this.oldDate = this.DatePipe.transform(
+            this.product.date,
+            'yyyy-MM-ddTHH:mm:ss'
+        );
+        this.product.date = this.DatePipe.transform(
+            this.product.date,
+            'yyyy-MM-ddTHH:mm:ss'
+        );
+
+        console.log('oldDate');
+        console.log(this.oldDate);
+
+        console.log('product data');
+        console.log(product.data);
+
         let body = {
-            engName: product.engName,
-            name: product.name,
             id: product.id,
-            notes: product.notes,
+            date: product.date,
+            reason: product.reason,
+            shiftId: product.shiftId,
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        console.clear();
+        console.log('body here ');
+
+        console.log(body);
+
+        this.companyPolicyService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -303,6 +388,7 @@ export class StdPaginationsWithPopupComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
+            this.setFieldsNulls();
         }
     }
 
@@ -320,7 +406,7 @@ export class StdPaginationsWithPopupComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
+        link.download = `${this.endPoint}_` + new Date().getTime() + '.csv';
         link.click();
     }
 
@@ -336,12 +422,21 @@ export class StdPaginationsWithPopupComponent {
         console.log(keys);
 
         const csvContent = data.map((row) =>
-            keys.map((key) => `"${row[key]}"`).join(separator)
+            keys
+                .map((key) => {
+                    if (key == 'shift') {
+                        console.log(row['shiftName']);
+                    }
+
+                    return key == 'Shift' ? `"${row[key]}"` : `"${row[key]}"`;
+                })
+                .join(separator)
         );
 
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
     }
+
     confirmDeleteSelected() {
         let selectedIds = [];
         console.log('Selected Items :');
@@ -350,7 +445,7 @@ export class StdPaginationsWithPopupComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this.companyPolicyService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -360,6 +455,7 @@ export class StdPaginationsWithPopupComponent {
                     life: 3000,
                 });
                 this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -386,6 +482,7 @@ export class StdPaginationsWithPopupComponent {
             },
         });
     }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -397,5 +494,33 @@ export class StdPaginationsWithPopupComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
+    }
+    onFileSelect(event: any) {
+        this.file = event.files[0];
+        const file = event.files[0];
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            this.fileBase64 = reader.result as string;
+        };
+    }
+
+    uploadFile() {
+        const formData: FormData = new FormData();
+        formData.append('engName', this.enName);
+        formData.append('name', this.arName);
+        formData.append('notes', this.notes);
+        formData.append('discreption', this.discreption);
+        formData.append('file', this.file);
+
+        this.companyPolicyService.Register(formData).subscribe({
+            next: (response) => {
+                console.log(response);
+            },
+            error: (error) => {
+                console.log(error);
+            },
+        });
     }
 }

@@ -12,13 +12,12 @@ a.parent-item {
     box-shadow: none;
     border: none;
     outline: none;
+    font-weight: bold;
 }
-.layout-menu ul a
-{
+.layout-menu ul a {
     display: flex;
     gap: 5px;
 }
-.layout-menu ul a:focus
-{
+.layout-menu ul a:focus {
     box-shadow: none !important;
 }

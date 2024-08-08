@@ -3,13 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class LockupsService {
-
-
     baseurl: string;
     endPoint: string;
 
@@ -56,5 +53,7 @@ export class LockupsService {
             body
         );
     }
-
+    getDropdown(): Observable<any> {
+        return this.http.get(`${this.baseurl}/${this.endPoint}/getDropDown`);
+    }
 }

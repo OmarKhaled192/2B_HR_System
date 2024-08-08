@@ -20,6 +20,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ShiftVacationService } from './shift-vacation.service';
 import { DayNamePipe } from './day-name.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-shift-vacation',
@@ -45,6 +46,7 @@ import { DayNamePipe } from './day-name.pipe';
         ReactiveFormsModule,
         CalendarModule,
         DayNamePipe,
+        TranslateModule,
     ],
     providers: [MessageService, DatePipe, DayNamePipe],
     templateUrl: './shift-vacation.component.html',
