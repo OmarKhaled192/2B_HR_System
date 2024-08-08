@@ -182,3 +182,14 @@ html:lang(ar) .layout-sidebar {
     }
 }
 
+html:lang(ar) .p-button-icon-left {
+    margin-left: 0.5rem;
+}
+html:lang(ar) .mr-2 {
+    margin-left: 0.5rem !important;
+}
+.p-datatable .p-datatable-thead > tr > th,
+.p-datatable .p-datatable-tbody > tr > td {
+    text-align: center;
+}
+

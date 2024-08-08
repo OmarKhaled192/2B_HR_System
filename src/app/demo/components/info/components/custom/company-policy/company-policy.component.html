@@ -45,35 +45,44 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="shift">shift</label>
-            <p-dropdown
-                [options]="shiftDropDown"
-                (onChange)="onChangeShift()"
-                [(ngModel)]="selectedShift"
-                optionLabel="name"
-                placeholder="Select a Shift"
-                [showClear]="true"
-            ></p-dropdown>
+            <label htmlFor="date">English Name</label>
+            <input pInputText [(ngModel)]="enName" />
+        </div>
+        <div class="field">
+            <label htmlFor="date">Arabic Name </label>
+            <input pInputText [(ngModel)]="arName" />
+        </div>
+        <div class="field">
+            <label htmlFor="date">Notes </label>
+            <input pInputText [(ngModel)]="notes" />
         </div>
 
         <div class="field">
-            <label htmlFor="day">Day</label>
-            <p-dropdown
-                [options]="AllDays"
-                [(ngModel)]="selectedDay"
-                (onChange)="onChangeDay()"
-                optionLabel="name"
-                placeholder="Select a Day"
-                [showClear]="true"
-            ></p-dropdown>
+            <label htmlFor="date">Discreption </label>
+            <input pInputText [(ngModel)]="discreption" />
         </div>
 
         <div class="field">
+            <label htmlFor="date">Upload File </label>
+            <p-fileUpload
+                mode="basic"
+                chooseLabel="Choose"
+                chooseIcon="pi pi-upload"
+                name="demo[]"
+                url="https://www.primefaces.org/cdn/api/upload.php"
+                accept="application/pdf"
+                maxFileSize="1000000"
+                (onSelect)="onFileSelect($event)"
+            />
+            <!-- <button (click)="uploadFile()">Upload</button> -->
+        </div>
+
+        <div class="field insertNew">
             <button
                 class="w-25"
                 pButton
                 label="Insert New"
-                (click)="addNew()"
+                (click)="uploadFile()"
             ></button>
         </div>
     </ng-template>
@@ -125,8 +134,10 @@
             </th>
 
             <!-- custom fields -->
-            <th>{{ "Day" | translate }}</th>
-            <th>{{ "Shift" | translate }}</th>
+            <th>{{ "Name" | translate }}</th>
+            <th>{{ "Notes" | translate }}</th>
+            <th>{{ "Url" | translate }}</th>
+            <th>{{ "Discreption" | translate }}</th>
 
             <!-- generic fields -->
             <th>{{ "creationTime" | translate }}</th>
@@ -146,17 +157,25 @@
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
             </td>
+            <td>
+                <span class="p-column-title">Name</span>
+                {{ rowData.name ? rowData.name : "" }}
+            </td>
+            <td>
+                <span class="p-column-title">Notes</span>
+                {{ rowData.notes ? rowData.notes : "" }}
+            </td>
+
+            <td>
+                <span class="p-column-title">Url</span>
+                {{ rowData.url ? rowData.url : "" }}
+            </td>
+            <td>
+                <span class="p-column-title">Discreption</span>
+                {{ rowData.discreption ? rowData.discreption : "" }}
+            </td>
 
             <!-- custom fields -->
-            <td [ngClass]="{ 'null-color': !rowData.dayName }">
-                <span class="p-column-title">dayName</span>
-                {{ rowData.dayName }}
-            </td>
-
-            <td [ngClass]="{ 'null-color': !rowData.shiftName }">
-                <span class="p-column-title">shiftName</span>
-                {{ rowData.shiftName ? rowData.shiftName : "" }}
-            </td>
 
             <!-- generic fields -->
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
@@ -213,6 +232,7 @@
             <label for="shiftId">Select Shift</label>
             <p-dropdown
                 [options]="shiftDropDown"
+                (onChange)="changedSelectedEdit()"
                 [(ngModel)]="selectedShiftEdit"
                 optionLabel="name"
                 placeholder="Select a Shift"
@@ -226,16 +246,38 @@
         </div>
 
         <div class="field">
-            <label for="day">Enter day</label>
-            <p-dropdown
-                [options]="AllDays"
-                [(ngModel)]="selectedDayEdit"
-                optionLabel="name"
-                placeholder="Select a Day"
-                [showClear]="true"
-            ></p-dropdown>
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.day"
-                >day is required.</small
+            <label for="date">Enter Date</label>
+
+            <p-calendar
+                [timezone]="'UTC'"
+                [showIcon]="true"
+                [(ngModel)]="product.date"
+                inputId="icon"
+            ></p-calendar>
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.date"
+                >Date is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="reason">Enter Reason</label>
+            <input
+                type="text"
+                pInputText
+                id="reason"
+                [(ngModel)]="product.reason"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.reason
+                }"
+            />
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.reason"
+                >Date is required.</small
             >
         </div>
     </ng-template>

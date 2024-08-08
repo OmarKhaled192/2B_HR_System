@@ -19,7 +19,6 @@ import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PublicVacationService } from './public-vacation.service';
-import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-public-vacation',
@@ -44,6 +43,7 @@ import { Globals } from 'src/app/class/globals';
         InputNumberModule,
         ReactiveFormsModule,
         CalendarModule,
+        TranslateModule,
     ],
     providers: [MessageService, DatePipe],
     templateUrl: './public-vacation.component.html',
@@ -127,7 +127,7 @@ export class PublicVacationComponent {
     }
 
     gitAllShifts() {
-        this._PublicVacationService.getDropDown('shift').subscribe({
+        this._PublicVacationService.getDropdown().subscribe({
             next: (res) => {
                 console.log(res['data']);
                 this.shiftDropDown = res['data'];

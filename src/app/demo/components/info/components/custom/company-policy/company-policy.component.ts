@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -18,12 +18,11 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { ShiftVacationService } from './shift-vacation.service';
-import { DayNamePipe } from './day-name.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import { CompanyPolicyService } from './company-policy.service';
 
 @Component({
-    selector: 'app-shift-vacation',
+    selector: 'app-company-policy',
     standalone: true,
     imports: [
         CommonModule,
@@ -45,18 +44,18 @@ import { TranslateModule } from '@ngx-translate/core';
         InputNumberModule,
         ReactiveFormsModule,
         CalendarModule,
-        DayNamePipe,
         TranslateModule,
     ],
-    providers: [MessageService, DatePipe, DayNamePipe],
-    templateUrl: './shift-vacation.component.html',
-    styleUrl: './shift-vacation.component.scss',
+    providers: [MessageService, DatePipe],
+    templateUrl: './company-policy.component.html',
+    styleUrl: './company-policy.component.scss',
 })
-export class ShiftVacationComponent {
+export class CompanyPolicyComponent {
     constructor(
-        private _ShiftVacationService: ShiftVacationService,
+        private companyPolicyService: CompanyPolicyService,
         private messageService: MessageService,
         private DatePipe: DatePipe,
+        private http: HttpClient
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -80,32 +79,31 @@ export class ShiftVacationComponent {
     sortOrder: string = 'asc';
 
     // custom variables
-    shiftDropDown: any;
-    // for new
+    enName: string;
+    arName: string;
+    notes: string;
+    url: string;
+    discreption: string;
     selectedShift: string;
     selectedShiftId: number;
-    selectedDay: number;
-    day: number;
+    file: File;
+    fileBase64: string = '';
 
-    // for edit
     selectedShiftEdit: string;
     selectedShiftIdEdit: number;
-    selectedDayEdit: number;
-    dayEdit: number;
     oldDate: any;
-    AllDays: any;
 
     ngOnInit() {
-        this.endPoint = 'ShiftVacation';
+        this.endPoint = 'CompanyPolicy';
 
-        this.endPoint = "ShiftVacation";
-
-        this._ShiftVacationService .setEndPoint(this.endPoint);
+        this.companyPolicyService.setEndPoint(this.endPoint);
 
         this.cols = [
             // custom fields
-            { field: 'dayName', header: 'Day' },
-            { field: 'shiftName', header: 'Shift' },
+            { field: 'url', header: 'Url' },
+            { field: 'discreption', header: 'Discreption' },
+            { field: 'file', header: 'File' },
+            { field: 'deletFIle', header: 'deletFIle' },
 
             // Generic Fields
             { field: 'creationTime', header: 'creationTime' },
@@ -113,53 +111,36 @@ export class ShiftVacationComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
-
-        this.AllDays = [
-            { id: 0, name: 'Sunday' },
-            { id: 1, name: 'Monday' },
-            { id: 2, name: 'Tuesday' },
-            { id: 3, name: 'Wednesday' },
-            { id: 4, name: 'Thursday' },
-            { id: 5, name: 'Friday' },
-            { id: 6, name: 'Saturday' },
-        ];
-
-        this.gitAllShifts();
-        
-    }
-
-    gitAllShifts() {
-        this._ShiftVacationService.getDropDown('shift').subscribe({
-            next: (res) => {
-                console.log(res['data']);
-                this.shiftDropDown = res['data'];
-            },
-            error: (error) => {
-                console.log(error);
-            },
-        });
     }
 
     editProduct(rowData: any) {
         console.log(rowData.id);
-        this._ShiftVacationService.GetById(rowData.id).subscribe({
+        this.companyPolicyService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
 
                 // get product.shiftId
-                this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
-                console.log("selectedShiftEdit : ", this.selectedShiftEdit)
+                // this.selectedShiftEdit = this.shiftDropDown.find(
+                //     (shift: any) => this.product.shiftId == shift.id
+                // );
 
-                console.log(this.product.day)
-                console.log(this.product.day)
-                // get product.day
-                this.selectedDayEdit = this.AllDays.find(
-                    (day: any) => day.id == this.product.day
+                // get product.date
+                this.oldDate = this.DatePipe.transform(
+                    this.product.date,
+                    'MM/dd/yyyy'
+                );
+                this.product.date = this.DatePipe.transform(
+                    this.product.date,
+                    'MM/dd/yyyy'
                 );
 
-                console.log('selectedDayEdit : ', this.selectedDayEdit);
+                // console.log("product date")
+                // console.log(this.product.date)
+
+                // console.log("old date")
+                // console.log(this.oldDate)
             },
             error: (err) => {
                 console.log(err);
@@ -167,9 +148,17 @@ export class ShiftVacationComponent {
         });
     }
 
+    changedSelected() {
+        this.selectedShiftId = this.selectedShift['id'];
+    }
+
+    changedSelectedEdit() {
+        this.selectedShiftId = this.selectedShift['id'];
+    }
+
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._ShiftVacationService.DeleteSoftById(id).subscribe({
+        this.companyPolicyService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -204,22 +193,16 @@ export class ShiftVacationComponent {
         });
     }
 
-    // for new
-    onChangeDay() {
-        this.day = this.selectedDay['id'];
-    }
-
-    onChangeShift() {
-        this.selectedShiftId = this.selectedShift['id'];
-    }
-
     addNew() {
         let body = {
-            day: this.day,
-            shiftId: this.selectedShiftId,
+            engName: this.enName,
+            name: this.arName,
+            notes: this.notes,
+            discreption: this.discreption,
+            file: this.file,
         };
 
-        this._ShiftVacationService.Register(body).subscribe({
+        this.companyPolicyService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -269,8 +252,10 @@ export class ShiftVacationComponent {
     }
 
     setFieldsNulls() {
-        this.selectedShift = null;
-        this.selectedShiftId = null;
+        // this.date = null;
+        // this.reason = null;
+        // this.selectedShift = null;
+        // this.selectedShiftId = null;
     }
 
     loadData(
@@ -290,7 +275,7 @@ export class ShiftVacationComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._ShiftVacationService.GetPage(filteredData).subscribe({
+        this.companyPolicyService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -323,8 +308,6 @@ export class ShiftVacationComponent {
             this.sortField,
             this.sortOrder
         );
-
-        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
@@ -343,24 +326,37 @@ export class ShiftVacationComponent {
 
     saveProduct(id: number, product: any) {
         this.submitted = true;
-
         console.log(id);
         console.log(product);
 
-        console.log(this.selectedShiftEdit);
+        this.oldDate = this.DatePipe.transform(
+            this.product.date,
+            'yyyy-MM-ddTHH:mm:ss'
+        );
+        this.product.date = this.DatePipe.transform(
+            this.product.date,
+            'yyyy-MM-ddTHH:mm:ss'
+        );
+
+        console.log('oldDate');
+        console.log(this.oldDate);
+
+        console.log('product data');
+        console.log(product.data);
 
         let body = {
             id: product.id,
-            day: this.selectedDayEdit['id'],
-            shiftId: this.selectedShiftEdit['id'],
+            date: product.date,
+            reason: product.reason,
+            shiftId: product.shiftId,
         };
 
         console.clear();
-        console.log('body here for editing..........');
+        console.log('body here ');
 
         console.log(body);
 
-        this._ShiftVacationService.Edit(body).subscribe({
+        this.companyPolicyService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -449,7 +445,7 @@ export class ShiftVacationComponent {
             selectedIds.push(item.id);
         });
 
-        this._ShiftVacationService.DeleteRangeSoft(selectedIds).subscribe({
+        this.companyPolicyService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -498,5 +494,33 @@ export class ShiftVacationComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
+    }
+    onFileSelect(event: any) {
+        this.file = event.files[0];
+        const file = event.files[0];
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            this.fileBase64 = reader.result as string;
+        };
+    }
+
+    uploadFile() {
+        const formData: FormData = new FormData();
+        formData.append('engName', this.enName);
+        formData.append('name', this.arName);
+        formData.append('notes', this.notes);
+        formData.append('discreption', this.discreption);
+        formData.append('file', this.file);
+
+        this.companyPolicyService.Register(formData).subscribe({
+            next: (response) => {
+                console.log(response);
+            },
+            error: (error) => {
+                console.log(error);
+            },
+        });
     }
 }

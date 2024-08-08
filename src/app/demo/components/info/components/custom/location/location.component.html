@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                label="Add New"
+                [label]="'Add New' | translate"
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
@@ -15,7 +15,7 @@
             <button
                 pButton
                 pRipple
-                label="Delete"
+                [label]="'Delete' | translate"
                 icon="pi pi-trash"
                 class="p-button-danger mx-2 px-5"
                 (click)="deleteSelectedProducts()"
@@ -27,7 +27,7 @@
         <button
             pButton
             pRipple
-            label="Export"
+            [label]="'Export' | translate"
             icon="pi pi-upload"
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
@@ -44,8 +44,6 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-
-
         <div class="field">
             <label htmlFor="name-en">Name English </label>
             <input
@@ -163,25 +161,26 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th pSortableColumn="id" (click)="sortById($event)">
-                Id
+                {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
             </th>
             <th pSortableColumn="name" (click)="sortByName($event)">
-                Name <p-sortIcon field="name"></p-sortIcon>
+                {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
             </th>
 
             <!-- custom columns -->
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Discription</th>
+            <th>{{ "Latitude" | translate }}</th>
+            <th>{{ "Longitude" | translate }}</th>
+            <th>{{ "Discription" | translate }}</th>
 
             <!-- generic columns -->
-            <th>Notes</th>
-            <th>creationTime</th>
-            <th>lastModificationTime</th>
-            <th>creatorName</th>
-            <th>lastModifierName</th>
-            <th>Actions</th>
+
+            <th>{{ "Notes" | translate }}</th>
+            <th>{{ "creationTime" | translate }}</th>
+            <th>{{ "lastModificationTime" | translate }}</th>
+            <th>{{ "creatorName" | translate }}</th>
+            <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "Actions" | translate }}</th>
         </tr>
     </ng-template>
 
@@ -192,31 +191,49 @@
             </td>
             <td><span class="p-column-title">Id</span> {{ rowData.id }}</td>
 
-            <td [ngClass]="{'null-color':!rowData.name}"><span class="p-column-title">Name</span> {{ rowData.name? rowData.name: ''}}</td>
+            <td [ngClass]="{ 'null-color': !rowData.name }">
+                <span class="p-column-title">Name</span>
+                {{ rowData.name ? rowData.name : "" }}
+            </td>
 
             <!-- custom fields -->
-            <td [ngClass]="{'null-color':!rowData.latitude}"><span class="p-column-title">Latitude</span> {{ rowData.latitude? rowData.latitude: ''  }}</td>
-            <td [ngClass]="{'null-color':!rowData.longitude}"><span class="p-column-title">Longitude</span> {{ rowData.longitude? rowData.longitude: '' }}</td>
-            <td [ngClass]="{'null-color':!rowData.discription}"><span class="p-column-title">Discription</span> {{ rowData.discription? rowData.discription: '' }}</td>
-
-            <td [ngClass]="{'null-color':!rowData.notes}">
-                <span class="p-column-title">Notes</span> {{ rowData.notes? rowData.notes: '' }}
+            <td [ngClass]="{ 'null-color': !rowData.latitude }">
+                <span class="p-column-title">Latitude</span>
+                {{ rowData.latitude ? rowData.latitude : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.longitude }">
+                <span class="p-column-title">Longitude</span>
+                {{ rowData.longitude ? rowData.longitude : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.discription }">
+                <span class="p-column-title">Discription</span>
+                {{ rowData.discription ? rowData.discription : "" }}
             </td>
 
-            <td [ngClass]="{'null-color':!rowData.creationTime}">
-                <span class="p-column-title">creationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YY - h:mm a' }}
-            </td>
-            <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
-                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YYYY - h:mm a' }}
+            <td [ngClass]="{ 'null-color': !rowData.notes }">
+                <span class="p-column-title">Notes</span>
+                {{ rowData.notes ? rowData.notes : "" }}
             </td>
 
-            <td [ngClass]="{'null-color':!rowData.creatorName}">
-                <span class="p-column-title">creatorName</span> {{ rowData.creatorName? rowData.creatorName: ''  }}
+            <td [ngClass]="{ 'null-color': !rowData.creationTime }">
+                <span class="p-column-title">creationTime</span>
+                {{ rowData.lastModificationTime | date : "dd/MM/YY - h:mm a" }}
             </td>
-            <td [ngClass]="{'null-color':!rowData.lastModifierName}">
-                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName? rowData.lastModifierName: '' }}
+            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
+                <span class="p-column-title">lastModificationTime</span>
+                {{
+                    rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
+                }}
             </td>
 
+            <td [ngClass]="{ 'null-color': !rowData.creatorName }">
+                <span class="p-column-title">creatorName</span>
+                {{ rowData.creatorName ? rowData.creatorName : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
+                <span class="p-column-title">lastModifierName</span>
+                {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
+            </td>
 
             <td>
                 <div class="flex crud-operations">
@@ -252,20 +269,20 @@
         <div class="field">
             <label for="name">Arabic Name</label>
             <input
-            type="text"
-            pInputText
-            id="name"
-            [(ngModel)]="product.name"
-            required
-            autofocus
-            [ngClass]="{
-                'ng-invalid ng-dirty': submitted && !product.name
-            }"
+                type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="product.name"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.name
+                }"
             />
             <small
-            class="ng-dirty ng-invalid"
-            *ngIf="submitted && !product.name"
-            >Arabic Name is required.</small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.name"
+                >Arabic Name is required.</small
             >
         </div>
 
@@ -290,7 +307,6 @@
             >
         </div>
 
-
         <!-- Latitude -->
         <div class="field">
             <label for="latitude">Latitude</label>
@@ -312,9 +328,8 @@
             >
         </div>
 
-
-         <!-- Longitude -->
-         <div class="field">
+        <!-- Longitude -->
+        <div class="field">
             <label for="longitude">Longitude</label>
             <input
                 type="text"

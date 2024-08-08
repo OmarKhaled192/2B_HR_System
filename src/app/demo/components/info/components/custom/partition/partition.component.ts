@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { Globals } from 'src/app/class/globals';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-partition',
@@ -48,6 +49,7 @@ import { Globals } from 'src/app/class/globals';
         InputNumberModule,
         ReactiveFormsModule,
         AutoCompleteModule,
+        TranslateModule,
     ],
 })
 export class PartitionComponent {
