@@ -20,39 +20,41 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ShiftVacationService } from './shift-vacation.service';
 import { DayNamePipe } from './day-name.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-shift-vacation',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-    CalendarModule,
-    DayNamePipe
-  ],
-  providers: [MessageService, DatePipe, DayNamePipe],
-  templateUrl: './shift-vacation.component.html',
-  styleUrl: './shift-vacation.component.scss'
+    selector: 'app-shift-vacation',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+        CalendarModule,
+        DayNamePipe,
+        TranslateModule,
+    ],
+    providers: [MessageService, DatePipe, DayNamePipe],
+    templateUrl: './shift-vacation.component.html',
+    styleUrl: './shift-vacation.component.scss',
 })
 export class ShiftVacationComponent {
     constructor(
-        private _ShiftVacationService : ShiftVacationService,
+        private _ShiftVacationService: ShiftVacationService,
         private messageService: MessageService,
         private DatePipe: DatePipe,
     ) {}
@@ -94,6 +96,7 @@ export class ShiftVacationComponent {
     AllDays: any;
 
     ngOnInit() {
+        this.endPoint = 'ShiftVacation';
 
         this.endPoint = "ShiftVacation";
 
@@ -109,37 +112,37 @@ export class ShiftVacationComponent {
             { field: 'lastModificationTime', header: 'lastModificationTime' },
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
-
         ];
 
         this.AllDays = [
-            {id: 0, name: "Sunday"},
-            {id: 1, name: "Monday"},
-            {id: 2, name: "Tuesday"},
-            {id: 3, name: "Wednesday"},
-            {id: 4, name: "Thursday"},
-            {id: 5, name: "Friday"},
-            {id: 6, name: "Saturday"},
-        ]
+            { id: 0, name: 'Sunday' },
+            { id: 1, name: 'Monday' },
+            { id: 2, name: 'Tuesday' },
+            { id: 3, name: 'Wednesday' },
+            { id: 4, name: 'Thursday' },
+            { id: 5, name: 'Friday' },
+            { id: 6, name: 'Saturday' },
+        ];
 
         this.gitAllShifts();
+
     }
 
     gitAllShifts() {
-        this._ShiftVacationService.getDropDown("shift").subscribe({
+        this._ShiftVacationService.getDropDown('shift').subscribe({
             next: (res) => {
                 console.log(res['data']);
                 this.shiftDropDown = res['data'];
             },
             error: (error) => {
                 console.log(error);
-            }
-        })
+            },
+        });
     }
 
     editProduct(rowData: any) {
         console.log(rowData.id);
-        this._ShiftVacationService .GetById(rowData.id).subscribe({
+        this._ShiftVacationService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -148,24 +151,25 @@ export class ShiftVacationComponent {
                 // get product.shiftId
                 this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
                 console.log("selectedShiftEdit : ", this.selectedShiftEdit)
-                
+
                 console.log(this.product.day)
                 console.log(this.product.day)
                 // get product.day
-                this.selectedDayEdit = this.AllDays.find((day:any) => day.id == this.product.day);
+                this.selectedDayEdit = this.AllDays.find(
+                    (day: any) => day.id == this.product.day
+                );
 
-                console.log("selectedDayEdit : ", this.selectedDayEdit)
-
+                console.log('selectedDayEdit : ', this.selectedDayEdit);
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._ShiftVacationService .DeleteSoftById(id).subscribe({
+        this._ShiftVacationService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -202,21 +206,20 @@ export class ShiftVacationComponent {
 
     // for new
     onChangeDay() {
-        this.day = this.selectedDay["id"];
+        this.day = this.selectedDay['id'];
     }
 
     onChangeShift() {
-        this.selectedShiftId = this.selectedShift["id"];
+        this.selectedShiftId = this.selectedShift['id'];
     }
-
 
     addNew() {
         let body = {
             day: this.day,
-            shiftId: this.selectedShiftId
+            shiftId: this.selectedShiftId,
         };
 
-        this._ShiftVacationService .Register(body).subscribe({
+        this._ShiftVacationService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -287,7 +290,7 @@ export class ShiftVacationComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._ShiftVacationService .GetPage(filteredData).subscribe({
+        this._ShiftVacationService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -344,17 +347,16 @@ export class ShiftVacationComponent {
         console.log(id);
         console.log(product);
 
-        console.log(this.selectedShiftEdit)
+        console.log(this.selectedShiftEdit);
 
         let body = {
             id: product.id,
-            day: this.selectedDayEdit["id"],
-            shiftId: this.selectedShiftEdit["id"]
+            day: this.selectedDayEdit['id'],
+            shiftId: this.selectedShiftEdit['id'],
         };
 
-
         console.clear();
-        console.log("body here for editing..........");
+        console.log('body here for editing..........');
 
         console.log(body);
 
@@ -383,7 +385,6 @@ export class ShiftVacationComponent {
                 alert(err);
             },
         });
-
     }
 
     toggleNew() {
@@ -425,18 +426,29 @@ export class ShiftVacationComponent {
         console.log(keys);
 
         const csvContent = data.map((row) =>
-            keys.map((key) => {
-                if(key == "shift") {
-                    console.log(row["shiftName"])
-                }
+            keys
+                .map((key) => {
+                    if (key == 'shift') {
+                        console.log(row['shiftName']);
+                    }
 
-                return  key == "Shift"? `"${row[key]}"`: `"${row[key]}"`
-
-            }).join(separator)
+                    return key == 'Shift' ? `"${row[key]}"` : `"${row[key]}"`;
+                })
+                .join(separator)
         );
 
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
+    }
+
+
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     }
 
     confirmDeleteSelected() {
@@ -447,7 +459,7 @@ export class ShiftVacationComponent {
             selectedIds.push(item.id);
         });
 
-        this._ShiftVacationService .DeleteRangeSoft(selectedIds).subscribe({
+        this._ShiftVacationService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -456,6 +468,8 @@ export class ShiftVacationComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -494,5 +508,5 @@ export class ShiftVacationComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
-  }
+    }
 }

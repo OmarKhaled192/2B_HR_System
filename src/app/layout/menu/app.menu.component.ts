@@ -1,185 +1,204 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from '../service/app.layout.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html',
+    styleUrls: ['./app.menu.component.scss'],
 })
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
 
-    constructor(public layoutService: LayoutService) {}
-
+    constructor(
+        public layoutService: LayoutService,
+        private translate: TranslateService
+    ) {}
     ngOnInit() {
         this.model = [
             {
-                label: 'Home',
+                label: this.translate.instant('HOME'),
                 items: [
                     {
-                        label: 'Dashboard',
+                        label: this.translate.instant('DASHBOARD'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/dashboard'],
                     },
                 ],
             },
-
             {
-                label: 'Info',
+                label: this.translate.instant('INFO'),
                 items: [
                     {
-                        label: 'Department',
+                        label: this.translate.instant('DEPARTMENT'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/department'],
                     },
                     {
-                        label: 'Bank',
+                        label: this.translate.instant('BANK'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/bank'],
                     },
                     {
-                        label: 'Government',
+                        label: this.translate.instant('GOVERNMENT'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/government'],
                     },
                     {
-                        label: 'Grade',
+                        label: this.translate.instant('GRADE'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/grade'],
                     },
                     {
-                        label: 'Job',
+                        label: this.translate.instant('JOB'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/job'],
                     },
                     {
-                        label: 'Location',
+                        label: this.translate.instant('LOCATION'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/location'],
                     },
                     {
-                        label: 'Partition',
+                        label: this.translate.instant('PARTITION'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/partition'],
                     },
                     {
-                        label: 'Qualification',
+                        label: this.translate.instant('QUALIFICATION'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/qualification'],
                     },
                     {
-                        label: 'Shift',
+                        label: this.translate.instant('SHIFT'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/shift'],
                     },
                     {
-                        label: 'Public Vacation',
+                        label: this.translate.instant('Public Vacation'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/publicVacation'],
                     },
                     {
-                        label: 'Shift Vacation',
+                        label: this.translate.instant('Shift Vacation'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/shiftVacation'],
                     },
                     {
-                        label: 'Relative Relation',
+                        label: this.translate.instant('Relative Relation'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/relativeRelation'],
                     },
                     {
-                        label: 'Contract Type',
+                        label: this.translate.instant('Contract Type'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/contractType'],
                     },
                     {
-                        label: 'Job Nature',
+                        label: this.translate.instant('Job Nature'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/jobNature'],
                     },
                     {
-                        label: 'Recuritment Source',
+                        label: this.translate.instant('Recruitment Source'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/recuritmentSource'],
                     },
                     {
-                        label: 'Document Required',
+                        label: this.translate.instant('Document Required'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/documentRequired'],
                     },
                     {
-                        label: 'Uniform Codes',
+                        label: this.translate.instant('Uniform Codes'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/uniformCodes'],
                     },
                     {
-                        label: 'Vacation Setting',
+                        label: this.translate.instant('Vacation Settings'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/vacationSetting'],
                     },
-                ],
+                    {
+                        label: this.translate.instant('CONVENATCATEGORY'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/CovenantCategory'],
+                    },
+                    {
+                        label: this.translate.instant('CONVENAT'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/Covenant'],
 
+                    },
+                    {
+                        label: this.translate.instant('Company Policy'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/companyPolicy'],
+                    },
+                ],
             },
+
             {
                 label: 'UI Components',
                 items: [
                     {
-                        label: 'Form Layout',
+                        label: this.translate.instant('FORM_LAYOUT'),
                         icon: 'pi pi-fw pi-id-card',
                         routerLink: ['/uikit/formlayout'],
                     },
                     {
-                        label: 'Input',
+                        label: this.translate.instant('INPUT'),
                         icon: 'pi pi-fw pi-check-square',
                         routerLink: ['/uikit/input'],
                     },
                     {
-                        label: 'Float Label',
+                        label: this.translate.instant('FLOAT_LABEL'),
                         icon: 'pi pi-fw pi-bookmark',
                         routerLink: ['/uikit/floatlabel'],
                     },
                     {
-                        label: 'Invalid State',
+                        label: this.translate.instant('INVALID_STATE'),
                         icon: 'pi pi-fw pi-exclamation-circle',
                         routerLink: ['/uikit/invalidstate'],
                     },
                     {
-                        label: 'Button',
+                        label: this.translate.instant('BUTTON'),
                         icon: 'pi pi-fw pi-box',
                         routerLink: ['/uikit/button'],
                     },
                     {
-                        label: 'Table',
+                        label: this.translate.instant('TABLE'),
                         icon: 'pi pi-fw pi-table',
                         routerLink: ['/uikit/table'],
                     },
                     {
-                        label: 'List',
+                        label: this.translate.instant('LIST'),
                         icon: 'pi pi-fw pi-list',
                         routerLink: ['/uikit/list'],
                     },
                     {
-                        label: 'Tree',
+                        label: this.translate.instant('TREE'),
                         icon: 'pi pi-fw pi-share-alt',
                         routerLink: ['/uikit/tree'],
                     },
                     {
-                        label: 'Panel',
+                        label: this.translate.instant('PANEL'),
                         icon: 'pi pi-fw pi-tablet',
                         routerLink: ['/uikit/panel'],
                     },
                     {
-                        label: 'Overlay',
+                        label: this.translate.instant('OVERLAY'),
                         icon: 'pi pi-fw pi-clone',
                         routerLink: ['/uikit/overlay'],
                     },
                     {
-                        label: 'Media',
+                        label: this.translate.instant('MEDIA'),
                         icon: 'pi pi-fw pi-image',
                         routerLink: ['/uikit/media'],
                     },
                     {
-                        label: 'Menu',
+                        label: this.translate.instant('MENU'),
                         icon: 'pi pi-fw pi-bars',
                         routerLink: ['/uikit/menu'],
                         routerLinkActiveOptions: {
@@ -190,144 +209,149 @@ export class AppMenuComponent implements OnInit {
                         },
                     },
                     {
-                        label: 'Message',
+                        label: this.translate.instant('MESSAGE'),
                         icon: 'pi pi-fw pi-comment',
                         routerLink: ['/uikit/message'],
                     },
                     {
-                        label: 'File',
+                        label: this.translate.instant('FILE'),
                         icon: 'pi pi-fw pi-file',
                         routerLink: ['/uikit/file'],
                     },
                     {
-                        label: 'Chart',
+                        label: this.translate.instant('CHART'),
                         icon: 'pi pi-fw pi-chart-bar',
                         routerLink: ['/uikit/charts'],
                     },
                     {
-                        label: 'Misc',
+                        label: this.translate.instant('MISC'),
                         icon: 'pi pi-fw pi-circle',
                         routerLink: ['/uikit/misc'],
                     },
                 ],
             },
-
             {
-                label: 'Utilities',
+                label: this.translate.instant('UTILITIES'),
                 items: [
                     {
-                        label: 'PrimeIcons',
+                        label: this.translate.instant('PRIMEICONS'),
                         icon: 'pi pi-fw pi-prime',
                         routerLink: ['/utilities/icons'],
                     },
                 ],
             },
             {
-                label: 'Pages',
+                label: this.translate.instant('PAGES'),
                 icon: 'pi pi-fw pi-briefcase',
                 items: [
                     {
-                        label: 'STD Test',
+                        label: this.translate.instant('STD_TEST'),
                         icon: 'pi pi-fw pi-globe',
                         routerLink: ['/test'],
                     },
                     {
-                        label: 'Landing',
+                        label: this.translate.instant('LANDING'),
                         icon: 'pi pi-fw pi-globe',
                         routerLink: ['/landing'],
                     },
                     {
-                        label: 'Auth',
+                        label: this.translate.instant('AUTH'),
                         icon: 'pi pi-fw pi-user',
                         items: [
                             {
-                                label: 'Login',
+                                label: this.translate.instant('LOGIN'),
                                 icon: 'pi pi-fw pi-sign-in',
                                 routerLink: ['/auth/login'],
                             },
                             {
-                                label: 'Error',
+                                label: this.translate.instant('ERROR'),
                                 icon: 'pi pi-fw pi-times-circle',
                                 routerLink: ['/auth/error'],
                             },
                             {
-                                label: 'Access Denied',
+                                label: this.translate.instant('ACCESS_DENIED'),
                                 icon: 'pi pi-fw pi-lock',
                                 routerLink: ['/auth/access'],
                             },
                         ],
                     },
                     {
-                        label: 'Crud',
+                        label: this.translate.instant('CRUD'),
                         icon: 'pi pi-fw pi-pencil',
                         routerLink: ['/pages/crud'],
                     },
                     {
-                        label: 'Timeline',
+                        label: this.translate.instant('TIMELINE'),
                         icon: 'pi pi-fw pi-calendar',
                         routerLink: ['/pages/timeline'],
                     },
                     {
-                        label: 'Not Found',
+                        label: this.translate.instant('NOT_FOUND'),
                         icon: 'pi pi-fw pi-exclamation-circle',
                         routerLink: ['/notfound'],
                     },
                     {
-                        label: 'Empty',
+                        label: this.translate.instant('EMPTY'),
                         icon: 'pi pi-fw pi-circle-off',
                         routerLink: ['/pages/empty'],
                     },
                     {
-                        label: 'Pagination',
+                        label: this.translate.instant('PAGINATION'),
                         icon: 'pi pi-fw pi-table',
                         routerLink: ['/pages/pagination'],
                     },
-
                     {
-                        label: 'Test',
+                        label: this.translate.instant('TEST'),
                         icon: 'pi pi-fw pi-table',
                         routerLink: ['/pages/pagination/test'],
                     },
-
                     {
-                        label: 'Pagination-Popup',
+                        label: this.translate.instant('PAGINATION_POPUP'),
                         icon: 'pi pi-fw pi-th-large',
                         routerLink: ['/pages/pagination-popup'],
                     },
+
                 ],
             },
-
             {
-                label: 'Hierarchy',
+                label: this.translate.instant('HIERARCHY'),
                 items: [
                     {
-                        label: 'Submenu',
+                        label: this.translate.instant('SUBMENU'),
                         icon: 'pi pi-fw pi-bookmark',
                         items: [
                             {
-                                label: 'Submenu 1.1',
+                                label: this.translate.instant('SUBMENU_1_1'),
                                 icon: 'pi pi-fw pi-bookmark',
                                 items: [
                                     {
-                                        label: 'Submenu 1.1.1',
+                                        label: this.translate.instant(
+                                            'SUBMENU_1_1_1'
+                                        ),
                                         icon: 'pi pi-fw pi-bookmark',
                                     },
                                     {
-                                        label: 'Submenu 1.1.2',
+                                        label: this.translate.instant(
+                                            'SUBMENU_1_1_2'
+                                        ),
                                         icon: 'pi pi-fw pi-bookmark',
                                     },
                                     {
-                                        label: 'Submenu 1.1.3',
+                                        label: this.translate.instant(
+                                            'SUBMENU_1_1_3'
+                                        ),
                                         icon: 'pi pi-fw pi-bookmark',
                                     },
                                 ],
                             },
                             {
-                                label: 'Submenu 1.2',
+                                label: this.translate.instant('SUBMENU_1_2'),
                                 icon: 'pi pi-fw pi-bookmark',
                                 items: [
                                     {
-                                        label: 'Submenu 1.2.1',
+                                        label: this.translate.instant(
+                                            'SUBMENU_1_2_1'
+                                        ),
                                         icon: 'pi pi-fw pi-bookmark',
                                     },
                                 ],

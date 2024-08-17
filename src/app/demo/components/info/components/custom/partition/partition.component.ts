@@ -1,7 +1,6 @@
 import { PartitionService } from './partition.service';
 import { Component, Input, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { LockupsService } from 'src/app/demo/service/lockups.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -20,41 +19,43 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { Globals } from 'src/app/class/globals';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-partition',
-  templateUrl: './partition.component.html',
-  styleUrl: './partition.component.scss',
-  providers: [MessageService],
+    selector: 'app-partition',
+    templateUrl: './partition.component.html',
+    styleUrl: './partition.component.scss',
+    providers: [MessageService],
 
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-    AutoCompleteModule,
-  ],
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+        AutoCompleteModule,
+        TranslateModule,
+    ],
 })
 export class PartitionComponent {
     constructor(
-        private _LockupsService: LockupsService,
+        private _PartitionService: PartitionService,
         private messageService: MessageService,
-        private _PartitionService:PartitionService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -81,15 +82,36 @@ export class PartitionComponent {
     newNameAr!: string;
     newNameEn!: string;
     departmentDropDown: any[] = [];
-    selectedDepartment: string = "";
+    selectedDepartment: string = '';
     selectedDepartmentId: number = -1;
     selectedEditsDepartment: any;
+
     ngOnInit() {
+
         this.endPoint = "Partation"
-        this._LockupsService.setEndPoint(this.endPoint);
-        this._PartitionService.setEndPoint(this.endPoint);
+
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._PartitionService.setCulture(mainLang);
+
+            // update endpoint
+            this._PartitionService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            });
 
         this.cols = [
+            // basic fields
             { field: 'name', header: 'Name' },
             { field: 'notes', header: 'Notes' },
 
@@ -102,50 +124,51 @@ export class PartitionComponent {
 
         // get all drop downs departments
         this.getDropDownDepartment();
-
     }
 
     getDartmentNameById(id: number) {
-        console.log("id edited");
+        console.log('id edited');
         console.log(id);
-        let dept = this.departmentDropDown.find(dept => dept.id == id)
+        let dept = this.departmentDropDown.find((dept) => dept.id == id);
         return dept;
     }
 
     editProduct(rowData: any) {
         console.log(rowData.id)
-        this._LockupsService.GetById(rowData.id).subscribe({
+        this._PartitionService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
-                this.selectedEditsDepartment = this.getDartmentNameById(this.product.departmentId)
-                console.log("dept name is ", this.selectedEditsDepartment)
+                this.selectedEditsDepartment = this.getDartmentNameById(
+                    this.product.departmentId
+                );
+                console.log('dept name is ', this.selectedEditsDepartment);
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     changedSelected(event: any) {
-        this.selectedDepartmentId = this.selectedDepartment["id"];
+        this.selectedDepartmentId = this.selectedDepartment['id'];
     }
 
     getDropDownDepartment() {
-        this._PartitionService.getDropDown("Department").subscribe({
-            next: (res)=> {
-                this.departmentDropDown = res["data"];
+        this._PartitionService.getDropDown('Department').subscribe({
+            next: (res:any) => {
+                this.departmentDropDown = res.data;
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._PartitionService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -166,7 +189,6 @@ export class PartitionComponent {
                     this.sortField,
                     this.sortOrder
                 );
-
             },
             error: (err) => {
                 console.log(err);
@@ -179,10 +201,10 @@ export class PartitionComponent {
             name: this.newNameAr,
             notes: this.newNotes,
             engName: this.newNameEn,
-            departmentId: this.selectedDepartmentId
+            departmentId: this.selectedDepartmentId,
         };
 
-        this._LockupsService.Register(body).subscribe({
+        this._PartitionService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -208,7 +230,6 @@ export class PartitionComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-
                 console.log(err);
             },
         });
@@ -225,7 +246,10 @@ export class PartitionComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null), (this.selectedDepartment = null)
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null),
+            (this.selectedDepartment = null);
     }
 
     loadData(
@@ -245,7 +269,7 @@ export class PartitionComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._PartitionService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -278,7 +302,6 @@ export class PartitionComponent {
             this.sortField,
             this.sortOrder
         );
-
     }
 
     deleteSelectedProducts() {
@@ -288,7 +311,6 @@ export class PartitionComponent {
     hideDialog() {
         this.productDialog = false;
         this.submitted = false;
-
     }
 
     deleteProduct(product: any) {
@@ -306,10 +328,10 @@ export class PartitionComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
-            departmentId: this.selectedEditsDepartment.id
+            departmentId: this.selectedEditsDepartment.id,
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        this._PartitionService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -346,7 +368,7 @@ export class PartitionComponent {
     }
 
     exportCSV() {
-        console.log(this.selectedItems)
+        console.log(this.selectedItems);
         // Convert data to CSV format
         const csvData = this.convertToCSV(this.selectedItems);
 
@@ -391,7 +413,7 @@ export class PartitionComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._PartitionService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -400,6 +422,8 @@ export class PartitionComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
+
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -427,6 +451,15 @@ export class PartitionComponent {
         });
     }
 
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -440,5 +473,4 @@ export class PartitionComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
 }

@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                label="Add New"
+                [label]='"Add New".concat(" ", splitCamelCase(endPoint)) | translate'
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
@@ -15,7 +15,7 @@
             <button
                 pButton
                 pRipple
-                label="Delete"
+                [label]="'Delete' | translate"
                 icon="pi pi-trash"
                 class="p-button-danger mx-2 px-5"
                 (click)="deleteSelectedProducts()"
@@ -27,7 +27,7 @@
         <button
             pButton
             pRipple
-            label="Export"
+            [label]="'Export' | translate"
             icon="pi pi-upload"
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
@@ -75,12 +75,17 @@
                 [showSeconds]="true"
                 [timeOnly]="true"
                 placeholder="00:00:00"
-                inputId="startAttendeesTime">
-                    <ng-template pTemplate="inputicon" let-clickCallBack="startAttendeesTimeClick">
-                        <i
-                            class="pi pi-clock pointer-events-none pointer-events-none"
-                            (click)="startAttendeesTimeClick($event)"></i>
-                    </ng-template>
+                inputId="startAttendeesTime"
+            >
+                <ng-template
+                    pTemplate="inputicon"
+                    let-clickCallBack="startAttendeesTimeClick"
+                >
+                    <i
+                        class="pi pi-clock pointer-events-none pointer-events-none"
+                        (click)="startAttendeesTimeClick($event)"
+                    ></i>
+                </ng-template>
             </p-calendar>
         </div>
 
@@ -93,12 +98,17 @@
                 [timeOnly]="true"
                 [showSeconds]="true"
                 placeholder="00:00:00"
-                inputId="endAttendeesTime">
-                    <ng-template pTemplate="inputicon" let-clickCallBack="endAttendeesTimeClick">
-                        <i
-                            class="pi pi-clock pointer-events-none pointer-events-none"
-                            (click)="endAttendeesTimeClick($event)"></i>
-                    </ng-template>
+                inputId="endAttendeesTime"
+            >
+                <ng-template
+                    pTemplate="inputicon"
+                    let-clickCallBack="endAttendeesTimeClick"
+                >
+                    <i
+                        class="pi pi-clock pointer-events-none pointer-events-none"
+                        (click)="endAttendeesTimeClick($event)"
+                    ></i>
+                </ng-template>
             </p-calendar>
         </div>
 
@@ -176,25 +186,25 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th pSortableColumn="id" (click)="sortById($event)">
-                Id
+                {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
             </th>
             <th pSortableColumn="name" (click)="sortByName($event)">
-                Name <p-sortIcon field="name"></p-sortIcon>
+                {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
             </th>
 
             <!-- personal fields -->
-            <th>StartAttendeesTime</th>
-            <th>EndAttendeesTime</th>
-            <th>NumberOfHours</th>
+            <th>{{ "StartAttendeesTime" | translate }}</th>
+            <th>{{ "EndAttendeesTime" | translate }}</th>
+            <th>{{ "NumberOfHours" | translate }}</th>
 
             <!-- generic fields -->
-            <th>Notes</th>
-            <th>CreationTime</th>
-            <th>LastModificationTime</th>
-            <th>CreatorName</th>
-            <th>LastModifierName</th>
-            <th>Actions</th>
+            <th>{{ "Notes" | translate }}</th>
+            <th>{{ "creationTime" | translate }}</th>
+            <th>{{ "lastModificationTime" | translate }}</th>
+            <th>{{ "creatorName" | translate }}</th>
+            <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "Actions" | translate }}</th>
         </tr>
     </ng-template>
 
@@ -203,33 +213,58 @@
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td><span class="p-column-title">Id</span> {{ rowData.id?rowData.id:'' }}</td>
+            <td>
+                <span class="p-column-title">Id</span>
+                {{ rowData.id ? rowData.id : "" }}
+            </td>
 
-            <td [ngClass]="{'null-color':!rowData.name}"><span class="p-column-title">Name</span> {{ rowData.name?rowData.name:'' }}</td>
-
+            <td [ngClass]="{ 'null-color': !rowData.name }">
+                <span class="p-column-title">Name</span>
+                {{ rowData.name ? rowData.name : "" }}
+            </td>
 
             <!-- personal fields -->
-            <td [ngClass]="{'null-color':!rowData.startAttendeesTime}"><span class="p-column-title">startAttendeesTime</span> {{ rowData.startAttendeesTime?rowData.startAttendeesTime:'' }}</td>
-            <td [ngClass]="{'null-color':!rowData.endAttendeesTime}"><span class="p-column-title">endAttendeesTime</span> {{ rowData.endAttendeesTime?rowData.endAttendeesTime:'' }}</td>
-            <td [ngClass]="{'null-color':!rowData.numberOfHours}"><span class="p-column-title">numberOfHours</span> {{ rowData.numberOfHours?rowData.numberOfHours:'' }}</td>
-
-            <td [ngClass]="{'null-color':!rowData.notes}">
-                <span class="p-column-title">Notes</span> {{ rowData.notes?rowData.notes:'' }}
+            <td [ngClass]="{ 'null-color': !rowData.startAttendeesTime }">
+                <span class="p-column-title">startAttendeesTime</span>
+                {{
+                    rowData.startAttendeesTime ? rowData.startAttendeesTime : ""
+                }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.endAttendeesTime }">
+                <span class="p-column-title">endAttendeesTime</span>
+                {{ rowData.endAttendeesTime ? rowData.endAttendeesTime : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.numberOfHours }">
+                <span class="p-column-title">numberOfHours</span>
+                {{ rowData.numberOfHours ? rowData.numberOfHours : "" }}
             </td>
 
-            <td [ngClass]="{'null-color':!rowData.creationTime}">
-                <span class="p-column-title">creationTime</span> {{ rowData.creationTime?rowData.creationTime:'' }}
+            <td [ngClass]="{ 'null-color': !rowData.notes }">
+                <span class="p-column-title">Notes</span>
+                {{ rowData.notes ? rowData.notes : "" }}
             </td>
 
-            <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
-                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime?rowData.lastModificationTime:'' }}
+            <td [ngClass]="{ 'null-color': !rowData.creationTime }">
+                <span class="p-column-title">creationTime</span>
+                {{ rowData.creationTime ? rowData.creationTime : "" }}
             </td>
 
-            <td [ngClass]="{'null-color':!rowData.creatorName}">
-                <span class="p-column-title">creatorName</span> {{ rowData.creatorName?rowData.creatorName:'' }}
+            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
+                <span class="p-column-title">lastModificationTime</span>
+                {{
+                    rowData.lastModificationTime
+                        ? rowData.lastModificationTime
+                        : ""
+                }}
             </td>
-            <td [ngClass]="{'null-color':!rowData.lastModifierName}">
-                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName?rowData.lastModifierName:'' }}
+
+            <td [ngClass]="{ 'null-color': !rowData.creatorName }">
+                <span class="p-column-title">creatorName</span>
+                {{ rowData.creatorName ? rowData.creatorName : "" }}
+            </td>
+            <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
+                <span class="p-column-title">lastModifierName</span>
+                {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
             </td>
 
             <td>
@@ -305,43 +340,69 @@
         <div class="field">
             <label for="startAttendeesTimeEdit">startAttendeesTime</label>
             <p-calendar
-            [(ngModel)]="product.startAttendeesTime"
-            [iconDisplay]="'input'"
-            [showIcon]="true"
-            [showSeconds]="true"
-            [timeOnly]="true"
-            placeholder="00:00:00"
-            inputId="startAttendeesTimeEdit">
-
-                <ng-template pTemplate="inputicon" let-clickCallBack="startAttendeesTimeClickEdit">
-                    <i class="pi pi-clock pointer-events-none pointer-events-none"
-                        (click)="startAttendeesTimeClickEdit($event)"></i>
+                [(ngModel)]="product.startAttendeesTime"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+                [showSeconds]="true"
+                [timeOnly]="true"
+                placeholder="00:00:00"
+                inputId="startAttendeesTimeEdit"
+            >
+                <ng-template
+                    pTemplate="inputicon"
+                    let-clickCallBack="startAttendeesTimeClickEdit"
+                >
+                    <i
+                        class="pi pi-clock pointer-events-none pointer-events-none"
+                        (click)="startAttendeesTimeClickEdit($event)"
+                    ></i>
                 </ng-template>
             </p-calendar>
 
-            <small class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.startAttendeesTime">startAttendeesTime is required.</small>
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.startAttendeesTime"
+                >startAttendeesTime is required.</small
+            >
         </div>
 
         <div class="field">
             <label for="endAttendeesTimeEdit">endAttendeesTime</label>
-            <p-calendar [(ngModel)]="product.endAttendeesTime" [iconDisplay]="'input'" [showIcon]="true" [showSeconds]="true"
-                [timeOnly]="true" placeholder="00:00:00" inputId="endAttendeesTimeEdit">
-
-                <ng-template pTemplate="inputicon" let-clickCallBack="endAttendeesTimeClickEdit">
-                    <i class="pi pi-clock pointer-events-none pointer-events-none"
-                        (click)="endAttendeesTimeClickEdit($event)"></i>
+            <p-calendar
+                [(ngModel)]="product.endAttendeesTime"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+                [showSeconds]="true"
+                [timeOnly]="true"
+                placeholder="00:00:00"
+                inputId="endAttendeesTimeEdit"
+            >
+                <ng-template
+                    pTemplate="inputicon"
+                    let-clickCallBack="endAttendeesTimeClickEdit"
+                >
+                    <i
+                        class="pi pi-clock pointer-events-none pointer-events-none"
+                        (click)="endAttendeesTimeClickEdit($event)"
+                    ></i>
                 </ng-template>
-
             </p-calendar>
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.endAttendeesTime">endAttendeesTime is
-                required.</small>
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.endAttendeesTime"
+                >endAttendeesTime is required.</small
+            >
         </div>
 
         <div class="field">
             <label htmlFor="numberOfHoursEdit">number Of Hours</label>
-            <input pInputText [(ngModel)]="product.numberOfHours" placeholder="Enter number Of Hours" id="numberOfHoursEdit"
-                type="number" />
+            <input
+                pInputText
+                [(ngModel)]="product.numberOfHours"
+                placeholder="Enter number Of Hours"
+                id="numberOfHoursEdit"
+                type="number"
+            />
         </div>
 
         <div class="field">

@@ -16,7 +16,7 @@
                 }}.svg"
                 alt="logo"
             />
-            <span>SAKAI</span>
+            <span>2B</span>
         </a>
     </div>
     <button
@@ -53,10 +53,48 @@
         <div class="col-3">
             <div class="checkbox-wrapper-54">
                 <label class="switch">
-                    <input type="checkbox" (click)="changeThemeFun()" />
+                    <input type="checkbox" (click)="changeThemeFun()" [(ngModel)]="themeSelected" />
                     <span class="slider"></span>
                 </label>
             </div>
+        </div>
+    </div>
+    <div class="card flex justify-content-center">
+        <div class="lang-container card flex justify-content-center">
+            <p-dropdown
+                [options]="countries"
+                [(ngModel)]="selectedCountry"
+                optionLabel="name"
+                (onChange)="changeLang($event)"
+                [showClear]="false"
+            >
+                <ng-template pTemplate="selectedItem">
+                    <div
+                        class="flex align-items-center gap-2"
+                        *ngIf="selectedCountry"
+                    >
+                        <img
+                            src="assets/demo/images/flag/flag_placeholder.png"
+                            [class]="
+                                'flag flag-' +
+                                selectedCountry.code.toLowerCase()
+                            "
+                            style="width: 18px"
+                        />
+                        <div>{{ selectedCountry.name }}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-country pTemplate="item">
+                    <div class="flex align-items-center gap-2">
+                        <img
+                            src="assets/demo/images/flag/flag_placeholder.png"
+                            [class]="'flag flag-' + country.code.toLowerCase()"
+                            style="width: 18px"
+                        />
+                        <div>{{ country.name }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
         </div>
     </div>
 </div>

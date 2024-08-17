@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
+import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -18,12 +18,11 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { PublicVacationService } from './public-vacation.service';
-import { Globals } from 'src/app/class/globals';
 import { TranslateModule } from '@ngx-translate/core';
+import { CompanyPolicyService } from './company-policy.service';
 
 @Component({
-    selector: 'app-public-vacation',
+    selector: 'app-company-policy',
     standalone: true,
     imports: [
         CommonModule,
@@ -48,14 +47,15 @@ import { TranslateModule } from '@ngx-translate/core';
         TranslateModule,
     ],
     providers: [MessageService, DatePipe],
-    templateUrl: './public-vacation.component.html',
-    styleUrl: './public-vacation.component.scss',
+    templateUrl: './company-policy.component.html',
+    styleUrl: './company-policy.component.scss',
 })
-export class PublicVacationComponent {
+export class CompanyPolicyComponent {
     constructor(
-        private _PublicVacationService: PublicVacationService,
+        private companyPolicyService: CompanyPolicyService,
         private messageService: MessageService,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
+        private http: HttpClient
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -79,44 +79,31 @@ export class PublicVacationComponent {
     sortOrder: string = 'asc';
 
     // custom variables
-    date: string;
-    reason: string;
-    shiftDropDown: any;
+    enName: string;
+    arName: string;
+    notes: string;
+    url: string;
+    discreption: string;
     selectedShift: string;
     selectedShiftId: number;
+    file: File;
+    fileBase64: string = '';
 
     selectedShiftEdit: string;
     selectedShiftIdEdit: number;
     oldDate: any;
 
     ngOnInit() {
-        this.endPoint = 'PublicVacation';
+        this.endPoint = 'CompanyPolicy';
 
-        // adding this Configurations in each Component Customized
-        Globals.getMainLangChanges().subscribe((mainLang) => {
-            console.log('Main language changed to:', mainLang);
-
-            // update mainLang at Service
-            this._PublicVacationService.setCulture(mainLang);
-
-            // update endpoint
-            this._PublicVacationService.setEndPoint(this.endPoint);
-
-            // then, load data again to lens on the changes of mainLang & endPoints Call
-            this.loadData(
-                this.page,
-                this.itemsPerPage,
-                this.nameFilter,
-                this.sortField,
-                this.sortOrder
-            );
-        });
+        this.companyPolicyService.setEndPoint(this.endPoint);
 
         this.cols = [
             // custom fields
-            { field: 'date', header: 'Date' },
-            { field: 'reason', header: 'Reason' },
-            { field: 'shiftName', header: 'Shift' },
+            { field: 'url', header: 'Url' },
+            { field: 'discreption', header: 'Discreption' },
+            { field: 'file', header: 'File' },
+            { field: 'deletFIle', header: 'deletFIle' },
 
             // Generic Fields
             { field: 'creationTime', header: 'creationTime' },
@@ -124,43 +111,20 @@ export class PublicVacationComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
-
-        this.gitAllShifts();
-    }
-
-    gitAllShifts() {
-        this._PublicVacationService.getDropdown().subscribe({
-            next: (res) => {
-                console.log(res['data']);
-                this.shiftDropDown = res['data'];
-            },
-            error: (error) => {
-                console.log(error);
-            },
-        });
-    }
-
-    splitCamelCase(str:any) {
-        return str.replace(/([A-Z])/g, ' $1')
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
     }
 
     editProduct(rowData: any) {
         console.log(rowData.id);
-        this._PublicVacationService.GetById(rowData.id).subscribe({
+        this.companyPolicyService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
 
                 // get product.shiftId
-                this.selectedShiftEdit = this.shiftDropDown.find(
-                    (shift: any) => this.product.shiftId == shift.id
-                );
+                // this.selectedShiftEdit = this.shiftDropDown.find(
+                //     (shift: any) => this.product.shiftId == shift.id
+                // );
 
                 // get product.date
                 this.oldDate = this.DatePipe.transform(
@@ -192,9 +156,18 @@ export class PublicVacationComponent {
         this.selectedShiftId = this.selectedShift['id'];
     }
 
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._PublicVacationService.DeleteSoftById(id).subscribe({
+        this.companyPolicyService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -231,12 +204,14 @@ export class PublicVacationComponent {
 
     addNew() {
         let body = {
-            date: this.date,
-            reason: this.reason,
-            shiftId: this.selectedShiftId,
+            engName: this.enName,
+            name: this.arName,
+            notes: this.notes,
+            discreption: this.discreption,
+            file: this.file,
         };
 
-        this._PublicVacationService.Register(body).subscribe({
+        this.companyPolicyService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -286,10 +261,10 @@ export class PublicVacationComponent {
     }
 
     setFieldsNulls() {
-        this.date = null;
-        this.reason = null;
-        this.selectedShift = null;
-        this.selectedShiftId = null;
+        // this.date = null;
+        // this.reason = null;
+        // this.selectedShift = null;
+        // this.selectedShiftId = null;
     }
 
     loadData(
@@ -309,7 +284,7 @@ export class PublicVacationComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._PublicVacationService.GetPage(filteredData).subscribe({
+        this.companyPolicyService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -390,7 +365,7 @@ export class PublicVacationComponent {
 
         console.log(body);
 
-        this._PublicVacationService.Edit(body).subscribe({
+        this.companyPolicyService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -479,7 +454,7 @@ export class PublicVacationComponent {
             selectedIds.push(item.id);
         });
 
-        this._PublicVacationService.DeleteRangeSoft(selectedIds).subscribe({
+        this.companyPolicyService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -528,5 +503,33 @@ export class PublicVacationComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
+    }
+    onFileSelect(event: any) {
+        this.file = event.files[0];
+        const file = event.files[0];
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            this.fileBase64 = reader.result as string;
+        };
+    }
+
+    uploadFile() {
+        const formData: FormData = new FormData();
+        formData.append('engName', this.enName);
+        formData.append('name', this.arName);
+        formData.append('notes', this.notes);
+        formData.append('discreption', this.discreption);
+        formData.append('file', this.file);
+
+        this.companyPolicyService.Register(formData).subscribe({
+            next: (response) => {
+                console.log(response);
+            },
+            error: (error) => {
+                console.log(error);
+            },
+        });
     }
 }

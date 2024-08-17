@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
@@ -18,39 +18,42 @@ import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { LockupsService } from '../../service/lockups.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
-  selector: 'app-std-paginations-with-popup',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-  ],
-  providers: [MessageService],
-  templateUrl: './std-paginations-with-popup.component.html',
-  styleUrl: './std-paginations-with-popup.component.scss'
+    selector: 'app-std-paginations-with-popup',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+        TranslateModule,
+    ],
+    providers: [MessageService],
+    templateUrl: './std-paginations-with-popup.component.html',
+    styleUrl: './std-paginations-with-popup.component.scss',
 })
-export class StdPaginationsWithPopupComponent {
+export class StdPaginationsWithPopupComponent{
     constructor(
         private _LockupsService: LockupsService,
-        private messageService: MessageService
-    ) {}
+        private messageService: MessageService) {
+    }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -76,10 +79,31 @@ export class StdPaginationsWithPopupComponent {
     newNameAr!: string;
     newNameEn!: string;
 
+
     ngOnInit() {
-        this._LockupsService.setEndPoint(this.endPoint);
+
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._LockupsService.setCulture(mainLang);
+
+            // update endpoint
+            this._LockupsService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
+            // basic data
             { field: 'name', header: 'Name' },
             { field: 'notes', header: 'Notes' },
 
@@ -91,8 +115,19 @@ export class StdPaginationsWithPopupComponent {
         ];
     }
 
+
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
+
     editProduct(rowData: any) {
-        console.log(rowData.id)
+        console.log(rowData.id);
         this._LockupsService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
@@ -101,8 +136,8 @@ export class StdPaginationsWithPopupComponent {
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     confirmDelete(id: number) {
@@ -139,7 +174,7 @@ export class StdPaginationsWithPopupComponent {
         let body = {
             name: this.newNameAr,
             notes: this.newNotes,
-            engName: this.newNameEn
+            engName: this.newNameEn,
         };
 
         this._LockupsService.Register(body).subscribe({
@@ -185,7 +220,9 @@ export class StdPaginationsWithPopupComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null), (this.newNotes = null);
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null);
     }
 
     loadData(
@@ -213,7 +250,6 @@ export class StdPaginationsWithPopupComponent {
 
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                console.log(this.selectedItems);
             },
             error: (err) => {
                 console.log(err);
@@ -356,6 +392,7 @@ export class StdPaginationsWithPopupComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
+                this.selectedItems = [];
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -394,5 +431,4 @@ export class StdPaginationsWithPopupComponent {
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
 }

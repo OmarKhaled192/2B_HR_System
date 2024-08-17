@@ -5,13 +5,15 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PartitionService extends LockupsService {
+export class CovenantService extends LockupsService {
 
-    constructor( http: HttpClient) {
+    constructor(http: HttpClient) {
         super(http);
     }
 
     getDropDown(field: string) {
         return this.http.get(`${this.baseurl}/${field}/getDropDown`);
     }
+
+    
 }

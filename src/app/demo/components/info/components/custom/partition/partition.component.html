@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                label="Add New"
+                [label]='"Add New".concat(" ", splitCamelCase(endPoint)) | translate'
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
@@ -15,7 +15,7 @@
             <button
                 pButton
                 pRipple
-                label="Delete"
+                [label]="'Delete' | translate"
                 icon="pi pi-trash"
                 class="p-button-danger mx-2 px-5"
                 (click)="deleteSelectedProducts()"
@@ -27,7 +27,7 @@
         <button
             pButton
             pRipple
-            label="Export"
+            [label]="'Export' | translate"
             icon="pi pi-upload"
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
@@ -44,8 +44,6 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-
-
         <div class="field">
             <label htmlFor="name-en">Name English </label>
             <input
@@ -70,7 +68,15 @@
 
         <div class="field">
             <label for="department">Department :</label>
-			<p-dropdown [options]="departmentDropDown" id="department" (onChange)="changedSelected()" [(ngModel)]="selectedDepartment" placeholder="Select a Department" [showClear]="true" optionLabel="name"></p-dropdown>
+            <p-dropdown
+                [options]="departmentDropDown"
+                id="department"
+                (onChange)="changedSelected()"
+                [(ngModel)]="selectedDepartment"
+                placeholder="Select a Department"
+                [showClear]="true"
+                optionLabel="name"
+            ></p-dropdown>
         </div>
 
         <div class="field">
@@ -136,19 +142,19 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th pSortableColumn="id" (click)="sortById($event)">
-                Id
+                {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
             </th>
             <th pSortableColumn="name" (click)="sortByName($event)">
-                Name <p-sortIcon field="name"></p-sortIcon>
+                {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
             </th>
-            <th>Notes</th>
-            <th>Department</th>
-            <th>creationTime</th>
-            <th>lastModificationTime</th>
-            <th>creatorName</th>
-            <th>lastModifierName</th>
-            <th>Actions</th>
+            <th>{{ "Notes" | translate }}</th>
+            <th>{{ "Department" | translate }}</th>
+            <th>{{ "creationTime" | translate }}</th>
+            <th>{{ "lastModificationTime" | translate }}</th>
+            <th>{{ "creatorName" | translate }}</th>
+            <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "Actions" | translate }}</th>
         </tr>
     </ng-template>
 
@@ -165,23 +171,29 @@
             </td>
 
             <td>
-                <span class="p-column-title">Notes</span> {{ rowData.departmentName }}
+                <span class="p-column-title">Notes</span>
+                {{ rowData.departmentName }}
             </td>
 
             <td>
-                <span class="p-column-title">creationTime</span> {{ rowData.creationTime | date :'dd/MM/YYYY - h:mm a' }}
+                <span class="p-column-title">creationTime</span>
+                {{ rowData.creationTime | date : "dd/MM/YYYY - h:mm a" }}
             </td>
             <td>
-                <span class="p-column-title">lastModificationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YYYY - h:mm a' }}
+                <span class="p-column-title">lastModificationTime</span>
+                {{
+                    rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
+                }}
             </td>
 
             <td>
-                <span class="p-column-title">creatorName</span> {{ rowData.creatorName }}
+                <span class="p-column-title">creatorName</span>
+                {{ rowData.creatorName }}
             </td>
             <td>
-                <span class="p-column-title">lastModifierName</span> {{ rowData.lastModifierName }}
+                <span class="p-column-title">lastModifierName</span>
+                {{ rowData.lastModifierName }}
             </td>
-
 
             <td>
                 <div class="flex crud-operations">
@@ -255,11 +267,16 @@
 
         <div class="field">
             <label for="departmentEdit">Department</label>
-            <p-dropdown [options]="departmentDropDown" optionLabel="name" id="edit_Dept"  [(ngModel)]="selectedEditsDepartment" placeholder="Select a Department" [showClear]="true"></p-dropdown>
+            <p-dropdown
+                [options]="departmentDropDown"
+                optionLabel="name"
+                id="edit_Dept"
+                [(ngModel)]="selectedEditsDepartment"
+                placeholder="Select a Department"
+                [showClear]="true"
+            ></p-dropdown>
 
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="product.departmentId"
+            <small class="ng-dirty ng-invalid" *ngIf="product.departmentId"
                 >Department is required.</small
             >
         </div>
