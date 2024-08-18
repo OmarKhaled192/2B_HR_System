@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                [label]="'Add New' | translate"
+                [label]='"Add New".concat(" ", splitCamelCase(endPoint)) | translate'
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
@@ -361,7 +361,6 @@
                 cols="20"
             ></textarea>
         </div>
-        x
 
         <!-- Description -->
         <div class="field">

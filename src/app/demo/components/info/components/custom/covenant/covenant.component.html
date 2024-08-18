@@ -9,25 +9,23 @@
                 [label]='"Add New".concat(" ", splitCamelCase(endPoint)) | translate'
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
-                (click)="toggleNew()"
-            ></button>
+                (click)="toggleNew()"></button>
 
             <button
                 pButton
                 pRipple
-                [label]="'Delete' | translate"
+                label="Delete"
                 icon="pi pi-trash"
                 class="p-button-danger mx-2 px-5"
                 (click)="deleteSelectedProducts()"
-                [disabled]="!selectedItems || !selectedItems.length"
-            ></button>
+                [disabled]="!selectedItems || !selectedItems.length"></button>
         </div>
     </ng-template>
     <ng-template pTemplate="right">
         <button
             pButton
             pRipple
-            [label]="'Export' | translate"
+            label="Export"
             icon="pi pi-upload"
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
@@ -41,38 +39,43 @@
     [style]="{ width: '450px' }"
     header="Add New"
     [modal]="true"
-    class="p-fluid"
->
+    class="p-fluid">
+
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="shift">shift</label>
-            <p-dropdown
-                [options]="shiftDropDown"
-                (onChange)="changedSelected()"
-                [(ngModel)]="selectedShift"
-                optionLabel="name"
-                placeholder="Select a Shift"
-                [showClear]="true"
-            ></p-dropdown>
+            <label htmlFor="CovenantCategory">Covenant Category</label>
+            <p-dropdown [options]="CovenantCategoryDropDown" id="CovenantCategory" (onChange)="changeCovenantCategory()" [(ngModel)]="selectedCovenantCategory" placeholder="Select a Covenant Category" [showClear]="true" optionLabel="name"></p-dropdown>
         </div>
 
         <div class="field">
-            <label htmlFor="date">Date </label>
-            <p-calendar
-                [showIcon]="true"
-                placeholder="MM/DD/YYYY"
-                [(ngModel)]="date"
-                inputId="icon"
-            ></p-calendar>
+            <label htmlFor="name-en">Name English </label>
+            <input
+                pInputText
+                [(ngModel)]="newNameAr"
+                placeholder="Enter Name Here"
+                id="name-en"
+                type="text"
+            />
         </div>
 
         <div class="field">
-            <label htmlFor="reason">Reason</label>
+            <label htmlFor="name-ar">Name Arabic </label>
+            <input
+                pInputText
+                [(ngModel)]="newNameEn"
+                placeholder="Enter Name Here"
+                id="name-ar"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-notes">Notes</label>
             <textarea
                 pInputTextarea
-                [(ngModel)]="reason"
-                id="reason"
-                placeholder="Enter Reason Here"
+                [(ngModel)]="newNotes"
+                id="new-notes"
+                placeholder="Enter Notes Here"
                 type="text"
             ></textarea>
         </div>
@@ -129,21 +132,19 @@
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
             <th pSortableColumn="id" (click)="sortById($event)">
-                {{ "Id" | translate }}
+                Id
                 <p-sortIcon field="id"></p-sortIcon>
             </th>
-
-            <!-- custom fields -->
-            <th>{{ "Date" | translate }}</th>
-            <th>{{ "Reason" | translate }}</th>
-            <th>{{ "Shift" | translate }}</th>
-
-            <!-- generic fields -->
-            <th>{{ "creationTime" | translate }}</th>
-            <th>{{ "lastModificationTime" | translate }}</th>
-            <th>{{ "creatorName" | translate }}</th>
-            <th>{{ "lastModifierName" | translate }}</th>
-            <th>{{ "Actions" | translate }}</th>
+            <th pSortableColumn="name" (click)="sortByName($event)">
+                Name <p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th>Notes</th>
+            <th>Category</th>
+            <th>creationTime</th>
+            <th>lastModificationTime</th>
+            <th>creatorName</th>
+            <th>lastModifierName</th>
+            <th>Actions</th>
         </tr>
     </ng-template>
 
@@ -152,46 +153,29 @@
             <td>
                 <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
             </td>
-            <td>
-                <span class="p-column-title">Id</span>
-                {{ rowData.id ? rowData.id : "" }}
+            <td><span class="p-column-title">Id</span> {{ rowData.id?rowData.id:'' }}</td>
+
+            <td [ngClass]="{'null-color':!rowData.name}"><span class="p-column-title">Name</span> {{ rowData.name?rowData.name:'' }}</td>
+            <td [ngClass]="{'null-color':!rowData.notes}">
+                <span class="p-column-title">Notes</span> {{ rowData.notes?rowData.notes:'' }}
             </td>
 
-            <!-- custom fields -->
-            <td [ngClass]="{ 'null-color': !rowData.date }">
-                <span class="p-column-title">Date</span>
-                {{ rowData.date | date : "dd/MM/yyyy" }}
+            <td [ngClass]="{'null-color':!rowData.covenantCategoryName}">
+                <span class="p-column-title">Category</span> {{ rowData.covenantCategoryName?rowData.covenantCategoryName:'' }}
             </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.reason }">
-                <span class="p-column-title">Reason</span>
-                {{ rowData.reason ? rowData.reason : "" }}
+            <td [ngClass]="{'null-color':!rowData.creationTime}">
+                <span class="p-column-title">CreationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YYYY - h:mm a' }}
+            </td>
+            <td [ngClass]="{'null-color':!rowData.lastModificationTime}">
+                <span class="p-column-title">LastModificationTime</span> {{ rowData.lastModificationTime | date :'dd/MM/YY - h:mm a' }}
             </td>
 
-            <td [ngClass]="{ 'null-color': !rowData.shiftName }">
-                <span class="p-column-title">shiftName</span>
-                {{ rowData.shiftName ? rowData.shiftName : "" }}
+            <td [ngClass]="{'null-color':!rowData.creatorName}">
+                <span class="p-column-title">CreatorName</span> {{ rowData.creatorName?rowData.creatorName:'' }}
             </td>
-
-            <!-- generic fields -->
-            <td [ngClass]="{ 'null-color': !rowData.creationTime }">
-                <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime | date : "dd/MM/YYYY - hh:mm a" }}
-            </td>
-            <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
-                <span class="p-column-title">lastModificationTime</span>
-                {{
-                    rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
-                }}
-            </td>
-
-            <td [ngClass]="{ 'null-color': !rowData.creatorName }">
-                <span class="p-column-title">creatorName</span>
-                {{ rowData.creatorName ? rowData.creatorName : "" }}
-            </td>
-            <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
-                <span class="p-column-title">lastModifierName</span>
-                {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
+            <td [ngClass]="{'null-color':!rowData.lastModifierName}">
+                <span class="p-column-title">LastModifierName</span> {{ rowData.lastModifierName?rowData.lastModifierName:'' }}
             </td>
 
             <td>
@@ -219,62 +203,70 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    header="Item Details"
     [modal]="true"
-    class="p-fluid"
->
+    class="p-fluid">
+
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="shiftId">Select Shift</label>
-            <p-dropdown
-                [options]="shiftDropDown"
-                (onChange)="changedSelectedEdit()"
-                [(ngModel)]="selectedShiftEdit"
-                optionLabel="name"
-                placeholder="Select a Shift"
-                [showClear]="true"
-            ></p-dropdown>
+            <label for="CovenantCategory">Category</label>
+            <p-dropdown autofocus [options]="CovenantCategoryDropDown" id="CovenantCategory" (onChange)="changeCovenantCategoryOnEdit()" [(ngModel)]="selectedCovenantCategoryOnEdit" placeholder="Select a Covenant Category" [showClear]="true" optionLabel="name"></p-dropdown>
             <small
                 class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.shiftId"
-                >Shift is required.</small
+                *ngIf="submitted && !product.covenantCategoryId"
+                >Category is required.</small
             >
         </div>
-
         <div class="field">
-            <label for="date">Enter Date</label>
-
-            <p-calendar
-                [timezone]="'UTC'"
-                [showIcon]="true"
-                [(ngModel)]="product.date"
-                inputId="icon"
-            ></p-calendar>
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.date"
-                >Date is required.</small
-            >
-        </div>
-
-        <div class="field">
-            <label for="reason">Enter Reason</label>
+            <label for="name">Arabic Name</label>
             <input
                 type="text"
                 pInputText
-                id="reason"
-                [(ngModel)]="product.reason"
+                id="name"
+                [(ngModel)]="product.name"
                 required
                 autofocus
                 [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.reason
+                    'ng-invalid ng-dirty': submitted && !product.name
                 }"
             />
             <small
                 class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.reason"
-                >Date is required.</small
+                *ngIf="submitted && !product.name"
+                >Arabic Name is required.</small
             >
+        </div>
+
+        <div class="field">
+            <label for="engName">English Name</label>
+            <input
+                type="text"
+                pInputText
+                id="engName"
+                [(ngModel)]="product.engName"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.engName
+                }"
+            />
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.engName"
+                >English Name is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="notes">Notes</label>
+            <textarea
+                id="notes"
+                pInputTextarea
+                [(ngModel)]="product.notes"
+                required
+                rows="3"
+                cols="20"
+            ></textarea>
         </div>
     </ng-template>
 

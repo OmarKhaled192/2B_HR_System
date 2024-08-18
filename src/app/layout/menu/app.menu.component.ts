@@ -121,6 +121,17 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/info/vacationSetting'],
                     },
                     {
+                        label: this.translate.instant('CONVENATCATEGORY'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/CovenantCategory'],
+                    },
+                    {
+                        label: this.translate.instant('CONVENAT'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/Covenant'],
+
+                    },
+                    {
                         label: this.translate.instant('Company Policy'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/companyPolicy'],
@@ -299,6 +310,7 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-th-large',
                         routerLink: ['/pages/pagination-popup'],
                     },
+
                 ],
             },
             {

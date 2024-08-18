@@ -1,11 +1,10 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
@@ -18,44 +17,42 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { PublicVacationService } from './public-vacation.service';
+import { CovenantService } from './covenant.service';
 import { Globals } from 'src/app/class/globals';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-public-vacation',
-    standalone: true,
-    imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        CalendarModule,
-        TranslateModule,
-    ],
-    providers: [MessageService, DatePipe],
-    templateUrl: './public-vacation.component.html',
-    styleUrl: './public-vacation.component.scss',
+  selector: 'app-covenant',
+  templateUrl: './covenant.component.html',
+  styleUrl: './covenant.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule,
+    NgxPaginationModule,
+    ToolbarModule,
+    TableModule,
+    RippleModule,
+    FileUploadModule,
+    HttpClientModule,
+    ButtonModule,
+    FormsModule,
+    DialogModule,
+    ToastModule,
+    RatingModule,
+    InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
+    RadioButtonModule,
+    InputNumberModule,
+    ReactiveFormsModule,
+    TranslateModule
+  ],
+  providers: [MessageService, TranslateService],
 })
-export class PublicVacationComponent {
+export class CovenantComponent {
     constructor(
-        private _PublicVacationService: PublicVacationService,
-        private messageService: MessageService,
-        private DatePipe: DatePipe
+        private _CovenantService: CovenantService,
+        private messageService: MessageService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -74,33 +71,33 @@ export class PublicVacationComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
+    newName!: string;
+    newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
+    newNameAr!: string;
+    newNameEn!: string;
+    CovenantCategoryDropDown: any;
+    CovenantCategoryIdSelected: any;
+    selectedCovenantCategory: any;
+    selectedCovenantCategoryOnEdit: any;
 
-    // custom variables
-    date: string;
-    reason: string;
-    shiftDropDown: any;
-    selectedShift: string;
-    selectedShiftId: number;
-
-    selectedShiftEdit: string;
-    selectedShiftIdEdit: number;
-    oldDate: any;
+    selectedItemsData: any;
 
     ngOnInit() {
-        this.endPoint = 'PublicVacation';
+
+        this.endPoint = "Covenant";
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
             // update mainLang at Service
-            this._PublicVacationService.setCulture(mainLang);
+            this._CovenantService.setCulture(mainLang);
 
             // update endpoint
-            this._PublicVacationService.setEndPoint(this.endPoint);
+            this._CovenantService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
@@ -113,31 +110,36 @@ export class PublicVacationComponent {
         });
 
         this.cols = [
+            // basic fields
+            { field: 'name', header: 'Name' },
+            { field: 'notes', header: 'Notes' },
+
             // custom fields
-            { field: 'date', header: 'Date' },
-            { field: 'reason', header: 'Reason' },
-            { field: 'shiftName', header: 'Shift' },
+            { field: 'category', header: 'Category' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
+            { field: 'creationTime', header: 'CreationTime' },
+            { field: 'lastModificationTime', header: 'LastModificationTime' },
+            { field: 'creatorName', header: 'CreatorName' },
+            { field: 'lastModifierName', header: 'LastModifierName' },
         ];
 
-        this.gitAllShifts();
+        // get drop down of CovenantCategory
+        this.getDropDown("CovenantCategory");
     }
 
-    gitAllShifts() {
-        this._PublicVacationService.getDropdown().subscribe({
-            next: (res) => {
-                console.log(res['data']);
-                this.shiftDropDown = res['data'];
+
+    getDropDown(field: string) {
+        this._CovenantService.getDropDown(field).subscribe({
+            next: (res:any) => {
+                console.log(res.data);
+                this.CovenantCategoryDropDown = res.data;
+
             },
-            error: (error) => {
-                console.log(error);
-            },
-        });
+            error: (err) => {
+                console.log(err);
+            }
+        })
     }
 
     splitCamelCase(str:any) {
@@ -149,52 +151,31 @@ export class PublicVacationComponent {
         .join(' ');
     }
 
+    changeCovenantCategory() {
+        this.CovenantCategoryIdSelected = this.selectedCovenantCategory.id
+    }
+
+
     editProduct(rowData: any) {
-        console.log(rowData.id);
-        this._PublicVacationService.GetById(rowData.id).subscribe({
+        console.log(rowData.id)
+        this._CovenantService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
-
-                // get product.shiftId
-                this.selectedShiftEdit = this.shiftDropDown.find(
-                    (shift: any) => this.product.shiftId == shift.id
+                this.selectedCovenantCategoryOnEdit = this.CovenantCategoryDropDown.find((cat: any) =>
+                    this.product.covenantCategoryId == cat.id
                 );
-
-                // get product.date
-                this.oldDate = this.DatePipe.transform(
-                    this.product.date,
-                    'MM/dd/yyyy'
-                );
-                this.product.date = this.DatePipe.transform(
-                    this.product.date,
-                    'MM/dd/yyyy'
-                );
-
-                // console.log("product date")
-                // console.log(this.product.date)
-
-                // console.log("old date")
-                // console.log(this.oldDate)
             },
             error: (err) => {
                 console.log(err);
-            },
-        });
-    }
-
-    changedSelected() {
-        this.selectedShiftId = this.selectedShift['id'];
-    }
-
-    changedSelectedEdit() {
-        this.selectedShiftId = this.selectedShift['id'];
+            }
+        })
     }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._PublicVacationService.DeleteSoftById(id).subscribe({
+        this._CovenantService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -218,25 +199,19 @@ export class PublicVacationComponent {
             },
             error: (err) => {
                 console.log(err);
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'Product Deleted',
-                    life: 3000,
-                });
             },
         });
     }
 
     addNew() {
         let body = {
-            date: this.date,
-            reason: this.reason,
-            shiftId: this.selectedShiftId,
+            name: this.newNameAr,
+            notes: this.newNotes,
+            engName: this.newNameEn,
+            covenantCategoryId: this.CovenantCategoryIdSelected,
         };
 
-        this._PublicVacationService.Register(body).subscribe({
+        this._CovenantService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -261,14 +236,7 @@ export class PublicVacationComponent {
                 );
             },
             error: (err) => {
-                // this.showFormNew = false;
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'All Fields is required',
-                    life: 3000,
-                });
+                this.showFormNew = false;
 
                 console.log(err);
             },
@@ -286,10 +254,9 @@ export class PublicVacationComponent {
     }
 
     setFieldsNulls() {
-        this.date = null;
-        this.reason = null;
-        this.selectedShift = null;
-        this.selectedShiftId = null;
+        (this.newNameAr = null), (this.newNameEn = null),
+        (this.newNotes = null), (this.CovenantCategoryIdSelected = null),
+        (this.selectedCovenantCategory = null)
     }
 
     loadData(
@@ -309,15 +276,15 @@ export class PublicVacationComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._PublicVacationService.GetPage(filteredData).subscribe({
+        this._CovenantService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
                 console.log(res.data);
-
                 this.totalItems = res.totalItems;
                 this.loading = false;
-                console.log(this.selectedItems);
+
+                this.selectedItemsData = this.allData;
             },
             error: (err) => {
                 console.log(err);
@@ -363,34 +330,15 @@ export class PublicVacationComponent {
         console.log(id);
         console.log(product);
 
-        this.oldDate = this.DatePipe.transform(
-            this.product.date,
-            'yyyy-MM-ddTHH:mm:ss'
-        );
-        this.product.date = this.DatePipe.transform(
-            this.product.date,
-            'yyyy-MM-ddTHH:mm:ss'
-        );
-
-        console.log('oldDate');
-        console.log(this.oldDate);
-
-        console.log('product data');
-        console.log(product.data);
-
         let body = {
+            engName: product.engName,
+            name: product.name,
             id: product.id,
-            date: product.date,
-            reason: product.reason,
-            shiftId: product.shiftId,
+            notes: product.notes,
+            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id
         };
 
-        console.clear();
-        console.log('body here ');
-
-        console.log(body);
-
-        this._PublicVacationService.Edit(body).subscribe({
+        this._CovenantService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -422,13 +370,13 @@ export class PublicVacationComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
-            this.setFieldsNulls();
+            this.setFieldsNulls()
         }
     }
 
     exportCSV() {
         // Convert data to CSV format
-        const csvData = this.convertToCSV(this.selectedItems);
+        const csvData = this.convertToCSV(this.selectedItemsData);
 
         // Adding UTF-8 BOM
         const bom = '\uFEFF';
@@ -439,8 +387,9 @@ export class PublicVacationComponent {
             type: 'text/csv;charset=utf-8;',
         });
         const link = document.createElement('a');
+        link.id = `${this.endPoint}_${new Date().getTime()}`;
         link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_` + new Date().getTime() + '.csv';
+        link.download = `${this.endPoint}_${new Date().getTime()}.csv`;
         link.click();
     }
 
@@ -450,21 +399,15 @@ export class PublicVacationComponent {
         const separator = ',';
         let keys = [];
 
+
         this.cols.forEach((row) => {
             keys.push(row.field);
         });
+
         console.log(keys);
 
         const csvContent = data.map((row) =>
-            keys
-                .map((key) => {
-                    if (key == 'shift') {
-                        console.log(row['shiftName']);
-                    }
-
-                    return key == 'Shift' ? `"${row[key]}"` : `"${row[key]}"`;
-                })
-                .join(separator)
+            keys.map((key) => `"${row[key]}"`).join(separator)
         );
 
         csvContent.unshift(keys.join(separator)); // Add header row
@@ -479,7 +422,7 @@ export class PublicVacationComponent {
             selectedIds.push(item.id);
         });
 
-        this._PublicVacationService.DeleteRangeSoft(selectedIds).subscribe({
+        this._CovenantService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -488,8 +431,6 @@ export class PublicVacationComponent {
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
-                this.selectedItems = [];
-
                 this.loadData(
                     this.page,
                     this.itemsPerPage,
@@ -526,7 +467,10 @@ export class PublicVacationComponent {
             this.sortOrder = 'asc';
         }
     }
+
+
     sortByName(event: any) {
         this.sortField = 'name';
     }
+
 }

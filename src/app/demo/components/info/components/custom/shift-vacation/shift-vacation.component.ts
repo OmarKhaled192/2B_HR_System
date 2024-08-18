@@ -56,7 +56,7 @@ export class ShiftVacationComponent {
     constructor(
         private _ShiftVacationService: ShiftVacationService,
         private messageService: MessageService,
-        private DatePipe: DatePipe
+        private DatePipe: DatePipe,
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -98,7 +98,9 @@ export class ShiftVacationComponent {
     ngOnInit() {
         this.endPoint = 'ShiftVacation';
 
-        this._ShiftVacationService.setEndPoint(this.endPoint);
+        this.endPoint = "ShiftVacation";
+
+        this._ShiftVacationService .setEndPoint(this.endPoint);
 
         this.cols = [
             // custom fields
@@ -123,6 +125,7 @@ export class ShiftVacationComponent {
         ];
 
         this.gitAllShifts();
+
     }
 
     gitAllShifts() {
@@ -146,13 +149,11 @@ export class ShiftVacationComponent {
                 this.productDialog = true;
 
                 // get product.shiftId
-                this.selectedShiftEdit = this.shiftDropDown.find(
-                    (shift: any) => this.product.shiftId == shift.id
-                );
-                console.log('selectedShiftEdit : ', this.selectedShiftEdit);
+                this.selectedShiftEdit = this.shiftDropDown.find( (shift: any) => this.product.shiftId == shift.id);
+                console.log("selectedShiftEdit : ", this.selectedShiftEdit)
 
-                console.log(this.product.day);
-                console.log(this.product.day);
+                console.log(this.product.day)
+                console.log(this.product.day)
                 // get product.day
                 this.selectedDayEdit = this.AllDays.find(
                     (day: any) => day.id == this.product.day
@@ -438,6 +439,16 @@ export class ShiftVacationComponent {
 
         csvContent.unshift(keys.join(separator)); // Add header row
         return csvContent.join('\r\n'); // Join all rows
+    }
+
+
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     }
 
     confirmDeleteSelected() {

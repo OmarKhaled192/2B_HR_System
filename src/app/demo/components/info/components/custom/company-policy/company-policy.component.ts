@@ -156,6 +156,15 @@ export class CompanyPolicyComponent {
         this.selectedShiftId = this.selectedShift['id'];
     }
 
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this.companyPolicyService.DeleteSoftById(id).subscribe({

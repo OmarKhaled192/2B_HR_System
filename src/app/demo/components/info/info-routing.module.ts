@@ -13,13 +13,15 @@ import { PublicVacationComponent } from './components/custom/public-vacation/pub
 import { ShiftVacationComponent } from './components/custom/shift-vacation/shift-vacation.component';
 import { GradeComponent } from './components/standard/grade/grade.component';
 import { JobComponent } from './components/standard/job/job.component';
-import { RelativeRelationComponent } from './components/custom/relative-relation/relative-relation.component';
+import { RelativeRelationComponent } from './components/standard/relative-relation/relative-relation.component';
 import { ContractTypeComponent } from './components/standard/contract-type/contract-type.component';
 import { JobNatureComponent } from './components/standard/job-nature/job-nature.component';
 import { RecuritmentSourceComponent } from './components/standard/recuritment-source/recuritment-source.component';
 import { DocumentRequiredComponent } from './components/standard/document-required/document-required.component';
 import { UniformCodesComponent } from './components/standard/uniform-codes/uniform-codes.component';
 import { VacationSettingComponent } from './components/custom/vacation-setting/vacation-setting.component';
+import { CovenantCategoryComponent } from './components/standard/covenant-category/covenant-category.component';
+import { CovenantComponent } from './components/custom/covenant/covenant.component';
 import { CompanyPolicyComponent } from './components/custom/company-policy/company-policy.component';
 
 @NgModule({
@@ -45,7 +47,11 @@ import { CompanyPolicyComponent } from './components/custom/company-policy/compa
                 canActivate: [authGuard],
                 component: GradeComponent,
             },
-            { path: 'job', canActivate: [authGuard], component: JobComponent },
+            {
+                path: 'job',
+                canActivate: [authGuard],
+                component: JobComponent
+            },
             {
                 path: 'location',
                 canActivate: [authGuard],
@@ -110,6 +116,16 @@ import { CompanyPolicyComponent } from './components/custom/company-policy/compa
                 path: 'vacationSetting',
                 canActivate: [authGuard],
                 component: VacationSettingComponent,
+            },
+            {
+                path: 'CovenantCategory',
+                canActivate: [authGuard],
+                component: CovenantCategoryComponent,
+            },
+            {
+                path: 'Covenant',
+                canActivate: [authGuard],
+                component: CovenantComponent,
             },
             {
                 path: 'companyPolicy',
