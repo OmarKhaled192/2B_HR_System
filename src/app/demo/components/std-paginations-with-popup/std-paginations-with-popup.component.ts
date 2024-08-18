@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
@@ -19,6 +19,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { LockupsService } from '../../service/lockups.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-std-paginations-with-popup',
@@ -48,11 +49,11 @@ import { TranslateModule } from '@ngx-translate/core';
     templateUrl: './std-paginations-with-popup.component.html',
     styleUrl: './std-paginations-with-popup.component.scss',
 })
-export class StdPaginationsWithPopupComponent {
+export class StdPaginationsWithPopupComponent{
     constructor(
         private _LockupsService: LockupsService,
-        private messageService: MessageService
-    ) {}
+        private messageService: MessageService) {
+    }
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -78,10 +79,31 @@ export class StdPaginationsWithPopupComponent {
     newNameAr!: string;
     newNameEn!: string;
 
+
     ngOnInit() {
-        this._LockupsService.setEndPoint(this.endPoint);
+
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._LockupsService.setCulture(mainLang);
+
+            // update endpoint
+            this._LockupsService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
+            // basic data
             { field: 'name', header: 'Name' },
             { field: 'notes', header: 'Notes' },
 
@@ -92,6 +114,17 @@ export class StdPaginationsWithPopupComponent {
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
     }
+
+
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
+
 
     editProduct(rowData: any) {
         console.log(rowData.id);

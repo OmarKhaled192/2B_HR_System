@@ -37,7 +37,6 @@ import { TranslateModule } from '@ngx-translate/core';
         InputTextModule,
         InputNumberModule,
         ToastModule,
-        TranslateModule,
     ],
 })
 export class VacationSettingComponent {

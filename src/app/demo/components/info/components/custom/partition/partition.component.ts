@@ -1,7 +1,6 @@
 import { PartitionService } from './partition.service';
 import { Component, Input, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { LockupsService } from 'src/app/demo/service/lockups.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -20,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { Globals } from 'src/app/class/globals';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -54,9 +54,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class PartitionComponent {
     constructor(
-        private _LockupsService: LockupsService,
+        private _PartitionService: PartitionService,
         private messageService: MessageService,
-        private _PartitionService: PartitionService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -86,12 +85,33 @@ export class PartitionComponent {
     selectedDepartment: string = '';
     selectedDepartmentId: number = -1;
     selectedEditsDepartment: any;
+
     ngOnInit() {
-        this.endPoint = 'Partation';
-        this._LockupsService.setEndPoint(this.endPoint);
-        this._PartitionService.setEndPoint(this.endPoint);
+
+        this.endPoint = "Partation"
+
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._PartitionService.setCulture(mainLang);
+
+            // update endpoint
+            this._PartitionService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
+            });
 
         this.cols = [
+            // basic fields
             { field: 'name', header: 'Name' },
             { field: 'notes', header: 'Notes' },
 
@@ -114,8 +134,8 @@ export class PartitionComponent {
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id);
-        this._LockupsService.GetById(rowData.id).subscribe({
+        console.log(rowData.id)
+        this._PartitionService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
@@ -137,8 +157,8 @@ export class PartitionComponent {
 
     getDropDownDepartment() {
         this._PartitionService.getDropDown('Department').subscribe({
-            next: (res) => {
-                this.departmentDropDown = res['data'];
+            next: (res:any) => {
+                this.departmentDropDown = res.data;
             },
             error: (err) => {
                 console.log(err);
@@ -148,7 +168,7 @@ export class PartitionComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._LockupsService.DeleteSoftById(id).subscribe({
+        this._PartitionService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -184,7 +204,7 @@ export class PartitionComponent {
             departmentId: this.selectedDepartmentId,
         };
 
-        this._LockupsService.Register(body).subscribe({
+        this._PartitionService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -210,7 +230,6 @@ export class PartitionComponent {
             },
             error: (err) => {
                 this.showFormNew = false;
-
                 console.log(err);
             },
         });
@@ -250,7 +269,7 @@ export class PartitionComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._LockupsService.GetPage(filteredData).subscribe({
+        this._PartitionService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -312,7 +331,7 @@ export class PartitionComponent {
             departmentId: this.selectedEditsDepartment.id,
         };
 
-        this._LockupsService.Edit(body).subscribe({
+        this._PartitionService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -394,7 +413,7 @@ export class PartitionComponent {
             selectedIds.push(item.id);
         });
 
-        this._LockupsService.DeleteRangeSoft(selectedIds).subscribe({
+        this._PartitionService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -430,6 +449,15 @@ export class PartitionComponent {
                 );
             },
         });
+    }
+
+    splitCamelCase(str:any) {
+        return str.replace(/([A-Z])/g, ' $1')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .split(' ')
+        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
     }
 
     sortById(event: any) {
