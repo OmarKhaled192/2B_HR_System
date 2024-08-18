@@ -38,18 +38,30 @@ export class LoginComponent {
     submitLoginForm(logForm: FormGroup) {
         this.authService.login(logForm.value).subscribe({
             next: (res) => {
-                if (res.data.token)
-                    localStorage.setItem('userToken', res.data.token);
-                this.router.navigate(['/dashboard']);
+                if (res.data.token && res.statusCode == 200)
+                   {
+                        localStorage.setItem('userToken', res.data.token);
+                        this.router.navigate(['/dashboard']);
+                   }
             },
             error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Invalid Email or Password',
-                    life: 3000,
-                });
-                console.log(err);
+
+                if (err.status == 401){
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: 'Invalid You Are Unauthorized',
+                        life: 3000,
+                    });
+                    this.router.navigate(['/login']);
+                } else {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: 'Invalid Email or Password',
+                        life: 3000,
+                    });
+                }
             },
         });
     }

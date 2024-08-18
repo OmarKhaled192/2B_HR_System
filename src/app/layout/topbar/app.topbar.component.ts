@@ -3,6 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-topbar',
@@ -12,7 +13,8 @@ import { Globals } from 'src/app/class/globals';
 export class AppTopBarComponent implements OnInit  {
     constructor(
         public layoutService: LayoutService,
-        private translate: TranslateService) {
+        private translate: TranslateService,
+        private router: Router) {
     }
     countries: any[] | undefined;
 
@@ -74,6 +76,12 @@ export class AppTopBarComponent implements OnInit  {
     @ViewChild('topbarmenubutton') topbarMenuButton!: ElementRef;
 
     @ViewChild('topbarmenu') menu!: ElementRef;
+
+
+    signOut() {
+        localStorage.clear();
+        this.router.navigate(['/auth/login'])
+    }
 
     changeThemeFun() {
         if (this.theme == 'saga-orange') {

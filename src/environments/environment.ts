@@ -5,6 +5,7 @@
 export const environment = {
     production: false,
     baseurl: 'http://37.61.220.214:5051/api',
+    mediaUrl: 'http://37.61.220.214:5051/AppMedia'
 };
 /*
  * For easier debugging in development mode, you can import the following file
