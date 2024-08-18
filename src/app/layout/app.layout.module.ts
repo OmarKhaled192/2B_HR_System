@@ -20,6 +20,7 @@ import { AppTopBarComponent } from './topbar/app.topbar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { TranslateLabelPipe } from './menu/translate-label.pipe';
 
 @NgModule({
     declarations: [
@@ -29,6 +30,7 @@ import { CalendarModule } from 'primeng/calendar';
         AppMenuComponent,
         AppSidebarComponent,
         AppLayoutComponent,
+        TranslateLabelPipe
     ],
     imports: [
         BrowserModule,
