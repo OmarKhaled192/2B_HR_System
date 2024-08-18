@@ -69,8 +69,7 @@
                 chooseLabel="Choose"
                 chooseIcon="pi pi-upload"
                 name="demo[]"
-                url="https://www.primefaces.org/cdn/api/upload.php"
-                accept="application/pdf"
+                [url]="baseUrlFile.concat('/', endPoint)"
                 maxFileSize="1000000"
                 (onSelect)="onFileSelect($event)"
             />
@@ -168,7 +167,7 @@
 
             <td>
                 <span class="p-column-title">Url</span>
-                {{ rowData.url ? rowData.url : "" }}
+                <a class="text-white bg-blue-500 border-none" pButton pRipple [href]="baseUrlFile.concat('/',rowData.url)">View</a>
             </td>
             <td>
                 <span class="p-column-title">Discreption</span>
