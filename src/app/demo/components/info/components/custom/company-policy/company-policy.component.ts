@@ -20,6 +20,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { CompanyPolicyService } from './company-policy.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-company-policy',
@@ -92,12 +93,14 @@ export class CompanyPolicyComponent {
     selectedShiftEdit: string;
     selectedShiftIdEdit: number;
     oldDate: any;
+    baseUrlFile: string;
+    CompanyPolicyUrl: string;
 
     ngOnInit() {
         this.endPoint = 'CompanyPolicy';
-
+        this.baseUrlFile = environment.mediaUrl;
         this.companyPolicyService.setEndPoint(this.endPoint);
-
+        
         this.cols = [
             // custom fields
             { field: 'url', header: 'Url' },
