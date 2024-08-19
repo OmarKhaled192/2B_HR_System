@@ -1,42 +1,37 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, of, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Pipe({
-  name: 'translateLabel'
+  name: 'translateLabel',
+  pure: false // Set this to false to make the pipe non-pure
 })
 
-export class TranslateLabelPipe implements PipeTransform {
+export class TranslateLabelPipe implements PipeTransform, OnDestroy {
+    private subscription: Subscription;
 
-    newLabel:string = '';
-    allValues = [];
-
-    constructor(private translateService: TranslateService) {}
-
-    transform(value: any): any {
-        if (!value) {
-            return value;
-        }
-
-
-        let label = value.label;
-
-        //  let newLabel =  this.translateService.instant(label);
-
-        // this.translateService.getTranslation("ar").subscribe((res) =>  {
-        //     console.log(res);
-        // })
-
-        this.translateService.get(label).subscribe((transVal)=> {
-                // console.log(transVal);
-                this.newLabel = transVal;
-                console.log({ ...value,  label: this.newLabel})
-            }
-        )
-
-
-        return { ...value,  label: this.newLabel};
-        // return value
-
+    constructor(private translateService: TranslateService) {
+        this.subscription = this.translateService.onLangChange.subscribe(() => {
+            // Trigger the pipe transformation when the language changes
+            this.transform.call(this);
+        });
     }
 
+    transform(value: any): Observable<any> {
+        if (!value) {
+            return of(value);
+        }
+
+        return this.translateService.get(value.label).pipe(
+            map((transVal) => {
+                return { ...value, label: transVal };
+            })
+        );
+    }
+
+    ngOnDestroy() {
+        // Unsubscribe from the language change event when the component is destroyed
+        this.subscription.unsubscribe();
+    }
 }
