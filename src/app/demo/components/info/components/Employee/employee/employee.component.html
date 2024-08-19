@@ -1,1 +1,167 @@
-<p>employee works!</p>
+<div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<h5>Add New Employee</h5>
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-4">
+					<label htmlFor="arabicName">Full Name with Arabic</label>
+					<input pInputText id="arabicName" type="text" />
+				</div>
+				<div class="field col-12 md:col-4">
+					<label htmlFor="engName">Full Name with English</label>
+					<input pInputText id="engName" type="text" />
+				</div>
+
+                <div class="field col-12 md:col-4">
+					<label htmlFor="NationalId">National Id</label>
+					<input pInputText id="NationalId" type="text" />
+				</div>
+
+				<div class="field col-12 md:col-8">
+					<label htmlFor="address"> Address</label>
+					<input pInputTextarea id="address" rows="4" />
+				</div>
+
+                <div class="field col-12 md:col-4">
+					<label htmlFor="government">Government</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedGovernment"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="phone"> Phone</label>
+					<input pInputText id="phone" rows="4" />
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="email"> Email</label>
+					<input pInputText id="email" rows="4" />
+				</div>
+
+				<div class="field col-12 md:col-3">
+					<label htmlFor="BirthDate"> BirthDate</label>
+                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Religin">Religin</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedReligin"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="maritalStatus">Material Status</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedMaritalStatus"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Blood">Blood Types</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedBloodType"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="gender">Gender Types</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedGender"></p-dropdown>
+				</div>
+
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Qualification">Qualification</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedQualification"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Job">Job</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedJob"></p-dropdown>
+				</div>
+
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="department">Departments</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedDepartment"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Partitions">Partition</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedPartitions"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Shift">Shift</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedShift"></p-dropdown>
+				</div>
+
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Bank">Bank</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedBank"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Grade">Grade</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedGrade"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="jobNature">job Nature</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedjobNature"></p-dropdown>
+				</div>
+
+
+                <div class="field col-12 md:col-3 flex gap-3 align-items-center">
+                    <p-inputSwitch [(ngModel)]="selectedIsInsured" />
+					<label htmlFor="isInsured">Is Insured </label>
+				</div>
+
+
+                <div class="field col-12 md:col-3 flex gap-3 align-items-center">
+                    <p-inputSwitch [(ngModel)]="selectedIsManager" />
+					<label htmlFor="isManager">Is Manager </label>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="machineCode">Machine Code</label>
+					<input pInputText id="machineCode" type="text" />
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="recuritmentSource">Recuritment Source</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedRecuritmentSource"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="ContactTypes">Contact Type</label>
+					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedContactType"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="joinInDate">Join In Date</label>
+                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="reasignInDate">resignation Date</label>
+                    <p-calendar [showIcon]="true" inputId="icon"></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-6">
+					<label htmlFor="description">Description</label>
+					<input pInputTextarea id="description" rows="4" />
+				</div>
+
+                <div class="field col-12 md:col-6">
+					<label htmlFor="description">Upload File</label>
+                    <p-fileUpload
+                    mode="basic"
+                    chooseLabel="Choose"
+                    chooseIcon="pi pi-upload"
+                    name="demo[]"
+                    url="https://www.primefaces.org/cdn/api/upload.php"
+                    accept="image/*"
+                    maxFileSize="1000000"
+                    (onUpload)="onUpload($event)" />
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>

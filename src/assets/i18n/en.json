@@ -102,5 +102,19 @@
     "Add New Recuritment Source": "Add New Recuritment Source",
     "Add New Uniform Codes": "Add New Uniform Codes",
     "Add New Covenant": "Add New Covenant",
-    "Add New Company Policy": "Add New Company Policy"
+    "Add New Company Policy": "Add New Company Policy",
+
+    "EMPLOYEE_DATA": "Employee data",
+    "ADD_EMPLOYEE": "Add Employee",
+    "EMPLOYEE_CERTIFICATION": "Employee Certification",
+    "EMPLOYEE_COURSE": "Employee Course",
+    "EMPLOYEE_COVENANT": "Employee Covenant",
+    "EMPLOYEE_FAMILY": "Employee Family",
+    "EMPLOYEE_FILE": "Employee File",
+    "EMPLOYEE_LOCATION": "Employee Location",
+    "EMPLOYEE_MANAGER": "Employee Manager",
+    "EMPLOYEE_SALARY": "Employee Salary",
+    "EMPLOYEE_UNIFORM": "Employee Uniform",
+    "EMPLOYEE_VACATION_STOCK": "Employee Vacation Stock",
+    "EMPLOYEE_VACATION_EXPERIENCE": "Employee Vacation Experience"
 }

@@ -23,6 +23,7 @@ import { VacationSettingComponent } from './components/custom/vacation-setting/v
 import { CovenantCategoryComponent } from './components/standard/covenant-category/covenant-category.component';
 import { CovenantComponent } from './components/custom/covenant/covenant.component';
 import { CompanyPolicyComponent } from './components/custom/company-policy/company-policy.component';
+import { EmployeeComponent } from './components/Employee/employee/employee.component';
 
 @NgModule({
     imports: [
@@ -131,6 +132,11 @@ import { CompanyPolicyComponent } from './components/custom/company-policy/compa
                 path: 'companyPolicy',
                 canActivate: [authGuard],
                 component: CompanyPolicyComponent,
+            },
+            {
+                path: 'employee',
+                canActivate: [authGuard],
+                component: EmployeeComponent,
             },
             { path: '**', component: NotfoundComponent },
         ]),

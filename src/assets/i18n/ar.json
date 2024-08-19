@@ -107,5 +107,19 @@
     "Day": "اليوم",
     "Company Policy": "سياسة الشركة",
     "Name English": "الاسم بالانجليزى",
-    "Name Arabic": "الاسم بالعربى"
+    "Name Arabic": "الاسم بالعربى",
+
+    "EMPLOYEE_DATA": "بيانات الموظف",
+    "ADD_EMPLOYEE": "اضافة موظف",
+    "EMPLOYEE_CERTIFICATION": "شهادات الموظف",
+    "EMPLOYEE_COURSE": "كورسات الموظف",
+    "EMPLOYEE_COVENANT": "عهد الموظف",
+    "EMPLOYEE_FAMILY": "عائلة الموظف",
+    "EMPLOYEE_FILE": "مستندات الموظف",
+    "EMPLOYEE_LOCATION": "مكان الموظف",
+    "EMPLOYEE_MANAGER": "مدير الموظف",
+    "EMPLOYEE_SALARY": "مرتب الموظف",
+    "EMPLOYEE_UNIFORM": "زى الموظف",
+    "EMPLOYEE_VACATION_STOCK": "مخزون إجازة الموظف",
+    "EMPLOYEE_VACATION_EXPERIENCE": "اجازة خبرة للموظف"
 }
