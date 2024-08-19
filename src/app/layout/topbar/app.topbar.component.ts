@@ -44,7 +44,7 @@ export class AppTopBarComponent implements OnInit  {
         // this.selectedCountry = this.countries[1];
 
 
-       this.theme = localStorage.getItem("theme").toString();
+       this.theme = localStorage.getItem("theme")
 
        if(this.theme == "arya-orange") {
             this.themeSelected = true;

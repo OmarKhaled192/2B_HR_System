@@ -2,12 +2,14 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TranslateLabelPipe } from './translate-label.pipe';
 
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html',
     styleUrls: ['./app.menu.component.scss'],
 })
+
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
 
@@ -135,6 +137,27 @@ export class AppMenuComponent implements OnInit {
                         label: this.translate.instant('Company Policy'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/companyPolicy'],
+                    },
+                    {
+                        label: this.translate.instant('Employee Data'),
+                        icon: 'pi pi-bookmark',
+                        items : [
+                            {
+                                label: this.translate.instant('test'),
+                                icon: 'pi p-menu-list',
+
+                                items: [
+                                    {
+                                        label: this.translate.instant('test_1_1'),
+                                        icon: 'pi pi-bookmark',
+                                    },
+                                    {
+                                        label: this.translate.instant('test_1_2'),
+                                        icon: 'pi pi-bookmark',
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
             },
