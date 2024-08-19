@@ -9,41 +9,63 @@
             </a>
 
             <ul *ngIf="item.items">
-                <ng-container *ngFor="let subItem of item.items">
-                    <li *ngIf="!subItem.separator">
-                        <a
-                            class="layout-menuitem-root-text"
+                <!-- <ng-container *ngFor="let subItem of item.items">
+                    <li *ngIf="!subItem.separator" >
+                        <a  class="layout-menuitem-root-text"
                             [routerLink]="subItem.routerLink"
-                            routerLinkActive="active"
-                        >
+                            routerLinkActive="active">
+
                             <i [ngClass]="subItem.icon"></i>
                             {{ subItem.label | translate }}
                         </a>
-
-                        <!-- Handle further nesting if needed -->
-                        <ul *ngIf="subItem.items">
-                            <ng-container
-                                *ngFor="let subSubItem of subItem.items"
-                            >
-                                <li *ngIf="!subSubItem.separator">
-                                    <a
-                                        [routerLink]="subSubItem.routerLink"
-                                        routerLinkActive="active"
-                                    >
-                                        <i [ngClass]="subSubItem.icon"></i>
-                                        {{ subSubItem.label | translate }}
-                                    </a>
-                                </li>
-                                <li
-                                    *ngIf="subSubItem.separator"
-                                    class="menu-separator"
-                                ></li>
-                            </ng-container>
-                        </ul>
                     </li>
                     <li *ngIf="subItem.separator" class="menu-separator"></li>
-                </ng-container>
-            </ul>
+                </ng-container> -->
+
+
+            <ng-template
+                ngFor
+                let-child
+                let-i="index"
+                [ngForOf]="item.items">
+
+                <li app-menuitem
+                    [item]="child | translateLabel | async "
+                    [index]="i"
+                    [parentKey]="key"
+                    [class]="child.badgeClass">
+
+                </li>
+
+            </ng-template>
+
+
+
+        </ul>
+
+
+
+    <!-- <ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation" >
+        <ng-template
+            ngFor
+            let-child
+            let-i="index"
+            [ngForOf]="item.items"
+        >
+            <li
+                app-menuitem
+                [item]="child"
+                [index]="i"
+                [parentKey]="key"
+                [class]="child.badgeClass"
+            ></li>
+        </ng-template>
+    </ul> -->
+
         </li>
     </ng-container>
 </ul>
+
+
+
+
