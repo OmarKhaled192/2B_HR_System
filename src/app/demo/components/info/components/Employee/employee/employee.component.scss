@@ -3,7 +3,9 @@
     padding: 10px;
 }
 
-
-
+::ng-deep .p-fileupload .p-button {
+    background-color: #ffffff !important;
+    border: none;
+  }
 
 

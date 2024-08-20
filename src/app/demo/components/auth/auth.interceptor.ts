@@ -15,7 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
 
   return next(req).pipe(
     catchError((error) => {
-      if (error.status === 401 || error.status === 500) {
+      if (error.status === 401) {
         // Check if the request is to the login endpoint
         if (request.url.includes('/auth/login')) {
           // If the request is to the login endpoint, return the error
