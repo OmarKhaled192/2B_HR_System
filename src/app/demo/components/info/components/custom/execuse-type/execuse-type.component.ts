@@ -1,14 +1,15 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule, Time } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -18,13 +19,11 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule } from '@ngx-translate/core';
-import { CompanyPolicyService } from './company-policy.service';
-import { environment } from 'src/environments/environment';
+import { ExecuseTypeService } from './execuse-type.service';
 import { Globals } from 'src/app/class/globals';
 
 @Component({
-    selector: 'app-company-policy',
+    selector: 'app-execuse-type',
     standalone: true,
     imports: [
         CommonModule,
@@ -48,16 +47,14 @@ import { Globals } from 'src/app/class/globals';
         CalendarModule,
         TranslateModule,
     ],
-    providers: [MessageService, DatePipe],
-    templateUrl: './company-policy.component.html',
-    styleUrl: './company-policy.component.scss',
+    providers: [MessageService],
+    templateUrl: './execuse-type.component.html',
+    styleUrl: './execuse-type.component.scss',
 })
-export class CompanyPolicyComponent {
+export class ExecuseTypeComponent {
     constructor(
-        private companyPolicyService: CompanyPolicyService,
-        private messageService: MessageService,
-        private DatePipe: DatePipe,
-        private http: HttpClient
+        private execuseTypeService: ExecuseTypeService,
+        private messageService: MessageService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -76,41 +73,27 @@ export class CompanyPolicyComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
+    newNotes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
-    currentId!: number;
-    // custom variables
-    enName: string;
-    arName: string;
-    notes: string;
-    url: string;
-    discreption: string;
-    selectedShift: string;
-    selectedShiftId: number;
-    file: File;
-    fileBase64: string = '';
 
-    selectedShiftEdit: string;
-    selectedShiftIdEdit: number;
-    oldDate: any;
-    baseUrlFile: string;
-    CompanyPolicyUrl: string;
+    newNameAr!: string;
+    newNameEn!: string;
+    numberOfHours!: number;
 
     ngOnInit() {
-        this.endPoint = 'CompanyPolicy';
-        this.baseUrlFile = environment.mediaUrl;
-        this.companyPolicyService.setEndPoint(this.endPoint);
+        this.endPoint = 'ExcuesType';
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
             // update mainLang at Service
-            this.companyPolicyService.setCulture(mainLang);
+            this.execuseTypeService.setCulture(mainLang);
 
             // update endpoint
-            this.companyPolicyService.setEndPoint(this.endPoint);
+            this.execuseTypeService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
@@ -123,63 +106,36 @@ export class CompanyPolicyComponent {
         });
 
         this.cols = [
-            // custom fields
-            { field: 'url', header: 'Url' },
-            { field: 'discreption', header: 'Discreption' },
-            { field: 'file', header: 'File' },
-            { field: 'deletFIle', header: 'deletFIle' },
+            // main field
+            { field: 'name', header: 'Name' },
+
+            // personal fields
+
+            { field: 'numberOfHours', header: 'NumberOfHours' },
+
+            // main field
+            { field: 'notes', header: 'Notes' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
+            { field: 'creationTime', header: 'CreationTime' },
+            { field: 'lastModificationTime', header: 'LastModificationTime' },
+            { field: 'creatorName', header: 'CreatorName' },
+            { field: 'lastModifierName', header: 'LastModifierName' },
         ];
     }
 
     editProduct(rowData: any) {
         console.log(rowData.id);
-        this.companyPolicyService.GetById(rowData.id).subscribe({
+        this.execuseTypeService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
-                this.currentId = res.data.id;
-
                 this.product = { ...res.data };
                 this.productDialog = true;
-
-                // get product.shiftId
-                // this.selectedShiftEdit = this.shiftDropDown.find(
-                //     (shift: any) => this.product.shiftId == shift.id
-                // );
-
-                // get product.date
-                this.oldDate = this.DatePipe.transform(
-                    this.product.date,
-                    'MM/dd/yyyy'
-                );
-                this.product.date = this.DatePipe.transform(
-                    this.product.date,
-                    'MM/dd/yyyy'
-                );
-
-                // console.log("product date")
-                // console.log(this.product.date)
-
-                // console.log("old date")
-                // console.log(this.oldDate)
             },
             error: (err) => {
                 console.log(err);
             },
         });
-    }
-
-    changedSelected() {
-        this.selectedShiftId = this.selectedShift['id'];
-    }
-
-    changedSelectedEdit() {
-        this.selectedShiftId = this.selectedShift['id'];
     }
 
     splitCamelCase(str: any) {
@@ -192,10 +148,13 @@ export class CompanyPolicyComponent {
             .join(' ');
     }
 
+    startAttendeesTimeClick(event: any) {}
+
+    endAttendeesTimeClick(event: any) {}
+
     confirmDelete(id: number) {
-        let allIds = [id];
         // perform delete from sending request to api
-        this.companyPolicyService.DeleteRange(allIds).subscribe({
+        this.execuseTypeService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -219,34 +178,26 @@ export class CompanyPolicyComponent {
             },
             error: (err) => {
                 console.log(err);
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'Product Deleted',
-                    life: 3000,
-                });
             },
         });
     }
 
     addNew() {
+        // first convert from date full format to time only
+        // why? because prime ng calender component returned the value as a full Date Format
+
+        // set body of request
         let body = {
-            engName: this.enName,
-            name: this.arName,
-            notes: this.notes,
-            discreption: this.discreption,
-            file: this.file,
+            name: this.newNameAr,
+            notes: this.newNotes,
+            engName: this.newNameEn,
+            hoursNumber: this.numberOfHours,
         };
-        const formData: FormData = new FormData();
 
-        for (const key in body) {
-            if (body.hasOwnProperty(key)) {
-                formData.append(key, body[key]);
-            }
-        }
+        console.log(body);
 
-        this.companyPolicyService.Register(formData).subscribe({
+        // Confirm add new
+        this.execuseTypeService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -259,6 +210,7 @@ export class CompanyPolicyComponent {
                 });
 
                 // set fields is empty
+                this.setFieldsNulls();
 
                 // load data again
                 this.loadData(
@@ -268,19 +220,15 @@ export class CompanyPolicyComponent {
                     this.sortField,
                     this.sortOrder
                 );
-                this.setFieldsNulls();
             },
             error: (err) => {
-                // this.showFormNew = false;
-
+                this.showFormNew = false;
                 this.messageService.add({
                     severity: 'error',
-                    summary: 'error field',
-                    detail: 'All Fields is required',
+                    summary: 'Error',
+                    detail: err,
                     life: 3000,
                 });
-
-                console.log(err);
             },
         });
     }
@@ -296,10 +244,10 @@ export class CompanyPolicyComponent {
     }
 
     setFieldsNulls() {
-        // this.date = null;
-        // this.reason = null;
-        // this.selectedShift = null;
-        // this.selectedShiftId = null;
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null);
+        this.numberOfHours = null;
     }
 
     loadData(
@@ -319,7 +267,7 @@ export class CompanyPolicyComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this.companyPolicyService.GetPage(filteredData).subscribe({
+        this.execuseTypeService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -330,7 +278,13 @@ export class CompanyPolicyComponent {
                 console.log(this.selectedItems);
             },
             error: (err) => {
-                console.error(err);
+                console.log(err);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: err,
+                    life: 3000,
+                });
                 this.loading = false;
             },
         });
@@ -352,6 +306,8 @@ export class CompanyPolicyComponent {
             this.sortField,
             this.sortOrder
         );
+
+        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
@@ -369,29 +325,19 @@ export class CompanyPolicyComponent {
     }
 
     saveProduct(id: number, product: any) {
-        // this.submitted = true;
+        this.submitted = true;
+        console.log(id);
+        console.log(product);
 
         let body = {
-            Id: this.currentId,
-            EngName: this.enName,
-            Name: this.arName,
-            Notes: this.notes,
-            Discreption: this.discreption,
-            File: this.file,
+            engName: product.engName,
+            name: product.name,
+            id: product.id,
+            notes: product.notes,
+            hoursNumber: product.numberOfHours,
         };
-        const formDataEdit: FormData = new FormData();
 
-        for (const key in body) {
-            if (body.hasOwnProperty(key)) {
-                formDataEdit.append(key, body[key]);
-            }
-        }
-
-        console.log('body here ');
-
-        console.log(body);
-
-        this.companyPolicyService.Edit(formDataEdit).subscribe({
+        this.execuseTypeService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -413,6 +359,7 @@ export class CompanyPolicyComponent {
             },
             error: (err) => {
                 console.log(err);
+                alert(err);
             },
         });
     }
@@ -422,7 +369,6 @@ export class CompanyPolicyComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
-            this.setFieldsNulls();
         }
     }
 
@@ -440,7 +386,7 @@ export class CompanyPolicyComponent {
         });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `${this.endPoint}_` + new Date().getTime() + '.csv';
+        link.download = 'data_export_' + new Date().getTime() + '.csv';
         link.click();
     }
 
@@ -456,15 +402,7 @@ export class CompanyPolicyComponent {
         console.log(keys);
 
         const csvContent = data.map((row) =>
-            keys
-                .map((key) => {
-                    if (key == 'shift') {
-                        console.log(row['shiftName']);
-                    }
-
-                    return key == 'Shift' ? `"${row[key]}"` : `"${row[key]}"`;
-                })
-                .join(separator)
+            keys.map((key) => `"${row[key]}"`).join(separator)
         );
 
         csvContent.unshift(keys.join(separator)); // Add header row
@@ -479,7 +417,7 @@ export class CompanyPolicyComponent {
             selectedIds.push(item.id);
         });
 
-        this.companyPolicyService.DeleteRange(selectedIds).subscribe({
+        this.execuseTypeService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -499,24 +437,16 @@ export class CompanyPolicyComponent {
                 );
             },
             error: (err) => {
+                this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Failure',
                     detail: err.statusText,
                     life: 3000,
                 });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
             },
         });
     }
-
     sortById(event: any) {
         this.sortField = 'id';
 
@@ -528,19 +458,5 @@ export class CompanyPolicyComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
-    }
-    onFileSelect(event: any) {
-        console.log(event);
-
-        let file: any = event.currentFiles[0];
-        this.file = file;
-        console.log(file);
-
-        // const reader = new FileReader();
-        // reader.onload = (e: any) => {
-        //     // file. = e.target.result;
-        //     this.file = file;
-        // };
-        // reader.readAsDataURL(file);
     }
 }

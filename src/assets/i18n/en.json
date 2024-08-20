@@ -94,7 +94,7 @@
     "Add New Department": "Add New Department",
     "Add New Public Vacation": "Add New Public Vacation",
     "Add New Relative Relation": "Add New Relative Relation",
-    "Add New Contract Type":"Add New Contract Type",
+    "Add New Contract Type": "Add New Contract Type",
     "Add New Shift Vacation": "Add New Shift Vacation",
     "Add New Location": "Add New Location",
     "Add New Partation": "Add New Partation",
@@ -102,5 +102,18 @@
     "Add New Recuritment Source": "Add New Recuritment Source",
     "Add New Uniform Codes": "Add New Uniform Codes",
     "Add New Covenant": "Add New Covenant",
-    "Add New Company Policy": "Add New Company Policy"
+    "Add New Company Policy": "Add New Company Policy",
+    "Add New Covenant Category": "Add New Covenant Category",
+    "Execuse Type": "Execuse Type",
+    "hoursNumber": "hoursNumber",
+    "Execuse Request": "Execuse Request",
+    "Close Month": "Close Month",
+    "Vacation Type": "Vacation Type",
+    "Months": "Months",
+    "MONTH": "Month",
+    "managerApproved": "managerApproved",
+    "hrApproved": "hrApproved",
+    "stockVacation": "stockVacation",
+    "dayCount": "dayCount",
+    "vacation starts after": "vacation starts after"
 }

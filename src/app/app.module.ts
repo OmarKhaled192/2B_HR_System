@@ -20,7 +20,11 @@ import {
     HttpClient,
 } from '@angular/common/http';
 import { authInterceptor } from './demo/components/auth/auth.interceptor';
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import {
+    TranslateModule,
+    TranslateLoader,
+    TranslateService,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {

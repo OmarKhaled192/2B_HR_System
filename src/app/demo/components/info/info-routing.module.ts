@@ -1,3 +1,4 @@
+import { CloseMonthComponent } from './components/custom/close-month/close-month.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DepartmentComponent } from './components/standard/department/department.component';
@@ -23,6 +24,8 @@ import { VacationSettingComponent } from './components/custom/vacation-setting/v
 import { CovenantCategoryComponent } from './components/standard/covenant-category/covenant-category.component';
 import { CovenantComponent } from './components/custom/covenant/covenant.component';
 import { CompanyPolicyComponent } from './components/custom/company-policy/company-policy.component';
+import { ExecuseTypeComponent } from './components/custom/execuse-type/execuse-type.component';
+import { VacationTypeComponent } from './components/custom/vacation-type/vacation-type.component';
 
 @NgModule({
     imports: [
@@ -50,7 +53,7 @@ import { CompanyPolicyComponent } from './components/custom/company-policy/compa
             {
                 path: 'job',
                 canActivate: [authGuard],
-                component: JobComponent
+                component: JobComponent,
             },
             {
                 path: 'location',
@@ -132,6 +135,22 @@ import { CompanyPolicyComponent } from './components/custom/company-policy/compa
                 canActivate: [authGuard],
                 component: CompanyPolicyComponent,
             },
+            {
+                path: 'execuseType',
+                canActivate: [authGuard],
+                component: ExecuseTypeComponent,
+            },
+            {
+                path: 'closeMonth',
+                canActivate: [authGuard],
+                component: CloseMonthComponent,
+            },
+            {
+                path: 'vacationType',
+                canActivate: [authGuard],
+                component: VacationTypeComponent,
+            },
+
             { path: '**', component: NotfoundComponent },
         ]),
     ],
