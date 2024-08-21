@@ -1,9 +1,20 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+    Component,
+    ElementRef,
+    Input,
+    SimpleChanges,
+    ViewChild,
+} from '@angular/core';
+import {
+    FormControl,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { MessageService } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
@@ -20,51 +31,66 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { EmployeeService } from './employee.service';
+import { BadgeModule } from 'primeng/badge';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { PanelModule } from 'primeng/panel';
+import { CalendarModule } from 'primeng/calendar';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-employee',
-  standalone: true,
-  imports: [
-      CommonModule,
-      NgxPaginationModule,
-      ToolbarModule,
-      TableModule,
-      RippleModule,
-      FileUploadModule,
-      HttpClientModule,
-      ButtonModule,
-      FormsModule,
-      DialogModule,
-      ToastModule,
-      RatingModule,
-      InputTextModule,
-      InputTextareaModule,
-      DropdownModule,
-      RadioButtonModule,
-      InputNumberModule,
-      ReactiveFormsModule,
-      TranslateModule,
-  ],
-  providers: [MessageService],
-  templateUrl: './employee.component.html',
-  styleUrl: './employee.component.scss'
+    selector: 'app-employee',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        BadgeModule,
+        PanelModule,
+        ProgressBarModule,
+        CalendarModule,
+        InputSwitchModule,
+        DatePipe,
+    ],
+    providers: [MessageService, DatePipe],
+    templateUrl: './employee-data.component.html',
+    styleUrl: './employee-data.component.scss',
 })
-export class EmployeeComponent {
+export class EmployeeDataComponent {
     constructor(
         private _EmployeeService: EmployeeService,
-        private messageService: MessageService) {
-    }
+        private messageService: MessageService,
+        private DatePipe: DatePipe,
+        private router: Router
+    ) {}
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
+    @ViewChild('manageItems') manageItems: ElementRef;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = 10;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
     loading: boolean = true;
-    nameFilter: string = '';
+    nameFilter: string;
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
     submitted: boolean = false;
@@ -78,10 +104,163 @@ export class EmployeeComponent {
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
+    selectedState: any = null;
+    selectedGovernment: any = null;
+    selectedNationalId: any = null;
+    selectedPartitions: any = null;
+    selectedGender: any = null;
+    selectedMaritalStatus: any = null;
+    selectedQualification: any = null;
+    selectedJob: any = null;
+    selectedReligin: any = null;
+    selectedShift: any = null;
+    selectedBank: any = null;
+    selectedGrade: any = null;
+    selectedjobNature: any = null;
+    selectedRecuritmentSource: any = null;
+    selectedContactType: any = null;
+    selectedIsInsured: any = null;
+    selectedIsManager: any = null;
+    selectedDepartment: any = null;
+    selectedBloodType: any = null;
+    filterData!: FormGroup;
+    // => dropdown Arrays
 
+    // = Enums
+    dropdownItemsReligin: any;
+    dropdownItemsMaritalStatus: any;
+    dropdownItemsBloodTypes: any;
+    dropdownItemsGender: any;
 
+    // = dropdowns
+    dropdownItemsGovernment: any;
+    dropdownItemsQualification: any;
+    dropdownItemsJob: any;
+    dropdownItemsDepartment: any;
+    dropdownItemsPartition: any;
+    dropdownItemsShift: any;
+    dropdownItemsBank: any;
+    dropdownItemsGrade: any;
+    dropdownItemsJobNature: any;
+    dropdownItemsRecuritmentSource: any;
+    dropdownItemsContractType: any;
+
+    uploadedFiles: any[] = [];
+    files: File[];
+
+    filterForm: FormGroup = new FormGroup({
+        birthDate: new FormControl(null),
+        bloodTypes: new FormControl(null),
+        departmentId: new FormControl(null),
+        gender: new FormControl(null),
+        governmentId: new FormControl(null),
+        hirDate: new FormControl(null),
+        jobId: new FormControl(null),
+        joininDate: new FormControl(null),
+        maritalStatus: new FormControl(null),
+        partationId: new FormControl(null),
+        qualificationId: new FormControl(null),
+        shiftId: new FormControl(null),
+        resignationDate: new FormControl(null),
+        ismanger: new FormControl(null),
+        isInsured: new FormControl(null),
+        religion: new FormControl(null),
+        bankId: new FormControl(null),
+        gradeId: new FormControl(null),
+        jobNatureId: new FormControl(null),
+        recuritmentSourceId: new FormControl(null),
+        contractTypeId: new FormControl(null),
+    });
     ngOnInit() {
+        // Enum ===>
+        // get Blood Type Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsBloodTypes',
+            enum: 'getBloodTypes',
+        });
 
+        // get Gender Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsGender',
+            enum: 'getGender',
+        });
+
+        // get MaritalStatus Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsMaritalStatus',
+            enum: 'getMaritalStatus',
+        });
+
+        // get Religion Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsReligin',
+            enum: 'getReligion',
+        });
+
+        // ==========================================================================
+
+        // get Dropdown ==>
+        // get Blood Type Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsReligin',
+            enum: 'getReligion',
+        });
+
+        // get Government Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsGovernment',
+            enum: 'Government',
+        });
+
+        // get Qualification Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsQualification',
+            enum: 'Qualification',
+        });
+
+        // get Job Dropdown
+        this.getDropDownField({ field: 'dropdownItemsJob', enum: 'Job' });
+
+        // get Department Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsDepartment',
+            enum: 'Department',
+        });
+
+        // get Partition Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsPartition',
+            enum: 'Partation',
+        });
+
+        // get Shift Dropdown
+        this.getDropDownField({ field: 'dropdownItemsShift', enum: 'Shift' });
+
+        // get Bank Dropdown
+        this.getDropDownField({ field: 'dropdownItemsBank', enum: 'Bank' });
+
+        // get Grade Dropdown
+        this.getDropDownField({ field: 'dropdownItemsGrade', enum: 'Grade' });
+
+        // get JobNature Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsJobNature',
+            enum: 'JobNature',
+        });
+
+        // get RecuritmentSource Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsRecuritmentSource',
+            enum: 'RecuritmentSource',
+        });
+
+        // get ContactTypes Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsContractType',
+            enum: 'ContractType',
+        });
+
+        this.endPoint = 'Employee';
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
@@ -114,14 +293,47 @@ export class EmployeeComponent {
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
     }
+    getDropDownEnum(self: { field: any; enum: string }) {
+        this._EmployeeService.getEnum(self.enum).subscribe({
+            next: (res) => {
+                this[self.field] = res.data;
+            },
+            error: (err) => {
+                console.log(`error in ${self.field}`);
+                console.log(err);
+            },
+        });
+    }
 
-    splitCamelCase(str:any) {
-        return str.replace(/([A-Z])/g, ' $1')
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+    getDropDownField(self: { field: any; enum: string }) {
+        this._EmployeeService.getDropdownField(self.enum).subscribe({
+            next: (res) => {
+                this[self.field] = res.data;
+            },
+            error: (err) => {
+                console.log(`error in ${self.field}`);
+                console.log(err);
+            },
+        });
+    }
+
+    onSelect(evt: any) {
+        console.log(evt);
+        this.messageService.add({
+            severity: 'info',
+            summary: 'File Uploaded',
+            detail: '',
+        });
+    }
+
+    splitCamelCase(str: any) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     editProduct(rowData: any) {
@@ -129,8 +341,13 @@ export class EmployeeComponent {
         this._EmployeeService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
-                this.product = { ...res.data };
-                this.productDialog = true;
+                const queryParams = { Id: rowData.id };
+                const urlTree = this.router.createUrlTree(['/Edit'], {
+                    queryParams,
+                });
+                const url = this.router.serializeUrl(urlTree);
+                console.log('Constructed URL:', url);
+                this.router.navigate([`/Edit?Id=${rowData.id}`]);
             },
             error: (err) => {
                 console.log(err);
@@ -219,8 +436,8 @@ export class EmployeeComponent {
 
     setFieldsNulls() {
         (this.newNameAr = null),
-        (this.newNameEn = null),
-        (this.newNotes = null);
+            (this.newNameEn = null),
+            (this.newNotes = null);
     }
 
     loadData(
@@ -428,5 +645,81 @@ export class EmployeeComponent {
     }
     sortByName(event: any) {
         this.sortField = 'name';
+    }
+    submitForm(formData: FormGroup) {
+        formData.patchValue({
+            bloodTypes: this.selectedBloodType?.id,
+            governmentId: this.selectedGovernment?.id,
+            qualificationId: this.selectedQualification?.id,
+            gender: this.selectedGender?.id,
+            maritalStatus: this.selectedMaritalStatus?.id,
+            jobId: this.selectedJob?.id,
+            jobNatureId: this.selectedjobNature?.id,
+            departmentId: this.selectedDepartment?.id,
+            partationId: this.selectedPartitions?.id,
+            shiftId: this.selectedShift?.id,
+            bankId: this.selectedBank?.id,
+            gradeId: this.selectedGrade?.id,
+            contractTypeId: this.selectedContactType?.id,
+            recuritmentSourceId: this.selectedRecuritmentSource?.id,
+            religion: this.selectedReligin?.id,
+
+            joininDate: this.DatePipe.transform(
+                this.filterForm.get('joininDate').value,
+                'yyyy-MM-ddTHH:mm:ss'
+            ),
+
+            birthDate: this.DatePipe.transform(
+                this.filterForm.get('birthDate').value,
+                'yyyy-MM-ddTHH:mm:ss'
+            ),
+
+            hirDate: this.DatePipe.transform(
+                this.filterForm.get('hirDate').value,
+                'yyyy-MM-ddTHH:mm:ss'
+            ),
+
+            resignationDate: this.DatePipe.transform(
+                this.filterForm.get('resignationDate').value,
+                'yyyy-MM-ddTHH:mm:ss'
+            ),
+        });
+
+        console.log(formData.value);
+
+        const formDataValue = formData.value;
+
+        // Filter out null or undefined fields
+        const filteredData = Object.keys(formDataValue)
+            .filter(
+                (key) =>
+                    formDataValue[key] !== null &&
+                    formDataValue[key] !== undefined
+            )
+            .reduce((obj, key) => {
+                obj[key] = formDataValue[key];
+                return obj;
+            }, {});
+        console.log('filteredData :');
+
+        console.log(filteredData);
+
+        this._EmployeeService.GetPage(filteredData).subscribe({
+            next: (res) => {
+                this.manageItems.nativeElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+                window.scrollY = 1000;
+                this.allData = res.data;
+
+                console.log('result');
+
+                console.log(res);
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
     }
 }

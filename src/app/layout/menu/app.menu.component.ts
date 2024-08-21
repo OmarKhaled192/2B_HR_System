@@ -1,4 +1,4 @@
-import { OnInit } from '@angular/core';
+import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,7 +9,6 @@ import { TranslateLabelPipe } from './translate-label.pipe';
     templateUrl: './app.menu.component.html',
     styleUrls: ['./app.menu.component.scss'],
 })
-
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
 
@@ -131,7 +130,6 @@ export class AppMenuComponent implements OnInit {
                         label: this.translate.instant('CONVENAT'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/Covenant'],
-
                     },
                     {
                         label: this.translate.instant('Company Policy'),
@@ -139,25 +137,24 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/info/companyPolicy'],
                     },
                     {
-                        label: this.translate.instant('Employee Data'),
-                        icon: 'pi pi-bookmark',
-                        items : [
-                            {
-                                label: this.translate.instant('test'),
-                                icon: 'pi p-menu-list',
-
-                                items: [
-                                    {
-                                        label: this.translate.instant('test_1_1'),
-                                        icon: 'pi pi-bookmark',
-                                    },
-                                    {
-                                        label: this.translate.instant('test_1_2'),
-                                        icon: 'pi pi-bookmark',
-                                    },
-                                ],
-                            },
-                        ],
+                        label: this.translate.instant('Execuse Type'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/execuseType'],
+                    },
+                    {
+                        label: this.translate.instant('Close Month'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/closeMonth'],
+                    },
+                    {
+                        label: this.translate.instant('Vacation Type'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/vacationType'],
+                    },
+                    {
+                        label: this.translate.instant('All Employees'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/employees'],
                     },
                 ],
             },
@@ -333,7 +330,6 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-th-large',
                         routerLink: ['/pages/pagination-popup'],
                     },
-
                 ],
             },
             {

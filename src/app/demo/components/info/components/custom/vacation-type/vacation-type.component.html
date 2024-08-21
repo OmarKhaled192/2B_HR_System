@@ -47,38 +47,80 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="date">English Name</label>
-            <input pInputText [(ngModel)]="enName" />
-        </div>
-        <div class="field">
-            <label htmlFor="date">Arabic Name </label>
-            <input pInputText [(ngModel)]="arName" />
-        </div>
-        <div class="field">
-            <label htmlFor="date">Notes </label>
-            <input pInputText [(ngModel)]="notes" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="date">Discreption </label>
-            <input pInputText [(ngModel)]="discreption" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="date">Upload File </label>
-            <p-fileUpload
-                mode="basic"
-                chooseLabel="Choose"
-                chooseIcon="pi pi-upload"
-                name="demo[]"
-                maxFileSize="1000000"
-                accept=".pdf"
-                (onSelect)="onFileSelect($event)"
+            <label htmlFor="name-en">Name English </label>
+            <input
+                pInputText
+                [(ngModel)]="newNameEn"
+                placeholder="Enter Name Here"
+                id="name-en"
+                type="text"
             />
-            <!-- <button (click)="uploadFile()">Upload</button> -->
         </div>
 
-        <div class="field insertNew">
+        <div class="field">
+            <label htmlFor="name-ar">Name Arabic </label>
+            <input
+                pInputText
+                [(ngModel)]="newNameAr"
+                placeholder="Enter Name Here"
+                id="name-ar"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="numberOfHours">dayCount</label>
+
+            <input
+                pInputText
+                [(ngModel)]="dayCount"
+                placeholder="Enter number Of days"
+                id="numberOfHours"
+                type="number"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-notes">Notes</label>
+            <textarea
+                pInputTextarea
+                [(ngModel)]="newNotes"
+                id="new-notes"
+                placeholder="Enter Notes Here"
+                type="text"
+            ></textarea>
+        </div>
+
+        <div class="field">
+            <label htmlFor="new-notes"
+                >Vacation Start After how many months</label
+            >
+            <input
+                pInputText
+                [(ngModel)]="newVacationStart"
+                id="new-notes"
+                placeholder="Enter number of months to start vacation"
+                type="number"
+            />
+        </div>
+        <div class="fields-aprrove">
+            <div class="field field-approve">
+                <label for="mangerApproved">mangerApproved</label>
+                <p-inputSwitch [(ngModel)]="mangerApproved" />
+            </div>
+
+            <div class="field field-approve">
+                <label for="mangerApproved">hrApproved</label>
+                <p-inputSwitch [(ngModel)]="hrApproved" />
+            </div>
+
+            <div class="field field-approve">
+                <label for="stockVacation">stockVacation</label>
+                <p-inputSwitch [(ngModel)]="stockVacation" />
+            </div>
+        </div>
+
+        <div class="field">
             <button
                 class="w-25"
                 pButton
@@ -133,14 +175,19 @@
                 {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
             </th>
+            <th pSortableColumn="name" (click)="sortByName($event)">
+                {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
+            </th>
 
-            <!-- custom fields -->
-            <th>{{ "Name" | translate }}</th>
-            <th>{{ "Notes" | translate }}</th>
-            <th>{{ "Url" | translate }}</th>
-            <th>{{ "Discreption" | translate }}</th>
+            <!-- personal fields -->
+            <th>{{ "dayCount" | translate }}</th>
 
             <!-- generic fields -->
+            <th>{{ "Notes" | translate }}</th>
+            <th>{{ "vacation starts after" | translate }}</th>
+            <th>{{ "managerApproved" | translate }}</th>
+            <th>{{ "hrApproved" | translate }}</th>
+            <th>{{ "stockVacation" | translate }}</th>
             <th>{{ "creationTime" | translate }}</th>
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
@@ -158,41 +205,60 @@
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
             </td>
-            <td>
+
+            <td [ngClass]="{ 'null-color': !rowData.name }">
                 <span class="p-column-title">Name</span>
                 {{ rowData.name ? rowData.name : "" }}
             </td>
-            <td>
+
+            <!-- personal fields -->
+
+            <td [ngClass]="{ 'null-color': !rowData.dayCount }">
+                <span class="p-column-title">dayCount</span>
+                {{ rowData.dayCount ? rowData.dayCount : "" }}
+            </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.notes }">
                 <span class="p-column-title">Notes</span>
                 {{ rowData.notes ? rowData.notes : "" }}
             </td>
 
-            <td>
-                <span class="p-column-title">Url</span>
-                <a
-                    class="text-white bg-blue-500 border-none"
-                    pButton
-                    pRipple
-                    [href]="baseUrlFile.concat('/', rowData.url)"
-                    >View</a
-                >
+            <td [ngClass]="{ 'null-color': !rowData.vacationStart }">
+                <span class="p-column-title">vacationStart</span>
+                {{
+                    rowData.vacationStart > 1
+                        ? rowData.vacationStart + " " + ("Months" | translate)
+                        : rowData.vacationStart === 1
+                        ? " " + ("MONTH" | translate)
+                        : ""
+                }}
             </td>
-            <td>
-                <span class="p-column-title">Discreption</span>
-                {{ rowData.discreption ? rowData.discreption : "" }}
+            <td [ngClass]="{ 'null-color': !rowData.mangerApproved }">
+                <span class="p-column-title">mangerApproved</span>
+                {{ rowData.mangerApproved }}
             </td>
 
-            <!-- custom fields -->
+            <td [ngClass]="{ 'null-color': !rowData.hrApproved }">
+                <span class="p-column-title">hrApproved</span>
+                {{ rowData.hrApproved }}
+            </td>
 
-            <!-- generic fields -->
+            <td [ngClass]="{ 'null-color': !rowData.stockVacation }">
+                <span class="p-column-title">stockVacation</span>
+                {{ rowData.stockVacation }}
+            </td>
+
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
                 <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime | date : "dd/MM/YYYY - hh:mm a" }}
+                {{ rowData.creationTime ? rowData.creationTime : "" }}
             </td>
+
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
                 {{
-                    rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
+                    rowData.lastModificationTime
+                        ? rowData.lastModificationTime
+                        : ""
                 }}
             </td>
 
@@ -236,35 +302,96 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="date">English Name</label>
-            <input pInputText [(ngModel)]="enName" />
-        </div>
-        <div class="field">
-            <label htmlFor="date">Arabic Name </label>
-            <input pInputText [(ngModel)]="arName" />
-        </div>
-        <div class="field">
-            <label htmlFor="date">Notes </label>
-            <input pInputText [(ngModel)]="notes" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="date">Discreption </label>
-            <input pInputText [(ngModel)]="discreption" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="date">Upload File </label>
-            <p-fileUpload
-                mode="basic"
-                chooseLabel="Choose"
-                chooseIcon="pi pi-upload"
-                name="demo[]"
-                maxFileSize="1000000"
-                accept=".pdf"
-                (onSelect)="onFileSelect($event)"
+            <label for="name">Arabic Name</label>
+            <input
+                type="text"
+                pInputText
+                id="name"
+                [(ngModel)]="product.name"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.name
+                }"
             />
-            <!-- <button (click)="uploadFile()">Upload</button> -->
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.name"
+                >Arabic Name is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="engName">English Name</label>
+            <input
+                type="text"
+                pInputText
+                id="engName"
+                [(ngModel)]="product.engName"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.engName
+                }"
+            />
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.engName"
+                >English Name is required.</small
+            >
+        </div>
+
+        <div class="field">
+            <label htmlFor="numberOfHoursEdit">number Of Days</label>
+            <input
+                pInputText
+                [(ngModel)]="product.dayCount"
+                placeholder="Enter number Of Days"
+                id="numberOfDaysEdit"
+                type="number"
+            />
+        </div>
+
+        <div class="field">
+            <label for="notes">Notes</label>
+            <textarea
+                id="notes"
+                pInputTextarea
+                [(ngModel)]="product.notes"
+                required
+                rows="3"
+                cols="20"
+            ></textarea>
+        </div>
+
+        <div class="field">
+            <label htmlFor="numberOfHoursEdit"
+                >number Of Months to start vacation</label
+            >
+            <input
+                pInputText
+                [(ngModel)]="product.vacationStart"
+                placeholder="Enter number Of Months to start vacation"
+                id="numberOfMonthsEdit"
+                type="number"
+            />
+        </div>
+
+        <div class="fields-aprrove">
+            <div class="field field-approve">
+                <label for="mangerApproved">mangerApproved</label>
+                <p-inputSwitch [(ngModel)]="product.mangerApproved" />
+            </div>
+
+            <div class="field field-approve">
+                <label for="mangerApproved">hrApproved</label>
+                <p-inputSwitch [(ngModel)]="product.hrApproved" />
+            </div>
+
+            <div class="field field-approve">
+                <label for="stockVacation">stockVacation</label>
+                <p-inputSwitch [(ngModel)]="product.stockVacation" />
+            </div>
         </div>
     </ng-template>
 

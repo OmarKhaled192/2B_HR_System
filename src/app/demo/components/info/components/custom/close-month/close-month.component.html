@@ -13,16 +13,6 @@
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
             ></button>
-
-            <button
-                pButton
-                pRipple
-                [label]="'Delete' | translate"
-                icon="pi pi-trash"
-                class="p-button-danger mx-2 px-5"
-                (click)="deleteSelectedProducts()"
-                [disabled]="!selectedItems || !selectedItems.length"
-            ></button>
         </div>
     </ng-template>
     <ng-template pTemplate="right">
@@ -47,38 +37,33 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="date">English Name</label>
-            <input pInputText [(ngModel)]="enName" />
-        </div>
-        <div class="field">
-            <label htmlFor="date">Arabic Name </label>
-            <input pInputText [(ngModel)]="arName" />
-        </div>
-        <div class="field">
-            <label htmlFor="date">Notes </label>
-            <input pInputText [(ngModel)]="notes" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="date">Discreption </label>
-            <input pInputText [(ngModel)]="discreption" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="date">Upload File </label>
-            <p-fileUpload
-                mode="basic"
-                chooseLabel="Choose"
-                chooseIcon="pi pi-upload"
-                name="demo[]"
-                maxFileSize="1000000"
-                accept=".pdf"
-                (onSelect)="onFileSelect($event)"
+            <label htmlFor="name-en">Month</label>
+            <p-dropdown
+                [options]="allMonths"
+                [(ngModel)]="month"
+                optionLabel="name"
+                placeholder="Select a Month"
+                (onChange)="changeMonth($event)"
             />
-            <!-- <button (click)="uploadFile()">Upload</button> -->
         </div>
 
-        <div class="field insertNew">
+        <div class="field">
+            <label htmlFor="name-ar">Year</label>
+            <p-dropdown
+                [options]="allYears"
+                [(ngModel)]="selectedYear"
+                placeholder="Select a Year"
+                (onChange)="changeYear($event)"
+                required
+            ></p-dropdown>
+        </div>
+
+        <div class="field field-closed">
+            <label htmlFor="closed">Closed</label>
+            <p-inputSwitch [(ngModel)]="closed" />
+        </div>
+
+        <div class="field">
             <button
                 class="w-25"
                 pButton
@@ -126,21 +111,18 @@
 
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 3rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th pSortableColumn="id" (click)="sortById($event)">
+            <th>
                 {{ "Id" | translate }}
-                <p-sortIcon field="id"></p-sortIcon>
+            </th>
+            <th (click)="sortByName($event)">
+                {{ "Month" | translate }}
             </th>
 
-            <!-- custom fields -->
-            <th>{{ "Name" | translate }}</th>
-            <th>{{ "Notes" | translate }}</th>
-            <th>{{ "Url" | translate }}</th>
-            <th>{{ "Discreption" | translate }}</th>
+            <!-- personal fields -->
+            <th>{{ "Year" | translate }}</th>
 
             <!-- generic fields -->
+            <th>{{ "Closed" | translate }}</th>
             <th>{{ "creationTime" | translate }}</th>
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
@@ -152,47 +134,38 @@
     <ng-template pTemplate="body" let-rowData>
         <tr>
             <td>
-                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-            </td>
-            <td>
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
             </td>
-            <td>
-                <span class="p-column-title">Name</span>
-                {{ rowData.name ? rowData.name : "" }}
-            </td>
-            <td>
-                <span class="p-column-title">Notes</span>
-                {{ rowData.notes ? rowData.notes : "" }}
+
+            <td [ngClass]="{ 'null-color': !rowData.name }">
+                <span class="p-column-title">monthName</span>
+                {{ rowData.monthName ? rowData.monthName : "" }}
             </td>
 
-            <td>
-                <span class="p-column-title">Url</span>
-                <a
-                    class="text-white bg-blue-500 border-none"
-                    pButton
-                    pRipple
-                    [href]="baseUrlFile.concat('/', rowData.url)"
-                    >View</a
-                >
-            </td>
-            <td>
-                <span class="p-column-title">Discreption</span>
-                {{ rowData.discreption ? rowData.discreption : "" }}
+            <!-- personal fields -->
+
+            <td [ngClass]="{ 'null-color': !rowData.hoursNumber }">
+                <span class="p-column-title">year</span>
+                {{ rowData.year ? rowData.year : "" }}
             </td>
 
-            <!-- custom fields -->
+            <td [ngClass]="{ 'null-color': !rowData.notes }">
+                <span class="p-column-title">Closed</span>
+                <p-inputSwitch [(ngModel)]="rowData.closed" [disabled]="true" />
+            </td>
 
-            <!-- generic fields -->
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
                 <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime | date : "dd/MM/YYYY - hh:mm a" }}
+                {{ rowData.creationTime ? rowData.creationTime : "" }}
             </td>
+
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
                 {{
-                    rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
+                    rowData.lastModificationTime
+                        ? rowData.lastModificationTime
+                        : ""
                 }}
             </td>
 
@@ -214,13 +187,6 @@
                         class="p-button-rounded p-button-info p-button-outlined mr-2"
                         (click)="editProduct(rowData)"
                     ></button>
-                    <button
-                        pButton
-                        pRipple
-                        icon="pi pi-trash"
-                        class="p-button-rounded p-button-outlined p-button-danger"
-                        (click)="deleteProduct(rowData)"
-                    ></button>
                 </div>
             </td>
         </tr>
@@ -236,35 +202,27 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="date">English Name</label>
-            <input pInputText [(ngModel)]="enName" />
-        </div>
-        <div class="field">
-            <label htmlFor="date">Arabic Name </label>
-            <input pInputText [(ngModel)]="arName" />
-        </div>
-        <div class="field">
-            <label htmlFor="date">Notes </label>
-            <input pInputText [(ngModel)]="notes" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="date">Discreption </label>
-            <input pInputText [(ngModel)]="discreption" />
-        </div>
-
-        <div class="field">
-            <label htmlFor="date">Upload File </label>
-            <p-fileUpload
-                mode="basic"
-                chooseLabel="Choose"
-                chooseIcon="pi pi-upload"
-                name="demo[]"
-                maxFileSize="1000000"
-                accept=".pdf"
-                (onSelect)="onFileSelect($event)"
+            <label for="name">Month</label>
+            <p-dropdown
+                [options]="allMonths"
+                [(ngModel)]="selectedMonthEdit"
+                optionLabel="name"
+                placeholder="Select a Month"
             />
-            <!-- <button (click)="uploadFile()">Upload</button> -->
+        </div>
+
+        <div class="field">
+            <label for="engName">Year</label>
+            <p-dropdown
+                [options]="allYears"
+                [(ngModel)]="selectedYearEdit"
+                placeholder="Select a Year"
+            ></p-dropdown>
+        </div>
+
+        <div class="field field-closed">
+            <label for="notes">Closed</label>
+            <p-inputSwitch [(ngModel)]="closed" />
         </div>
     </ng-template>
 
