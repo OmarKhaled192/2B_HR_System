@@ -1,10 +1,10 @@
-import { CommonModule, DatePipe, FormStyle } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { MessageService } from "primeng/api";
 import { UIkitRoutingModule } from "src/app/demo/components/uikit/uikit-routing.module";
-import { EmployeeService } from "./employee.service";
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormLayoutDemoRoutingModule } from "src/app/demo/components/uikit/formlayout/formlayoutdemo-routing.module";
+import { EmployeeService } from "./employee.service";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { CalendarModule } from "primeng/calendar";
 import { ChipsModule } from "primeng/chips";
@@ -72,6 +72,18 @@ export class EmployeeComponent {
     selectedjobNature: any = null;
     selectedRecuritmentSource: any = null;
     selectedContactType: any = null;
+    selectedMachineCode: any = null;
+    selectedNameAr: any = null;
+    selectedEnglishName: any = null;
+    selectedAddress: any = null;
+    selectedJoininDate: any = null;
+    selectedHirDate: any = null;
+    selectedResignationDate: any = null;
+    selectedDiscription: any = null;
+    selectedPhone: any = null;
+    selectedEmail: any = null;
+    selectedBirthDate: any = null;
+
 
     selectedIsInsured: boolean = false;
     selectedIsManager: boolean = false;
@@ -101,42 +113,8 @@ export class EmployeeComponent {
     dropdownItemsContractType: any;
     file: File;
     endPoint: string;
-
-    // main register form
-    registerForm: FormGroup = new FormGroup({
-        NameAr: new FormControl(null),
-        EnglishName: new FormControl(null),
-        Address: new FormControl(null),
-        BirthDate: new FormControl(null),
-        BloodTypes: new FormControl(null),
-        DepartmentId: new FormControl(null),
-        Gender: new FormControl(null),
-        GovernmentId: new FormControl(null),
-        HirDate: new FormControl(null),
-        JobId: new FormControl(null),
-        JoininDate: new FormControl(null),
-        MaritalStatus: new FormControl(null),
-        NationalId: new FormControl(null),
-        PartationId: new FormControl(null),
-        Phone: new FormControl(null),
-        QualificationId: new FormControl(null),
-        ShiftId: new FormControl(null),
-        Email: new FormControl(null),
-        ImageUrl: new FormControl(null),
-        DeleteImage: new FormControl(null),
-        File: new FormControl(null),
-        ResignationDate: new FormControl(null),
-        Ismanager: new FormControl(null),
-        Discription: new FormControl(null),
-        IsInsured: new FormControl(null),
-        Religion: new FormControl(null),
-        BankId: new FormControl(null),
-        GradeId: new FormControl(null),
-        MachineCode: new FormControl(null),
-        JobNatureId: new FormControl(null),
-        RecuritmentSourceId: new FormControl(null),
-        ContractTypeId: new FormControl(null),
-    });
+    selectedDeleteImage: boolean = false;
+    registerForm: FormData = new FormData();
 
     ngOnInit(): void {
 
@@ -214,8 +192,8 @@ export class EmployeeComponent {
             this[self.field] = res.data;
           },
           error: (err) => {
-            console.log(`error in ${self.field}`)
-            console.log(err);
+            // console.log(`error in ${self.field}`)
+            // console.log(err);
           }
         });
     }
@@ -226,8 +204,8 @@ export class EmployeeComponent {
             this[self.field] = res.data;
           },
           error: (err) => {
-            console.log(`error in ${self.field}`)
-            console.log(err);
+            // console.log(`error in ${self.field}`)
+            // console.log(err);
           }
         });
     }
@@ -236,10 +214,13 @@ export class EmployeeComponent {
         console.log("event file")
         console.log(event);
 
+
         // assign file
         this.file = event.currentFiles[0];
 
-        console.log("file")
+        this.registerForm.append('File', this.file);
+
+        console.log("File")
         console.log(this.file );
 
         this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
@@ -247,46 +228,61 @@ export class EmployeeComponent {
 
 
 
-    registerSubmit(registerForm: FormGroup) {
+    registerSubmit() {
 
-        registerForm.patchValue({
-            File: this.file,
-            BloodTypes: this.selectedBloodType?.id,
-            GovernmentId: this.selectedGovernment?.id,
-            QualificationId: this.selectedQualification?.id,
-            Gender: this.selectedGender?.id,
-            MaritalStatus: this.selectedMaritalStatus?.id,
-            JobId: this.selectedJob?.id,
-            JobNatureId: this.selectedjobNature?.id,
-            DepartmentId: this.selectedDepartment?.id,
-            PartationId: this.selectedPartitions?.id,
-            ShiftId: this.selectedShift?.id,
-            BankId: this.selectedBank?.id,
-            GradeId: this.selectedGrade?.id,
-            ContractTypeId: this.selectedContactType?.id,
-            RecuritmentSourceId: this.selectedRecuritmentSource?.id,
-            Religion: this.selectedReligin?.id,
 
-            JoininDate: this.DatePipe.transform(
-                this.registerForm.get("JoininDate").value , 'yyyy-MM-ddTHH:mm:ss'
-            ),
+        // Append string fields
+        this.registerForm.append('NameAr', this.selectedNameAr); // 1
+        this.registerForm.append('EnglishName', this.selectedEnglishName); // 2
+        this.registerForm.append('Address', this.selectedAddress); // 3
+        this.registerForm.append('Email', this.selectedEmail); // 4
+        this.registerForm.append('NationalId', this.selectedNationalId); // 5
+        this.registerForm.append('Phone', this.selectedPhone); // 6
+        this.registerForm.append('MachineCode', this.selectedMachineCode); // 7
+        this.registerForm.append('Discription', this.selectedDiscription); // 8
 
-            BirthDate: this.DatePipe.transform(
-                this.registerForm.get("BirthDate").value , 'yyyy-MM-ddTHH:mm:ss'
-            ),
+        // Append numeric fields
+        this.registerForm.append('BloodTypes', this.selectedBloodType?.["id"]); // 9
+        this.registerForm.append('GovernmentId', this.selectedGovernment?.["id"]); // 10
+        this.registerForm.append('QualificationId', this.selectedQualification?.["id"]); //11
+        this.registerForm.append('Gender', this.selectedGender?.["id"]); //12
+        this.registerForm.append('MaritalStatus', this.selectedMaritalStatus?.["id"]); // 13
+        this.registerForm.append('JobId', this.selectedJob?.["id"]); // 14
+        this.registerForm.append('JobNatureId', this.selectedjobNature?.["id"]); // 15
+        this.registerForm.append('DepartmentId', this.selectedDepartment?.["id"]); // 16
+        this.registerForm.append('PartationId', this.selectedPartitions?.["id"]); // 17
+        this.registerForm.append('ShiftId', this.selectedShift?.["id"]); // 18
+        this.registerForm.append('BankId', this.selectedBank?.["id"]); // 19
+        this.registerForm.append('GradeId', this.selectedGrade?.["id"]); // 20
+        this.registerForm.append('ContractTypeId', this.selectedContactType?.["id"]); // 21
+        this.registerForm.append('RecuritmentSourceId', this.selectedRecuritmentSource?.["id"]); // 22
+        this.registerForm.append('Religion', this.selectedReligin?.["id"]); // 23
 
-            HirDate: this.DatePipe.transform(
-                this.registerForm.get("HirDate").value , 'yyyy-MM-ddTHH:mm:ss'
-            ),
 
-            ResignationDate: this.DatePipe.transform(
-                this.registerForm.get("ResignationDate").value , 'yyyy-MM-ddTHH:mm:ss'
-            ),
+        // Append date fields
+        this.registerForm.append('JoininDate', this.DatePipe.transform(
+            this.selectedJoininDate, 'yyyy-MM-ddTHH:mm:ss'
+        )); // 24
 
-        })
+        this.registerForm.append('BirthDate', this.DatePipe.transform(
+            this.selectedBirthDate, 'yyyy-MM-ddTHH:mm:ss'
+        )); // 25
 
-        console.log(registerForm.value);
-        this._EmployeeService.Register(registerForm.value).subscribe({
+        this.registerForm.append('HirDate', this.DatePipe.transform(
+            this.selectedHirDate, 'yyyy-MM-ddTHH:mm:ss'
+        )); // 26
+
+        this.registerForm.append('ResignationDate', this.DatePipe.transform(
+            this.selectedResignationDate, 'yyyy-MM-ddTHH:mm:ss'
+        )); // 27
+
+
+        // Append boolean fields
+        this.registerForm.append('Ismanger', this.selectedIsManager.toString()); // 28
+        this.registerForm.append('IsInsured', this.selectedIsInsured.toString()); // 29
+        this.registerForm.append('DeleteImage', this.selectedDeleteImage.toString()); // 30
+
+        this._EmployeeService.Register(this.registerForm).subscribe({
             next: (res)=> {
                 console.log(res)
                 this.messageService.add({
@@ -298,6 +294,7 @@ export class EmployeeComponent {
             },
 
             error: (err) => {
+                console.error(err)
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Failure',
@@ -305,7 +302,9 @@ export class EmployeeComponent {
                     life: 3000,
                 });
             }
-        })
+        });
+
+
 
 
     }
