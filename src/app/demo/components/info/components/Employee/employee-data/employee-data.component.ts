@@ -347,7 +347,9 @@ export class EmployeeDataComponent {
                 });
                 const url = this.router.serializeUrl(urlTree);
                 console.log('Constructed URL:', url);
-                this.router.navigate([`/Edit?Id=${rowData.id}`]);
+                this.router.navigate(['/info/employees/edit'], {
+                    queryParams: { id: rowData.id },
+                });
             },
             error: (err) => {
                 console.log(err);
@@ -358,8 +360,10 @@ export class EmployeeDataComponent {
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this._EmployeeService.DeleteSoftById(id).subscribe({
-            next: () => {
+            next: (res) => {
                 // close dialog
+                console.log(res);
+
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
@@ -502,9 +506,10 @@ export class EmployeeDataComponent {
         this.submitted = false;
     }
 
-    deleteProduct(product: any) {
+    deleteProduct(product: any, event: any) {
         this.deleteProductDialog = true;
         this.product = { ...product };
+        event.stopPropagation();
     }
 
     saveProduct(id: number, product: any) {

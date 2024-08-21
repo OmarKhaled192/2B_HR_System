@@ -392,9 +392,6 @@
 
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 3rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
             <th pSortableColumn="id" (click)="sortById($event)">
                 {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
@@ -422,9 +419,6 @@
 
     <ng-template pTemplate="body" let-rowData>
         <tr class="tableRow" (click)="editProduct(rowData)">
-            <td>
-                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-            </td>
             <td>
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
@@ -496,7 +490,7 @@
                         pRipple
                         icon="pi pi-trash"
                         class="p-button-rounded p-button-outlined p-button-danger"
-                        (click)="deleteProduct(rowData)"
+                        (click)="deleteProduct(rowData, $event)"
                     ></button>
                 </div>
             </td>
