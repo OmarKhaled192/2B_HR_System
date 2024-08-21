@@ -230,7 +230,6 @@ export class EmployeeComponent {
 
     registerSubmit() {
 
-
         // Append string fields
         this.registerForm.append('NameAr', this.selectedNameAr); // 1
         this.registerForm.append('EnglishName', this.selectedEnglishName); // 2
@@ -275,7 +274,6 @@ export class EmployeeComponent {
         this.registerForm.append('ResignationDate', this.DatePipe.transform(
             this.selectedResignationDate, 'yyyy-MM-ddTHH:mm:ss'
         )); // 27
-
 
         // Append boolean fields
         this.registerForm.append('Ismanger', this.selectedIsManager.toString()); // 28
