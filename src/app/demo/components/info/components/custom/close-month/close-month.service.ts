@@ -12,6 +12,8 @@ export class CloseMonthService extends LockupsService {
     }
 
     getMonths(): Observable<any> {
-        return this.http.get(`${this.baseurl}/Enums/getMonth`);
+        return this.http.get(
+            `${this.baseurl}/Enums/getMonth/?culture=${this.culture}`
+        );
     }
 }

@@ -89,8 +89,6 @@ export class CompanyPolicyComponent {
     selectedShift: string;
     selectedShiftId: number;
     file: File;
-    fileBase64: string = '';
-
     selectedShiftEdit: string;
     selectedShiftIdEdit: number;
     oldDate: any;
@@ -535,12 +533,5 @@ export class CompanyPolicyComponent {
         let file: any = event.currentFiles[0];
         this.file = file;
         console.log(file);
-
-        // const reader = new FileReader();
-        // reader.onload = (e: any) => {
-        //     // file. = e.target.result;
-        //     this.file = file;
-        // };
-        // reader.readAsDataURL(file);
     }
 }
