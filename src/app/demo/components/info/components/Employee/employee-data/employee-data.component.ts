@@ -30,7 +30,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
-import { EmployeeService } from './employee.service';
+import { EmployeeDataService } from './employee-data.service';
 import { BadgeModule } from 'primeng/badge';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { PanelModule } from 'primeng/panel';
@@ -74,7 +74,7 @@ import { Router } from '@angular/router';
 })
 export class EmployeeDataComponent {
     constructor(
-        private _EmployeeService: EmployeeService,
+        private _EmployeeDataService: EmployeeDataService,
         private messageService: MessageService,
         private DatePipe: DatePipe,
         private router: Router
@@ -266,10 +266,10 @@ export class EmployeeDataComponent {
             console.log('Main language changed to:', mainLang);
 
             // update mainLang at Service
-            this._EmployeeService.setCulture(mainLang);
+            this._EmployeeDataService.setCulture(mainLang);
 
             // update endpoint
-            this._EmployeeService.setEndPoint(this.endPoint);
+            this._EmployeeDataService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
@@ -294,7 +294,7 @@ export class EmployeeDataComponent {
         ];
     }
     getDropDownEnum(self: { field: any; enum: string }) {
-        this._EmployeeService.getEnum(self.enum).subscribe({
+        this._EmployeeDataService.getEnum(self.enum).subscribe({
             next: (res) => {
                 this[self.field] = res.data;
             },
@@ -306,7 +306,7 @@ export class EmployeeDataComponent {
     }
 
     getDropDownField(self: { field: any; enum: string }) {
-        this._EmployeeService.getDropdownField(self.enum).subscribe({
+        this._EmployeeDataService.getDropdownField(self.enum).subscribe({
             next: (res) => {
                 this[self.field] = res.data;
             },
@@ -338,7 +338,7 @@ export class EmployeeDataComponent {
 
     editProduct(rowData: any) {
         console.log(rowData.id);
-        this._EmployeeService.GetById(rowData.id).subscribe({
+        this._EmployeeDataService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 const queryParams = { Id: rowData.id };
@@ -357,7 +357,7 @@ export class EmployeeDataComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this._EmployeeService.DeleteSoftById(id).subscribe({
+        this._EmployeeDataService.DeleteSoftById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -392,7 +392,7 @@ export class EmployeeDataComponent {
             engName: this.newNameEn,
         };
 
-        this._EmployeeService.Register(body).subscribe({
+        this._EmployeeDataService.Register(body).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
@@ -457,7 +457,7 @@ export class EmployeeDataComponent {
         };
         filteredData.sortType = this.sortOrder;
 
-        this._EmployeeService.GetPage(filteredData).subscribe({
+        this._EmployeeDataService.GetPage(filteredData).subscribe({
             next: (res) => {
                 console.log(res);
                 this.allData = res.data;
@@ -519,7 +519,7 @@ export class EmployeeDataComponent {
             notes: product.notes,
         };
 
-        this._EmployeeService.Edit(body).subscribe({
+        this._EmployeeDataService.Edit(body).subscribe({
             next: () => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
@@ -598,7 +598,7 @@ export class EmployeeDataComponent {
             selectedIds.push(item.id);
         });
 
-        this._EmployeeService.DeleteRangeSoft(selectedIds).subscribe({
+        this._EmployeeDataService.DeleteRangeSoft(selectedIds).subscribe({
             next: (res) => {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
@@ -704,7 +704,7 @@ export class EmployeeDataComponent {
 
         console.log(filteredData);
 
-        this._EmployeeService.GetPage(filteredData).subscribe({
+        this._EmployeeDataService.GetPage(filteredData).subscribe({
             next: (res) => {
                 this.manageItems.nativeElement.scrollIntoView({
                     behavior: 'smooth',

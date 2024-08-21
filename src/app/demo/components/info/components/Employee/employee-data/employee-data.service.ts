@@ -6,7 +6,7 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
 @Injectable({
     providedIn: 'root',
 })
-export class EmployeeService extends LockupsService {
+export class EmployeeDataService extends LockupsService {
     constructor(httpClient: HttpClient) {
         super(httpClient);
     }
