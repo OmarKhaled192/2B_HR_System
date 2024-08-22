@@ -9,7 +9,6 @@ import { TranslateLabelPipe } from './translate-label.pipe';
     templateUrl: './app.menu.component.html',
     styleUrls: ['./app.menu.component.scss'],
 })
-
 export class AppMenuComponent implements OnInit {
     model: any[] = [];
 
@@ -131,7 +130,6 @@ export class AppMenuComponent implements OnInit {
                         label: this.translate.instant('CONVENAT'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/Covenant'],
-
                     },
                     {
                         label: this.translate.instant('Company Policy'),
@@ -317,7 +315,6 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-th-large',
                         routerLink: ['/pages/pagination-popup'],
                     },
-
                 ],
             },
             {
