@@ -23,7 +23,7 @@ import { VacationSettingComponent } from './components/custom/vacation-setting/v
 import { CovenantCategoryComponent } from './components/standard/covenant-category/covenant-category.component';
 import { CovenantComponent } from './components/custom/covenant/covenant.component';
 import { CompanyPolicyComponent } from './components/custom/company-policy/company-policy.component';
-import { EmployeeComponent } from './components/Employee/employee/employee.component';
+import { EmployeeComponent } from './components/employee/employee.component';
 
 @NgModule({
     imports: [
