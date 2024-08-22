@@ -150,6 +150,9 @@ export class EmployeeEditComponent {
     files: File[];
     currentId!: number;
     birthDate!: any;
+    joinInDate!: any;
+    hiringData!: any;
+    resignationDate!: any;
 
     filterForm: FormGroup = new FormGroup({
         birthDate: new FormControl(),
@@ -275,10 +278,82 @@ export class EmployeeEditComponent {
                     res.data.birthDate,
                     'MM/dd/yyyy'
                 );
-                console.clear();
+                this.selectedReligin = this.getObject(
+                    res.data.governmentId,
+                    this.dropdownItemsReligin
+                );
                 this.selectedGovernment = this.getObject(
                     res.data.governmentId,
                     this.dropdownItemsGovernment
+                );
+                this.selectedMaritalStatus = this.getObject(
+                    res.data.maritalStatus,
+                    this.dropdownItemsMaritalStatus
+                );
+                this.selectedBloodType = this.getObject(
+                    res.data.bloodTypes,
+                    this.dropdownItemsBloodTypes
+                );
+                this.selectedGender = this.getObject(
+                    res.data.gender,
+                    this.dropdownItemsGender
+                );
+                this.selectedQualification = this.getObject(
+                    res.data.qualificationId,
+                    this.dropdownItemsQualification
+                );
+                this.selectedJob = this.getObject(
+                    res.data.jobId,
+                    this.dropdownItemsJob
+                );
+
+                this.selectedDepartment = this.getObject(
+                    res.data.departmentId,
+                    this.dropdownItemsDepartment
+                );
+                this.selectedPartitions = this.getObject(
+                    res.data.partationId,
+                    this.dropdownItemsPartition
+                );
+                this.selectedShift = this.getObject(
+                    res.data.shiftId,
+                    this.dropdownItemsShift
+                );
+                this.selectedBank = this.getObject(
+                    res.data.bankId,
+                    this.dropdownItemsBank
+                );
+                this.selectedGrade = this.getObject(
+                    res.data.gradeId,
+                    this.dropdownItemsGrade
+                );
+                this.selectedjobNature = this.getObject(
+                    res.data.jobNatureId,
+                    this.dropdownItemsJobNature
+                );
+                this.selectedIsInsured = res.data.isInsured;
+                this.selectedIsManager = res.data.ismanger;
+
+                this.selectedRecuritmentSource = this.getObject(
+                    res.data.recuritmentSourceId,
+                    this.dropdownItemsRecuritmentSource
+                );
+
+                this.selectedContactType = this.getObject(
+                    res.data.recuritmentSourceId,
+                    this.dropdownItemsContractType
+                );
+                this.joinInDate = this.DatePipe.transform(
+                    res.data.joininDate,
+                    'MM/dd/yyyy'
+                );
+                this.hiringData = this.DatePipe.transform(
+                    res.data.hirDate,
+                    'MM/dd/yyyy'
+                );
+                this.resignationDate = this.DatePipe.transform(
+                    res.data.resignationDate,
+                    'MM/dd/yyyy'
                 );
 
                 console.log('selectedGovernment: ', this.selectedGovernment);
