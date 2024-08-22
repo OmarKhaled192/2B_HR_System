@@ -24,15 +24,23 @@ export class LockupsService {
     }
 
     GetById(id: number): Observable<any> {
-        return this.http.get(`${this.baseurl}/${this.endPoint}/${id}/?culture=${this.culture}`);
+        return this.http.get(
+            `${this.baseurl}/${this.endPoint}/${id}/?culture=${this.culture}`
+        );
     }
 
     GetAll(body: any): Observable<any> {
-        return this.http.post(`${this.baseurl}/${this.endPoint}/?culture=${this.culture}`, body);
+        return this.http.post(
+            `${this.baseurl}/${this.endPoint}/?culture=${this.culture}`,
+            body
+        );
     }
 
     GetPage(body: any): Observable<any> {
-        return this.http.post(`${this.baseurl}/${this.endPoint}/?culture=${this.culture}`, body);
+        return this.http.post(
+            `${this.baseurl}/${this.endPoint}/?culture=${this.culture}`,
+            body
+        );
     }
 
     Register(body: any): Observable<any> {
@@ -43,7 +51,10 @@ export class LockupsService {
     }
 
     Edit(body: any): Observable<any> {
-        return this.http.post(`${this.baseurl}/${this.endPoint}/Edit/?culture=${this.culture}`, body);
+        return this.http.post(
+            `${this.baseurl}/${this.endPoint}/Edit/?culture=${this.culture}`,
+            body
+        );
     }
 
     DeleteSoftById(id: number): Observable<any> {
@@ -61,5 +72,11 @@ export class LockupsService {
 
     getDropdown(): Observable<any> {
         return this.http.get(`${this.baseurl}/${this.endPoint}/getDropDown`);
+    }
+    DeleteRange(body: number[]): Observable<any> {
+        return this.http.post(
+            `${this.baseurl}/${this.endPoint}/DeleteRange/?culture=${this.culture}`,
+            body
+        );
     }
 }

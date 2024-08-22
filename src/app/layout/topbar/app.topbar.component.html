@@ -27,9 +27,14 @@
         <i class="pi pi-ellipsis-v"></i>
     </button>
 
-
-    <button (click)="signOut()" pButton pRipple type="button" label="Logout" class="flex gap-2 pi pi-sign-out"></button>
-
+    <button
+        (click)="signOut()"
+        pButton
+        pRipple
+        type="button"
+        label="Logout"
+        class="flex gap-2 pi pi-sign-out"
+    ></button>
 
     <div
         #topbarmenu
@@ -57,7 +62,11 @@
         <div class="col-3">
             <div class="checkbox-wrapper-54">
                 <label class="switch">
-                    <input type="checkbox" (click)="changeThemeFun()" ngModel="" />
+                    <input
+                        type="checkbox"
+                        (click)="changeThemeFun()"
+                        [(ngModel)]="themeSelected"
+                    />
                     <span class="slider"></span>
                 </label>
             </div>

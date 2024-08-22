@@ -1,3 +1,4 @@
+import { CloseMonthComponent } from './components/custom/close-month/close-month.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DepartmentComponent } from './components/standard/department/department.component';
@@ -23,6 +24,10 @@ import { VacationSettingComponent } from './components/custom/vacation-setting/v
 import { CovenantCategoryComponent } from './components/standard/covenant-category/covenant-category.component';
 import { CovenantComponent } from './components/custom/covenant/covenant.component';
 import { CompanyPolicyComponent } from './components/custom/company-policy/company-policy.component';
+import { ExecuseTypeComponent } from './components/custom/execuse-type/execuse-type.component';
+import { VacationTypeComponent } from './components/custom/vacation-type/vacation-type.component';
+import { EmployeeDataComponent } from './components/employee-data/employee-data.component';
+import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
 import { EmployeeComponent } from './components/employee/employee.component';
 
 @NgModule({
@@ -51,7 +56,7 @@ import { EmployeeComponent } from './components/employee/employee.component';
             {
                 path: 'job',
                 canActivate: [authGuard],
-                component: JobComponent
+                component: JobComponent,
             },
             {
                 path: 'location',
@@ -134,7 +139,33 @@ import { EmployeeComponent } from './components/employee/employee.component';
                 component: CompanyPolicyComponent,
             },
             {
-                path: 'employee',
+                path: 'execuseType',
+                canActivate: [authGuard],
+                component: ExecuseTypeComponent,
+            },
+            {
+                path: 'closeMonth',
+                canActivate: [authGuard],
+                component: CloseMonthComponent,
+            },
+            {
+                path: 'vacationType',
+                canActivate: [authGuard],
+                component: VacationTypeComponent,
+            },
+            {
+                path: 'employees',
+                canActivate: [authGuard],
+                component: EmployeeDataComponent,
+            },
+            {
+                path: 'employees/edit',
+                canActivate: [authGuard],
+                component: EmployeeEditComponent,
+            },
+
+            {
+                 path: 'employee',
                 canActivate: [authGuard],
                 component: EmployeeComponent,
             },
