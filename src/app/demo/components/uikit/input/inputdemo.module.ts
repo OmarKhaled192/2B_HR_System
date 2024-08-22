@@ -57,6 +57,6 @@ import { InputGroupModule } from 'primeng/inputgroup';
 		InputGroupModule,
 		InputGroupAddonModule
 	],
-	declarations: [InputDemoComponent]
+	declarations: [InputDemoComponent],
 })
 export class InputDemoModule { }
