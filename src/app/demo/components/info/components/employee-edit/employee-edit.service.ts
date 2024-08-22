@@ -17,4 +17,10 @@ export class EmployeeEditService extends LockupsService {
     getDropdownField(field: any): Observable<any> {
         return this.http.get(`${this.baseurl}/${field}/getDropDown`);
     }
+    updateEmployeeImage(field: any, body: any): Observable<any> {
+        return this.http.post(
+            `${this.baseurl}/${field}/UpdatEmployeeImage`,
+            body
+        );
+    }
 }
