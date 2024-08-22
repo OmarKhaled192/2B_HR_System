@@ -78,6 +78,7 @@ export class StdPaginationComponent {
 
     ngOnInit() {
 
+        this.endPoint = "Employee";
 
        this._LockupsService.setEndPoint(this.endPoint);
 

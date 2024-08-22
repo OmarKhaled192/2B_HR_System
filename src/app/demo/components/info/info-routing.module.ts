@@ -28,6 +28,7 @@ import { ExecuseTypeComponent } from './components/custom/execuse-type/execuse-t
 import { VacationTypeComponent } from './components/custom/vacation-type/vacation-type.component';
 import { EmployeeDataComponent } from './components/employee-data/employee-data.component';
 import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
+import { EmployeeComponent } from './components/employee/employee.component';
 
 @NgModule({
     imports: [
@@ -163,6 +164,11 @@ import { EmployeeEditComponent } from './components/employee-edit/employee-edit.
                 component: EmployeeEditComponent,
             },
 
+            {
+                 path: 'employee',
+                canActivate: [authGuard],
+                component: EmployeeComponent,
+            },
             { path: '**', component: NotfoundComponent },
         ]),
     ],

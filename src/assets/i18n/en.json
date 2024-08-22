@@ -117,4 +117,18 @@
     "dayCount": "dayCount",
     "vacation starts after": "vacation starts after",
     "All Employees": "All Employees"
+
+    "EMPLOYEE_DATA": "Employee data",
+    "ADD_EMPLOYEE": "Add Employee",
+    "EMPLOYEE_CERTIFICATION": "Employee Certification",
+    "EMPLOYEE_COURSE": "Employee Course",
+    "EMPLOYEE_COVENANT": "Employee Covenant",
+    "EMPLOYEE_FAMILY": "Employee Family",
+    "EMPLOYEE_FILE": "Employee File",
+    "EMPLOYEE_LOCATION": "Employee Location",
+    "EMPLOYEE_MANAGER": "Employee Manager",
+    "EMPLOYEE_SALARY": "Employee Salary",
+    "EMPLOYEE_UNIFORM": "Employee Uniform",
+    "EMPLOYEE_VACATION_STOCK": "Employee Vacation Stock",
+    "EMPLOYEE_VACATION_EXPERIENCE": "Employee Vacation Experience"
 }

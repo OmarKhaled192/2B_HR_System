@@ -1,0 +1,180 @@
+<p-toast />
+<form method="post" (submit)="registerSubmit()">
+  <div class="grid">
+	<div class="col-12">
+		<div class="card">
+			<h5>Add New Employee</h5>
+			<div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-12">
+                    <p-fileUpload
+                    mode="basic"
+                    chooseLabel="Choose"
+                    chooseIcon="pi pi-upload"
+                    name="File"
+                    maxFileSize="1000000"
+                    (onSelect)="onSelect($event)" />
+                </div>
+
+				<div class="field col-12 md:col-4">
+					<label For="NameAr">Full Name with Arabic</label>
+					<input  pInputText name="NameAr" [(ngModel)]="selectedNameAr" />
+				</div>
+
+				<div class="field col-12 md:col-4">
+					<label htmlFor="EnglishName">Full Name with English</label>
+					<input pInputText name="EnglishName" id="EnglishName"  type="text" [(ngModel)]="selectedEnglishName"  />
+				</div>
+
+                <div class="field col-12 md:col-4">
+					<label htmlFor="NationalId">National Id</label>
+					<input pInputText name="NationalId" id="NationalId" type="text" [(ngModel)]="selectedNationalId"  />
+				</div>
+
+				<div class="field col-12 md:col-8">
+					<label htmlFor="address"> Address</label>
+					<input pInputTextarea name="Address" id="Address"  rows="4" [(ngModel)]="selectedAddress" />
+				</div>
+
+                <div class="field col-12 md:col-4">
+					<label htmlFor="government">Government</label>
+					<p-dropdown name="GovernmentId" [options]="dropdownItemsGovernment" optionLabel="name" [(ngModel)]="selectedGovernment"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="phone"> Phone</label>
+					<input pInputText id="phone" name="Phone" rows="4" [(ngModel)]="selectedPhone"  />
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="email"> Email</label>
+					<input pInputText id="email" name="Email" rows="4" [(ngModel)]="selectedEmail"  />
+				</div>
+
+				<div class="field col-12 md:col-3">
+					<label htmlFor="BirthDate"> BirthDate</label>
+                    <p-calendar [showIcon]="true" name="BirthDate" inputId="BirthDate" [(ngModel)]="selectedBirthDate" ></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Religin">Religin</label>
+					<p-dropdown name="Religion" [options]="dropdownItemsReligin" optionLabel="name" [(ngModel)]="selectedReligin"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="maritalStatus">Material Status</label>
+					<p-dropdown name="MaritalStatus"  [options]="dropdownItemsMaritalStatus" optionLabel="name" [(ngModel)]="selectedMaritalStatus"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Blood">Blood Types</label>
+					<p-dropdown name="BloodTypes" [options]="dropdownItemsBloodTypes" optionLabel="name" [(ngModel)]="selectedBloodType"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="gender">Gender Types</label>
+					<p-dropdown name="Gender" [options]="dropdownItemsGender" optionLabel="name" [(ngModel)]="selectedGender"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Qualification">Qualification</label>
+					<p-dropdown name="MaritalStatus" [options]="dropdownItemsQualification" optionLabel="name" [(ngModel)]="selectedQualification"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Job">Job</label>
+					<p-dropdown name="JobId" [options]="dropdownItemsJob" optionLabel="name" [(ngModel)]="selectedJob"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="department">Department</label>
+					<p-dropdown name="DepartmentId" [options]="dropdownItemsDepartment" optionLabel="name" [(ngModel)]="selectedDepartment"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Partition">Partition</label>
+					<p-dropdown name="PartationId" [options]="dropdownItemsPartition" optionLabel="name" [(ngModel)]="selectedPartitions"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Shift">Shift</label>
+					<p-dropdown name="ShiftId" [options]="dropdownItemsShift" optionLabel="name" [(ngModel)]="selectedShift"></p-dropdown>
+				</div>
+
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Bank">Bank</label>
+					<p-dropdown name="BankId" [options]="dropdownItemsBank" optionLabel="name" [(ngModel)]="selectedBank"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="Grade">Grade</label>
+					<p-dropdown name="GradeId" [options]="dropdownItemsGrade" optionLabel="name" [(ngModel)]="selectedGrade"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="jobNature">job Nature</label>
+					<p-dropdown name="JobNatureId" [options]="dropdownItemsJobNature" optionLabel="name" [(ngModel)]="selectedjobNature"></p-dropdown>
+				</div>
+
+
+                <div class="field col-12 md:col-3 flex gap-3 align-items-center">
+                    <p-inputSwitch name="IsInsured" [(ngModel)]="selectedIsInsured"  />
+					<label htmlFor="isInsured">Is Insured </label>
+				</div>
+
+
+                <div class="field col-12 md:col-3 flex gap-3 align-items-center">
+                    <p-inputSwitch name="Ismanger" [(ngModel)]="selectedIsManager"  />
+					<label htmlFor="isManager">Is Manager </label>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="machineCode">Machine Code</label>
+					<input name="MachineCode" pInputText id="machineCode" type="text" [(ngModel)]="selectedMachineCode"/>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="recuritmentSource">Recuritment Source</label>
+					<p-dropdown name="RecuritmentSourceId" [options]="dropdownItemsRecuritmentSource" optionLabel="name" [(ngModel)]="selectedRecuritmentSource"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="ContractType">Contract Type</label>
+					<p-dropdown name="ContractTypeId" [options]="dropdownItemsContractType" optionLabel="name" [(ngModel)]="selectedContactType"></p-dropdown>
+				</div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="JoininDate">Join In Date</label>
+                    <p-calendar name="JoininDate" [showIcon]="true" inputId="JoininDate" [(ngModel)]="selectedJoininDate"></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="HirDate">Hiring Date</label>
+                    <p-calendar name="HirDate" [showIcon]="true" inputId="HirDate" [(ngModel)]="selectedHirDate"></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-3">
+					<label htmlFor="ResignationDate">resignation Date</label>
+                    <p-calendar name="ResignationDate" [showIcon]="true" inputId="ResignationDate" [(ngModel)]="selectedResignationDate"></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-6">
+					<label htmlFor="Discription">Description</label>
+					<input name="Discription" pInputTextarea id="Discription" rows="4" [(ngModel)]="selectedDiscription" />
+				</div>
+
+
+                <div class="field">
+                    <p-inputSwitch name="DeleteImage" [(ngModel)]="selectedDeleteImage"  />
+				</div>
+
+
+                <div class="field col-12 md:col-2 py-5">
+					<button type="submit" pButton value="Register">Register</button>
+				</div>
+			</div>
+		</div>
+	</div>
+   </div>
+
+</form>

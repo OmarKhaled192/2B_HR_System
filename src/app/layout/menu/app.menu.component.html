@@ -54,5 +54,24 @@
         </ng-template>
     </ul> -->
         </li>
+        <ul *ngIf="item.items">
+
+            <ng-template
+                ngFor
+                let-child
+                let-i="index"
+                [ngForOf]="item.items">
+
+                <li app-menuitem
+                    [item]="child | translateLabel | async "
+                    [index]="i"
+                    [parentKey]="key"
+                    [class]="child.badgeClass">
+
+                </li>
+
+            </ng-template>
+        </ul>
+    </li>
     </ng-container>
 </ul>
