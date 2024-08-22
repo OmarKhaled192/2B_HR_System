@@ -243,6 +243,7 @@ export class CompanyPolicyComponent {
                 formData.append(key, body[key]);
             }
         }
+        console.log(formData);
 
         this.companyPolicyService.Register(formData).subscribe({
             next: (res) => {

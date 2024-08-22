@@ -1,0 +1,241 @@
+<p-toast></p-toast>
+<p-panel header="Filters" [toggleable]="true" [collapsed]="true">
+    <form
+        method="post"
+        [formGroup]="filterForm"
+        (submit)="submitForm(filterForm)"
+    >
+        <div class="grid">
+            <div class="col-12">
+                <div class="card">
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="government">Government</label>
+                            <p-dropdown
+                                [options]="dropdownItemsGovernment"
+                                optionLabel="name"
+                                formControlName="governmentId"
+                                [(ngModel)]="selectedGovernment"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="BirthDate"> BirthDate</label>
+                            <p-calendar
+                                [showIcon]="true"
+                                inputId="BirthDate"
+                                formControlName="birthDate"
+                                [(ngModel)]="birthDate"
+                            ></p-calendar>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Religin">Religin</label>
+                            <p-dropdown
+                                formControlName="religion"
+                                [options]="dropdownItemsReligin"
+                                optionLabel="name"
+                                [(ngModel)]="selectedReligin"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="maritalStatus"
+                                >Material Status</label
+                            >
+                            <p-dropdown
+                                formControlName="maritalStatus"
+                                [options]="dropdownItemsMaritalStatus"
+                                optionLabel="name"
+                                [(ngModel)]="selectedMaritalStatus"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Blood">Blood Types</label>
+                            <p-dropdown
+                                formControlName="bloodTypes"
+                                [options]="dropdownItemsBloodTypes"
+                                optionLabel="name"
+                                [(ngModel)]="selectedBloodType"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="gender">Gender Type</label>
+                            <p-dropdown
+                                formControlName="gender"
+                                [options]="dropdownItemsGender"
+                                optionLabel="name"
+                                [(ngModel)]="selectedGender"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Qualification">Qualification</label>
+                            <p-dropdown
+                                formControlName="qualificationId"
+                                [options]="dropdownItemsQualification"
+                                optionLabel="name"
+                                [(ngModel)]="selectedQualification"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Job">Job</label>
+                            <p-dropdown
+                                formControlName="jobId"
+                                [options]="dropdownItemsJob"
+                                optionLabel="name"
+                                [(ngModel)]="selectedJob"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="department">Department</label>
+                            <p-dropdown
+                                formControlName="departmentId"
+                                [options]="dropdownItemsDepartment"
+                                optionLabel="name"
+                                [(ngModel)]="selectedDepartment"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Partition">Partition</label>
+                            <p-dropdown
+                                formControlName="partationId"
+                                [options]="dropdownItemsPartition"
+                                optionLabel="name"
+                                [(ngModel)]="selectedPartitions"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Shift">Shift</label>
+                            <p-dropdown
+                                formControlName="shiftId"
+                                [options]="dropdownItemsShift"
+                                optionLabel="name"
+                                [(ngModel)]="selectedShift"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Bank">Bank</label>
+                            <p-dropdown
+                                formControlName="bankId"
+                                [options]="dropdownItemsBank"
+                                optionLabel="name"
+                                [(ngModel)]="selectedBank"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Grade">Grade</label>
+                            <p-dropdown
+                                formControlName="gradeId"
+                                [options]="dropdownItemsGrade"
+                                optionLabel="name"
+                                [(ngModel)]="selectedGrade"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="jobNature">job Nature</label>
+                            <p-dropdown
+                                formControlName="jobNatureId"
+                                [options]="dropdownItemsJobNature"
+                                optionLabel="name"
+                                [(ngModel)]="selectedjobNature"
+                            ></p-dropdown>
+                        </div>
+
+                        <div
+                            class="field col-12 md:col-3 flex gap-3 align-items-center"
+                        >
+                            <p-inputSwitch
+                                formControlName="isInsured"
+                                [(ngModel)]="selectedIsInsured"
+                            />
+                            <label htmlFor="isInsured">Is Insured </label>
+                        </div>
+
+                        <div
+                            class="field col-12 md:col-3 flex gap-3 align-items-center"
+                        >
+                            <p-inputSwitch
+                                formControlName="ismanger"
+                                [(ngModel)]="selectedIsManager"
+                            />
+                            <label htmlFor="ismanger">Is Manager </label>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="recuritmentSource"
+                                >Recuritment Source</label
+                            >
+                            <p-dropdown
+                                formControlName="recuritmentSourceId"
+                                [options]="dropdownItemsRecuritmentSource"
+                                optionLabel="name"
+                                [(ngModel)]="selectedRecuritmentSource"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="ContractType">Contract Type</label>
+                            <p-dropdown
+                                formControlName="contractTypeId"
+                                [options]="dropdownItemsContractType"
+                                optionLabel="name"
+                                [(ngModel)]="selectedContactType"
+                            ></p-dropdown>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="joininDate">Join In Date</label>
+                            <p-calendar
+                                [showIcon]="true"
+                                inputId="joininDate"
+                                formControlName="joininDate"
+                                [(ngModel)]="joinInDate"
+                            ></p-calendar>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="hirDate">Hiring Date</label>
+                            <p-calendar
+                                [showIcon]="true"
+                                inputId="hirDate"
+                                formControlName="hirDate"
+                                [(ngModel)]="hiringData"
+                            ></p-calendar>
+                        </div>
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="resignationDate"
+                                >resignation Date</label
+                            >
+                            <p-calendar
+                                [showIcon]="true"
+                                inputId="resignationDate"
+                                formControlName="resignationDate"
+                                [(ngModel)]="resignationDate"
+                            ></p-calendar>
+                        </div>
+
+                        <div class="btn-filter-submit-container">
+                            <div class="field">
+                                <button pButton type="submit">
+                                    <i class="pi pi-filter"></i>
+                                    <span> Filter </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</p-panel>

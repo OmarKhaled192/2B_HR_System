@@ -26,7 +26,8 @@ import { CovenantComponent } from './components/custom/covenant/covenant.compone
 import { CompanyPolicyComponent } from './components/custom/company-policy/company-policy.component';
 import { ExecuseTypeComponent } from './components/custom/execuse-type/execuse-type.component';
 import { VacationTypeComponent } from './components/custom/vacation-type/vacation-type.component';
-import { EmployeeDataComponent } from './components/Employee/employee-data/employee-data.component';
+import { EmployeeDataComponent } from './components/employee-data/employee-data.component';
+import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
 
 @NgModule({
     imports: [
@@ -155,6 +156,11 @@ import { EmployeeDataComponent } from './components/Employee/employee-data/emplo
                 path: 'employees',
                 canActivate: [authGuard],
                 component: EmployeeDataComponent,
+            },
+            {
+                path: 'employees/edit',
+                canActivate: [authGuard],
+                component: EmployeeEditComponent,
             },
 
             { path: '**', component: NotfoundComponent },
