@@ -2,7 +2,6 @@ import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslateLabelPipe } from './translate-label.pipe';
 
 @Component({
     selector: 'app-menu',
