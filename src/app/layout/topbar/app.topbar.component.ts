@@ -3,17 +3,19 @@ import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-topbar',
     templateUrl: './app.topbar.component.html',
     styleUrls: ['./app.topbar.component.scss'],
 })
-export class AppTopBarComponent implements OnInit  {
+export class AppTopBarComponent implements OnInit {
     constructor(
         public layoutService: LayoutService,
-        private translate: TranslateService) {
-    }
+        private translate: TranslateService,
+        private router: Router
+    ) {}
     countries: any[] | undefined;
 
     selectedCountry: string | undefined;
@@ -22,12 +24,10 @@ export class AppTopBarComponent implements OnInit  {
     themeSelected: any;
 
     ngOnInit() {
-
         this.countries = [
             { name: 'العربية', code: 'EG', lang: 'ar' },
             { name: 'English', code: 'US', lang: 'en' },
         ];
-
 
         // for arabic
         this.translate.setDefaultLang('ar');
@@ -41,14 +41,13 @@ export class AppTopBarComponent implements OnInit  {
         // document.documentElement.lang = 'en';
         // this.selectedCountry = this.countries[1];
 
+        this.theme = localStorage.getItem('theme');
 
-       this.theme = localStorage.getItem("theme").toString();
-
-       if(this.theme == "arya-orange") {
+        if (this.theme == 'arya-orange') {
             this.themeSelected = true;
-       } else {
+        } else {
             this.themeSelected = false;
-       }
+        }
 
         //    this.lang =  localStorage.getItem("currentLang").toString();
 
@@ -56,7 +55,6 @@ export class AppTopBarComponent implements OnInit  {
         //             document.dir = this.langData.DIR; // Default to 'ltr' if dir is undefined
         //             document.documentElement.lang = this.langData.lang; // Default to lang if lang is undefined
         //     });
-
     }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({
@@ -75,18 +73,23 @@ export class AppTopBarComponent implements OnInit  {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
+    signOut() {
+        localStorage.clear();
+        this.router.navigate(['/auth/login']);
+    }
+
     changeThemeFun() {
         if (this.theme == 'saga-orange') {
-            localStorage.setItem("theme", "arya-orange");
+            localStorage.setItem('theme', 'arya-orange');
             this.theme = 'arya-orange';
             this.themeSelected = false;
         } else {
             this.theme = 'saga-orange';
-            localStorage.setItem("theme", "saga-orange");
+            localStorage.setItem('theme', 'saga-orange');
             this.themeSelected = true;
         }
 
-
+        console.log(this.themeSelected);
     }
 
     changeLang(event: any) {
@@ -97,6 +100,7 @@ export class AppTopBarComponent implements OnInit  {
         this.translate.use(lang).subscribe(() => {
             const langData = this.translate.translations[lang];
 
+            console.log(langData)
             if (langData) {
                 document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
                 document.documentElement.lang = langData.lang; // Default to lang if lang is undefined

@@ -29,7 +29,7 @@ import { MenuService } from '../app.menu.service';
                 *ngIf="root && item.visible !== false"
                 class="layout-menuitem-root-text"
             >
-                {{ item.label }}
+                {{ item.label | translate }}
             </div>
             <a
                 *ngIf="
