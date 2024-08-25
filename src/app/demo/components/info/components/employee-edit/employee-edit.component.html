@@ -339,13 +339,18 @@
                     [showClear]="true"></p-dropdown>
                 </div>
 
-                <div class="col-12">
-                    <router-outlet></router-outlet>
-                </div>
             </div>
-
-
 
     </div>
 </div>
 
+
+<div class="grid" *ngIf="selectedAction">
+    <div class="col-12 my-2">
+        <div class="card grid justify-content-center">
+                <div class="col-12">
+                    <router-outlet [id]="currentId"></router-outlet>
+                </div>
+            </div>
+    </div>
+</div>

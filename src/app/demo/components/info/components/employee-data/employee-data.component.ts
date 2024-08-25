@@ -348,7 +348,8 @@ export class EmployeeDataComponent {
                 });
                 const url = this.router.serializeUrl(urlTree);
                 console.log('Constructed URL:', url);
-                this.router.navigate(['/info/employees/edit', rowData.id]);
+                this.router.navigate(['/info/employees/edit', rowData.id],
+               );
             },
             error: (err) => {
                 console.log(err);

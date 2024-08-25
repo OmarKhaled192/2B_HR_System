@@ -217,6 +217,7 @@ export class EmployeeEditComponent {
         console.log('Current Id : ', this.currentId);
 
         this.endPoint = 'Employee';
+        
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
