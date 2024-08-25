@@ -18,16 +18,18 @@ export class TranslateLabelPipe implements PipeTransform, OnDestroy {
         });
     }
 
+
     transform(value: any): Observable<any> {
         if (!value) {
             return of(value);
         }
 
-        return this.translateService.get(value.label).pipe(
-            map((transVal) => {
-                return { ...value, label: transVal };
-            })
-        );
+            // Translate the label
+            return this.translateService.get(value.label).pipe(
+                map((transVal) => {
+                    return { ...value, label: transVal };
+                })
+            );
     }
 
     ngOnDestroy() {

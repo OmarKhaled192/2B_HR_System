@@ -100,6 +100,7 @@ export class AppTopBarComponent implements OnInit {
         this.translate.use(lang).subscribe(() => {
             const langData = this.translate.translations[lang];
 
+            console.log(langData)
             if (langData) {
                 document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
                 document.documentElement.lang = langData.lang; // Default to lang if lang is undefined

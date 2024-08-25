@@ -2,7 +2,7 @@
     <ng-container *ngFor="let item of model">
         <li *ngIf="!item.separator">
             <!-- Render the top-level item -->
-            <a [routerLink]="item.routerLink" class="parent-item">
+            <a [routerLink]="item?.routerLink" class="parent-item">
                 <i [ngClass]="item.icon"></i>
                 {{ item.label | translate }}
             </a>

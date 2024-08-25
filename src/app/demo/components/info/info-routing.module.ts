@@ -28,6 +28,7 @@ import { ExecuseTypeComponent } from './components/custom/execuse-type/execuse-t
 import { VacationTypeComponent } from './components/custom/vacation-type/vacation-type.component';
 import { EmployeeDataComponent } from './components/employee-data/employee-data.component';
 import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
+import { EmployeeComponent } from './components/employee/employee.component';
 
 @NgModule({
     imports: [
@@ -127,43 +128,58 @@ import { EmployeeEditComponent } from './components/employee-edit/employee-edit.
                 canActivate: [authGuard],
                 component: CovenantCategoryComponent,
             },
+
             {
                 path: 'Covenant',
                 canActivate: [authGuard],
                 component: CovenantComponent,
             },
+
             {
                 path: 'companyPolicy',
                 canActivate: [authGuard],
                 component: CompanyPolicyComponent,
             },
+
             {
                 path: 'execuseType',
                 canActivate: [authGuard],
                 component: ExecuseTypeComponent,
             },
+
             {
                 path: 'closeMonth',
                 canActivate: [authGuard],
                 component: CloseMonthComponent,
             },
+
             {
                 path: 'vacationType',
                 canActivate: [authGuard],
                 component: VacationTypeComponent,
             },
+
             {
                 path: 'employees',
                 canActivate: [authGuard],
                 component: EmployeeDataComponent,
             },
+
             {
                 path: 'employees/edit',
                 canActivate: [authGuard],
                 component: EmployeeEditComponent,
+                loadChildren: () =>
+                    import('./components/employee-edit/all-tabs-routing/all-tabs.module').then((m) => m.AllTabsModule),
             },
 
-            { path: '**', component: NotfoundComponent },
+            {
+                path: 'employee',
+                canActivate: [authGuard],
+                component: EmployeeComponent,
+            },
+
+            // { path: '**', component: NotfoundComponent },
         ]),
     ],
     exports: [RouterModule],
