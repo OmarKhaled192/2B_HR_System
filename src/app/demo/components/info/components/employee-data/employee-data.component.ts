@@ -28,7 +28,7 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { EmployeeService } from './employee.service';
 import { BadgeModule } from 'primeng/badge';
@@ -77,6 +77,7 @@ export class EmployeeDataComponent {
         private _EmployeeService: EmployeeService,
         private messageService: MessageService,
         private DatePipe: DatePipe,
+        private translate: TranslateService,
         private router: Router
     ) {}
 
@@ -85,7 +86,7 @@ export class EmployeeDataComponent {
     @ViewChild('manageItems') manageItems: ElementRef;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = 4;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -650,7 +651,12 @@ export class EmployeeDataComponent {
         }
     }
     sortByName(event: any) {
-        this.sortField = 'name';
+        if(this.translate.currentLang == 'ar') 
+        this.sortField = 'nameAr';
+
+        else
+        this.sortField = 'englishName';
+
     }
     submitForm(formData: FormGroup) {
         formData.patchValue({

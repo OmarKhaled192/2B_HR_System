@@ -94,7 +94,7 @@ export class EmployeeEditComponent {
     @ViewChild('manageItems') manageItems: ElementRef;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = 4;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -529,8 +529,8 @@ export class EmployeeEditComponent {
             this.dropdownItemsGrade
         );
 
-        this.selectedGrade = data.gradeId;
-        console.log('this.selectedGrade : ', this.selectedGrade);
+
+        console.log("this.selectedGrade : " ,this.selectedGrade);
 
         this.selectedjobNature = this.getObject(
             data.jobNatureId,
@@ -606,7 +606,10 @@ export class EmployeeEditComponent {
     //     });
     // }
 
-    getObject(id: number, dropdown: any) {
+
+    getObject(id: number, dropdown: any[]) {  
+        console.log("getObject - dropdown =>" , dropdown );
+
         if (dropdown) return dropdown.find((item: any) => item.id == id);
     }
 
