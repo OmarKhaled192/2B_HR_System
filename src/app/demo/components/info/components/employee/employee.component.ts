@@ -128,8 +128,13 @@ export class EmployeeComponent {
 
             // update endpoint
             this._EmployeeService.setEndPoint(this.endPoint);
-        });
 
+            // get All Drop Downs
+            this.getAllDropDowns();
+        });
+    }
+
+    getAllDropDowns() {
         // Enum ===>
         // get Blood Type Dropdown
         this.getDropDownEnum({
@@ -220,15 +225,17 @@ export class EmployeeComponent {
     }
 
     getDropDownEnum(self: { field: any; enum: string }) {
-        this._EmployeeService.getEnum(self.enum).subscribe({
-            next: (res) => {
-                this[self.field] = res.data;
-            },
-            error: (err) => {
-                // console.log(`error in ${self.field}`)
-                // console.log(err);
-            },
-        });
+        this._EmployeeService
+            .getEnum(self.enum)
+            .subscribe({
+                next: (res) => {
+                    this[self.field] = res.data;
+                },
+                error: (err) => {
+                    // console.log(`error in ${self.field}`)
+                    // console.log(err);
+                },
+            });
     }
 
     getDropDownField(self: { field: any; enum: string }) {
@@ -366,7 +373,7 @@ export class EmployeeComponent {
             'IsInsured',
             this.selectedIsInsured.toString()
         ); // 29
-        
+
         this.registerForm.append(
             'DeleteImage',
             this.selectedDeleteImage.toString()
