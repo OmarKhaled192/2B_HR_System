@@ -2,7 +2,7 @@
     <ng-container *ngFor="let item of model">
         <li *ngIf="!item.separator">
             <!-- Render the top-level item -->
-            <a [routerLink]="item.routerLink" class="parent-item">
+            <a [routerLink]="item?.routerLink" class="parent-item">
                 <i [ngClass]="item.icon"></i>
                 {{ item.label | translate }}
             </a>
@@ -54,24 +54,5 @@
         </ng-template>
     </ul> -->
         </li>
-        <ul *ngIf="item.items">
-
-            <ng-template
-                ngFor
-                let-child
-                let-i="index"
-                [ngForOf]="item.items">
-
-                <li app-menuitem
-                    [item]="child | translateLabel | async "
-                    [index]="i"
-                    [parentKey]="key"
-                    [class]="child.badgeClass">
-
-                </li>
-
-            </ng-template>
-        </ul>
-    </li>
     </ng-container>
 </ul>

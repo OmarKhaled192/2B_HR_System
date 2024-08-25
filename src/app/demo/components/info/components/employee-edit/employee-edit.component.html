@@ -319,3 +319,33 @@
         </div>
     </div>
 </form>
+
+
+<div class="grid">
+    <div class="col-12 my-2">
+        <div class="card grid justify-content-center">
+
+                <div class="col-12 text-center">
+                    <p>Choose An Action From List</p>
+                </div>
+
+                <div class="col-12 md:col-6">
+                    <p-dropdown
+                    [options]="Actions"
+                    (onChange)="changeTab()"
+                    [(ngModel)]="selectedAction"
+                    optionLabel="name"
+                    placeholder="Select Action"
+                    [showClear]="true"></p-dropdown>
+                </div>
+
+                <div class="col-12">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+
+
+
+    </div>
+</div>
+

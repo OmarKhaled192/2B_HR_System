@@ -128,48 +128,58 @@ import { EmployeeComponent } from './components/employee/employee.component';
                 canActivate: [authGuard],
                 component: CovenantCategoryComponent,
             },
+
             {
                 path: 'Covenant',
                 canActivate: [authGuard],
                 component: CovenantComponent,
             },
+
             {
                 path: 'companyPolicy',
                 canActivate: [authGuard],
                 component: CompanyPolicyComponent,
             },
+
             {
                 path: 'execuseType',
                 canActivate: [authGuard],
                 component: ExecuseTypeComponent,
             },
+
             {
                 path: 'closeMonth',
                 canActivate: [authGuard],
                 component: CloseMonthComponent,
             },
+
             {
                 path: 'vacationType',
                 canActivate: [authGuard],
                 component: VacationTypeComponent,
             },
+
             {
                 path: 'employees',
                 canActivate: [authGuard],
                 component: EmployeeDataComponent,
             },
+
             {
                 path: 'employees/edit',
                 canActivate: [authGuard],
                 component: EmployeeEditComponent,
+                loadChildren: () =>
+                    import('./components/employee-edit/all-tabs-routing/all-tabs.module').then((m) => m.AllTabsModule),
             },
 
             {
-                 path: 'employee',
+                path: 'employee',
                 canActivate: [authGuard],
                 component: EmployeeComponent,
             },
-            { path: '**', component: NotfoundComponent },
+
+            // { path: '**', component: NotfoundComponent },
         ]),
     ],
     exports: [RouterModule],

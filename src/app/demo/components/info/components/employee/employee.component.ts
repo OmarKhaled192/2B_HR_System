@@ -16,45 +16,46 @@ import { MultiSelectModule } from "primeng/multiselect";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 import { InputSwitchModule } from "primeng/inputswitch";
-import { FileUploadModule } from "primeng/fileupload";
+import { FileUploadModule, UploadEvent } from "primeng/fileupload";
 import { ToastModule } from "primeng/toast";
 import { Globals } from "src/app/class/globals";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 
 @Component({
-  selector: 'app-employee',
-  standalone: true,
-  imports: [
-    CommonModule,
-    UIkitRoutingModule,
-    FormsModule,
-    FormLayoutDemoRoutingModule,
-    ReactiveFormsModule,
-    AutoCompleteModule,
-    CalendarModule,
-    ChipsModule,
-    DropdownModule,
-    InputMaskModule,
-    InputNumberModule,
-    CascadeSelectModule,
-    MultiSelectModule,
-    InputTextareaModule,
-    InputTextModule,
-    InputSwitchModule,
-    FileUploadModule,
-    ToastModule,
-    DatePipe
-  ],
-  providers: [MessageService, DatePipe],
-  templateUrl: './employee.component.html',
-  styleUrl: './employee.component.scss'
+    selector: 'app-employee',
+    standalone: true,
+    imports: [
+        CommonModule,
+        UIkitRoutingModule,
+        FormsModule,
+        FormLayoutDemoRoutingModule,
+        ReactiveFormsModule,
+        AutoCompleteModule,
+        CalendarModule,
+        ChipsModule,
+        DropdownModule,
+        InputMaskModule,
+        InputNumberModule,
+        CascadeSelectModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        InputTextModule,
+        InputSwitchModule,
+        FileUploadModule,
+        ToastModule,
+        DatePipe,
+        TranslateModule,
+    ],
+    providers: [MessageService, DatePipe, TranslateService],
+    templateUrl: './employee.component.html',
+    styleUrl: './employee.component.scss',
 })
 export class EmployeeComponent {
     constructor(
         private _EmployeeService: EmployeeService,
         private messageService: MessageService,
         private DatePipe: DatePipe
-    ) {
-    }
+    ) {}
 
     // selected Items
     selectedState: any = null;
@@ -84,12 +85,11 @@ export class EmployeeComponent {
     selectedEmail: any = null;
     selectedBirthDate: any = null;
 
-
     selectedIsInsured: boolean = false;
     selectedIsManager: boolean = false;
 
-    selectedDepartment: any =  null;
-    selectedBloodType: any =  null;
+    selectedDepartment: any = null;
+    selectedBloodType: any = null;
 
     // => dropdown Arrays
 
@@ -111,13 +111,12 @@ export class EmployeeComponent {
     dropdownItemsJobNature: any;
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
-    file: File;
+    file: File = null;
     endPoint: string;
     selectedDeleteImage: boolean = false;
     registerForm: FormData = new FormData();
 
     ngOnInit(): void {
-
         this.endPoint = 'Employee';
 
         // adding this Configurations in each Component Customized
@@ -130,41 +129,72 @@ export class EmployeeComponent {
             // update endpoint
             this._EmployeeService.setEndPoint(this.endPoint);
 
+            // get All Drop Downs
+            this.getAllDropDowns();
         });
+    }
 
+    getAllDropDowns() {
         // Enum ===>
         // get Blood Type Dropdown
-        this.getDropDownEnum({ field: 'dropdownItemsBloodTypes', enum: 'getBloodTypes' });
+        this.getDropDownEnum({
+            field: 'dropdownItemsBloodTypes',
+            enum: 'getBloodTypes',
+        });
 
         // get Gender Dropdown
-        this.getDropDownEnum({ field: 'dropdownItemsGender', enum: 'getGender' });
+        this.getDropDownEnum({
+            field: 'dropdownItemsGender',
+            enum: 'getGender',
+        });
 
         // get MaritalStatus Dropdown
-        this.getDropDownEnum({ field: 'dropdownItemsMaritalStatus', enum: 'getMaritalStatus' });
+        this.getDropDownEnum({
+            field: 'dropdownItemsMaritalStatus',
+            enum: 'getMaritalStatus',
+        });
 
         // get Religion Dropdown
-        this.getDropDownEnum({ field: 'dropdownItemsReligin', enum: 'getReligion' });
+        this.getDropDownEnum({
+            field: 'dropdownItemsReligin',
+            enum: 'getReligion',
+        });
 
         // ==========================================================================
 
         // get Dropdown ==>
         // get Blood Type Dropdown
-        this.getDropDownField({ field: 'dropdownItemsReligin', enum: 'getReligion' });
+        this.getDropDownField({
+            field: 'dropdownItemsReligin',
+            enum: 'getReligion',
+        });
 
         // get Government Dropdown
-        this.getDropDownField({ field: 'dropdownItemsGovernment', enum: 'Government' });
+        this.getDropDownField({
+            field: 'dropdownItemsGovernment',
+            enum: 'Government',
+        });
 
         // get Qualification Dropdown
-        this.getDropDownField({ field: 'dropdownItemsQualification', enum: 'Qualification' });
+        this.getDropDownField({
+            field: 'dropdownItemsQualification',
+            enum: 'Qualification',
+        });
 
         // get Job Dropdown
         this.getDropDownField({ field: 'dropdownItemsJob', enum: 'Job' });
 
         // get Department Dropdown
-        this.getDropDownField({ field: 'dropdownItemsDepartment', enum: 'Department' });
+        this.getDropDownField({
+            field: 'dropdownItemsDepartment',
+            enum: 'Department',
+        });
 
         // get Partition Dropdown
-        this.getDropDownField({ field: 'dropdownItemsPartition', enum: 'Partation' });
+        this.getDropDownField({
+            field: 'dropdownItemsPartition',
+            enum: 'Partation',
+        });
 
         // get Shift Dropdown
         this.getDropDownField({ field: 'dropdownItemsShift', enum: 'Shift' });
@@ -176,59 +206,88 @@ export class EmployeeComponent {
         this.getDropDownField({ field: 'dropdownItemsGrade', enum: 'Grade' });
 
         // get JobNature Dropdown
-        this.getDropDownField({ field: 'dropdownItemsJobNature', enum: 'JobNature' });
+        this.getDropDownField({
+            field: 'dropdownItemsJobNature',
+            enum: 'JobNature',
+        });
 
         // get RecuritmentSource Dropdown
-        this.getDropDownField({ field: 'dropdownItemsRecuritmentSource', enum: 'RecuritmentSource' });
+        this.getDropDownField({
+            field: 'dropdownItemsRecuritmentSource',
+            enum: 'RecuritmentSource',
+        });
 
         // get ContactTypes Dropdown
-        this.getDropDownField({ field: 'dropdownItemsContractType', enum: 'ContractType' });
-
-    }
-
-    getDropDownEnum( self: { field: any , enum: string}) {
-        this._EmployeeService.getEnum(self.enum).subscribe({
-          next: (res) => {
-            this[self.field] = res.data;
-          },
-          error: (err) => {
-            // console.log(`error in ${self.field}`)
-            // console.log(err);
-          }
+        this.getDropDownField({
+            field: 'dropdownItemsContractType',
+            enum: 'ContractType',
         });
     }
 
-    getDropDownField( self: { field: any , enum: string}) {
+    getDropDownEnum(self: { field: any; enum: string }) {
+        this._EmployeeService
+            .getEnum(self.enum)
+            .subscribe({
+                next: (res) => {
+                    this[self.field] = res.data;
+                },
+                error: (err) => {
+                    // console.log(`error in ${self.field}`)
+                    // console.log(err);
+                },
+            });
+    }
+
+    getDropDownField(self: { field: any; enum: string }) {
         this._EmployeeService.getDropdownField(self.enum).subscribe({
-          next: (res) => {
-            this[self.field] = res.data;
-          },
-          error: (err) => {
-            // console.log(`error in ${self.field}`)
-            // console.log(err);
-          }
+            next: (res) => {
+                this[self.field] = res.data;
+            },
+            error: (err) => {
+                // console.log(`error in ${self.field}`)
+                // console.log(err);
+            },
         });
     }
 
     onSelect(event: any) {
-        console.log("event file")
+        console.log('event file');
         console.log(event);
-
 
         // assign file
         this.file = event.currentFiles[0];
 
         this.registerForm.append('File', this.file);
 
-        console.log("File")
-        console.log(this.file );
+        console.log('File');
+        console.log(this.file);
 
-        this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+        this.messageService.add({
+            severity: 'info',
+            summary: 'File Uploaded',
+            detail: '',
+        });
     }
 
+    uploadedFiles: any[] = [];
 
+    onUpload(event: UploadEvent) {
+        for (let file of event?.["files"]) {
+            this.uploadedFiles.push(file);
+        }
+
+        this.messageService.add({
+            severity: 'info',
+            summary: 'File Uploaded',
+            detail: '',
+        });
+    }
 
     registerSubmit() {
+        this.registerForm = new FormData();
+
+        // File
+        this.registerForm.append('File', this.file);
 
         // Append string fields
         this.registerForm.append('NameAr', this.selectedNameAr); // 1
@@ -241,69 +300,105 @@ export class EmployeeComponent {
         this.registerForm.append('Discription', this.selectedDiscription); // 8
 
         // Append numeric fields
-        this.registerForm.append('BloodTypes', this.selectedBloodType?.["id"]); // 9
-        this.registerForm.append('GovernmentId', this.selectedGovernment?.["id"]); // 10
-        this.registerForm.append('QualificationId', this.selectedQualification?.["id"]); //11
-        this.registerForm.append('Gender', this.selectedGender?.["id"]); //12
-        this.registerForm.append('MaritalStatus', this.selectedMaritalStatus?.["id"]); // 13
-        this.registerForm.append('JobId', this.selectedJob?.["id"]); // 14
-        this.registerForm.append('JobNatureId', this.selectedjobNature?.["id"]); // 15
-        this.registerForm.append('DepartmentId', this.selectedDepartment?.["id"]); // 16
-        this.registerForm.append('PartationId', this.selectedPartitions?.["id"]); // 17
-        this.registerForm.append('ShiftId', this.selectedShift?.["id"]); // 18
-        this.registerForm.append('BankId', this.selectedBank?.["id"]); // 19
-        this.registerForm.append('GradeId', this.selectedGrade?.["id"]); // 20
-        this.registerForm.append('ContractTypeId', this.selectedContactType?.["id"]); // 21
-        this.registerForm.append('RecuritmentSourceId', this.selectedRecuritmentSource?.["id"]); // 22
-        this.registerForm.append('Religion', this.selectedReligin?.["id"]); // 23
-
+        this.registerForm.append('BloodTypes', this.selectedBloodType?.['id']); // 9
+        this.registerForm.append(
+            'GovernmentId',
+            this.selectedGovernment?.['id']
+        ); // 10
+        this.registerForm.append(
+            'QualificationId',
+            this.selectedQualification?.['id']
+        ); //11
+        this.registerForm.append('Gender', this.selectedGender?.['id']); //12
+        this.registerForm.append(
+            'MaritalStatus',
+            this.selectedMaritalStatus?.['id']
+        ); // 13
+        this.registerForm.append('JobId', this.selectedJob?.['id']); // 14
+        this.registerForm.append('JobNatureId', this.selectedjobNature?.['id']); // 15
+        this.registerForm.append(
+            'DepartmentId',
+            this.selectedDepartment?.['id']
+        ); // 16
+        this.registerForm.append(
+            'PartationId',
+            this.selectedPartitions?.['id']
+        ); // 17
+        this.registerForm.append('ShiftId', this.selectedShift?.['id']); // 18
+        this.registerForm.append('BankId', this.selectedBank?.['id']); // 19
+        this.registerForm.append('GradeId', this.selectedGrade?.['id']); // 20
+        this.registerForm.append(
+            'ContractTypeId',
+            this.selectedContactType?.['id']
+        ); // 21
+        this.registerForm.append(
+            'RecuritmentSourceId',
+            this.selectedRecuritmentSource?.['id']
+        ); // 22
+        this.registerForm.append('Religion', this.selectedReligin?.['id']); // 23
 
         // Append date fields
-        this.registerForm.append('JoininDate', this.DatePipe.transform(
-            this.selectedJoininDate, 'yyyy-MM-ddTHH:mm:ss'
-        )); // 24
+        this.registerForm.append(
+            'JoininDate',
+            this.DatePipe.transform(
+                this.selectedJoininDate,
+                'yyyy-MM-dd'
+            )
+        ); // 24
 
-        this.registerForm.append('BirthDate', this.DatePipe.transform(
-            this.selectedBirthDate, 'yyyy-MM-ddTHH:mm:ss'
-        )); // 25
+        this.registerForm.append(
+            'BirthDate',
+            this.DatePipe.transform(
+                this.selectedBirthDate,
+                'yyyy-MM-dd'
+            )
+        ); // 25
 
-        this.registerForm.append('HirDate', this.DatePipe.transform(
-            this.selectedHirDate, 'yyyy-MM-ddTHH:mm:ss'
-        )); // 26
+        this.registerForm.append(
+            'HirDate',
+            this.DatePipe.transform(this.selectedHirDate, 'yyyy-MM-dd')
+        ); // 26
 
-        this.registerForm.append('ResignationDate', this.DatePipe.transform(
-            this.selectedResignationDate, 'yyyy-MM-ddTHH:mm:ss'
-        )); // 27
+        this.registerForm.append(
+            'ResignationDate',
+            this.DatePipe.transform(
+                this.selectedResignationDate,
+                'yyyy-MM-dd'
+            )
+        ); // 27
 
         // Append boolean fields
         this.registerForm.append('Ismanger', this.selectedIsManager.toString()); // 28
-        this.registerForm.append('IsInsured', this.selectedIsInsured.toString()); // 29
-        this.registerForm.append('DeleteImage', this.selectedDeleteImage.toString()); // 30
+        this.registerForm.append(
+            'IsInsured',
+            this.selectedIsInsured.toString()
+        ); // 29
+
+        this.registerForm.append(
+            'DeleteImage',
+            this.selectedDeleteImage.toString()
+        ); // 30
 
         this._EmployeeService.Register(this.registerForm).subscribe({
-            next: (res)=> {
-                console.log(res)
+            next: (res) => {
+                console.log(res);
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Success',
-                    detail: 'items deleted successfully',
+                    detail: 'item inserted successfully',
                     life: 3000,
                 });
             },
 
             error: (err) => {
-                console.error(err)
+                console.error(err);
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Failure',
                     detail: err.statusText,
                     life: 3000,
                 });
-            }
+            },
         });
-
-
-
-
     }
 }
