@@ -36,7 +36,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { PanelModule } from 'primeng/panel';
 import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EmployeeEditService } from './employee-edit.service';
 import { map, Observable, tap } from 'rxjs';
 interface UploadEvent {
@@ -73,6 +73,7 @@ interface UploadEvent {
         InputSwitchModule,
         DatePipe,
         FileUploadModule,
+        RouterModule,
     ],
     providers: [MessageService, DatePipe],
     templateUrl: './employee-edit.component.html',
@@ -84,9 +85,9 @@ export class EmployeeEditComponent {
         private messageService: MessageService,
         private DatePipe: DatePipe,
         private router: Router,
+        private route: ActivatedRoute,
         private activatedRoute: ActivatedRoute
-    ) {
-    }
+    ) {}
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
@@ -204,12 +205,13 @@ export class EmployeeEditComponent {
         Phone: new FormControl(),
         // imageUrl: new FormControl(),
     });
-    ngOnInit() {
-        
 
-        this.activatedRoute.queryParams.subscribe((params) => {
-            this.currentId = params['id'];
-        });
+    // Actions Tabs variable
+    Actions: any;
+    selectedAction: any;
+
+    ngOnInit() {
+        this.currentId = this.route.snapshot.params['id'];
         console.log('Current Id : ', this.currentId);
 
         this.endPoint = 'Employee';
@@ -255,14 +257,14 @@ export class EmployeeEditComponent {
                     resignationDate: this.DatePipe.transform(data.data.resignationDate, 'MM/dd/yyyy'),
                 };
             })
-        ).subscribe(transformedDates => {
-
-            console.log('transformedDates');
-            console.log(transformedDates);
-            
-            this.patchFormValues(this.allData, transformedDates);
-        });
+        )
         
+            .subscribe((transformedDates) => {
+                console.log('transformedDates');
+                console.log(transformedDates);
+
+                this.patchFormValues(this.allData, transformedDates);
+            });
 
         const transformedDates = {
             birthDate: this.DatePipe.transform(
@@ -281,8 +283,67 @@ export class EmployeeEditComponent {
                 this.allData.resignationDate,
                 'MM/dd/yyyy'
             ),
-        }
+        };
         this.patchFormValues(this.allData, transformedDates);
+
+        this.Actions = [
+            {
+                id: 1,
+                name: 'Employee Certificates',
+                action: 'EmployeeCertification',
+            },
+            {
+                id: 2,
+                name: 'Employee Course',
+                action: 'EmployeeCourse',
+            },
+            {
+                id: 3,
+                name: 'Employee Covenent',
+                action: 'EmployeeCovenant',
+            },
+            {
+                id: 4,
+                name: 'Employee Experience',
+                action: 'EmployeeExperience',
+            },
+            {
+                id: 5,
+                name: 'Employee Family',
+                action: 'EmployeeFamily',
+            },
+            {
+                id: 6,
+                name: 'Employee File',
+                action: 'EmployeeFile',
+            },
+            {
+                id: 7,
+                name: 'Employee Location',
+                action: 'EmployeeLocation',
+            },
+            {
+                id: 8,
+                name: 'Employee Manager',
+                action: 'EmployeeManager',
+            },
+            {
+                id: 9,
+                name: 'Employee Salary',
+                action: 'EmployeeSalary',
+            },
+            {
+                id: 10,
+                name: 'Employee Uniform',
+                action: 'EmployeeUniform',
+            },
+            {
+                id: 11,
+                name: 'Employee Vacation Stock',
+                action: 'EmployeeVacationStock',
+            },
+        ];
+
 
         
     }
@@ -292,78 +353,88 @@ export class EmployeeEditComponent {
         if (dropdown) return dropdown.find((item: any) => item.id == id);
     }
 
-    patchFormValues(data: any, transformedDates: any) {
 
+           
+
+    changeTab() {
+        console.log(this.selectedAction)
+         this.router.navigate([this.selectedAction.action], { relativeTo: this.route });
+    }
+
+    patchFormValues(data: any, transformedDates: any) {
         // console.clear();
-        console.log('data => ',data);
-        
+        console.log('data => ', data);
+
         this.selectedReligin = this.getObject(
             data.religion,
             this.dropdownItemsReligin
         );
-        console.log("this.selectedReligin : " ,this.selectedReligin);
+        console.log('this.selectedReligin : ', this.selectedReligin);
 
-        
         this.selectedGovernment = this.getObject(
             data.governmentId,
             this.dropdownItemsGovernment
         );
-        console.log("this.selectedGovernment : " ,this.selectedGovernment);
+        console.log('this.selectedGovernment : ', this.selectedGovernment);
 
         this.selectedMaritalStatus = this.getObject(
             data.maritalStatus,
             this.dropdownItemsMaritalStatus
         );
-        console.log("this.selectedMaritalStatus : " ,this.selectedMaritalStatus);
+        console.log(
+            'this.selectedMaritalStatus : ',
+            this.selectedMaritalStatus
+        );
 
         this.selectedBloodType = this.getObject(
             data.bloodTypes,
             this.dropdownItemsBloodTypes
         );
-        console.log("this.selectedBloodType : " ,this.selectedBloodType);
+        console.log('this.selectedBloodType : ', this.selectedBloodType);
 
         this.selectedGender = this.getObject(
             data.gender,
             this.dropdownItemsGender
         );
-        console.log("this.selectedGender : " ,this.selectedGender);
+        console.log('this.selectedGender : ', this.selectedGender);
 
         this.selectedQualification = this.getObject(
             data.qualificationId,
             this.dropdownItemsQualification
         );
-        console.log("this.selectedQualification : " ,this.selectedQualification);
+        console.log(
+            'this.selectedQualification : ',
+            this.selectedQualification
+        );
 
         this.selectedJob = this.getObject(data.jobId, this.dropdownItemsJob);
-        console.log("this.selectedJob : " ,this.selectedJob);
+        console.log('this.selectedJob : ', this.selectedJob);
         this.selectedDepartment = this.getObject(
             data.departmentId,
             this.dropdownItemsDepartment
         );
-        console.log("this.selectedDepartment : " ,this.selectedDepartment);
-
-
+        console.log('this.selectedDepartment : ', this.selectedDepartment);
 
         this.selectedPartitions = this.getObject(
             data.partationId,
             this.dropdownItemsPartition
         );
-        console.log("this.selectedPartitions : " ,this.selectedPartitions);
+        console.log('this.selectedPartitions : ', this.selectedPartitions);
         this.selectedShift = this.getObject(
             data.shiftId,
             this.dropdownItemsShift
         );
-        
-        console.log("this.selectedShift : " ,this.selectedShift);
+
+        console.log('this.selectedShift : ', this.selectedShift);
 
         this.selectedBank = this.getObject(data.bankId, this.dropdownItemsBank);
-        console.log("this.selectedBank : " ,this.selectedBank);
+        console.log('this.selectedBank : ', this.selectedBank);
 
         this.selectedGrade = this.getObject(
             data.gradeId,
             this.dropdownItemsGrade
         );
-        
+
 
         console.log("this.selectedGrade : " ,this.selectedGrade);
 
@@ -371,7 +442,7 @@ export class EmployeeEditComponent {
             data.jobNatureId,
             this.dropdownItemsJobNature
         );
-        console.log("this.selectedjobNature : " ,this.selectedjobNature);
+        console.log('this.selectedjobNature : ', this.selectedjobNature);
 
         this.selectedIsInsured = data.isInsured;
         this.selectedIsManager = data.ismanger;
@@ -380,14 +451,16 @@ export class EmployeeEditComponent {
             this.dropdownItemsRecuritmentSource
         );
 
-        console.log("this.selectedRecuritmentSource : " ,this.selectedRecuritmentSource);
+        console.log(
+            'this.selectedRecuritmentSource : ',
+            this.selectedRecuritmentSource
+        );
 
         this.selectedContactType = this.getObject(
             data.contractTypeId,
             this.dropdownItemsContractType
         );
-        console.log("this.selectedContactType : " ,this.selectedContactType);
-
+        console.log('this.selectedContactType : ', this.selectedContactType);
 
         // Apply transformed dates
         this.birthDate = transformedDates.birthDate;
@@ -422,11 +495,6 @@ export class EmployeeEditComponent {
         this.employeeEditService.getDropdownField(self.enum).subscribe({
             next: (res) => {
                 this[self.field] = res.data;
-                console.log("this[self.field] => ", this[self.field]);
-                
-              
-                
-                  
             },
             error: (err) => {
                 console.log(`error in ${self.field}`);
@@ -445,6 +513,8 @@ export class EmployeeEditComponent {
     //     });
     // }
 
+
+    
 
     submitForm(formData: FormGroup) {
         formData.patchValue({
@@ -622,9 +692,8 @@ export class EmployeeEditComponent {
     onGovernmentChange(event: any): void {
         console.log(event);
     }
-    getData(): Observable<any>  {
-       
-      return  this.employeeEditService.GetById(this.currentId)
+    getData(): Observable<any> {
+        return this.employeeEditService.GetById(this.currentId);
     }
     getDropDownsData()
     {
