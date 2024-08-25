@@ -81,7 +81,7 @@ export class EmployeeDataComponent {
     ) {}
 
     @ViewChild('dt') dt: Table;
-    @Input() endPoint!: string;
+    @Input() endPoint !: string  ;
     @ViewChild('manageItems') manageItems: ElementRef;
     allData: any = [];
     page: number = 1;
@@ -172,6 +172,8 @@ export class EmployeeDataComponent {
         contractTypeId: new FormControl(null),
     });
     ngOnInit() {
+        this.endPoint = 'Employee';
+
         // Enum ===>
         // get Blood Type Dropdown
         this.getDropDownEnum({
@@ -260,7 +262,6 @@ export class EmployeeDataComponent {
             enum: 'ContractType',
         });
 
-        this.endPoint = 'Employee';
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
