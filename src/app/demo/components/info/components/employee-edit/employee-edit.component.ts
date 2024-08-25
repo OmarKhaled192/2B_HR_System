@@ -93,7 +93,7 @@ export class EmployeeEditComponent {
     @ViewChild('manageItems') manageItems: ElementRef;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = 4;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -450,7 +450,6 @@ export class EmployeeEditComponent {
         );
         
 
-        this.selectedGrade = data.gradeId ;
         console.log("this.selectedGrade : " ,this.selectedGrade);
 
         this.selectedjobNature = this.getObject(
@@ -508,7 +507,11 @@ export class EmployeeEditComponent {
         this.employeeEditService.getDropdownField(self.enum).subscribe({
             next: (res) => {
                 this[self.field] = res.data;
+                console.log("this[self.field] => ", this[self.field]);
                 
+              
+                
+                  
             },
             error: (err) => {
                 console.log(`error in ${self.field}`);
@@ -526,7 +529,9 @@ export class EmployeeEditComponent {
     //     });
     // }
 
-    getObject(id: number, dropdown: any) {        
+    getObject(id: number, dropdown: any[]) {  
+        console.log("getObject - dropdown =>" , dropdown );
+              
         if (dropdown) return dropdown.find((item: any) => item.id == id);
     }
 

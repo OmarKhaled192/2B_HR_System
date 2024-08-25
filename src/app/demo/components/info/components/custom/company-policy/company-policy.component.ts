@@ -143,6 +143,11 @@ export class CompanyPolicyComponent {
                 this.currentId = res.data.id;
 
                 this.product = { ...res.data };
+                this.enName = res.data.engName;
+                this.arName = res.data.name ;
+                this.notes = res.data.notes ;
+                this.discreption = res.data.discreption
+
                 this.productDialog = true;
 
                 // get product.shiftId
