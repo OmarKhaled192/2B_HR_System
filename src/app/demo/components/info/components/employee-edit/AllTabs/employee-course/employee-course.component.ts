@@ -213,8 +213,8 @@ addNew() {
     let body = {
         courseName: this.courseName,
         employeeId: this.currentId,
-        dateFrom: this.dateFrom,
-        dateTo: this.dateTo,
+        dateFrom: this.convertDate(this.dateFrom , "yyyy-MM-ddTHH:mm:ss"),
+        dateTo: this.convertDate(this.dateTo,"yyyy-MM-ddTHH:mm:ss"),
         location: this.location,
         discription: this.discription,
     };
