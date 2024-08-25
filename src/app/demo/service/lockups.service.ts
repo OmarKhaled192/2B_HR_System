@@ -69,6 +69,7 @@ export class LockupsService {
             body
         );
     }
+
     getDropdown(): Observable<any> {
         return this.http.get(`${this.baseurl}/${this.endPoint}/getDropDown`);
     }

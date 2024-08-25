@@ -1,0 +1,14 @@
+::ng-deep .field {
+    margin-bottom: unset !important;
+    padding: 10px;
+}
+
+::ng-deep .p-fileupload .p-button {
+    background-color: #ffffff !important;
+    border: none;
+  }
+
+::ng-deep .p-fileupload-buttonbar .ng-star-inserted {
+    display: none;
+}
+

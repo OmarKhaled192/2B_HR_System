@@ -91,7 +91,7 @@ import { authGuard } from './demo/components/auth/auth.guard';
                         ),
                 },
                 { path: 'notfound', component: NotfoundComponent },
-                { path: '**', redirectTo: '/notfound' },
+                // { path: '**', redirectTo: '/notfound' },
             ],
             {
                 scrollPositionRestoration: 'enabled',
