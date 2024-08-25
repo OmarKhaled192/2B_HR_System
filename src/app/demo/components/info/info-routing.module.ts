@@ -166,7 +166,7 @@ import { EmployeeComponent } from './components/employee/employee.component';
             },
 
             {
-                path: 'employees/edit',
+                path: 'employees/edit/:id',
                 canActivate: [authGuard],
                 component: EmployeeEditComponent,
                 loadChildren: () =>

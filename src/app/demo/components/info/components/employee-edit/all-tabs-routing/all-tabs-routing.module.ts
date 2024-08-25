@@ -13,7 +13,6 @@ import { EmployeeUniformComponent } from '../AllTabs/employee-uniform/employee-u
 import { EmployeeVacationStockComponent } from '../AllTabs/employee-vacation-stock/employee-vacation-stock.component';
 
 const routes: Routes = [
-
     {
         path: 'EmployeeCertification',
         component: EmployeeCertificationComponent
@@ -55,7 +54,6 @@ const routes: Routes = [
         component: EmployeeUniformComponent
     },
     {
-
         path: 'EmployeeVacationStock',
         component: EmployeeVacationStockComponent
     },

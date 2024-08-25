@@ -211,9 +211,9 @@ export class EmployeeEditComponent {
     selectedAction: any;
 
     ngOnInit() {
-        this.activatedRoute.queryParams.subscribe((params) => {
-            this.currentId = params['id'];
-        });
+
+        this.currentId = this.route.snapshot.params['id'];
+
         console.log('Current Id : ', this.currentId);
 
         this.endPoint = 'Employee';
