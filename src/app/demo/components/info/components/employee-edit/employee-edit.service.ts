@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LockupsService } from 'src/app/demo/service/lockups.service';
 
+
 @Injectable({
     providedIn: 'root',
 })
