@@ -44,6 +44,7 @@ import { Globals } from 'src/app/class/globals';
         InputNumberModule,
         ReactiveFormsModule,
         TranslateModule,
+        TranslateModule
     ],
     providers: [MessageService],
     templateUrl: './std-paginations-with-popup.component.html',
