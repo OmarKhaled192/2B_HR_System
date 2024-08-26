@@ -308,29 +308,29 @@
         </div>
 
         <div class="field">
-            <label htmlFor="name-ar">Date </label>
+            <label htmlFor="name-ar">{{ "Date" | translate }} </label>
 
             <p-calendar
                 [showIcon]="true"
                 name="date"
                 inputId="date"
                 [(ngModel)]="product.date"
-                placeholder="Enter Date here"
+                [placeholder]="'Enter Date Here' | translate"
             ></p-calendar>
         </div>
 
         <div class="field">
-            <label htmlFor="new-notes">Discreption</label>
+            <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
             <textarea
                 pInputTextarea
                 [(ngModel)]="product.discreption"
                 id="new-notes"
-                placeholder="Enter Discreption Here"
+                [placeholder]="'Enter Discription Here' | translate"
                 type="text"
             ></textarea>
         </div>
         <div class="field">
-            <label htmlFor="date">Upload File </label>
+            <label htmlFor="date"> {{ "Upload File" | translate }} </label>
             <p-fileUpload
                 mode="basic"
                 [chooseLabel]="'Choose' | translate"
@@ -348,7 +348,7 @@
         <button
             pButton
             pRipple
-            label="Cancel"
+            [label]="'Cancel' | translate"
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialog()"
@@ -356,7 +356,7 @@
         <button
             pButton
             pRipple
-            label="Save"
+            [label]="'Save' | translate"
             icon="pi pi-check"
             class="p-button-text"
             (click)="saveProduct(product.id, product)"
