@@ -29,7 +29,7 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { BadgeModule } from 'primeng/badge';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -86,7 +86,12 @@ export class EmployeeEditComponent {
         private DatePipe: DatePipe,
         private router: Router,
         private route: ActivatedRoute,
+<<<<<<< HEAD
         private activatedRoute: ActivatedRoute
+=======
+        private activatedRoute: ActivatedRoute,
+        private translate: TranslateService
+>>>>>>> 42a1566 (Finishing-employee-module)
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -208,7 +213,11 @@ export class EmployeeEditComponent {
 
     // Actions Tabs variable
     Actions: any;
+<<<<<<< HEAD
     selectedAction: any;
+=======
+    selectedAction!: any;
+>>>>>>> 42a1566 (Finishing-employee-module)
 
     ngOnInit() {
         this.currentId = this.route.snapshot.params['id'];
@@ -226,6 +235,7 @@ export class EmployeeEditComponent {
             this.employeeEditService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.getDropDownsData();
         });
 
         this.cols = [
@@ -239,6 +249,7 @@ export class EmployeeEditComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
+<<<<<<< HEAD
         this.getDropDownsData()
         this.getData().pipe(
             tap(data => {
@@ -259,6 +270,40 @@ export class EmployeeEditComponent {
             })
         )
         
+=======
+        this.getData()
+            .pipe(
+                tap((data) => {
+                    this.allData = data.data;
+                    console.log('Data fetched:', this.allData);
+
+                    // Perform any additional operations if needed
+                    // ...
+                }),
+                map((data) => {
+                    // Compute transformedDates here
+                    return {
+                        birthDate: this.DatePipe.transform(
+                            data.data.birthDate,
+                            'MM/dd/yyyy'
+                        ),
+                        joinInDate: this.DatePipe.transform(
+                            data.data.joininDate,
+                            'MM/dd/yyyy'
+                        ),
+                        hiringData: this.DatePipe.transform(
+                            data.data.hirDate,
+                            'MM/dd/yyyy'
+                        ),
+                        resignationDate: this.DatePipe.transform(
+                            data.data.resignationDate,
+                            'MM/dd/yyyy'
+                        ),
+                    };
+                })
+            )
+
+>>>>>>> 42a1566 (Finishing-employee-module)
             .subscribe((transformedDates) => {
                 console.log('transformedDates');
                 console.log(transformedDates);
@@ -343,6 +388,7 @@ export class EmployeeEditComponent {
                 action: 'EmployeeVacationStock',
             },
         ];
+<<<<<<< HEAD
 
 
         
@@ -359,6 +405,20 @@ export class EmployeeEditComponent {
     changeTab() {
         console.log(this.selectedAction)
          this.router.navigate([this.selectedAction.action], { relativeTo: this.route });
+=======
+    }
+    getObject(id: number, dropdown: any[]) {
+        console.log('getObject - dropdown =>', dropdown);
+
+        if (dropdown) return dropdown.find((item: any) => item.id == id);
+    }
+
+    changeTab() {
+        console.log(this.selectedAction);
+        this.router.navigate([this.selectedAction.action], {
+            relativeTo: this.route,
+        });
+>>>>>>> 42a1566 (Finishing-employee-module)
     }
 
     patchFormValues(data: any, transformedDates: any) {
@@ -435,8 +495,12 @@ export class EmployeeEditComponent {
             this.dropdownItemsGrade
         );
 
+<<<<<<< HEAD
 
         console.log("this.selectedGrade : " ,this.selectedGrade);
+=======
+        console.log('this.selectedGrade : ', this.selectedGrade);
+>>>>>>> 42a1566 (Finishing-employee-module)
 
         this.selectedjobNature = this.getObject(
             data.jobNatureId,
@@ -513,9 +577,12 @@ export class EmployeeEditComponent {
     //     });
     // }
 
+<<<<<<< HEAD
 
     
 
+=======
+>>>>>>> 42a1566 (Finishing-employee-module)
     submitForm(formData: FormGroup) {
         formData.patchValue({
             BloodTypes: this.selectedBloodType?.id,
@@ -695,9 +762,14 @@ export class EmployeeEditComponent {
     getData(): Observable<any> {
         return this.employeeEditService.GetById(this.currentId);
     }
+<<<<<<< HEAD
     getDropDownsData()
     {
             // Enum ===>
+=======
+    getDropDownsData() {
+        // Enum ===>
+>>>>>>> 42a1566 (Finishing-employee-module)
         // get Blood Type Dropdown
             this.getDropDownEnum({
                 field: 'dropdownItemsBloodTypes',
@@ -789,10 +861,93 @@ export class EmployeeEditComponent {
             });
 
 
+<<<<<<< HEAD
             setTimeout(()=>{
             this.getData().subscribe();
             },1000)
     
+=======
+        // get MaritalStatus Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsMaritalStatus',
+            enum: 'getMaritalStatus',
+        });
+
+        // get Religion Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsReligin',
+            enum: 'getReligion',
+        });
+
+        // ==========================================================================
+
+        // get Dropdown ==>
+        // get Blood Type Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsReligin',
+            enum: 'getReligion',
+        });
+
+        // get Government Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsGovernment',
+            enum: 'Government',
+        });
+
+        // get Qualification Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsQualification',
+            enum: 'Qualification',
+        });
+
+        // get Job Dropdown
+        this.getDropDownField({ field: 'dropdownItemsJob', enum: 'Job' });
+
+        // get Department Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsDepartment',
+            enum: 'Department',
+        });
+
+        // get Partition Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsPartition',
+            enum: 'Partation',
+        });
+
+        // get Shift Dropdown
+        this.getDropDownField({ field: 'dropdownItemsShift', enum: 'Shift' });
+
+        // get Bank Dropdown
+        this.getDropDownField({ field: 'dropdownItemsBank', enum: 'Bank' });
+
+        // get Grade Dropdown
+        this.getDropDownField({ field: 'dropdownItemsGrade', enum: 'Grade' });
+
+        console.log('dropdownItemsGrade : ', this.dropdownItemsGrade);
+
+        // get JobNature Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsJobNature',
+            enum: 'JobNature',
+        });
+
+        // get RecuritmentSource Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsRecuritmentSource',
+            enum: 'RecuritmentSource',
+        });
+
+        // get ContactTypes Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsContractType',
+            enum: 'ContractType',
+        });
+
+        setTimeout(() => {
+            this.getData().subscribe();
+        }, 1000);
+>>>>>>> 42a1566 (Finishing-employee-module)
     }
     onSelect(event: any) {
         console.log(event);

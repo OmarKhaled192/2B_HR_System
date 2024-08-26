@@ -175,6 +175,43 @@ export class EmployeeDataComponent {
     ngOnInit() {
         this.endPoint = 'Employee';
 
+<<<<<<< HEAD
+=======
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._EmployeeService.setCulture(mainLang);
+
+            // update endpoint
+            this._EmployeeService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+            this.getDropDowns();
+        });
+
+        this.cols = [
+            // basic data
+            { field: 'name', header: 'Name' },
+            { field: 'notes', header: 'Notes' },
+
+            // Generic Fields
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
+        ];
+    }
+    getDropDowns() {
+>>>>>>> 42a1566 (Finishing-employee-module)
         // Enum ===>
         // get Blood Type Dropdown
         this.getDropDownEnum({
@@ -262,6 +299,7 @@ export class EmployeeDataComponent {
             field: 'dropdownItemsContractType',
             enum: 'ContractType',
         });
+<<<<<<< HEAD
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
@@ -294,6 +332,8 @@ export class EmployeeDataComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
+=======
+>>>>>>> 42a1566 (Finishing-employee-module)
     }
     getDropDownEnum(self: { field: any; enum: string }) {
         this._EmployeeService.getEnum(self.enum).subscribe({
@@ -649,12 +689,17 @@ export class EmployeeDataComponent {
         }
     }
     sortByName(event: any) {
+<<<<<<< HEAD
         if(this.translate.currentLang == 'ar') 
         this.sortField = 'nameAr';
 
         else
         this.sortField = 'englishName';
 
+=======
+        if (this.translate.currentLang == 'ar') this.sortField = 'nameAr';
+        else this.sortField = 'englishName';
+>>>>>>> 42a1566 (Finishing-employee-module)
     }
     submitForm(formData: FormGroup) {
         formData.patchValue({

@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-panel header="Edit" [toggleable]="true" [collapsed]="false">
+<p-panel [header]="'Edit' | translate" [toggleable]="true" [collapsed]="false">
     <form method="post" [formGroup]="editForm" (submit)="submitForm(editForm)">
         <div class="grid">
             <div class="col-12">
@@ -19,7 +19,7 @@
                         </div>
 
                         <div class="field field-id col-12 md:col-4">
-                            <label htmlFor="id">ID</label>
+                            <label htmlFor="id">{{ "Id" | translate }}</label>
                             <input
                                 pInputText
                                 id="id"
@@ -28,7 +28,9 @@
                             />
                         </div>
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="nameAr">Arabic Name</label>
+                            <label htmlFor="nameAr">{{
+                                "Arabic Name" | translate
+                            }}</label>
                             <input
                                 pInputText
                                 id="nameAr"
@@ -37,7 +39,9 @@
                             />
                         </div>
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="englishName">English Name</label>
+                            <label htmlFor="englishName">{{
+                                "English Name" | translate
+                            }}</label>
                             <input
                                 pInputText
                                 id="englishName"
@@ -46,7 +50,9 @@
                             />
                         </div>
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="nationalId">National Id</label>
+                            <label htmlFor="nationalId">{{
+                                "National Id" | translate
+                            }}</label>
                             <input
                                 pInputText
                                 id="nationalId"
@@ -56,7 +62,9 @@
                         </div>
 
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="phone">Phone</label>
+                            <label htmlFor="phone">{{
+                                "Phone" | translate
+                            }}</label>
                             <input
                                 pInputText
                                 id="phone"
@@ -65,7 +73,9 @@
                             />
                         </div>
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email">{{
+                                "Email" | translate
+                            }}</label>
                             <input
                                 pInputText
                                 id="email"
@@ -74,7 +84,9 @@
                             />
                         </div>
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="address">Address</label>
+                            <label htmlFor="address">{{
+                                "Address" | translate
+                            }}</label>
                             <input
                                 pInputText
                                 id="address"
@@ -84,7 +96,9 @@
                         </div>
 
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="government">Government</label>
+                            <label htmlFor="government">{{
+                                "Government" | translate
+                            }}</label>
                             <p-dropdown
                                 [options]="dropdownItemsGovernment"
                                 optionLabel="name"
@@ -94,7 +108,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="BirthDate"> BirthDate</label>
+                            <label htmlFor="BirthDate">
+                                {{ "BirthDate" | translate }}</label
+                            >
                             <p-calendar
                                 [showIcon]="true"
                                 inputId="BirthDate"
@@ -104,7 +120,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Religin">Religin</label>
+                            <label htmlFor="Religin">{{
+                                "Religin" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="Religion"
                                 [options]="dropdownItemsReligin"
@@ -114,9 +132,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="maritalStatus"
-                                >Material Status</label
-                            >
+                            <label htmlFor="maritalStatus">{{
+                                "Martial Status" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="MaritalStatus"
                                 [options]="dropdownItemsMaritalStatus"
@@ -126,7 +144,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Blood">Blood Types</label>
+                            <label htmlFor="Blood">{{
+                                "Blood Types" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="BloodTypes"
                                 [options]="dropdownItemsBloodTypes"
@@ -136,7 +156,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="gender">Gender Type</label>
+                            <label htmlFor="gender">{{
+                                "Gender Type" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="Gender"
                                 [options]="dropdownItemsGender"
@@ -146,7 +168,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Qualification">Qualification</label>
+                            <label htmlFor="Qualification">{{
+                                "Qualification" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="QualificationId"
                                 [options]="dropdownItemsQualification"
@@ -156,7 +180,7 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Job">Job</label>
+                            <label htmlFor="Job">{{ "Job" | translate }}</label>
                             <p-dropdown
                                 formControlName="JobId"
                                 [options]="dropdownItemsJob"
@@ -166,7 +190,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="department">Department</label>
+                            <label htmlFor="department">{{
+                                "Department" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="DepartmentId"
                                 [options]="dropdownItemsDepartment"
@@ -176,7 +202,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Partition">Partition</label>
+                            <label htmlFor="Partition">{{
+                                "Partition" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="PartationId"
                                 [options]="dropdownItemsPartition"
@@ -186,7 +214,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Shift">Shift</label>
+                            <label htmlFor="Shift">{{
+                                "Shift" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="ShiftId"
                                 [options]="dropdownItemsShift"
@@ -196,7 +226,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Bank">Bank</label>
+                            <label htmlFor="Bank">{{
+                                "Bank" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="BankId"
                                 [options]="dropdownItemsBank"
@@ -206,7 +238,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Grade">Grade</label>
+                            <label htmlFor="Grade">{{
+                                "Grade" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="GradeId"
                                 [options]="dropdownItemsGrade"
@@ -216,7 +250,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="jobNature">job Nature</label>
+                            <label htmlFor="jobNature">{{
+                                "job Nature" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="JobNatureId"
                                 [options]="dropdownItemsJobNature"
@@ -226,7 +262,9 @@
                         </div>
 
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="machineCode">Machine Code</label>
+                            <label htmlFor="machineCode">{{
+                                "Machine Code" | translate
+                            }}</label>
                             <input
                                 pInputText
                                 id="machineCode"
@@ -242,7 +280,9 @@
                                 formControlName="IsInsured"
                                 [(ngModel)]="selectedIsInsured"
                             />
-                            <label htmlFor="isInsured">Is Insured </label>
+                            <label htmlFor="isInsured">{{
+                                "Is Insured" | translate
+                            }}</label>
                         </div>
 
                         <div
@@ -252,7 +292,9 @@
                                 formControlName="Ismanger"
                                 [(ngModel)]="selectedIsManager"
                             />
-                            <label htmlFor="ismanger">Is Manager </label>
+                            <label htmlFor="ismanger"
+                                >{{ "Is Manager" | translate }}
+                            </label>
                         </div>
 
                         <div class="field col-12 md:col-3">
@@ -268,7 +310,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="ContractType">Contract Type</label>
+                            <label htmlFor="ContractType">{{
+                                "Contract Type" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="ContractTypeId"
                                 [options]="dropdownItemsContractType"
@@ -278,7 +322,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="JoininDate">Join In Date</label>
+                            <label htmlFor="JoininDate">{{
+                                "Join In Date" | translate
+                            }}</label>
                             <p-calendar
                                 [showIcon]="true"
                                 inputId="JoininDate"
@@ -288,7 +334,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="HirDate">Hiring Date</label>
+                            <label htmlFor="HirDate">{{
+                                "Hiring Date" | translate
+                            }}</label>
                             <p-calendar
                                 [showIcon]="true"
                                 inputId="HirDate"
@@ -298,9 +346,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="ResignationDate"
-                                >resignation Date</label
-                            >
+                            <label htmlFor="ResignationDate">{{
+                                "Resignation Date" | translate
+                            }}</label>
                             <p-calendar
                                 [showIcon]="true"
                                 inputId="ResignationDate"
@@ -317,7 +365,7 @@
                                     class="btn-submit"
                                 >
                                     <i class="pi pi-user-edit"></i>
-                                    <span> Save </span>
+                                    <span> {{ "Save" | translate }} </span>
                                 </button>
                             </div>
                         </div>
@@ -335,13 +383,13 @@
                 <p>Choose An Action From List</p>
             </div>
 
-            <div class="">
+            <div class="field col-12">
                 <p-dropdown
                     [options]="Actions"
+                    [placeholder]="'Select Action' | translate"
                     (onChange)="changeTab()"
                     [(ngModel)]="selectedAction"
                     optionLabel="name"
-                    placeholder="Select Action"
                     [showClear]="true"
                 ></p-dropdown>
             </div>
