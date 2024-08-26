@@ -7,12 +7,7 @@
                 pButton
                 pRipple
                 [label]="
-<<<<<<< HEAD
                     'Add New'.concat(' ', splitCamelCase(endPoint)) | translate
-=======
-                    'Add New'.concat(' ', splitCamelCase(endPoint)).trim()
-                        | translate
->>>>>>> 42a1566 (Finishing-employee-module)
                 "
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
@@ -52,99 +47,59 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-en">job</label>
-            <input
-                pInputText
-                [(ngModel)]="job"
-                placeholder="Enter Job Here"
-=======
             <label htmlFor="name-en">{{ "Job" | translate }}</label>
             <input
                 pInputText
                 [(ngModel)]="job"
                 [placeholder]="'Enter Job Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="name-en"
                 type="text"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-ar">dateFrom </label>
-=======
             <label htmlFor="name-ar">{{ "Date From" | translate }} </label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <p-calendar
                 [showIcon]="true"
                 name="dateFrom"
                 inputId="dateFrom"
                 [(ngModel)]="dateFrom"
-<<<<<<< HEAD
-                placeholder="From"
-=======
                 [placeholder]="'From' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             ></p-calendar>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-ar">dateTo </label>
-=======
             <label htmlFor="name-ar">{{ "Date To" | translate }} </label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <p-calendar
                 [showIcon]="true"
                 name="dateTo"
                 inputId="dateTo"
                 [(ngModel)]="dateTo"
-<<<<<<< HEAD
-                placeholder="To"
-=======
                 [placeholder]="'To' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             ></p-calendar>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="numberOfHours">position</label>
-=======
             <label htmlFor="numberOfHours">{{ "Position" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <input
                 pInputText
                 [(ngModel)]="position"
-<<<<<<< HEAD
-                placeholder="Enter position here"
-=======
                 [placeholder]="'Enter Position Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="position"
                 type="text"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="new-notes">discreption</label>
-=======
             <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <textarea
                 pInputTextarea
                 [(ngModel)]="discreption"
                 id="new-notes"
-<<<<<<< HEAD
-                placeholder="Enter discreption Here"
-=======
                 [placeholder]="'Enter Discription Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 type="text"
             ></textarea>
         </div>
@@ -153,11 +108,7 @@
             <button
                 class="w-25"
                 pButton
-<<<<<<< HEAD
-                label="Insert New"
-=======
                 [label]="'Insert New' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 (click)="addNew()"
             ></button>
         </div>
@@ -216,15 +167,9 @@
             <th>{{ "Position" | translate }}</th>
 
             <!-- generic fields -->
-<<<<<<< HEAD
-            <th>{{ "Discreption" | translate }}</th>
-            <th>{{ "DateFrom" | translate }}</th>
-            <th>{{ "DateTo" | translate }}</th>
-=======
             <th>{{ "Discription" | translate }}</th>
             <th>{{ "Date From" | translate }}</th>
             <th>{{ "Date To" | translate }}</th>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <th>{{ "creationTime" | translate }}</th>
             <th>{{ "lastModificationTime" | translate }}</th>
@@ -245,11 +190,7 @@
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.job }">
-<<<<<<< HEAD
                 <span class="p-column-title">Job</span>
-=======
-                <span class="p-column-title">{{ "Job" | translate }}</span>
->>>>>>> 42a1566 (Finishing-employee-module)
                 {{ rowData.job ? rowData.job : "" }}
             </td>
 
@@ -327,19 +268,11 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-en">job </label>
-            <input
-                pInputText
-                [(ngModel)]="product.job"
-                placeholder="Enter job Here"
-=======
             <label htmlFor="name-en">{{ "Job" | translate }} </label>
             <input
                 pInputText
                 [(ngModel)]="product.job"
                 [placeholder]="'Enter Job Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="name-en"
                 type="text"
                 required
@@ -348,80 +281,48 @@
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-ar">DateFrom </label>
-=======
             <label htmlFor="name-ar">{{ "Date From" | translate }} </label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <p-calendar
                 [showIcon]="true"
                 name="dateFrom"
                 inputId="dateFrom"
                 [(ngModel)]="product.dateFrom"
-<<<<<<< HEAD
-                placeholder="From"
-=======
                 [placeholder]="'From' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             ></p-calendar>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-ar">DateTo </label>
-=======
             <label htmlFor="name-ar">{{ "Date To" | translate }} </label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <p-calendar
                 [showIcon]="true"
                 name="dateTo"
                 inputId="dateTo"
                 [(ngModel)]="product.dateTo"
-<<<<<<< HEAD
-                placeholder="To"
-=======
                 [placeholder]="'To' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             ></p-calendar>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="numberOfHours">position</label>
-=======
             <label htmlFor="numberOfHours">{{ "Position" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <input
                 pInputText
                 [(ngModel)]="product.position"
-<<<<<<< HEAD
-                placeholder="Enter position here"
-=======
                 [placeholder]="'Enter Position Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="position"
                 type="text"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="new-notes">discreption</label>
-=======
             <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <textarea
                 pInputTextarea
                 [(ngModel)]="product.discreption"
                 id="new-notes"
-<<<<<<< HEAD
-                placeholder="Enter discreption Here"
-=======
                 [placeholder]="'Enter Discription Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 type="text"
             ></textarea>
         </div>
@@ -430,11 +331,7 @@
         <button
             pButton
             pRipple
-<<<<<<< HEAD
-            label="Cancel"
-=======
             [label]="'Cancel' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialog()"
@@ -442,11 +339,7 @@
         <button
             pButton
             pRipple
-<<<<<<< HEAD
-            label="Save"
-=======
             [label]="'Save' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             icon="pi pi-check"
             class="p-button-text"
             (click)="saveProduct(product.id, product)"

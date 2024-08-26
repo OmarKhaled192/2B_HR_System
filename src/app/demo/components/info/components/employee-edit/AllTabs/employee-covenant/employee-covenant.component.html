@@ -7,12 +7,7 @@
                 pButton
                 pRipple
                 [label]="
-<<<<<<< HEAD
                     'Add New'.concat(' ', splitCamelCase(endPoint)) | translate
-=======
-                    'Add New'.concat(' ', splitCamelCase(endPoint)).trim()
-                        | translate
->>>>>>> 42a1566 (Finishing-employee-module)
                 "
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
@@ -52,81 +47,49 @@
 >
     <ng-template pTemplate="content">
         <div class="field col-12">
-<<<<<<< HEAD
-            <label htmlFor="ContractType">Covenant Type</label>
-=======
             <label htmlFor="ContractType">{{
                 "Covenant Type" | translate
             }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <p-dropdown
                 [(ngModel)]="selectedCovenant"
                 [options]="dropdownItemsCovenantType"
                 optionLabel="name"
-<<<<<<< HEAD
-                placeholder="Enter Covenant Type"
-=======
                 [placeholder]="'Enter Covenant Type' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 (onChange)="selectCovenant($event)"
             ></p-dropdown>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-ar">date </label>
-=======
             <label htmlFor="name-ar">{{ "Date" | translate }} </label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <p-calendar
                 [showIcon]="true"
                 name="date"
                 inputId="date"
                 [(ngModel)]="date"
-<<<<<<< HEAD
-                placeholder="Enter date here"
-=======
                 [placeholder]="'Enter Date Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             ></p-calendar>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="numberOfHours">Cost</label>
-=======
             <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <input
                 pInputText
                 [(ngModel)]="cost"
-<<<<<<< HEAD
-                placeholder="Enter Cost here"
-=======
                 [placeholder]="'Enter Cost Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="Cost"
                 type="number"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="new-notes">Notes</label>
-=======
             <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <textarea
                 pInputTextarea
                 [(ngModel)]="nots"
                 id="new-notes"
-<<<<<<< HEAD
-                placeholder="Enter notes Here"
-=======
                 [placeholder]="'Enter Notes Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 type="text"
             ></textarea>
         </div>
@@ -135,11 +98,7 @@
             <button
                 class="w-25"
                 pButton
-<<<<<<< HEAD
-                label="Insert New"
-=======
                 [label]="'Insert New' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 (click)="addNew()"
             ></button>
         </div>
@@ -163,46 +122,48 @@
 >
     <ng-template pTemplate="content">
         <div class="field col-12">
-            <label htmlFor="ContractType">Covenant Type</label>
+            <label htmlFor="ContractType">{{
+                "Covenant Type" | translate
+            }}</label>
             <p-dropdown
                 [(ngModel)]="selectedCovenant"
                 [options]="dropdownItemsCovenantType"
                 optionLabel="name"
-                placeholder="Enter Covenant Type"
+                [placeholder]="'Enter Covenant Type' | translate"
             ></p-dropdown>
         </div>
 
         <div class="field">
-            <label htmlFor="name-ar">date </label>
+            <label htmlFor="name-ar"> {{ "Date" | translate }} </label>
 
             <p-calendar
                 [showIcon]="true"
                 name="date"
                 inputId="date"
                 [(ngModel)]="date"
-                placeholder="date"
+                [placeholder]="'Date' | translate"
             ></p-calendar>
         </div>
 
         <div class="field">
-            <label htmlFor="numberOfHours">Cost</label>
+            <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
 
             <input
                 pInputText
                 [(ngModel)]="cost"
-                placeholder="Enter Cost here"
+                [placeholder]="'Enter Cost here' | translate"
                 id="Cost"
                 type="number"
             />
         </div>
 
         <div class="field">
-            <label htmlFor="new-notes">Notes</label>
+            <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
             <textarea
                 pInputTextarea
                 [(ngModel)]="nots"
                 id="new-notes"
-                placeholder="Enter notes Here"
+                [placeholder]="'Enter notes Here' | translate"
                 type="text"
             ></textarea>
         </div>
@@ -211,7 +172,7 @@
             <button
                 class="w-25"
                 pButton
-                label="Insert New"
+                [label]="'Insert New' | translate"
                 (click)="addNew()"
             ></button>
         </div>
@@ -330,81 +291,49 @@
 >
     <ng-template pTemplate="content">
         <div class="field col-12">
-<<<<<<< HEAD
-            <label htmlFor="ContractType">Covenant Type</label>
-=======
             <label htmlFor="ContractType">{{
                 "Covenant Type" | translate
             }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <p-dropdown
                 [(ngModel)]="selectedCovenantEdit"
                 [options]="dropdownItemsCovenantType"
                 optionLabel="name"
-<<<<<<< HEAD
-                placeholder="Enter Covenant Type"
-=======
                 [placeholder]="'Enter Covenant Type' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 (onChange)="selectedCovenantEditFun($event)"
             ></p-dropdown>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-ar">date </label>
-=======
             <label htmlFor="name-ar">{{ "Date" | translate }} </label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <p-calendar
                 [showIcon]="true"
                 name="date"
                 inputId="date"
                 [(ngModel)]="product.date"
-<<<<<<< HEAD
-                placeholder="Enter date here"
-=======
                 [placeholder]="'Enter Date Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             ></p-calendar>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="numberOfHours">Cost</label>
-=======
             <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <input
                 pInputText
                 [(ngModel)]="product.cost"
-<<<<<<< HEAD
-                placeholder="Enter Cost here"
-=======
                 [placeholder]="'Enter Cost Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="Cost"
                 type="number"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="new-notes">Notes</label>
-=======
             <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <textarea
                 pInputTextarea
                 [(ngModel)]="product.nots"
                 id="new-notes"
-<<<<<<< HEAD
-                placeholder="Enter notes Here"
-=======
                 [placeholder]="'Enter Notes Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 type="text"
             ></textarea>
         </div>
@@ -414,11 +343,7 @@
         <button
             pButton
             pRipple
-<<<<<<< HEAD
-            label="Cancel"
-=======
             [label]="'Cancel' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialog()"
@@ -426,11 +351,7 @@
         <button
             pButton
             pRipple
-<<<<<<< HEAD
-            label="Save"
-=======
             [label]="'Save' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             icon="pi pi-check"
             class="p-button-text"
             (click)="saveProduct(product.id, product)"

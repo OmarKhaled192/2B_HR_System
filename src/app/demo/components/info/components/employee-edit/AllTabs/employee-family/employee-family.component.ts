@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-employee-family',
-  standalone: true,
-  imports: [],
-  templateUrl: './employee-family.component.html',
-  styleUrl: './employee-family.component.scss'
-})
-export class EmployeeFamilyComponent {
-
-=======
 import { CommonModule, DatePipe, Time } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
@@ -534,5 +521,4 @@ export class EmployeeFamilyComponent {
     selectedRelativeRelationEditFun(event: any) {
         this.selectedRelativeRelationEdit = event.value;
     }
->>>>>>> 42a1566 (Finishing-employee-module)
 }

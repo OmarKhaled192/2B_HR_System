@@ -7,12 +7,8 @@
                 pButton
                 pRipple
                 [label]="
-<<<<<<< HEAD
-                    'Add New'.concat(' ', splitCamelCase(endPoint)) | translate
-=======
                     'Add New'.concat(' ', splitCamelCase(endPoint)).trim()
                         | translate
->>>>>>> 42a1566 (Finishing-employee-module)
                 "
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
@@ -52,13 +48,6 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-en">certificatName </label>
-            <input
-                pInputText
-                [(ngModel)]="certificatName"
-                placeholder="Enter Name Here"
-=======
             <label htmlFor="name-en"
                 >{{ "Certification Name" | translate }}
             </label>
@@ -66,87 +55,54 @@
                 pInputText
                 [(ngModel)]="certificatName"
                 [placeholder]="'Enter Certification Name Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="name-en"
                 type="text"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-ar">year </label>
-            <input
-                pInputText
-                [(ngModel)]="year"
-                placeholder="Enter year Here"
-=======
             <label htmlFor="name-ar">{{ "Year" | translate }} </label>
             <input
                 pInputText
                 [(ngModel)]="year"
                 [placeholder]="'Enter Year Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="name-ar"
                 type="text"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="numberOfHours">degree</label>
-=======
             <label htmlFor="numberOfHours">{{ "Degree" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <input
                 pInputText
                 [(ngModel)]="degree"
-<<<<<<< HEAD
-                placeholder="Enter degree here"
-=======
                 [placeholder]="'Enter Degree Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="numberOfHours"
                 type="text"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="new-notes">discription</label>
-=======
             <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <textarea
                 pInputTextarea
                 [(ngModel)]="discription"
                 id="new-notes"
-<<<<<<< HEAD
-                placeholder="Enter discription Here"
-=======
                 [placeholder]="'Enter Discription Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 type="text"
             ></textarea>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="new-notes">university name</label>
-=======
             <label htmlFor="new-notes">{{
                 "University Name" | translate
             }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <input
                 pInputText
                 [(ngModel)]="university"
                 id="new-notes"
-<<<<<<< HEAD
-                placeholder="Enter university name here"
-=======
                 [placeholder]="'Enter University Name Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 type="text"
             />
         </div>
@@ -155,11 +111,7 @@
             <button
                 class="w-25"
                 pButton
-<<<<<<< HEAD
-                label="Insert New"
-=======
                 [label]="'Insert New' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 (click)="addNew()"
             ></button>
         </div>
@@ -320,13 +272,6 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-en">certificatName </label>
-            <input
-                pInputText
-                [(ngModel)]="product.certificatName"
-                placeholder="Enter Name Here"
-=======
             <label htmlFor="name-en"
                 >{{ "Certification Name" | translate }}
             </label>
@@ -334,7 +279,6 @@
                 pInputText
                 [(ngModel)]="product.certificatName"
                 [placeholder]="'Enter Certification Name Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="name-en"
                 type="text"
                 required
@@ -343,80 +287,48 @@
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="name-ar">year </label>
-            <input
-                pInputText
-                [(ngModel)]="product.year"
-                placeholder="Enter year Here"
-=======
             <label htmlFor="name-ar">{{ "Year" | translate }} </label>
             <input
                 pInputText
                 [(ngModel)]="product.year"
                 [placeholder]="'Enter Year Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="name-ar"
                 type="text"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="numberOfHours">degree</label>
-=======
             <label htmlFor="numberOfHours">{{ "Degree" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
 
             <input
                 pInputText
                 [(ngModel)]="product.degree"
-<<<<<<< HEAD
-                placeholder="Enter degree here"
-=======
                 [placeholder]="'Enter Degree Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 id="numberOfHours"
                 type="text"
             />
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="new-notes">discription</label>
-=======
             <label htmlFor="new-notes">{{ "Discription" | translate }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <textarea
                 pInputTextarea
                 [(ngModel)]="product.discription"
                 id="new-notes"
-<<<<<<< HEAD
-                placeholder="Enter discription Here"
-=======
                 [placeholder]="'Enter Discription Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 type="text"
             ></textarea>
         </div>
 
         <div class="field">
-<<<<<<< HEAD
-            <label htmlFor="new-notes">university name</label>
-=======
             <label htmlFor="new-notes">{{
                 "University Name" | translate
             }}</label>
->>>>>>> 42a1566 (Finishing-employee-module)
             <input
                 pInputText
                 [(ngModel)]="product.university"
                 id="new-notes"
-<<<<<<< HEAD
-                placeholder="Enter university name here"
-=======
                 [placeholder]="'Enter University Name Here' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
                 type="text"
             />
         </div>
@@ -425,11 +337,7 @@
         <button
             pButton
             pRipple
-<<<<<<< HEAD
-            label="Cancel"
-=======
             [label]="'Cancel' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialog()"
@@ -437,11 +345,7 @@
         <button
             pButton
             pRipple
-<<<<<<< HEAD
-            label="Save"
-=======
             [label]="'Save' | translate"
->>>>>>> 42a1566 (Finishing-employee-module)
             icon="pi pi-check"
             class="p-button-text"
             (click)="saveProduct(product.id, product)"

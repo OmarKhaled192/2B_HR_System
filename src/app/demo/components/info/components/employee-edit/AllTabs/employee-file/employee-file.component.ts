@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-employee-file',
-  standalone: true,
-  imports: [],
-  templateUrl: './employee-file.component.html',
-  styleUrl: './employee-file.component.scss'
-})
-export class EmployeeFileComponent {
-
-=======
 import { CommonModule, DatePipe, Time } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
@@ -555,5 +542,4 @@ export class EmployeeFileComponent {
         this.file = file;
         console.log(file);
     }
->>>>>>> 42a1566 (Finishing-employee-module)
 }
