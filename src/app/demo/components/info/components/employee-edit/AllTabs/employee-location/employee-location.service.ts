@@ -12,7 +12,7 @@ export class EmployeeLocationService extends LockupsService {
         super(http);
     }
 
-    getDropDown(field: string) {
+    getDropDown(field: string) : Observable<any> {
         return this.http.get(`${this.baseurl}/${field}/getDropDown`);
     }
 
