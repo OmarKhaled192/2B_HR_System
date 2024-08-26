@@ -148,11 +148,7 @@
     "Email": "البريد الالكترونى",
     "BirthDate": "تاريخ الميلاد",
     "Religin": "الديانة",
-<<<<<<< HEAD
     "Material Status": "الحالة الاجتماعية",
-=======
-    "Martial Status": "الحالة الاجتماعية",
->>>>>>> 42a1566 (Finishing-employee-module)
     "Blood Types": "فصيلة الدم",
     "Gender Types": "أنواع الجنس",
     "Qualification": "المؤهل",
@@ -196,9 +192,6 @@
     "Select Recuritment Source": "اختار جهة التوظيف",
     "Select Contract Type": "اختار نوع العقد",
     "Hire Date": "اختار تاريخ التعيين",
-<<<<<<< HEAD
-    "Enter Discription": "اختار الوصف"
-=======
     "Enter Discription": "اختار الوصف",
     "phone": "رقم الهاتف",
     "Department Name": "القسم",
@@ -258,5 +251,4 @@
     "Relative Relation Type": "نوع صلة القرابة",
     "Enter BirthDate Here": "ادخل يوم ميلادك هنا",
     "Select Action": "اختر حدث"
->>>>>>> 42a1566 (Finishing-employee-module)
 }

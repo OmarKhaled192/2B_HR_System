@@ -143,11 +143,7 @@
     "Religin": "Religin",
     "Material Status": "Material Status",
     "Blood Types": "Blood Types",
-<<<<<<< HEAD
-    "Gender Types": "Gender Types",
-=======
     "Gender Types": "Gender Type",
->>>>>>> 42a1566 (Finishing-employee-module)
     "Qualification": "Qualification",
     "Is Insured": "Is Insured",
     "Is Manager": "Is Manager",
@@ -187,8 +183,6 @@
     "Select Recuritment Source": "Select Recuritment Source",
     "Select Contract Type": "Select Contract Type",
     "Hire Date": "Hire Date",
-<<<<<<< HEAD
-    "Enter Discription": "Enter Discription"
     "Enter Discription": "Enter Discription",
     "phone": "phone",
     "nationalId": "nationalId",
@@ -244,5 +238,4 @@
     "Relative Relation Type": "Relative Relation Type",
     "Enter BirthDate Here": "Enter BirthDate Here",
     "Select Action": "Select Action"
->>>>>>> 42a1566 (Finishing-employee-module)
 }
