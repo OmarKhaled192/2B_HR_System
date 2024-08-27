@@ -5,7 +5,6 @@ import {
     Component,
     ElementRef,
     Input,
-    SimpleChanges,
     ViewChild,
 } from '@angular/core';
 import {
