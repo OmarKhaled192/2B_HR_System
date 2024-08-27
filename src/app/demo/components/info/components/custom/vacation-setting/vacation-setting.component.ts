@@ -64,7 +64,7 @@ export class VacationSettingComponent {
 					this.regularVacationNumber = data.regularVacationNumber;
 					this.maxExcuesHours = data.maxExcuesHours;
 					this.casualVacationNumber = data.casualVacationNumber;
-          this.id = data.id;
+                    this.id = data.id;
 				},
 				error: (err) => {
 					console.log(err);

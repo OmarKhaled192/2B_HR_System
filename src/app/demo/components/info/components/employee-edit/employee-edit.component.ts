@@ -221,6 +221,8 @@ export class EmployeeEditComponent {
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
 
+            this.translate.use(mainLang);
+
             // update mainLang at Service
             this.employeeEditService.setCulture(mainLang);
 
@@ -231,7 +233,7 @@ export class EmployeeEditComponent {
             this.Actions = [
                 {
                     id: 1,
-                    name: this.translate.instant('Employee Certificates'),
+                    name: 'Employee Certificates',
                     action: 'EmployeeCertification',
                 },
                 {
@@ -285,6 +287,8 @@ export class EmployeeEditComponent {
                     action: 'EmployeeVacationStock',
                 },
             ];
+
+            // get All DropDowns of Data
             this.getDropDownsData();
         });
 
@@ -358,7 +362,7 @@ export class EmployeeEditComponent {
             ),
         };
         this.patchFormValues(this.allData, transformedDates);
-      
+
         this.Actions = [
             {
                 id: 1,
@@ -417,6 +421,7 @@ export class EmployeeEditComponent {
             },
         ];
     }
+
     getObject(id: number, dropdown: any[]) {
         console.log('getObject - dropdown =>', dropdown);
 
