@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-panel header="Filters" [toggleable]="true" [collapsed]="true">
+<p-panel [header]="'Filter' | translate" [toggleable]="true" [collapsed]="true">
     <form
         method="post"
         [formGroup]="filterForm"
@@ -10,7 +10,9 @@
                 <div class="card">
                     <div class="p-fluid p-formgrid grid">
                         <div class="field col-12 md:col-4">
-                            <label htmlFor="government">Government</label>
+                            <label htmlFor="government">{{
+                                "Government" | translate
+                            }}</label>
                             <p-dropdown
                                 [options]="dropdownItemsGovernment"
                                 optionLabel="name"
@@ -20,7 +22,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="BirthDate"> BirthDate</label>
+                            <label htmlFor="BirthDate">
+                                {{ "BirthDate" | translate }}</label
+                            >
                             <p-calendar
                                 [showIcon]="true"
                                 inputId="BirthDate"
@@ -29,7 +33,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Religin">Religin</label>
+                            <label htmlFor="Religin">{{
+                                "Religin" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="religion"
                                 [options]="dropdownItemsReligin"
@@ -39,9 +45,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="maritalStatus"
-                                >Material Status</label
-                            >
+                            <label htmlFor="maritalStatus">{{
+                                "Martial Status" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="maritalStatus"
                                 [options]="dropdownItemsMaritalStatus"
@@ -51,7 +57,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Blood">Blood Types</label>
+                            <label htmlFor="Blood">{{
+                                "Blood Types" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="bloodTypes"
                                 [options]="dropdownItemsBloodTypes"
@@ -61,7 +69,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="gender">Gender Type</label>
+                            <label htmlFor="gender">{{
+                                "Gender Types" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="gender"
                                 [options]="dropdownItemsGender"
@@ -71,7 +81,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Qualification">Qualification</label>
+                            <label htmlFor="Qualification">{{
+                                "Qualification" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="qualificationId"
                                 [options]="dropdownItemsQualification"
@@ -81,7 +93,7 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Job">Job</label>
+                            <label htmlFor="Job">{{ "Job" | translate }}</label>
                             <p-dropdown
                                 formControlName="jobId"
                                 [options]="dropdownItemsJob"
@@ -91,7 +103,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="department">Department</label>
+                            <label htmlFor="department">{{
+                                "Department" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="departmentId"
                                 [options]="dropdownItemsDepartment"
@@ -101,7 +115,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Partition">Partition</label>
+                            <label htmlFor="Partition">{{
+                                "Partition" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="partationId"
                                 [options]="dropdownItemsPartition"
@@ -111,7 +127,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Shift">Shift</label>
+                            <label htmlFor="Shift">{{
+                                "Shift" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="shiftId"
                                 [options]="dropdownItemsShift"
@@ -121,7 +139,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Bank">Bank</label>
+                            <label htmlFor="Bank">{{
+                                "Bank" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="bankId"
                                 [options]="dropdownItemsBank"
@@ -131,7 +151,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="Grade">Grade</label>
+                            <label htmlFor="Grade">{{
+                                "Grade" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="gradeId"
                                 [options]="dropdownItemsGrade"
@@ -141,7 +163,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="jobNature">job Nature</label>
+                            <label htmlFor="jobNature">{{
+                                "job Nature" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="jobNatureId"
                                 [options]="dropdownItemsJobNature"
@@ -157,7 +181,9 @@
                                 formControlName="isInsured"
                                 [(ngModel)]="selectedIsInsured"
                             />
-                            <label htmlFor="isInsured">Is Insured </label>
+                            <label htmlFor="isInsured"
+                                >{{ "Is Insured" | translate }}
+                            </label>
                         </div>
 
                         <div
@@ -167,13 +193,15 @@
                                 formControlName="ismanger"
                                 [(ngModel)]="selectedIsManager"
                             />
-                            <label htmlFor="ismanger">Is Manager </label>
+                            <label htmlFor="ismanger"
+                                >{{ "Is Manager" | translate }}
+                            </label>
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="recuritmentSource"
-                                >Recuritment Source</label
-                            >
+                            <label htmlFor="recuritmentSource">{{
+                                "Recuritment Source" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="recuritmentSourceId"
                                 [options]="dropdownItemsRecuritmentSource"
@@ -183,7 +211,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="ContractType">Contract Type</label>
+                            <label htmlFor="ContractType">{{
+                                "Contract Type" | translate
+                            }}</label>
                             <p-dropdown
                                 formControlName="contractTypeId"
                                 [options]="dropdownItemsContractType"
@@ -193,7 +223,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="joininDate">Join In Date</label>
+                            <label htmlFor="joininDate">{{
+                                "Join In Date" | translate
+                            }}</label>
                             <p-calendar
                                 [showIcon]="true"
                                 inputId="joininDate"
@@ -202,7 +234,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="hirDate">Hiring Date</label>
+                            <label htmlFor="hirDate">{{
+                                "Hiring Date" | translate
+                            }}</label>
                             <p-calendar
                                 [showIcon]="true"
                                 inputId="hirDate"
@@ -211,9 +245,9 @@
                         </div>
 
                         <div class="field col-12 md:col-3">
-                            <label htmlFor="resignationDate"
-                                >resignation Date</label
-                            >
+                            <label htmlFor="resignationDate">{{
+                                "Resignation Date" | translate
+                            }}</label>
                             <p-calendar
                                 [showIcon]="true"
                                 inputId="resignationDate"
@@ -225,7 +259,7 @@
                             <div class="field">
                                 <button pButton type="submit">
                                     <i class="pi pi-filter"></i>
-                                    <span> Filter </span>
+                                    <span> {{ "Filter" | translate }} </span>
                                 </button>
                             </div>
                         </div>
@@ -402,13 +436,13 @@
 
             <!-- personal fields -->
             <th>{{ "phone" | translate }}</th>
-            <th>{{ "birthDate" | translate }}</th>
+            <th>{{ "BirthDate" | translate }}</th>
 
             <!-- generic fields -->
-            <th>{{ "email" | translate }}</th>
-            <th>{{ "nationalId" | translate }}</th>
-            <th>{{ "departmentName" | translate }}</th>
-            <th>{{ "partationName" | translate }}</th>
+            <th>{{ "Email" | translate }}</th>
+            <th>{{ "National Id" | translate }}</th>
+            <th>{{ "Department Name" | translate }}</th>
+            <th>{{ "Partation Name" | translate }}</th>
             <th>{{ "creationTime" | translate }}</th>
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
@@ -438,7 +472,7 @@
 
             <td [ngClass]="{ 'null-color': !rowData.birthDate }">
                 <span class="p-column-title">birthDate</span>
-                {{ rowData.birthDate ? rowData.birthDate : "" }}
+                {{ rowData.birthDate | date : "dd/MM/YYYY" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.email }">

@@ -28,7 +28,7 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { EmployeeService } from './employee.service';
 import { BadgeModule } from 'primeng/badge';
@@ -77,15 +77,16 @@ export class EmployeeDataComponent {
         private _EmployeeService: EmployeeService,
         private messageService: MessageService,
         private DatePipe: DatePipe,
+        private translate: TranslateService,
         private router: Router
     ) {}
 
     @ViewChild('dt') dt: Table;
-    @Input() endPoint !: string  ;
+    @Input() endPoint!: string;
     @ViewChild('manageItems') manageItems: ElementRef;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = 4;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -174,6 +175,40 @@ export class EmployeeDataComponent {
     ngOnInit() {
         this.endPoint = 'Employee';
 
+        // adding this Configurations in each Component Customized
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._EmployeeService.setCulture(mainLang);
+
+            // update endpoint
+            this._EmployeeService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+            this.getDropDowns();
+        });
+
+        this.cols = [
+            // basic data
+            { field: 'name', header: 'Name' },
+            { field: 'notes', header: 'Notes' },
+
+            // Generic Fields
+            { field: 'creationTime', header: 'creationTime' },
+            { field: 'lastModificationTime', header: 'lastModificationTime' },
+            { field: 'creatorName', header: 'creatorName' },
+            { field: 'lastModifierName', header: 'lastModifierName' },
+        ];
+    }
+    getDropDowns() {
         // Enum ===>
         // get Blood Type Dropdown
         this.getDropDownEnum({
@@ -338,24 +373,28 @@ export class EmployeeDataComponent {
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id);
-        this._EmployeeService.GetById(rowData.id).subscribe({
-            next: (res) => {
-                console.log(res.data);
-                const queryParams = { Id: rowData.id };
-                const urlTree = this.router.createUrlTree(['/Edit'], {
-                    queryParams,
-                });
-                const url = this.router.serializeUrl(urlTree);
-                console.log('Constructed URL:', url);
-                this.router.navigate(['/info/employees/edit', rowData.id],
-               );
-            },
-            error: (err) => {
-                console.log(err);
-            },
-        });
-    }
+      console.log(rowData.id);
+      this._EmployeeService.GetById(rowData.id).subscribe({
+          next: (res) => {
+              console.log(res.data);
+
+              const queryParams = { Id: rowData.id };
+              const urlTree = this.router.createUrlTree(['/Edit'], {
+                  queryParams,
+              });
+              const url = this.router.serializeUrl(urlTree);
+              console.log('Constructed URL:', url);
+
+              // Combine both navigation methods from the conflicting branches
+              this.router.navigate(['/info/employees/edit', rowData.id], {
+                  queryParams: { Id: rowData.id }
+              });
+          },
+          error: (err) => {
+              console.log(err);
+          },
+      });
+  }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -649,7 +688,8 @@ export class EmployeeDataComponent {
         }
     }
     sortByName(event: any) {
-        this.sortField = 'name';
+        if (this.translate.currentLang == 'ar') this.sortField = 'nameAr';
+        else this.sortField = 'englishName';
     }
     submitForm(formData: FormGroup) {
         formData.patchValue({
