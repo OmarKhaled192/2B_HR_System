@@ -109,13 +109,12 @@ export class StdPaginationsWithPopupComponent{
             { field: 'notes', header: 'Notes' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'creationTime' },
-            { field: 'lastModificationTime', header: 'lastModificationTime' },
-            { field: 'creatorName', header: 'creatorName' },
-            { field: 'lastModifierName', header: 'lastModifierName' },
+            { field: 'creationTime', header: 'CreationTime' },
+            { field: 'lastModificationTime', header: 'LastModificationTime' },
+            { field: 'creatorName', header: 'CreatorName' },
+            { field: 'lastModifierName', header: 'LastModifierName' },
         ];
     }
-
 
     splitCamelCase(str:any) {
         return str.replace(/([A-Z])/g, ' $1')
@@ -276,7 +275,7 @@ export class StdPaginationsWithPopupComponent{
             this.sortOrder
         );
 
-        // this.selectedItems = this.allData;
+        this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
@@ -359,6 +358,7 @@ export class StdPaginationsWithPopupComponent{
     }
 
     convertToCSV(data: any[]): string {
+        console.log(data)
         if (!data || !data.length) return '';
 
         const separator = ',';
@@ -393,7 +393,7 @@ export class StdPaginationsWithPopupComponent{
                     detail: 'items deleted successfully',
                     life: 3000,
                 });
-                this.selectedItems = [];
+                // this.selectedItems = [];
                 this.loadData(
                     this.page,
                     this.itemsPerPage,

@@ -11,9 +11,9 @@ import { EmployeeManagerComponent } from '../AllTabs/employee-manager/employee-m
 import { EmployeeSalaryComponent } from '../AllTabs/employee-salary/employee-salary.component';
 import { EmployeeUniformComponent } from '../AllTabs/employee-uniform/employee-uniform.component';
 import { EmployeeVacationStockComponent } from '../AllTabs/employee-vacation-stock/employee-vacation-stock.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 const routes: Routes = [
-
     {
         path: 'EmployeeCertification',
         component: EmployeeCertificationComponent
@@ -55,14 +55,13 @@ const routes: Routes = [
         component: EmployeeUniformComponent
     },
     {
-
         path: 'EmployeeVacationStock',
-        component: EmployeeVacationStockComponent
+        component: EmployeeVacationStockComponent,
     },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), TranslateModule],
   exports: [RouterModule]
 })
 export class AllTabsRoutingModule { }

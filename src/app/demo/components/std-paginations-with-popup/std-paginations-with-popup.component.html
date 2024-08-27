@@ -32,6 +32,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -154,11 +155,11 @@
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.name }">
-                <span class="p-column-title">Name</span>
+                <span class="p-column-title">name</span>
                 {{ rowData.name ? rowData.name : "" }}
             </td>
             <td [ngClass]="{ 'null-color': !rowData.notes }">
-                <span class="p-column-title">Notes</span>
+                <span class="p-column-title">notes</span>
                 {{ rowData.notes ? rowData.notes : "" }}
             </td>
 
@@ -231,7 +232,7 @@
                 >Arabic Name is required.</small
             >
         </div>
-
+        
         <div class="field">
             <label for="engName">English Name</label>
             <input
