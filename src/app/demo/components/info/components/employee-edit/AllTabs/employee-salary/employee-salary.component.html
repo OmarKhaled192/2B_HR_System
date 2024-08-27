@@ -16,12 +16,12 @@
   </ng-template>
 </p-toolbar>
 
-<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" header="Add New" [modal]="true" class="p-fluid">
+<p-dialog [(visible)]="showFormNew" [style]="{ width: '450px' }" [header]="'Add New' | translate" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content">
 
     <div class="field">
       <label htmlFor="employeeName">{{"Employee Name"| translate}} </label>
-      <input pInputText [(ngModel)]="employeeName" placeholder="{{'Enter Employeee Name Here' | translate}}"
+      <input pInputText [(ngModel)]="employeeName" placeholder="{{'Enter Employee Name Here' | translate}}"
         id="employeeName" type="text" />
     </div>
 
@@ -31,7 +31,7 @@
     </div>
 
     <div class="field">
-      <label htmlFor="basicSalry">{{"BasicSalry"| translate}} </label>
+      <label htmlFor="basicSalry">{{"Basic Salary"| translate}} </label>
       <input pInputText [(ngModel)]="basicSalry" placeholder="{{'Enter Basic Salary Here' | translate}}" id="basicSalry"
         type="text" />
     </div>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="field">
-      <button class="w-25" pButton label="Insert New" (click)="addNew()"></button>
+      <button class="w-25" pButton [label]="'Insert New' | translate" (click)="addNew()"></button>
     </div>
   </ng-template>
 </p-dialog>
@@ -65,7 +65,7 @@
   (onLazyLoad)="onPageChange($event)" dataKey="id">
   <ng-template pTemplate="caption">
     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-      <h5 class="m-0">Manage Items</h5>
+      <h5 class="m-0">{{'Manage Items' | translate }}</h5>
       <span class="block mt-2 md:mt-0 p-input-icon-left">
         <i class="pi pi-search"></i>
         <input pInputText [(ngModel)]="nameFilter" (input)="loadFilteredData()" id="filter-name" type="text"
@@ -108,7 +108,7 @@
       </td>
       <td>
         <span class="p-column-title">id</span>
-        {{ rowData.id ? rowData.id : "" }}
+        {{ rowData.id  }}
       </td>
 
 
@@ -116,33 +116,33 @@
 
       <td>
         <span class="p-column-title">employeeName</span>
-        {{ rowData.employeeName ? rowData.employeeName : "" }}
+        {{ rowData.employeeName  }}
       </td>
 
 
       <td>
         <span class="p-column-title">badal</span>
-        {{ rowData.badal ? rowData.badal : "" }}
+        {{ rowData.badal }}
       </td>
 
       <td>
         <span class="p-column-title">basicSalry</span>
-        {{ rowData.basicSalry ? rowData.basicSalry : "" }}
+        {{ rowData.basicSalry }}
       </td>
 
       <td>
         <span class="p-column-title">changing</span>
-        {{ rowData.changing ? rowData.changing : "" }}
+        {{ rowData.changing }}
       </td>
 
       <td>
         <span class="p-column-title">hawafez</span>
-        {{ rowData.hawafez ? rowData.hawafez : ""}}
+        {{ rowData.hawafez }}
       </td>
 
       <td>
         <span class="p-column-title">year</span>
-        {{ rowData.year ? rowData.year : "" }}
+        {{ rowData.year }}
       </td>
 
       <!-- generic fields -->
@@ -160,11 +160,11 @@
 
       <td [ngClass]="{ 'null-color': !rowData.creatorName }">
         <span class="p-column-title">creatorName</span>
-        {{ rowData.creatorName ? rowData.creatorName : "" }}
+        {{ rowData.creatorName }}
       </td>
       <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
         <span class="p-column-title">lastModifierName</span>
-        {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
+        {{ rowData.lastModifierName }}
       </td>
 
       <td>
@@ -184,51 +184,51 @@
   <ng-template pTemplate="content">
 
     <div class="field">
-      <label for="badal">Badal</label>
+      <label for="badal">{{'Badal' | translate }}</label>
       <input type="text" pInputText id="badal" [(ngModel)]="product.badal" required autofocus [ngClass]="{
                             'ng-invalid ng-dirty': submitted && !product.badal
                         }" />
-      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.badal">Badal is required.</small>
+      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.badal">{{'Badal is required.' | translate }}</small>
     </div>
 
     <div class="field">
-      <label for="year">Year</label>
+      <label for="year">{{'Year' | translate }}</label>
       <input type="text" pInputText id="year" [(ngModel)]="product.year" required autofocus [ngClass]="{
                                             'ng-invalid ng-dirty': submitted && !product.year
                                         }" />
-      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.year">year is required.</small>
+      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.year">{{'year is required.' | translate }}</small>
     </div>
 
 
     <div class="field">
-      <label for="basicSalry">Basic Salray</label>
+      <label for="basicSalry">{{'Basic Salary' | translate }}</label>
       <input type="text" pInputText id="basicSalry" [(ngModel)]="product.basicSalry" required autofocus [ngClass]="{
                                             'ng-invalid ng-dirty': submitted && !product.basicSalry
                                         }" />
-      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.basicSalry">basicSalry is required.</small>
+      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.basicSalry">{{'basicSalry is required.' | translate}}</small>
     </div>
 
     <div class="field">
-      <label for="hawafez">Hawafez</label>
+      <label for="hawafez">{{'Hawafez' | translate }}</label>
       <input type="text" pInputText id="hawafez" [(ngModel)]="product.hawafez" required autofocus [ngClass]="{
                                 'ng-invalid ng-dirty': submitted && !product.hawafez
                             }" />
-      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.hawafez">Hawafez is required.</small>
+      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.hawafez">{{'Hawafez is required.' | translate }}</small>
     </div>
 
     <div class="field">
-      <label for="changing">Changing</label>
+      <label for="changing">{{'Changing' | translate }}</label>
       <input type="text" pInputText id="changing" [(ngModel)]="product.changing" required autofocus [ngClass]="{
                                     'ng-invalid ng-dirty': submitted && !product.changing
                                 }" />
-      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.changing">Changing is required.</small>
+      <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.changing">{{'Changing is required.' | translate }}</small>
     </div>
 
   </ng-template>
 
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+    <button pButton pRipple [label]="'Cancel' | translate" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple [label]="'Save' | translate" icon="pi pi-check" class="p-button-text"
       (click)="saveProduct(product.id, product)"></button>
   </ng-template>
 </p-dialog>
@@ -236,12 +236,12 @@
 <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
   <div class="flex align-items-center justify-content-center">
     <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-    <span *ngIf="product">Are you sure you want to delete <b>{{ product.name }}</b>?</span>
+    <span *ngIf="product">{{'Are you sure you want to delete' | translate}} <b>{{ product.name }}</b>?</span>
   </div>
   <ng-template pTemplate="footer">
-    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+    <button pButton pRipple icon="pi pi-times" class="p-button-text" [label]="'No' | translate"
       (click)="deleteProductDialog = false"></button>
-    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+    <button pButton pRipple icon="pi pi-check" class="p-button-text" [label]="'Yes' | translate"
       (click)="confirmDelete(product.id)"></button>
   </ng-template>
 </p-dialog>
@@ -249,7 +249,7 @@
 <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{ width: '450px' }">
   <div class="flex align-items-center justify-content-center">
     <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-    <span>Are you sure you want to delete selected products?</span>
+    <span>{{'Are you sure you want to delete selected products?' | translate }}</span>
   </div>
   <ng-template pTemplate="footer">
     <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"

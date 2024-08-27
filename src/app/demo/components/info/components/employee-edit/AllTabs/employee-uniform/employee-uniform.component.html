@@ -41,7 +41,7 @@
 <p-dialog
     [(visible)]="showFormNew"
     [style]="{ width: '450px' }"
-    header="Add New"
+    [header]="'Add New' | translate"
     [modal]="true"
     class="p-fluid"
 >
@@ -64,7 +64,7 @@
             <label htmlFor="date">{{ "Date" | translate }} </label>
             <p-calendar
                 [showIcon]="true"
-                placeholder="MM/DD/YYYY"
+                [placeholder]="'MM/DD/YYYY' | translate"
                 [(ngModel)]="selectedDate"
                 inputId="icon"
             ></p-calendar>
@@ -75,7 +75,7 @@
             <input
                 pInputText
                 [(ngModel)]="selectedCost"
-                placeholder="{{ 'Enter cost Here' | translate }}"
+                placeholder="{{ 'Enter Cost Here' | translate }}"
                 id="cost"
                 type="text"
             />
@@ -86,7 +86,7 @@
             <input
                 pInputText
                 [(ngModel)]="selectedNotes"
-                placeholder="{{ 'Enter nots Here' | translate }}"
+                placeholder="{{ 'Enter notes Here' | translate }}"
                 id="nots"
                 type="text"
             />
@@ -96,7 +96,7 @@
             <button
                 class="w-25"
                 pButton
-                label="Insert New"
+                [label]="'Insert New' | translate"
                 (click)="addNew()"
             ></button>
         </div>
@@ -122,7 +122,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">Manage Items</h5>
+            <h5 class="m-0">{{'Manage Items' | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -331,7 +331,7 @@
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
+            >{{'Are you sure you want to delete' | translate }}<b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -363,7 +363,7 @@
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete selected products?</span>
+        <span>{{'Are you sure you want to delete selected products?' | translate }}</span>
     </div>
     <ng-template pTemplate="footer">
         <button

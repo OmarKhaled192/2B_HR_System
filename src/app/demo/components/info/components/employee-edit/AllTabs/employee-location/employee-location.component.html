@@ -39,13 +39,13 @@
 <p-dialog
     [(visible)]="showFormNew"
     [style]="{ width: '450px' }"
-    header="Add New"
+    [header]="'Add New' | translate"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="location">Location</label>
+            <label htmlFor="location">{{'Location' | translate}}</label>
             <p-dropdown
                 [options]="locationDropDown"
                 [(ngModel)]="selectedLocation"
@@ -59,7 +59,7 @@
             <button
                 class="w-25"
                 pButton
-                label="Insert New"
+                [label]="'Insert New' | translate"
                 (click)="addNew()"
             ></button>
         </div>
@@ -85,7 +85,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">Manage Items</h5>
+            <h5 class="m-0">{{'Manage Items' | translate}}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -192,14 +192,14 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    [header]="'Item Details' | translate"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
 
        <div class="field">
-            <label htmlFor="location">Location</label>
+            <label htmlFor="location">{{'Location' | translate}}</label>
             <p-dropdown
                 [options]="locationDropDown"
                 [(ngModel)]="selectedLocationEdit"
@@ -209,7 +209,7 @@
                 [showClear]="true"></p-dropdown>
 
                 <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.locationId"
-                >location is required.</small
+                >{{'location is required.' | translate}}</small
             >
         </div>
 
@@ -219,7 +219,7 @@
         <button
             pButton
             pRipple
-            label="Cancel"
+            [label]="'Cancel' | translate"
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialog()"
@@ -227,7 +227,7 @@
         <button
             pButton
             pRipple
-            label="Save"
+            [label]="'Save' | translate"
             icon="pi pi-check"
             class="p-button-text"
             (click)="saveProduct(product.id, product)"
@@ -244,7 +244,7 @@
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
+            >{{'Are you sure you want to delete' | translate}} <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -276,7 +276,7 @@
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete selected products?</span>
+        <span>{{'Are you sure you want to delete selected products?' | translate}}</span>
     </div>
     <ng-template pTemplate="footer">
         <button

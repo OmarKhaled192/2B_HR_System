@@ -168,6 +168,7 @@ import { EmployeeComponent } from './components/employee/employee.component';
             {
                 path: 'employees/edit/:id',
                 canActivate: [authGuard],
+                pathMatch: 'prefix',
                 component: EmployeeEditComponent,
                 loadChildren: () =>
                     import('./components/employee-edit/all-tabs-routing/all-tabs.module').then((m) => m.AllTabsModule),

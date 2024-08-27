@@ -41,7 +41,7 @@
 <p-dialog
     [(visible)]="showFormNew"
     [style]="{ width: '450px' }"
-    header="Add New"
+    [header]="'Add New' | translate"
     [modal]="true"
     class="p-fluid"
 >
@@ -61,10 +61,10 @@
         </div>
 
         <div class="field">
-            <label htmlFor="startDate">{{ "StartDate" | translate }} </label>
+            <label htmlFor="startDate">{{ "Start Date" | translate }} </label>
             <p-calendar
                 [showIcon]="true"
-                placeholder="MM/DD/YYYY"
+                [placeholder]="'MM/DD/YYYY' | translate"
                 [(ngModel)]="selectedStartDate"
                 inputId="icon"
             ></p-calendar>
@@ -72,12 +72,12 @@
 
         <div class="field">
             <label htmlFor="vacationBalance"
-                >{{ "vacationBalance" | translate }}
+                >{{ "vacation Balance" | translate }}
             </label>
             <input
                 pInputText
                 [(ngModel)]="selectedVacationBalance"
-                placeholder="{{ 'Enter vacationBalance Here' | translate }}"
+                [placeholder]="'Enter Vacation Balance Here' | translate "
                 id="vacationBalance"
                 type="text"
             />
@@ -126,7 +126,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">Manage Items</h5>
+            <h5 class="m-0">{{'Manage Items' | translate}}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -180,17 +180,17 @@
             <!-- custom fields -->
 
             <td>
-                <span class="p-column-title">Start Date</span>
+                <span class="p-column-title">StartDate</span>
                 {{ rowData.startDate | date : "yyyy-MM-dd" }}
             </td>
 
             <td>
-                <span class="p-column-title">Vacation Type</span>
+                <span class="p-column-title">VacationType</span>
                 {{ rowData.vacationTypeName ? rowData.vacationTypeName : "" }}
             </td>
 
             <td>
-                <span class="p-column-title">Vacation Balance</span>
+                <span class="p-column-title">VacationBalance</span>
                 {{ rowData.vacationBalance ? rowData.vacationBalance : "" }}
             </td>
 
@@ -289,7 +289,7 @@
             <input
                 pInputText
                 [(ngModel)]="product.vacationBalance"
-                placeholder="{{ 'Enter vacation Balance' | translate }}"
+                placeholder="{{ 'Enter Vacation Balance Here' | translate }}"
                 id="vacationBalance"
                 type="text"
             />
@@ -339,7 +339,7 @@
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
+            >{{'Are you sure you want to delete' | translate}} <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -371,7 +371,7 @@
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete selected products?</span>
+        <span>{{'Are you sure you want to delete selected products?' | translate }}</span>
     </div>
     <ng-template pTemplate="footer">
         <button

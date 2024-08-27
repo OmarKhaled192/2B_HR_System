@@ -29,7 +29,7 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { BadgeModule } from 'primeng/badge';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -74,8 +74,9 @@ interface UploadEvent {
         DatePipe,
         FileUploadModule,
         RouterModule,
+        FormsModule,
     ],
-    providers: [MessageService, DatePipe],
+    providers: [MessageService, DatePipe, TranslateService],
     templateUrl: './employee-edit.component.html',
     styleUrl: './employee-edit.component.scss',
 })
@@ -86,7 +87,8 @@ export class EmployeeEditComponent {
         private DatePipe: DatePipe,
         private router: Router,
         private route: ActivatedRoute,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private translate: TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -207,17 +209,16 @@ export class EmployeeEditComponent {
     });
 
     // Actions Tabs variable
-    Actions: any;
-    selectedAction: any;
+    Actions: any[] = [];
+    selectedAction?: any;
 
     ngOnInit() {
-
         this.currentId = this.route.snapshot.params['id'];
 
         console.log('Current Id : ', this.currentId);
 
         this.endPoint = 'Employee';
-        
+
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
@@ -229,6 +230,63 @@ export class EmployeeEditComponent {
             this.employeeEditService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.Actions = [
+                {
+                    id: 1,
+                    name: this.translate.instant('Employee Certificates'),
+                    action: 'EmployeeCertification',
+                },
+                {
+                    id: 2,
+                    name: this.translate.instant('Employee Course'),
+                    action: 'EmployeeCourse',
+                },
+                {
+                    id: 3,
+                    name: this.translate.instant('Employee Covenent'),
+                    action: 'EmployeeCovenant',
+                },
+                {
+                    id: 4,
+                    name: this.translate.instant('Employee Experience'),
+                    action: 'EmployeeExperience',
+                },
+                {
+                    id: 5,
+                    name: this.translate.instant('Employee Family'),
+                    action: 'EmployeeFamily',
+                },
+                {
+                    id: 6,
+                    name: this.translate.instant('Employee File'),
+                    action: 'EmployeeFile',
+                },
+                {
+                    id: 7,
+                    name: this.translate.instant('Employee Location'),
+                    action: 'EmployeeLocation',
+                },
+                {
+                    id: 8,
+                    name: this.translate.instant('Employee Manager'),
+                    action: 'EmployeeManager',
+                },
+                {
+                    id: 9,
+                    name: this.translate.instant('Employee Salary'),
+                    action: 'EmployeeSalary',
+                },
+                {
+                    id: 10,
+                    name: this.translate.instant('Employee Uniform'),
+                    action: 'EmployeeUniform',
+                },
+                {
+                    id: 11,
+                    name: this.translate.instant('Employee Vacation Stock'),
+                    action: 'EmployeeVacationStock',
+                },
+            ];
         });
 
         this.cols = [
@@ -390,70 +448,13 @@ export class EmployeeEditComponent {
             ),
         };
         this.patchFormValues(this.allData, transformedDates);
-
-
-        this.Actions = [
-            {
-                id: 1,
-                name: 'Employee Certificates',
-                action: 'EmployeeCertification',
-            },
-            {
-                id: 2,
-                name: 'Employee Course',
-                action: 'EmployeeCourse',
-            },
-            {
-                id: 3,
-                name: 'Employee Covenent',
-                action: 'EmployeeCovenant',
-            },
-            {
-                id: 4,
-                name: 'Employee Experience',
-                action: 'EmployeeExperience',
-            },
-            {
-                id: 5,
-                name: 'Employee Family',
-                action: 'EmployeeFamily',
-            },
-            {
-                id: 6,
-                name: 'Employee File',
-                action: 'EmployeeFile',
-            },
-            {
-                id: 7,
-                name: 'Employee Location',
-                action: 'EmployeeLocation',
-            },
-            {
-                id: 8,
-                name: 'Employee Manager',
-                action: 'EmployeeManager',
-            },
-            {
-                id: 9,
-                name: 'Employee Salary',
-                action: 'EmployeeSalary',
-            },
-            {
-                id: 10,
-                name: 'Employee Uniform',
-                action: 'EmployeeUniform',
-            },
-            {
-                id: 11,
-                name: 'Employee Vacation Stock',
-                action: 'EmployeeVacationStock',
-            },
-        ];
     }
 
     changeTab() {
-        console.log(this.selectedAction)
-         this.router.navigate([this.selectedAction.action], { relativeTo: this.route });
+        console.log(this.selectedAction);
+        this.router.navigate([this.selectedAction.action], {
+            relativeTo: this.route,
+        });
     }
 
     patchFormValues(data: any, transformedDates: any) {

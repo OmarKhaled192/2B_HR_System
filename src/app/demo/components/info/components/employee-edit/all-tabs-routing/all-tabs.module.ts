@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { AllTabsRoutingModule } from './all-tabs-routing.module';
 import { EmployeeEditComponent } from '../employee-edit.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -10,7 +11,8 @@ import { EmployeeEditComponent } from '../employee-edit.component';
   imports: [
     CommonModule,
     AllTabsRoutingModule,
-    EmployeeEditComponent
+    EmployeeEditComponent,
+    TranslateModule
   ]
 })
 export class AllTabsModule { }
