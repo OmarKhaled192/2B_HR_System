@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+
 <p-panel [header]="'Edit' | translate" [toggleable]="true" [collapsed]="false">
     <form method="post" [formGroup]="editForm" (submit)="submitForm(editForm)">
         <div class="grid">
@@ -377,13 +378,13 @@
 </p-panel>
 
 <div class="grid">
-    <div class="col-12 my-5">
+    <div class="col-12 my-2">
         <div class="card grid justify-content-center">
             <div class="col-12 text-center">
                 <p>Choose An Action From List</p>
             </div>
 
-            <div class="field col-12">
+            <div class="field col-6">
                 <p-dropdown
                     [options]="Actions"
                     [placeholder]="'Select Action' | translate"
@@ -393,7 +394,8 @@
                     [showClear]="true"
                 ></p-dropdown>
             </div>
-
+        </div>
+        <div class="card my-3" *ngIf="selectedAction">
             <div class="col-12">
                 <router-outlet></router-outlet>
             </div>
