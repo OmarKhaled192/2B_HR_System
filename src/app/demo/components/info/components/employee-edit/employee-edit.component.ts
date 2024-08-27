@@ -29,7 +29,7 @@ import { RippleModule } from 'primeng/ripple';
 import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { BadgeModule } from 'primeng/badge';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -211,9 +211,7 @@ export class EmployeeEditComponent {
     selectedAction: any;
 
     ngOnInit() {
-        this.activatedRoute.queryParams.subscribe((params) => {
-            this.currentId = params['id'];
-        });
+        this.currentId = this.route.snapshot.params['id'];
         console.log('Current Id : ', this.currentId);
 
         this.endPoint = 'Employee';
@@ -228,6 +226,7 @@ export class EmployeeEditComponent {
             this.employeeEditService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.getDropDownsData();
         });
 
         this.cols = [
@@ -241,97 +240,7 @@ export class EmployeeEditComponent {
             { field: 'creatorName', header: 'creatorName' },
             { field: 'lastModifierName', header: 'lastModifierName' },
         ];
-        // Enum ===>
-        // get Blood Type Dropdown
-        this.getDropDownEnum({
-            field: 'dropdownItemsBloodTypes',
-            enum: 'getBloodTypes',
-        });
-
-        // get Gender Dropdown
-        this.getDropDownEnum({
-            field: 'dropdownItemsGender',
-            enum: 'getGender',
-        });
-
-        // get MaritalStatus Dropdown
-        this.getDropDownEnum({
-            field: 'dropdownItemsMaritalStatus',
-            enum: 'getMaritalStatus',
-        });
-
-        // get Religion Dropdown
-        this.getDropDownEnum({
-            field: 'dropdownItemsReligin',
-            enum: 'getReligion',
-        });
-
-        // ==========================================================================
-
-        // get Dropdown ==>
-        // get Blood Type Dropdown
-        this.getDropDownEnum({
-            field: 'dropdownItemsReligin',
-            enum: 'getReligion',
-        });
-
-        // get Government Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsGovernment',
-            enum: 'Government',
-        });
-
-        // get Qualification Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsQualification',
-            enum: 'Qualification',
-        });
-
-        // get Job Dropdown
-        this.getDropDownField({ field: 'dropdownItemsJob', enum: 'Job' });
-
-        // get Department Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsDepartment',
-            enum: 'Department',
-        });
-
-        // get Partition Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsPartition',
-            enum: 'Partation',
-        });
-
-        // get Shift Dropdown
-        this.getDropDownField({ field: 'dropdownItemsShift', enum: 'Shift' });
-
-        // get Bank Dropdown
-        this.getDropDownField({ field: 'dropdownItemsBank', enum: 'Bank' });
-
-        // get Grade Dropdown
-        this.getDropDownField({ field: 'dropdownItemsGrade', enum: 'Grade' });
-
-        console.log('dropdownItemsGrade : ', this.dropdownItemsGrade);
-
-        // get JobNature Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsJobNature',
-            enum: 'JobNature',
-        });
-
-        // get RecuritmentSource Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsRecuritmentSource',
-            enum: 'RecuritmentSource',
-        });
-
-        // get ContactTypes Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsContractType',
-            enum: 'ContractType',
-        });
-
-        this.getData();
+        this.getDropDownsData();
         this.getData()
             .pipe(
                 tap((data) => {
@@ -363,6 +272,7 @@ export class EmployeeEditComponent {
                     };
                 })
             )
+
             .subscribe((transformedDates) => {
                 console.log('transformedDates');
                 console.log(transformedDates);
@@ -389,7 +299,6 @@ export class EmployeeEditComponent {
             ),
         };
         this.patchFormValues(this.allData, transformedDates);
-
 
         this.Actions = [
             {
@@ -449,10 +358,17 @@ export class EmployeeEditComponent {
             },
         ];
     }
+    getObject(id: number, dropdown: any[]) {
+        console.log('getObject - dropdown =>', dropdown);
+
+        if (dropdown) return dropdown.find((item: any) => item.id == id);
+    }
 
     changeTab() {
-        console.log(this.selectedAction)
-         this.router.navigate([this.selectedAction.action], { relativeTo: this.route });
+        console.log(this.selectedAction);
+        this.router.navigate([this.selectedAction.action], {
+            relativeTo: this.route,
+        });
     }
 
     patchFormValues(data: any, transformedDates: any) {
@@ -529,8 +445,7 @@ export class EmployeeEditComponent {
             this.dropdownItemsGrade
         );
 
-
-        console.log("this.selectedGrade : " ,this.selectedGrade);
+        console.log('this.selectedGrade : ', this.selectedGrade);
 
         this.selectedjobNature = this.getObject(
             data.jobNatureId,
@@ -605,13 +520,6 @@ export class EmployeeEditComponent {
     //         detail: '',
     //     });
     // }
-
-
-    getObject(id: number, dropdown: any[]) {  
-        console.log("getObject - dropdown =>" , dropdown );
-
-        if (dropdown) return dropdown.find((item: any) => item.id == id);
-    }
 
     submitForm(formData: FormGroup) {
         formData.patchValue({
@@ -791,6 +699,101 @@ export class EmployeeEditComponent {
     }
     getData(): Observable<any> {
         return this.employeeEditService.GetById(this.currentId);
+    }
+    getDropDownsData() {
+        // Enum ===>
+        // get Blood Type Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsBloodTypes',
+            enum: 'getBloodTypes',
+        });
+
+        // get Gender Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsGender',
+            enum: 'getGender',
+        });
+
+        // get MaritalStatus Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsMaritalStatus',
+            enum: 'getMaritalStatus',
+        });
+
+        // get Religion Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsReligin',
+            enum: 'getReligion',
+        });
+
+        // ==========================================================================
+
+        // get Dropdown ==>
+        // get Blood Type Dropdown
+        this.getDropDownEnum({
+            field: 'dropdownItemsReligin',
+            enum: 'getReligion',
+        });
+
+        // get Government Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsGovernment',
+            enum: 'Government',
+        });
+
+        // get Qualification Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsQualification',
+            enum: 'Qualification',
+        });
+
+        // get Job Dropdown
+        this.getDropDownField({ field: 'dropdownItemsJob', enum: 'Job' });
+
+        // get Department Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsDepartment',
+            enum: 'Department',
+        });
+
+        // get Partition Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsPartition',
+            enum: 'Partation',
+        });
+
+        // get Shift Dropdown
+        this.getDropDownField({ field: 'dropdownItemsShift', enum: 'Shift' });
+
+        // get Bank Dropdown
+        this.getDropDownField({ field: 'dropdownItemsBank', enum: 'Bank' });
+
+        // get Grade Dropdown
+        this.getDropDownField({ field: 'dropdownItemsGrade', enum: 'Grade' });
+
+        console.log('dropdownItemsGrade : ', this.dropdownItemsGrade);
+
+        // get JobNature Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsJobNature',
+            enum: 'JobNature',
+        });
+
+        // get RecuritmentSource Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsRecuritmentSource',
+            enum: 'RecuritmentSource',
+        });
+
+        // get ContactTypes Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsContractType',
+            enum: 'ContractType',
+        });
+
+        setTimeout(() => {
+            this.getData().subscribe();
+        }, 1000);
     }
     onSelect(event: any) {
         console.log(event);
