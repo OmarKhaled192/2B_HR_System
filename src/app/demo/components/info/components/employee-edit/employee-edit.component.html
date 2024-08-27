@@ -1,5 +1,40 @@
 <p-toast></p-toast>
 
+<div class="grid">
+    <div class="col-12 my-5">
+        <div class="card grid justify-content-center">
+            <div class="col-12 text-center">
+                <p>{{'Choose An Action From List' | translate}}</p>
+            </div>
+
+            <div class="field col-12">
+                <p-dropdown
+                    [options]="Actions"
+                    (onChange)="changeTab()"
+                    [(ngModel)]="selectedAction"
+                    optionLabel="name"
+                    [showClear]="true"
+                >
+                    <ng-template pTemplate="item" let-item>
+                        {{item.name | translate }}
+                    </ng-template>
+
+                       <!-- Template for displaying the selected option -->
+                    <ng-template pTemplate="selectedItem" let-selectedItem>
+                        {{ selectedItem ? (selectedItem.name | translate) : ('Select Action' | translate) }}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+        </div>
+
+        <div class="card my-2" *ngIf="selectedAction">
+            <div class="col-12">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>
+
 <p-panel [header]="'Edit' | translate" [toggleable]="true" [collapsed]="false">
     <form method="post" [formGroup]="editForm" (submit)="submitForm(editForm)">
         <div class="grid">
@@ -376,29 +411,3 @@
         </div>
     </form>
 </p-panel>
-
-<div class="grid">
-    <div class="col-12 my-2">
-        <div class="card grid justify-content-center">
-            <div class="col-12 text-center">
-                <p>Choose An Action From List</p>
-            </div>
-
-            <div class="field col-6">
-                <p-dropdown
-                    [options]="Actions"
-                    [placeholder]="'Select Action' | translate"
-                    (onChange)="changeTab()"
-                    [(ngModel)]="selectedAction"
-                    optionLabel="name"
-                    [showClear]="true"
-                ></p-dropdown>
-            </div>
-        </div>
-        <div class="card my-3" *ngIf="selectedAction">
-            <div class="col-12">
-                <router-outlet></router-outlet>
-            </div>
-        </div>
-    </div>
-</div>
