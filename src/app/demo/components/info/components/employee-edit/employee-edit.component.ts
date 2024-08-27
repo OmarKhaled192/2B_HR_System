@@ -218,16 +218,11 @@ export class EmployeeEditComponent {
         this.endPoint = 'Employee';
 
         // adding this Configurations in each Component Customized
+
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
-
-            // update mainLang at Service
+            this.translate.use(mainLang);
             this.employeeEditService.setCulture(mainLang);
-
-            // update endpoint
-            this.employeeEditService.setEndPoint(this.endPoint);
-
-            // then, load data again to lens on the changes of mainLang & endPoints Call
             this.Actions = [
                 {
                     id: 1,
@@ -285,6 +280,13 @@ export class EmployeeEditComponent {
                     action: 'EmployeeVacationStock',
                 },
             ];
+            // update mainLang at Service
+
+            // update endpoint
+            this.employeeEditService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+
             this.getDropDownsData();
         });
 
@@ -358,7 +360,7 @@ export class EmployeeEditComponent {
             ),
         };
         this.patchFormValues(this.allData, transformedDates);
-      
+
         this.Actions = [
             {
                 id: 1,

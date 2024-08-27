@@ -295,5 +295,10 @@
     "Enter Person Name Here": "ادخل اسم الشخص هنا",
     "Relative Relation Type": "نوع صلة القرابة",
     "Enter BirthDate Here": "ادخل يوم ميلادك هنا",
-    "Select Action": "اختر حدث"
+    "Select Action": "اختر حدث",
+    "All Employees Covenant": "عهد كل المزظفين",
+    "All Employees File": "ملفات كل الموظفين",
+    "All Employees Location": "موقع كل الموظفين",
+    "All Employees Manager": "مديري كل الموظفين",
+    "All Employees Uniform": "الزي الرسمي لجميع الموظفين"
 }

@@ -151,6 +151,32 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/info/vacationType'],
                     },
                     {
+                        label: this.translate.instant('All Employees Covenant'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/allEmployeesCovenant'],
+                    },
+                    {
+                        label: this.translate.instant('All Employees File'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/allEmployeesFile'],
+                    },
+                    {
+                        label: this.translate.instant('All Employees Location'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/allEmployeesLocation'],
+                    },
+
+                    {
+                        label: this.translate.instant('All Employees Manager'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/allEmployeesManager'],
+                    },
+                    {
+                        label: this.translate.instant('All Employees Uniform'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/allEmployeesUniform'],
+                    },
+                    {
                         label: this.translate.instant('All Employees'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/employees'],

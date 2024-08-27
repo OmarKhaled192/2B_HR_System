@@ -281,5 +281,10 @@
     "Enter Person Name Here": "Enter Person Name Here",
     "Relative Relation Type": "Relative Relation Type",
     "Enter BirthDate Here": "Enter BirthDate Here",
-    "Select Action": "Select Action"
+    "Select Action": "Select Action",
+    "All Employees Covenant": "All Employees Covenant",
+    "All Employees File": "All Employees File",
+    "All Employees Location": "All Employees Location",
+    "All Employees Manager": "All Employees Manager",
+    "All Employees Uniform": "All Employees Uniform"
 }
