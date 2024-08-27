@@ -29,6 +29,11 @@ import { VacationTypeComponent } from './components/custom/vacation-type/vacatio
 import { EmployeeDataComponent } from './components/employee-data/employee-data.component';
 import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
 import { EmployeeComponent } from './components/employee/employee.component';
+import { AllEmployeesUniformComponent } from './components/custom/all-employees-uniform/all-employees-uniform.component';
+import { AllEmployeesManagerComponent } from './components/custom/all-employees-manager/all-employees-manager.component';
+import { AllEmployeesLocationComponent } from './components/custom/all-employees-location/all-employees-location.component';
+import { AllEmployeesFileComponent } from './components/custom/all-employees-file/all-employees-file.component';
+import { AllEmployeesCovenantComponent } from './components/custom/all-employees-covenant/all-employees-covenant.component';
 
 @NgModule({
     imports: [
@@ -158,6 +163,35 @@ import { EmployeeComponent } from './components/employee/employee.component';
                 canActivate: [authGuard],
                 component: VacationTypeComponent,
             },
+            {
+                path: 'allEmployeesCovenant',
+                canActivate: [authGuard],
+                component: AllEmployeesCovenantComponent,
+            },
+
+            {
+                path: 'allEmployeesFile',
+                canActivate: [authGuard],
+                component: AllEmployeesFileComponent,
+            },
+
+            {
+                path: 'allEmployeesLocation',
+                canActivate: [authGuard],
+                component: AllEmployeesLocationComponent,
+            },
+
+            {
+                path: 'allEmployeesManager',
+                canActivate: [authGuard],
+                component: AllEmployeesManagerComponent,
+            },
+
+            {
+                path: 'allEmployeesUniform',
+                canActivate: [authGuard],
+                component: AllEmployeesUniformComponent,
+            },
 
             {
                 path: 'employees',
@@ -171,15 +205,19 @@ import { EmployeeComponent } from './components/employee/employee.component';
                 pathMatch: 'prefix',
                 component: EmployeeEditComponent,
                 loadChildren: () =>
-                    import('./components/employee-edit/all-tabs-routing/all-tabs.module').then((m) => m.AllTabsModule),
+                    import(
+                        './components/employee-edit/all-tabs-routing/all-tabs.module'
+                    ).then((m) => m.AllTabsModule),
             },
-                {
-                    path: 'employees/edit/:id',
-                    canActivate: [authGuard],
-                    component: EmployeeEditComponent,
-                    loadChildren: () =>
-                        import('./components/employee-edit/all-tabs-routing/all-tabs.module').then((m) => m.AllTabsModule),
-                },
+            {
+                path: 'employees/edit/:id',
+                canActivate: [authGuard],
+                component: EmployeeEditComponent,
+                loadChildren: () =>
+                    import(
+                        './components/employee-edit/all-tabs-routing/all-tabs.module'
+                    ).then((m) => m.AllTabsModule),
+            },
 
             {
                 path: 'employee',
