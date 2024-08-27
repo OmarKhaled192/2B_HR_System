@@ -196,3 +196,39 @@ html:lang(ar) .mr-2 {
 .p-dialog {
     width: 500px !important;
 }
+.p-multiselect-items-wrapper {
+    max-height: 400px !important;
+}
+.p-overlay {
+    min-width: 100% !important;
+}
+.p-dialog-content {
+    overflow: unset !important;
+}
+html:lang(ar) .p-multiselect-panel .p-multiselect-header .p-checkbox,
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item .p-checkbox {
+    margin-left: 0.5rem;
+    margin-right: unset;
+}
+html:lang(ar)
+    .p-multiselect-panel
+    .p-multiselect-header
+    .p-multiselect-filter-container
+    .p-multiselect-filter-icon {
+    right: unset;
+    left: 10px;
+}
+html:lang(ar)
+    .p-multiselect-panel
+    .p-multiselect-header
+    .p-multiselect-filter-container
+    .p-inputtext {
+    padding-left: 1.5rem;
+    padding-right: 0.5rem;
+}
+html:lang(ar)
+    .p-multiselect.p-multiselect-chip
+    .p-multiselect-token
+    .p-multiselect-token-icon {
+    margin-right: 0.5rem;
+}

@@ -146,6 +146,11 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/info/closeMonth'],
                     },
                     {
+                        label: this.translate.instant('All Users'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/users'],
+                    },
+                    {
                         label: this.translate.instant('Vacation Type'),
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/vacationType'],
