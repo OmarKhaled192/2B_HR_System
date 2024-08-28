@@ -246,7 +246,7 @@ export class ExecuseRequestComponent {
                         this.messageService.add({
                             severity: 'success',
                             summary: 'Successful',
-                            detail: 'Vacation Request Deleted',
+                            detail: 'Execuse Request Deleted',
                             life: 3000,
                         });
 
