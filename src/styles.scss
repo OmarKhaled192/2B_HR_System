@@ -232,3 +232,10 @@ html:lang(ar)
     .p-multiselect-token-icon {
     margin-right: 0.5rem;
 }
+td {
+    min-width: 100px;
+}
+
+th {
+    min-width: 140px;
+}

@@ -373,28 +373,28 @@ export class EmployeeDataComponent {
     }
 
     editProduct(rowData: any) {
-      console.log(rowData.id);
-      this._EmployeeService.GetById(rowData.id).subscribe({
-          next: (res) => {
-              console.log(res.data);
+        console.log(rowData.id);
+        this._EmployeeService.GetById(rowData.id).subscribe({
+            next: (res) => {
+                console.log(res.data);
 
-              const queryParams = { Id: rowData.id };
-              const urlTree = this.router.createUrlTree(['/Edit'], {
-                  queryParams,
-              });
-              const url = this.router.serializeUrl(urlTree);
-              console.log('Constructed URL:', url);
+                const queryParams = { Id: rowData.id };
+                const urlTree = this.router.createUrlTree(['/Edit'], {
+                    queryParams,
+                });
+                const url = this.router.serializeUrl(urlTree);
+                console.log('Constructed URL:', url);
 
-              // Combine both navigation methods from the conflicting branches
-              this.router.navigate(['/info/employees/edit', rowData.id], {
-                  queryParams: { Id: rowData.id }
-              });
-          },
-          error: (err) => {
-              console.log(err);
-          },
-      });
-  }
+                // Combine both navigation methods from the conflicting branches
+                this.router.navigate(['/info/employees/edit', rowData.id], {
+                    queryParams: { Id: rowData.id },
+                });
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+    }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api

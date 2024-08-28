@@ -212,6 +212,7 @@
     "Hawafez": "الحوافظ",
     "Employee Name": "اسم الموظف",
     "Enter Employee Name Here": "ادخل اسم الموظف هنا",
+    "Enter Manager Name Here": "ادخل اسم المدير هنا",
     "Enter Basic Salary Here": "ادخل المرتب الاساسى هنا",
     "Enter Changing Here": "ادخل المتغيرات هنا",
     "Enter Badal Here": "ادخل البدل هنا",
@@ -301,5 +302,8 @@
     "All Employees Location": "موقع كل الموظفين",
     "All Employees Manager": "مديري كل الموظفين",
     "All Employees Uniform": "الزي الرسمي لجميع الموظفين",
-    "All Users": "جميع المستخدمين"
+    "All Users": "جميع المستخدمين",
+    "External Misson": "مأمورية من الخارج",
+    "Enter Response Type Here": "ادخل نوع الرد هنا",
+    "Vacation Request": "طلب اجازة"
 }
