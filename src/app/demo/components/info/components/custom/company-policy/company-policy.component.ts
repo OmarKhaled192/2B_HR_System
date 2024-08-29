@@ -81,11 +81,13 @@ export class CompanyPolicyComponent {
     sortOrder: string = 'asc';
     currentId!: number;
     // custom variables
+
     enName: string;
     arName: string;
     notes: string;
-    url: string;
     discreption: string;
+
+    url: string;
     selectedShift: string;
     selectedShiftId: number;
     file: File;
@@ -143,10 +145,6 @@ export class CompanyPolicyComponent {
                 this.currentId = res.data.id;
 
                 this.product = { ...res.data };
-                this.enName = res.data.engName;
-                this.arName = res.data.name ;
-                this.notes = res.data.notes ;
-                this.discreption = res.data.discreption
 
                 this.productDialog = true;
 
@@ -263,6 +261,7 @@ export class CompanyPolicyComponent {
                 });
 
                 // set fields is empty
+                this.setFieldsNulls();
 
                 // load data again
                 this.loadData(
@@ -272,7 +271,7 @@ export class CompanyPolicyComponent {
                     this.sortField,
                     this.sortOrder
                 );
-                this.setFieldsNulls();
+
             },
             error: (err) => {
                 // this.showFormNew = false;
@@ -300,10 +299,10 @@ export class CompanyPolicyComponent {
     }
 
     setFieldsNulls() {
-        // this.date = null;
-        // this.reason = null;
-        // this.selectedShift = null;
-        // this.selectedShiftId = null;
+        this.enName = null;
+        this.arName = null;
+        this.notes = null;
+        this.discreption = null;
     }
 
     loadData(

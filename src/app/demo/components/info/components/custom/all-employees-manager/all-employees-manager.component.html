@@ -34,6 +34,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -109,7 +110,7 @@
                     (input)="loadFilteredData()"
                     id="filter-name"
                     type="text"
-                    placeholder="Search..."
+                    [placeholder]="'Search...' | translate"
                     class="w-full sm:w-auto"
                 />
             </span>
@@ -231,7 +232,7 @@
                 [(ngModel)]="selectedManagerEdit"
                 (onChange)="onChangeManagerEdit()"
                 optionLabel="name"
-                placeholder="{{ 'Select a manager' | translate }}"
+                [placeholder]="'Select a manager' | translate"
                 [showClear]="true"
             ></p-dropdown>
 
@@ -265,7 +266,7 @@
 
 <p-dialog
     [(visible)]="deleteProductDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
@@ -283,7 +284,7 @@
             pRipple
             icon="pi pi-times"
             class="p-button-text"
-            label="No"
+            [label]="'No' | translate"
             (click)="deleteProductDialog = false"
         ></button>
         <button
@@ -291,7 +292,7 @@
             pRipple
             icon="pi pi-check"
             class="p-button-text"
-            label="Yes"
+            [label]="'Yes' | translate"
             (click)="confirmDelete(product.id)"
         ></button>
     </ng-template>
@@ -299,7 +300,7 @@
 
 <p-dialog
     [(visible)]="deleteProductsDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
@@ -315,7 +316,7 @@
             pRipple
             icon="pi pi-times"
             class="p-button-text"
-            label="No"
+            [label]="'No' | translate"
             (click)="deleteProductsDialog = false"
         ></button>
         <button
@@ -323,7 +324,7 @@
             pRipple
             icon="pi pi-check"
             class="p-button-text"
-            label="Yes"
+            [label]="'Yes' | translate"
             (click)="confirmDeleteSelected()"
         ></button>
     </ng-template>

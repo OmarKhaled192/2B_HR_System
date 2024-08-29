@@ -6,7 +6,9 @@
             <button
                 pButton
                 pRipple
-                [label]='"Add New".concat(" ", splitCamelCase(endPoint)) | translate'
+                [label]="
+                    'Add New'.concat(' ', splitCamelCase(endPoint)) | translate
+                "
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
@@ -32,6 +34,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -44,8 +47,7 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-
-         <div class="field">
+        <div class="field">
             <label htmlFor="selectEmployee">{{
                 "Select Employee" | translate
             }}</label>
@@ -57,18 +59,17 @@
             ></p-dropdown>
         </div>
 
-
         <div class="field">
-            <label htmlFor="location">{{'Location' | translate}}</label>
+            <label htmlFor="location">{{ "Location" | translate }}</label>
             <p-dropdown
                 [options]="locationDropDown"
                 [(ngModel)]="selectedLocation"
                 (onChange)="onChangeLocation()"
                 optionLabel="name"
-                placeholder="{{'Select a Location'|translate}}"
-                [showClear]="true"></p-dropdown>
+                [placeholder]="'Select a Location' | translate"
+                [showClear]="true"
+            ></p-dropdown>
         </div>
-
 
         <div class="field">
             <button
@@ -100,7 +101,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">{{'Manage Items' | translate}}</h5>
+            <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -109,7 +110,7 @@
                     (input)="loadFilteredData()"
                     id="filter-name"
                     type="text"
-                    placeholder="Search..."
+                    [placeholder]="'Search...' | translate"
                     class="w-full sm:w-auto"
                 />
             </span>
@@ -148,7 +149,6 @@
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}
             </td>
-
 
             <!-- custom fields -->
             <td>
@@ -212,7 +212,6 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-
         <div class="field">
             <label htmlFor="Employee">{{
                 "Select Employee" | translate
@@ -226,21 +225,23 @@
             ></p-dropdown>
         </div>
 
-       <div class="field">
-            <label htmlFor="location">{{'Location' | translate}}</label>
+        <div class="field">
+            <label htmlFor="location">{{ "Location" | translate }}</label>
             <p-dropdown
                 [options]="locationDropDown"
                 [(ngModel)]="selectedLocationEdit"
                 (onChange)="onChangeLocationEdit()"
                 optionLabel="name"
-                placeholder="{{'Select a Location'|translate}}"
-                [showClear]="true"></p-dropdown>
+                placeholder="{{ 'Select a Location' | translate }}"
+                [showClear]="true"
+            ></p-dropdown>
 
-                <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.locationId"
-                >{{'location is required.' | translate}}</small
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.locationId"
+                >{{ "location is required." | translate }}</small
             >
         </div>
-
     </ng-template>
 
     <ng-template pTemplate="footer">
@@ -265,14 +266,15 @@
 
 <p-dialog
     [(visible)]="deleteProductDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >{{'Are you sure you want to delete' | translate}} <b>{{ product.name }}</b
+            >{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -282,7 +284,7 @@
             pRipple
             icon="pi pi-times"
             class="p-button-text"
-            label="No"
+            [label]="'No' | translate"
             (click)="deleteProductDialog = false"
         ></button>
         <button
@@ -290,7 +292,7 @@
             pRipple
             icon="pi pi-check"
             class="p-button-text"
-            label="Yes"
+            [label]="'Yes' | translate"
             (click)="confirmDelete(product.id)"
         ></button>
     </ng-template>
@@ -298,13 +300,15 @@
 
 <p-dialog
     [(visible)]="deleteProductsDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>{{'Are you sure you want to delete selected products?' | translate}}</span>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+        }}</span>
     </div>
     <ng-template pTemplate="footer">
         <button
@@ -312,7 +316,7 @@
             pRipple
             icon="pi pi-times"
             class="p-button-text"
-            label="No"
+            [label]="'No' | translate"
             (click)="deleteProductsDialog = false"
         ></button>
         <button
@@ -320,7 +324,7 @@
             pRipple
             icon="pi pi-check"
             class="p-button-text"
-            label="Yes"
+            [label]="'Yes' | translate"
             (click)="confirmDeleteSelected()"
         ></button>
     </ng-template>

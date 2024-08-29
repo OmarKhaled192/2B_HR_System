@@ -150,6 +150,13 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/info/vacationType'],
                     },
+
+                    {
+                        label: this.translate.instant('Internal Jobs'),
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/info/InternalJobs'],
+                    },
+
                     {
                         label: this.translate.instant('All Employees Covenant'),
                         icon: 'pi pi-fw pi-home',

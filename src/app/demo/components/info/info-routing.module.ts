@@ -34,6 +34,7 @@ import { AllEmployeesManagerComponent } from './components/custom/all-employees-
 import { AllEmployeesLocationComponent } from './components/custom/all-employees-location/all-employees-location.component';
 import { AllEmployeesFileComponent } from './components/custom/all-employees-file/all-employees-file.component';
 import { AllEmployeesCovenantComponent } from './components/custom/all-employees-covenant/all-employees-covenant.component';
+import { InternalJobsComponent } from './components/custom/internal-jobs/internal-jobs.component';
 
 @NgModule({
     imports: [
@@ -162,6 +163,11 @@ import { AllEmployeesCovenantComponent } from './components/custom/all-employees
                 path: 'vacationType',
                 canActivate: [authGuard],
                 component: VacationTypeComponent,
+            },
+            {
+                path: 'InternalJobs',
+                canActivate: [authGuard],
+                component: InternalJobsComponent
             },
             {
                 path: 'allEmployeesCovenant',

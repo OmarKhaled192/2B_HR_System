@@ -127,7 +127,7 @@ export class EmployeeVacationStockComponent {
 
     getDropDown() {
         this._EmployeeVacationStockService
-            .getDropDown('VacationType')
+            .getDropDownVacationStock('VacationType')
             .subscribe({
                 next: (res) => {
                     this.VacationTypesDropDown = res.data;
@@ -287,8 +287,8 @@ export class EmployeeVacationStockComponent {
         nameFilter: string,
         filterType: string,
         sortType: string,
-        employeeId: number)
-    {
+        employeeId: number
+    ) {
         this.loading = true;
         let filteredData = {
             pageNumber: page,

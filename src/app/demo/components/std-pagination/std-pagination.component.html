@@ -6,7 +6,7 @@
             <button
                 pButton
                 pRipple
-                label="Add New"
+                [label]="'Add New' | translate"
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
@@ -15,7 +15,7 @@
             <button
                 pButton
                 pRipple
-                label="Delete"
+                [label]="'Delete' | translate"
                 icon="pi pi-trash"
                 class="p-button-danger mx-2 px-5"
                 (click)="deleteSelectedProducts()"

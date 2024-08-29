@@ -35,6 +35,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -42,13 +43,12 @@
 <p-dialog
     [(visible)]="showFormNew"
     [style]="{ width: '450px' }"
-    header="Add New"
+    [header]="'Add New' | translate"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-
-         <div class="field col-12">
+        <div class="field">
             <label htmlFor="selectEmployee">{{
                 "Select Employee" | translate
             }}</label>
@@ -60,7 +60,7 @@
             ></p-dropdown>
         </div>
 
-        <div class="field col-12">
+        <div class="field">
             <label htmlFor="ContractType">{{
                 "Document Required Type" | translate
             }}</label>
@@ -147,7 +147,7 @@
         </div>
 
         <div class="field">
-            <label htmlFor="name-ar">date </label>
+            <label htmlFor="name-ar">{{ "Date" | translate }}</label>
 
             <p-calendar
                 [showIcon]="true"
@@ -159,7 +159,7 @@
         </div>
 
         <div class="field">
-            <label htmlFor="numberOfHours">Cost</label>
+            <label htmlFor="numberOfHours">{{ "Cost" | translate }}</label>
 
             <input
                 pInputText
@@ -171,7 +171,7 @@
         </div>
 
         <div class="field">
-            <label htmlFor="new-notes">Notes</label>
+            <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
             <textarea
                 pInputTextarea
                 [(ngModel)]="nots"
@@ -237,7 +237,6 @@
                 <span class="p-column-title">documentRequiredName</span>
                 {{ rowData.documentRequiredName }}
             </td>
-
 
             <td [ngClass]="{ 'null-color': !rowData.employeeName }">
                 <span class="p-column-title">employeeName</span>
@@ -312,12 +311,11 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    [header]="'Item Details' | translate"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-
         <div class="field">
             <label htmlFor="Employee">{{
                 "Select Employee" | translate
@@ -339,7 +337,7 @@
                 [(ngModel)]="selectedRelativeRelationEdit"
                 [options]="dropdownItemsRelativeRelationType"
                 optionLabel="name"
-                placeholder="Enter Document Required Type"
+                [placeholder]="'Enter Document Required Type' | translate"
                 (onChange)="selectedRelativeRelationEditFun($event)"
             ></p-dropdown>
         </div>
@@ -403,14 +401,15 @@
 
 <p-dialog
     [(visible)]="deleteProductDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
+            >{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -420,7 +419,7 @@
             pRipple
             icon="pi pi-times"
             class="p-button-text"
-            label="No"
+            [label]="'No' | translate"
             (click)="deleteProductDialog = false"
         ></button>
         <button
@@ -428,7 +427,7 @@
             pRipple
             icon="pi pi-check"
             class="p-button-text"
-            label="Yes"
+            [label]="'Yes' | translate"
             (click)="confirmDelete(product.id)"
         ></button>
     </ng-template>
@@ -436,7 +435,7 @@
 
 <p-dialog
     [(visible)]="deleteProductsDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
@@ -450,7 +449,7 @@
             pRipple
             icon="pi pi-times"
             class="p-button-text"
-            label="No"
+            [label]="'No' | translate"
             (click)="deleteProductsDialog = false"
         ></button>
         <button
@@ -458,7 +457,7 @@
             pRipple
             icon="pi pi-check"
             class="p-button-text"
-            label="Yes"
+            [label]="'Yes' | translate"
             (click)="confirmDeleteSelected()"
         ></button>
     </ng-template>
