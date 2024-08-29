@@ -11,11 +11,15 @@ export class EmployeeEditService extends LockupsService {
         super(http);
     }
     getEnum(field: string): Observable<any> {
-        return this.http.get(`${this.baseurl}/Enums/${field}`);
+        return this.http.get(
+            `${this.baseurl}/Enums/${field}/?culture=${this.culture}`
+        );
     }
 
     getDropdownField(field: any): Observable<any> {
-        return this.http.get(`${this.baseurl}/${field}/getDropDown`);
+        return this.http.get(
+            `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
+        );
     }
     updateEmployeeImage(body: any): Observable<any> {
         return this.http.post(
