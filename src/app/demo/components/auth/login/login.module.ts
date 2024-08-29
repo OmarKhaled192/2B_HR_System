@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { ToastModule } from 'primeng/toast';
         PasswordModule,
         ReactiveFormsModule,
         ToastModule,
+        TranslateModule,
     ],
     declarations: [LoginComponent],
 })

@@ -29,11 +29,11 @@
             >
                 <div class="text-center mb-5">
                     <div class="text-900 text-3xl font-medium mb-3">
-                        Welcome
+                        {{ "Welcome" | translate }}
                     </div>
-                    <span class="text-600 font-medium"
-                        >Sign in to continue</span
-                    >
+                    <span class="text-600 font-medium">{{
+                        "Sign in to continue" | translate
+                    }}</span>
                 </div>
                 <form
                     [formGroup]="loginForm"
@@ -43,13 +43,13 @@
                         <label
                             for="email1"
                             class="block text-900 text-xl font-medium mb-2"
-                            >Email</label
+                            >{{ "Email" | translate }}</label
                         >
                         <input
                             formControlName="email"
                             id="email1"
                             type="text"
-                            placeholder="Email address"
+                            [placeholder]="'Enter Your Email' | translate"
                             pInputText
                             class="w-full md:w-30rem mb-5"
                             style="padding: 1rem"
@@ -58,16 +58,17 @@
                         <label
                             for="password1"
                             class="block text-900 font-medium text-xl mb-2"
-                            >Password</label
+                            >{{ "Password" | translate }}</label
                         >
                         <p-password
                             formControlName="password"
                             id="password1"
                             [(ngModel)]="password"
-                            placeholder="Password"
+                            [placeholder]="'Enter Your Password' | translate"
                             [toggleMask]="password"
                             styleClass="mb-5"
                             inputStyleClass="w-full p-3 md:w-30rem"
+                            [feedback]="false"
                         ></p-password>
 
                         <div
@@ -79,18 +80,20 @@
                                     [binary]="true"
                                     styleClass="mr-2"
                                 ></p-checkbox>
-                                <label for="rememberme1">Remember me</label>
+                                <label for="rememberme1">{{
+                                    "Remember me" | translate
+                                }}</label>
                             </div>
                             <a
                                 class="font-medium no-underline ml-2 text-right cursor-pointer"
                                 style="color: var(--primary-color)"
-                                >Forgot password?</a
+                                >{{ "Forgot password?" | translate }}</a
                             >
                         </div>
                         <button
                             pButton
                             pRipple
-                            label="Sign In"
+                            [label]="'Sign In' | translate"
                             class="w-full p-3 text-xl"
                             type="submit"
                         ></button>

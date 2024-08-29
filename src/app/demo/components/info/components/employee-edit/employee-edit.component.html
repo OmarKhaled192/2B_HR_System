@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-
+<p-confirmDialog />
 <p-panel [header]="'Edit' | translate" [toggleable]="true" [collapsed]="false">
     <form method="post" [formGroup]="editForm" (submit)="submitForm(editForm)">
         <div class="grid">
@@ -14,8 +14,51 @@
                                 pButton
                                 pRipple
                                 type="button"
+                                title="edit image"
                                 icon="pi pi-pencil"
-                                class="p-button-rounded p-button-secondary btn-edit"
+                                class="p-button-rounded p-button-secondary p-button-outlined btn-edit"
+                                (click)="showUploadImgDialg()"
+                            ></button>
+
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                title="delete image"
+                                icon="pi pi-trash"
+                                class="p-button-rounded p-button-danger p-button-outlined btn-edit"
+                                (click)="confirmDeleteImage($event)"
+                            ></button>
+                        </div>
+                        <div class="field field-img col-12" *ngIf="!imageUrl">
+                            <div class="img-container-no-image">
+                                <svg
+                                    width="80"
+                                    height="80"
+                                    viewBox="0 0 56 56"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M47.1732 45.0045C47.7628 44.8816 48.113 44.2678 47.8707 43.7164C46.5356 40.679 44.0748 38.0063 40.7839 36.0422C37.1164 33.8534 32.6227 32.667 27.9999 32.667C23.3771 32.667 18.8834 33.8534 15.2159 36.0422C11.925 38.0063 9.46423 40.679 8.12912 43.7164C7.88677 44.2678 8.23698 44.8816 8.8266 45.0045L19.839 47.2996C25.2218 48.4214 30.778 48.4214 36.1608 47.2996L47.1732 45.0045Z"
+                                        fill="#C4C4C5"
+                                    />
+                                    <circle
+                                        cx="28"
+                                        cy="18.6667"
+                                        r="11.6667"
+                                        fill="#C4C4C5"
+                                    />
+                                </svg>
+                            </div>
+                            <button
+                                pButton
+                                pRipple
+                                type="button"
+                                title="Add an image"
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-secondary p-button-outlined btn-edit"
+                                (click)="showUploadImgDialg()"
                             ></button>
                         </div>
 
@@ -402,3 +445,44 @@
         </div>
     </div>
 </div>
+
+<p-dialog
+    [(visible)]="uploadImageDialog"
+    [style]="{ width: '450px' }"
+    header="Item Details"
+    [modal]="true"
+    class="p-fluid"
+>
+    <ng-template pTemplate="display">
+        <div class="inline-flex align-items-center">
+            <p-fileUpload
+                mode="basic"
+                chooseLabel="Choose Image"
+                class="p-button-info p-button-text"
+                chooseIcon="pi pi-image"
+                name="demo[]"
+                accept="image/*"
+                maxFileSize="1000000"
+                (onSelect)="onSelect($event)"
+            />
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button
+            pButton
+            pRipple
+            label="Cancel"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="hideDialog()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Save"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="updateImage()"
+        ></button>
+    </ng-template>
+</p-dialog>

@@ -305,5 +305,13 @@
     "All Users": "جميع المستخدمين",
     "External Misson": "مأمورية من الخارج",
     "Enter Response Type Here": "ادخل نوع الرد هنا",
-    "Vacation Request": "طلب اجازة"
+    "Vacation Request": "طلب اجازة",
+    "Welcome": "مرحبا",
+    "Sign in to continue": "سجل الدخول للاستمرار",
+    "Password": "كلمة المرور",
+    "Remember me": "تذكرني",
+    "Forgot password?": "هل نسيت كلمة المرور؟",
+    "Enter Your Email": "ادخل بريدك الالكتروني",
+    "Enter Your Password": "ادخل كلمة المرور",
+    "Sign In": "تسجيل الدخول"
 }

@@ -27,13 +27,26 @@ li {
     display: flex;
     align-items: center;
     justify-content: start;
-    gap: 8px;
+    gap: 15px;
+    overflow: hidden;
 }
 .img-container {
-    border: 1px solid #eee;
     border-radius: 50%;
-    width: 96px;
-    height: 96px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-container-no-image {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eee;
+    border: 1px solid #c4c4c5;
 }
 img {
     max-width: 100%;
@@ -41,4 +54,3 @@ img {
 ::ng-deep .p-dropdown {
     width: 100%;
 }
-
