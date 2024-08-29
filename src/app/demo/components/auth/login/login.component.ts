@@ -4,6 +4,8 @@ import { AuthService } from '../auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-login',
@@ -32,21 +34,23 @@ export class LoginComponent {
         public layoutService: LayoutService,
         private authService: AuthService,
         private router: Router,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate: TranslateService
     ) {}
+    ngOnInit() {
+        this.setMainLang();
+    }
 
     submitLoginForm(logForm: FormGroup) {
         this.authService.login(logForm.value).subscribe({
             next: (res) => {
-                if (res.data.token && res.statusCode == 200)
-                   {
-                        localStorage.setItem('userToken', res.data.token);
-                        this.router.navigate(['/dashboard']);
-                   }
+                if (res.data.token && res.statusCode == 200) {
+                    localStorage.setItem('userToken', res.data.token);
+                    this.router.navigate(['/dashboard']);
+                }
             },
             error: (err) => {
-
-                if (err.status == 401){
+                if (err.status == 401) {
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Error',
@@ -63,6 +67,22 @@ export class LoginComponent {
                     });
                 }
             },
+        });
+    }
+    setMainLang() {
+        localStorage.setItem('currentLang', 'ar');
+
+        this.translate.use('ar').subscribe(() => {
+            const langData = this.translate.translations['ar'];
+
+            console.log(langData);
+            if (langData) {
+                document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
+                document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
+            }
+
+            // set lang at Globals
+            Globals.setMainLang('ar');
         });
     }
 }

@@ -4,6 +4,10 @@ import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
+import { UserDataService } from './user-data.service';
+import { environment } from 'src/environments/environment';
+import { EmployeeEditService } from 'src/app/demo/components/info/components/employee-edit/employee-edit.service';
 
 @Component({
     selector: 'app-topbar',
@@ -14,7 +18,8 @@ export class AppTopBarComponent implements OnInit {
     constructor(
         public layoutService: LayoutService,
         private translate: TranslateService,
-        private router: Router
+        private router: Router,
+        private userDataService: UserDataService
     ) {}
     countries: any[] | undefined;
 
@@ -22,8 +27,18 @@ export class AppTopBarComponent implements OnInit {
     lang: any;
     langData: any;
     themeSelected: any;
+    decodedUserToken!: any;
+    mediaUrl: string = environment.mediaUrl;
+    imageUrl: string = '';
+    userName: string = '';
 
     ngOnInit() {
+        console.log(this.imageUrl);
+
+        const userToken = localStorage.getItem('userToken');
+
+        if (userToken) this.decodedUserToken = jwtDecode(userToken);
+
         this.countries = [
             { name: 'العربية', code: 'EG', lang: 'ar' },
             { name: 'English', code: 'US', lang: 'en' },
@@ -51,13 +66,7 @@ export class AppTopBarComponent implements OnInit {
             this.themeSelected = false;
         }
 
-        //    this.lang =  localStorage.getItem("currentLang").toString();
-
-        //     this.translate.use(this.lang).subscribe(() => {
-        //             document.dir = this.langData.DIR; // Default to 'ltr' if dir is undefined
-        //             document.documentElement.lang = this.langData.lang; // Default to lang if lang is undefined
-        //     });
-
+        this.getUserData();
     }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({
@@ -103,7 +112,7 @@ export class AppTopBarComponent implements OnInit {
         this.translate.use(lang).subscribe(() => {
             const langData = this.translate.translations[lang];
 
-            console.log(langData)
+            console.log(langData);
             if (langData) {
                 document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
                 document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
@@ -112,5 +121,24 @@ export class AppTopBarComponent implements OnInit {
             // set lang at Globals
             Globals.setMainLang(lang);
         });
+    }
+    getUserData() {
+        if (this.decodedUserToken)
+            this.userDataService
+                .getUserData(this.decodedUserToken.EmployeeId)
+                .subscribe({
+                    next: (res) => {
+                        if (res.data) {
+                            console.log(res);
+                            if (res.data.imageUrl)
+                                this.imageUrl = `${this.mediaUrl}/${res.data.imageUrl}`;
+
+                            this.userName = res.data.nameAr;
+                        }
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    },
+                });
     }
 }

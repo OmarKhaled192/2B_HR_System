@@ -34,6 +34,10 @@ import { AllEmployeesManagerComponent } from './components/custom/all-employees-
 import { AllEmployeesLocationComponent } from './components/custom/all-employees-location/all-employees-location.component';
 import { AllEmployeesFileComponent } from './components/custom/all-employees-file/all-employees-file.component';
 import { AllEmployeesCovenantComponent } from './components/custom/all-employees-covenant/all-employees-covenant.component';
+import { UsersComponent } from './components/custom/users/users.component';
+import { ExternalMissonComponent } from './components/custom/external-misson/external-misson.component';
+import { VacationRequestComponent } from './components/custom/vacation-request/vacation-request.component';
+import { ExecuseRequestComponent } from './components/custom/execuse-request/execuse-request.component';
 import { InternalJobsComponent } from './components/custom/internal-jobs/internal-jobs.component';
 
 @NgModule({
@@ -165,7 +169,27 @@ import { InternalJobsComponent } from './components/custom/internal-jobs/interna
                 component: VacationTypeComponent,
             },
             {
-                path: 'InternalJobs',
+                path: 'users',
+                canActivate: [authGuard],
+                component: UsersComponent,
+            },
+            {
+                path: 'externalMisson',
+                canActivate: [authGuard],
+                component: ExternalMissonComponent,
+            },
+            {
+                path: 'vacationRequest',
+                canActivate: [authGuard],
+                component: VacationRequestComponent,
+            },
+            {
+                path: 'execuseRequest',
+                canActivate: [authGuard],
+                component: ExecuseRequestComponent,
+            },
+            {
+              path: 'InternalJobs',
                 canActivate: [authGuard],
                 component: InternalJobsComponent
             },
