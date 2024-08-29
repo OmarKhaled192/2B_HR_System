@@ -123,3 +123,7 @@
 .no-arrow-dropdown ::ng-deep .p-dropdown-trigger {
     display: none; /* Hides the trigger arrow */
 }
+.user-image-container:has(svg) {
+    background-color: #eee;
+    border-radius: 50%;
+}
