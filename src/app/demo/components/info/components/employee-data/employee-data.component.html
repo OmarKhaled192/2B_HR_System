@@ -292,6 +292,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -408,7 +409,9 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0 manageItems" #manageItems>Manage Items</h5>
+            <h5 class="m-0 manageItems" #manageItems>
+                {{ "Manage Items" | translate }}
+            </h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -417,7 +420,7 @@
                     (input)="loadFilteredData()"
                     id="filter-name"
                     type="text"
-                    placeholder="Search..."
+                    [placeholder]="'Search...' | translate"
                     class="w-full sm:w-auto"
                 />
             </span>
@@ -447,6 +450,7 @@
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
             <th>{{ "lastModifierName" | translate }}</th>
+            <th>{{ "MacAdress" | translate }}</th>
             <th>{{ "Actions" | translate }}</th>
         </tr>
     </ng-template>
@@ -496,15 +500,13 @@
 
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
                 <span class="p-column-title">creationTime</span>
-                {{ rowData.creationTime ? rowData.creationTime : "" }}
+                {{ rowData.creationTime | date : "dd/MM/YYYY - h:mm a" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.lastModificationTime }">
                 <span class="p-column-title">lastModificationTime</span>
                 {{
-                    rowData.lastModificationTime
-                        ? rowData.lastModificationTime
-                        : ""
+                    rowData.lastModificationTime | date : "dd/MM/YYYY - h:mm a"
                 }}
             </td>
 
@@ -515,6 +517,18 @@
             <td [ngClass]="{ 'null-color': !rowData.lastModifierName }">
                 <span class="p-column-title">lastModifierName</span>
                 {{ rowData.lastModifierName ? rowData.lastModifierName : "" }}
+            </td>
+
+            <td>
+                <div class="flex crud-operations">
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-undo"
+                        class="p-button-rounded p-button-info p-button-outlined mr-2"
+                        (click)="resetMacAddress(rowData, $event)"
+                    ></button>
+                </div>
             </td>
 
             <td>
@@ -535,13 +549,13 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    header="Edit MacAddress"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="name">Arabic Name</label>
+            <label for="name">Current MacAddress </label>
             <input
                 type="text"
                 pInputText
@@ -558,79 +572,6 @@
                 *ngIf="submitted && !product.name"
                 >Arabic Name is required.</small
             >
-        </div>
-
-        <div class="field">
-            <label for="engName">English Name</label>
-            <input
-                type="text"
-                pInputText
-                id="engName"
-                [(ngModel)]="product.engName"
-                required
-                autofocus
-                [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.engName
-                }"
-            />
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.engName"
-                >English Name is required.</small
-            >
-        </div>
-
-        <div class="field">
-            <label htmlFor="numberOfHoursEdit">number Of Days</label>
-            <input
-                pInputText
-                [(ngModel)]="product.dayCount"
-                placeholder="Enter number Of Days"
-                id="numberOfDaysEdit"
-                type="number"
-            />
-        </div>
-
-        <div class="field">
-            <label for="notes">Notes</label>
-            <textarea
-                id="notes"
-                pInputTextarea
-                [(ngModel)]="product.notes"
-                required
-                rows="3"
-                cols="20"
-            ></textarea>
-        </div>
-
-        <div class="field">
-            <label htmlFor="numberOfHoursEdit"
-                >number Of Months to start vacation</label
-            >
-            <input
-                pInputText
-                [(ngModel)]="product.vacationStart"
-                placeholder="Enter number Of Months to start vacation"
-                id="numberOfMonthsEdit"
-                type="number"
-            />
-        </div>
-
-        <div class="fields-aprrove">
-            <div class="field field-approve">
-                <label for="mangerApproved">mangerApproved</label>
-                <p-inputSwitch [(ngModel)]="product.mangerApproved" />
-            </div>
-
-            <div class="field field-approve">
-                <label for="mangerApproved">hrApproved</label>
-                <p-inputSwitch [(ngModel)]="product.hrApproved" />
-            </div>
-
-            <div class="field field-approve">
-                <label for="stockVacation">stockVacation</label>
-                <p-inputSwitch [(ngModel)]="product.stockVacation" />
-            </div>
         </div>
     </ng-template>
 
@@ -656,14 +597,15 @@
 
 <p-dialog
     [(visible)]="deleteProductDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
+            >{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -673,7 +615,7 @@
             pRipple
             icon="pi pi-times"
             class="p-button-text"
-            label="No"
+            [label]="'No' | translate"
             (click)="deleteProductDialog = false"
         ></button>
         <button
@@ -681,7 +623,7 @@
             pRipple
             icon="pi pi-check"
             class="p-button-text"
-            label="Yes"
+            [label]="'Yes' | translate"
             (click)="confirmDelete(product.id)"
         ></button>
     </ng-template>
@@ -689,13 +631,15 @@
 
 <p-dialog
     [(visible)]="deleteProductsDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete selected products?</span>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+        }}</span>
     </div>
     <ng-template pTemplate="footer">
         <button

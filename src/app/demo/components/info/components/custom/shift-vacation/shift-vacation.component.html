@@ -6,7 +6,9 @@
             <button
                 pButton
                 pRipple
-                [label]='"Add New".concat(" ", splitCamelCase(endPoint)) | translate'
+                [label]="
+                    'Add New'.concat(' ', splitCamelCase(endPoint)) | translate
+                "
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
@@ -32,6 +34,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -45,7 +48,7 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="shift">shift</label>
+            <label htmlFor="shift">{{ "shift" | translate }}</label>
             <p-dropdown
                 [options]="shiftDropDown"
                 (onChange)="onChangeShift()"
@@ -57,7 +60,7 @@
         </div>
 
         <div class="field">
-            <label htmlFor="day">Day</label>
+            <label htmlFor="day">{{ "Day" | translate }}</label>
             <p-dropdown
                 [options]="AllDays"
                 [(ngModel)]="selectedDay"
@@ -98,7 +101,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">Manage Items</h5>
+            <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -210,7 +213,7 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="shiftId">Select Shift</label>
+            <label for="shiftId">{{ "Select Shift" | translate }}</label>
             <p-dropdown
                 [options]="shiftDropDown"
                 [(ngModel)]="selectedShiftEdit"
@@ -226,7 +229,7 @@
         </div>
 
         <div class="field">
-            <label for="day">Enter day</label>
+            <label for="day">{{ "Enter day" | translate }}</label>
             <p-dropdown
                 [options]="AllDays"
                 [(ngModel)]="selectedDayEdit"
@@ -234,8 +237,10 @@
                 placeholder="Select a Day"
                 [showClear]="true"
             ></p-dropdown>
-            <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.day"
-                >day is required.</small
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.day"
+                >{{ "day is required." | translate }}</small
             >
         </div>
     </ng-template>
@@ -262,14 +267,15 @@
 
 <p-dialog
     [(visible)]="deleteProductDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
+            >{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -295,13 +301,15 @@
 
 <p-dialog
     [(visible)]="deleteProductsDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete selected products?</span>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+        }}</span>
     </div>
     <ng-template pTemplate="footer">
         <button

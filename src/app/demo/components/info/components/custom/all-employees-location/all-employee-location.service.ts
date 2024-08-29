@@ -6,7 +6,7 @@ import { LockupsService } from 'src/app/demo/service/lockups.service';
 @Injectable({
     providedIn: 'root',
 })
-export class EmployeeVacationStockService extends LockupsService {
+export class AllEmployeeLocationService extends LockupsService {
     constructor(http: HttpClient) {
         super(http);
     }
@@ -15,10 +15,7 @@ export class EmployeeVacationStockService extends LockupsService {
         return this.http.get(`${this.baseurl}/${field}/getDropDown`);
     }
 
-    getDropDownVacationStock(field: string): Observable<any> {
-        return this.http.get(
-            `${this.baseurl}/${field}/getStockVacationDropDown`
-        );
+    getShiftById(id: number): Observable<any> {
+        return this.http.get(`${this.baseurl}/shift/${id}`);
     }
 }
-

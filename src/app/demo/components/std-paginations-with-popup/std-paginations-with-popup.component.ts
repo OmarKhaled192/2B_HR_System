@@ -274,8 +274,6 @@ export class StdPaginationsWithPopupComponent{
             this.sortField,
             this.sortOrder
         );
-
-        this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {

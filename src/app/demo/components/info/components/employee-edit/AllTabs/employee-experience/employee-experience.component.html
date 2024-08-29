@@ -34,6 +34,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -41,7 +42,7 @@
 <p-dialog
     [(visible)]="showFormNew"
     [style]="{ width: '450px' }"
-    header="Add New"
+    [header]="'Add New' | translate"
     [modal]="true"
     class="p-fluid"
 >
@@ -262,7 +263,7 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    [header]="'Item Details' | translate"
     [modal]="true"
     class="p-fluid"
 >
@@ -349,14 +350,15 @@
 
 <p-dialog
     [(visible)]="deleteProductDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
+            >{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -382,13 +384,15 @@
 
 <p-dialog
     [(visible)]="deleteProductsDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete selected products?</span>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+        }}</span>
     </div>
     <ng-template pTemplate="footer">
         <button

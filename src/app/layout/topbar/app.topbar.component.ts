@@ -41,6 +41,8 @@ export class AppTopBarComponent implements OnInit {
         // document.documentElement.lang = 'en';
         // this.selectedCountry = this.countries[1];
 
+        localStorage.setItem('theme', 'saga-orange');
+
         this.theme = localStorage.getItem('theme');
 
         if (this.theme == 'arya-orange') {
@@ -55,6 +57,7 @@ export class AppTopBarComponent implements OnInit {
         //             document.dir = this.langData.DIR; // Default to 'ltr' if dir is undefined
         //             document.documentElement.lang = this.langData.lang; // Default to lang if lang is undefined
         //     });
+
     }
     set theme(val: string) {
         this.layoutService.config.update((config) => ({

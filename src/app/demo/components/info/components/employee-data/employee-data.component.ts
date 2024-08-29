@@ -372,29 +372,53 @@ export class EmployeeDataComponent {
             .join(' ');
     }
 
+    resetMacAddress(rowData: any, event: any) {
+        event.stopPropagation();
+        this._EmployeeService.resetMacAddress(rowData.id).subscribe({
+            next: (res) => {
+                // show message for user to show processing of deletion.
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successful',
+                    detail: 'Mac Address reseted Success',
+                    life: 3000,
+                });
+            },
+            error: (err) => {
+                console.log(err);
+                 this.messageService.add({
+                     severity: 'error in reset Mac Address',
+                     summary: 'Error',
+                     detail: err,
+                     life: 3000,
+                 });
+            },
+        });
+    }
+
     editProduct(rowData: any) {
-      console.log(rowData.id);
-      this._EmployeeService.GetById(rowData.id).subscribe({
-          next: (res) => {
-              console.log(res.data);
+        console.log(rowData.id);
+        this._EmployeeService.GetById(rowData.id).subscribe({
+            next: (res) => {
+                console.log(res.data);
 
-              const queryParams = { Id: rowData.id };
-              const urlTree = this.router.createUrlTree(['/Edit'], {
-                  queryParams,
-              });
-              const url = this.router.serializeUrl(urlTree);
-              console.log('Constructed URL:', url);
+                const queryParams = { Id: rowData.id };
+                const urlTree = this.router.createUrlTree(['/Edit'], {
+                    queryParams,
+                });
+                const url = this.router.serializeUrl(urlTree);
+                console.log('Constructed URL:', url);
 
-              // Combine both navigation methods from the conflicting branches
-              this.router.navigate(['/info/employees/edit', rowData.id], {
-                  queryParams: { Id: rowData.id }
-              });
-          },
-          error: (err) => {
-              console.log(err);
-          },
-      });
-  }
+                // Combine both navigation methods from the conflicting branches
+                this.router.navigate(['/info/employees/edit', rowData.id], {
+                    queryParams: { Id: rowData.id },
+                });
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+    }
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
@@ -533,7 +557,6 @@ export class EmployeeDataComponent {
             this.sortOrder
         );
 
-        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {
