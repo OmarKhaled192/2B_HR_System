@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LockupsService } from 'src/app/demo/service/lockups.service';
-
 
 @Injectable({
     providedIn: 'root',
@@ -12,15 +11,19 @@ export class EmployeeEditService extends LockupsService {
         super(http);
     }
     getEnum(field: string): Observable<any> {
-        return this.http.get(`${this.baseurl}/Enums/${field}`);
+        return this.http.get(
+            `${this.baseurl}/Enums/${field}/?culture=${this.culture}`
+        );
     }
 
     getDropdownField(field: any): Observable<any> {
-        return this.http.get(`${this.baseurl}/${field}/getDropDown`);
+        return this.http.get(
+            `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
+        );
     }
-    updateEmployeeImage(field: any, body: any): Observable<any> {
+    updateEmployeeImage(body: any): Observable<any> {
         return this.http.post(
-            `${this.baseurl}/${field}/UpdatEmployeeImage`,
+            `${this.baseurl}/Employee/UpdatEmployeeImage`,
             body
         );
     }

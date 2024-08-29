@@ -14,7 +14,11 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { MessageService, PrimeNGConfig } from 'primeng/api';
+import {
+    ConfirmationService,
+    MessageService,
+    PrimeNGConfig,
+} from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
@@ -38,6 +42,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { EmployeeEditService } from './employee-edit.service';
 import { map, Observable, tap } from 'rxjs';
+import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
 interface UploadEvent {
     originalEvent: Event;
     files: File[];
@@ -74,8 +79,19 @@ interface UploadEvent {
         FileUploadModule,
         RouterModule,
         FormsModule,
+        ButtonModule,
+        ProgressBarModule,
+        ToastModule,
+        HttpClientModule,
+        CommonModule,
+        ConfirmDialogModule,
     ],
-    providers: [MessageService, DatePipe, TranslateService],
+    providers: [
+        MessageService,
+        DatePipe,
+        TranslateService,
+        ConfirmationService,
+    ],
     templateUrl: './employee-edit.component.html',
     styleUrl: './employee-edit.component.scss',
 })
@@ -87,7 +103,8 @@ export class EmployeeEditComponent {
         private router: Router,
         private route: ActivatedRoute,
         private activatedRoute: ActivatedRoute,
-        private translate: TranslateService
+        private translate: TranslateService,
+        private confirmationService: ConfirmationService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -134,6 +151,8 @@ export class EmployeeEditComponent {
     selectedDepartment: any = null;
     selectedBloodType: any = null;
     filterData!: FormGroup;
+    uploadImageDialog: boolean = false;
+    file!: File;
     // => dropdown Arrays
 
     // = Enums
@@ -157,7 +176,7 @@ export class EmployeeEditComponent {
     imageUrl!: string;
 
     uploadedFiles: any[] = [];
-    files: File[];
+
     currentId!: number;
     birthDate!: any;
     joinInDate!: any;
@@ -305,6 +324,7 @@ export class EmployeeEditComponent {
             .pipe(
                 tap((data) => {
                     this.allData = data.data;
+
                     console.log('Data fetched:', this.allData);
 
                     // Perform any additional operations if needed
@@ -435,6 +455,9 @@ export class EmployeeEditComponent {
     patchFormValues(data: any, transformedDates: any) {
         // console.clear();
         console.log('data => ', data);
+
+        if (data.imageUrl)
+            this.imageUrl = `${this.baseImgUrl}/${data.imageUrl}`;
 
         this.selectedReligin = this.getObject(
             data.religion,
@@ -736,17 +759,6 @@ export class EmployeeEditComponent {
                 this.phone = this.phone;
                 this.machineCode = this.machineCode;
                 this.email = this.email;
-                // if (this.imageUrl) {
-                //     this.imageUrl = `${this.baseImgUrl}/${this.imageUrl}`;
-                //     this.uploadedFiles.push(this.imageUrl);
-                // }
-
-                //         console.log('updated data : ', res.data);
-                //     },
-                //     error: (err) => {
-                //         console.log(err);
-                //     },
-                // });
             },
             error: (err) => {
                 this.editForm.get('Id').disable();
@@ -858,9 +870,117 @@ export class EmployeeEditComponent {
     }
     onSelect(event: any) {
         console.log(event);
-        this.uploadedFiles = [];
-        for (let file of event.files) {
-            this.uploadedFiles.push(file);
+        this.file = event.currentFiles[0];
+
+        console.log(this.file);
+    }
+
+    showUploadImgDialg() {
+        this.uploadImageDialog = true;
+    }
+    hideDialog() {
+        this.uploadImageDialog = false;
+    }
+    updateImage() {
+        let body = {
+            EmployeeId: this.currentId,
+            File: this.file,
+            DeleteImage: this.file ? true : false,
+        };
+        let formData: FormData = new FormData();
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                formData.append(key, body[key]);
+            }
         }
+
+        this.employeeEditService.updateEmployeeImage(formData).subscribe({
+            next: (res) => {
+                console.log(res);
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successfull',
+                    detail: 'Image Updated Sucessfully',
+                });
+                this.uploadImageDialog = false;
+                this.file = null;
+                this.getData()
+                    .pipe(
+                        tap((data) => {
+                            this.allData = data.data;
+                            console.log('Data fetched:', this.allData);
+
+                            // Perform any additional operations if needed
+                            // ...
+                        }),
+                        map((data) => {
+                            // Compute transformedDates here
+                            return {
+                                birthDate: this.DatePipe.transform(
+                                    data.data.birthDate,
+                                    'MM/dd/yyyy'
+                                ),
+                                joinInDate: this.DatePipe.transform(
+                                    data.data.joininDate,
+                                    'MM/dd/yyyy'
+                                ),
+                                hiringData: this.DatePipe.transform(
+                                    data.data.hirDate,
+                                    'MM/dd/yyyy'
+                                ),
+                                resignationDate: this.DatePipe.transform(
+                                    data.data.resignationDate,
+                                    'MM/dd/yyyy'
+                                ),
+                            };
+                        })
+                    )
+
+                    .subscribe((transformedDates) => {
+                        console.log('transformedDates');
+                        console.log(transformedDates);
+
+                        this.patchFormValues(this.allData, transformedDates);
+                    });
+            },
+            error: (err) => {
+                console.log(err);
+            },
+        });
+    }
+    confirmDeleteImage(event: any) {
+        this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Are you sure that you want to proceed?',
+            header: 'Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            acceptIcon: 'none',
+            rejectIcon: 'none',
+            rejectButtonStyleClass: 'p-button-text',
+            accept: () => {
+                let body = {
+                    EmployeeId: this.currentId,
+                    DeleteImage: true,
+                };
+                let formData: FormData = new FormData();
+                for (const key in body) {
+                    if (body.hasOwnProperty(key)) {
+                        formData.append(key, body[key]);
+                    }
+                }
+                this.employeeEditService
+                    .updateEmployeeImage(formData)
+                    .subscribe({
+                        next: (res) => {
+                            console.log(res);
+                            this.uploadImageDialog = false;
+                            this.imageUrl = '';
+                        },
+                        error: (err) => {
+                            console.log(err);
+                        },
+                    });
+            },
+        });
     }
 }
