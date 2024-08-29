@@ -2,10 +2,10 @@
 <div class="grid justify-content-center">
     <div class="col-12 lg:col-6">
         <div class="card">
-            <h5 class="text-center">Vacation Settings</h5>
+            <h5 class="text-center">{{'Vacation Settings' | translate}}</h5>
             <form class="p-fluid p-formgrid grid" (ngSubmit)="onSubmit()">
                 <div class="field col-12">
-                    <label for="startVacation">Start Vacation</label>
+                    <label for="startVacation">{{'Start Vacation' | translate}}</label>
                     <p-inputNumber
                         id="startVacation"
                         name="startVacation"
@@ -18,7 +18,7 @@
                 </div>
                 <div class="field col-12">
                     <label for="regularVacationNumber"
-                        >Regular Vacation Number</label
+                        >{{'Regular Vacation Number' | translate }}</label
                     >
                     <p-inputNumber
                         id="regularVacationNumber"
@@ -31,7 +31,7 @@
                     ></p-inputNumber>
                 </div>
                 <div class="field col-12">
-                    <label for="maxExcuesHours">Max Excues Hours</label>
+                    <label for="maxExcuesHours">{{'Max Excues Hours' | translate}}</label>
                     <p-inputNumber
                         id="maxExcuesHours"
                         name="maxExcuesHours"
@@ -44,7 +44,7 @@
                 </div>
                 <div class="field col-12">
                     <label for="casualVacationNumber"
-                        >Casual Vacation Number</label
+                        >{{'Casual Vacation Number' | translate}}</label
                     >
                     <p-inputNumber
                         id="casualVacationNumber"
@@ -61,7 +61,7 @@
                         pButton
                         pRipple
                         type="submit"
-                        label="Update Setting"
+                        [label]="'Update Setting' | translate"
                         class="p-button-raised p-button-info"
                     ></button>
                 </div>

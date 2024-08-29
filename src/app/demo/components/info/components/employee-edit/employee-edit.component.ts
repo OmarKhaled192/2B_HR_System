@@ -5,7 +5,6 @@ import {
     Component,
     ElementRef,
     Input,
-    SimpleChanges,
     ViewChild,
 } from '@angular/core';
 import {
@@ -241,11 +240,13 @@ export class EmployeeEditComponent {
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
             this.translate.use(mainLang);
+
+
             this.employeeEditService.setCulture(mainLang);
             this.Actions = [
                 {
                     id: 1,
-                    name: this.translate.instant('Employee Certificates'),
+                    name: 'Employee Certificates',
                     action: 'EmployeeCertification',
                 },
                 {
@@ -299,13 +300,11 @@ export class EmployeeEditComponent {
                     action: 'EmployeeVacationStock',
                 },
             ];
-            // update mainLang at Service
 
             // update endpoint
             this.employeeEditService.setEndPoint(this.endPoint);
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
-
             this.getDropDownsData();
         });
 
@@ -439,6 +438,7 @@ export class EmployeeEditComponent {
             },
         ];
     }
+
     getObject(id: number, dropdown: any[]) {
         console.log('getObject - dropdown =>', dropdown);
 

@@ -372,6 +372,30 @@ export class EmployeeDataComponent {
             .join(' ');
     }
 
+    resetMacAddress(rowData: any, event: any) {
+        event.stopPropagation();
+        this._EmployeeService.resetMacAddress(rowData.id).subscribe({
+            next: (res) => {
+                // show message for user to show processing of deletion.
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Successful',
+                    detail: 'Mac Address reseted Success',
+                    life: 3000,
+                });
+            },
+            error: (err) => {
+                console.log(err);
+                 this.messageService.add({
+                     severity: 'error in reset Mac Address',
+                     summary: 'Error',
+                     detail: err,
+                     life: 3000,
+                 });
+            },
+        });
+    }
+
     editProduct(rowData: any) {
         console.log(rowData.id);
         this._EmployeeService.GetById(rowData.id).subscribe({
@@ -533,7 +557,6 @@ export class EmployeeDataComponent {
             this.sortOrder
         );
 
-        // this.selectedItems = this.allData;
     }
 
     deleteSelectedProducts() {

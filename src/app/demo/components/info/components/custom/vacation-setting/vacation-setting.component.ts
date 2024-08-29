@@ -14,6 +14,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { VacationSettingService } from './vacation-setting.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-vacation-setting',
@@ -36,6 +37,7 @@ import { ToastModule } from 'primeng/toast';
         InputTextModule,
         InputNumberModule,
         ToastModule,
+        TranslateModule,
     ],
 })
 export class VacationSettingComponent {
@@ -47,7 +49,7 @@ export class VacationSettingComponent {
         id!: number;
 
 		constructor(private messageService: MessageService,
-			private _VacationSettingService:VacationSettingService ) {
+			private _VacationSettingService:VacationSettingService) {
 		}
 
 		ngOnInit(): void {
@@ -64,7 +66,7 @@ export class VacationSettingComponent {
 					this.regularVacationNumber = data.regularVacationNumber;
 					this.maxExcuesHours = data.maxExcuesHours;
 					this.casualVacationNumber = data.casualVacationNumber;
-          this.id = data.id;
+                    this.id = data.id;
 				},
 				error: (err) => {
 					console.log(err);

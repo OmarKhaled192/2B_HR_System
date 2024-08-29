@@ -108,7 +108,35 @@
                 'layout-topbar-menu-mobile-active':
                     layoutService.state.profileSidebarVisible
             }"
-        >
+    <button
+        (click)="signOut()"
+        pButton
+        pRipple
+        type="button"
+        label="Logout"
+        class="flex gap-2 py-3 px-5 pi pi-sign-out p-ripple p-button-outlined"
+    ></button>
+
+    <div
+        #topbarmenu
+        class="layout-topbar-menu"
+        [ngClass]="{
+            'layout-topbar-menu-mobile-active':
+                layoutService.state.profileSidebarVisible
+        }"
+    >
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-calendar"></i>
+            <span>Calendar</span>
+        </button>
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+        <button
+            class="p-link layout-topbar-button"
+            [routerLink]="'/documentation'"
+
             <!-- <button class="p-link layout-topbar-button">
                 <i class="pi pi-calendar"></i>
                 <span>Calendar</span>

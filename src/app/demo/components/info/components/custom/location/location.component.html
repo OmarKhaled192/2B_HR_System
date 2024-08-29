@@ -6,7 +6,9 @@
             <button
                 pButton
                 pRipple
-                [label]='"Add New".concat(" ", splitCamelCase(endPoint)) | translate'
+                [label]="
+                    'Add New'.concat(' ', splitCamelCase(endPoint)) | translate
+                "
                 icon="pi pi-plus"
                 class="p-button-info mx-2 px-5"
                 (click)="toggleNew()"
@@ -32,6 +34,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -39,73 +42,75 @@
 <p-dialog
     [(visible)]="showFormNew"
     [style]="{ width: '450px' }"
-    header="Add New"
+    [header]="'Add New' | translate"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="name-en">Name English </label>
+            <label htmlFor="name-en">{{ "Name English" | translate }} </label>
             <input
                 pInputText
                 [(ngModel)]="newNameAr"
-                placeholder="Enter Name Here"
+                [placeholder]="'Enter Arabic Name Here' | translate"
                 id="name-en"
                 type="text"
             />
         </div>
 
         <div class="field">
-            <label htmlFor="name-ar">Name Arabic </label>
+            <label htmlFor="name-ar">{{ "Name Arabic" | translate }} </label>
             <input
                 pInputText
                 [(ngModel)]="newNameEn"
-                placeholder="Enter Name Here"
+                [placeholder]="'Enter English Name Here' | translate"
                 id="name-ar"
                 type="text"
             />
         </div>
 
         <div class="field">
-            <label htmlFor="new-latitude">Latitude</label>
+            <label htmlFor="new-latitude">{{ "Latitude" | translate }}</label>
             <input
                 pInputText
                 [(ngModel)]="newLatitude"
                 id="new-latitude"
-                placeholder="Enter Latitude Here"
+                [placeholder]="'Enter Latitude Here' | translate"
                 type="text"
             />
         </div>
 
         <div class="field">
-            <label htmlFor="new-longitude">Longitude</label>
+            <label htmlFor="new-longitude">{{ "Longitude" | translate }}</label>
             <input
                 pInputText
                 [(ngModel)]="newLongitude"
                 id="new-longitude"
-                placeholder="Enter Longitude Here"
+                [placeholder]="'Enter Longitude Here' | translate"
                 type="text"
             />
         </div>
 
         <div class="field">
-            <label htmlFor="new-discription">discription</label>
+            <label htmlFor="new-discription">{{
+                "Discription" | translate
+            }}</label>
             <textarea
                 pInputTextarea
                 [(ngModel)]="newDiscription"
                 id="new-discription"
-                placeholder="Enter discription Here"
+                [placeholder]="'Enter discription Here' | translate"
                 type="text"
             ></textarea>
         </div>
 
         <div class="field">
-            <label htmlFor="new-notes">Notes</label>
+            <label htmlFor="new-notes">{{ "Notes" | translate }}</label>
             <textarea
                 pInputTextarea
                 [(ngModel)]="newNotes"
                 id="new-notes"
-                placeholder="Enter Notes Here"
+                [placeholder]="'Enter Notes Here' | translate"
                 type="text"
             ></textarea>
         </div>
@@ -113,7 +118,7 @@
             <button
                 class="w-25"
                 pButton
-                label="Insert New"
+                [label]="'Insert New' | translate"
                 (click)="addNew()"
             ></button>
         </div>
@@ -139,7 +144,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">Manage Items</h5>
+            <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -148,7 +153,7 @@
                     (input)="loadFilteredData()"
                     id="filter-name"
                     type="text"
-                    placeholder="Search..."
+                    [placeholder]="'Search...' | translate"
                     class="w-full sm:w-auto"
                 />
             </span>
@@ -260,14 +265,14 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    [header]="'Item Details' | translate"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
         <!-- EN Name -->
         <div class="field">
-            <label for="name">Arabic Name</label>
+            <label for="name">{{ "Arabic Name" | translate }}</label>
             <input
                 type="text"
                 pInputText
@@ -282,13 +287,13 @@
             <small
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.name"
-                >Arabic Name is required.</small
+                >{{ "Arabic Name is required." | translate }}</small
             >
         </div>
 
         <!-- AR Name -->
         <div class="field">
-            <label for="engName">English Name</label>
+            <label for="engName">{{ "English Name" | translate }}</label>
             <input
                 type="text"
                 pInputText
@@ -303,13 +308,13 @@
             <small
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.engName"
-                >English Name is required.</small
+                >{{ "English Name is required." | translate }}</small
             >
         </div>
 
         <!-- Latitude -->
         <div class="field">
-            <label for="latitude">Latitude</label>
+            <label for="latitude">{{ "Latitude" | translate }}</label>
             <input
                 type="text"
                 pInputText
@@ -324,13 +329,13 @@
             <small
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.latitude"
-                >Latitude is required.</small
+                >{{ "Latitude is required." | translate }}</small
             >
         </div>
 
         <!-- Longitude -->
         <div class="field">
-            <label for="longitude">Longitude</label>
+            <label for="longitude">{{ "Longitude" | translate }}</label>
             <input
                 type="text"
                 pInputText
@@ -345,13 +350,13 @@
             <small
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.longitude"
-                >Longitude is required.</small
+                >{{ "Longitude is required." | translate }}</small
             >
         </div>
 
         <!-- Notes -->
         <div class="field">
-            <label for="notes">Notes</label>
+            <label for="notes">{{ "Notes" | translate }}</label>
             <textarea
                 id="notes"
                 pInputTextarea
@@ -364,7 +369,7 @@
 
         <!-- Description -->
         <div class="field">
-            <label for="discription">Discription</label>
+            <label for="discription">{{ "Discription" | translate }}</label>
             <textarea
                 id="discription"
                 pInputTextarea
@@ -380,7 +385,7 @@
         <button
             pButton
             pRipple
-            label="Cancel"
+            [label]="'Cancel' | translate"
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialog()"
@@ -388,7 +393,7 @@
         <button
             pButton
             pRipple
-            label="Save"
+            [label]="'Save' | translate"
             icon="pi pi-check"
             class="p-button-text"
             (click)="saveProduct(product.id, product)"
@@ -398,14 +403,15 @@
 
 <p-dialog
     [(visible)]="deleteProductDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
+            >{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -415,7 +421,7 @@
             pRipple
             icon="pi pi-times"
             class="p-button-text"
-            label="No"
+            [label]="'No' | translate"
             (click)="deleteProductDialog = false"
         ></button>
         <button
@@ -423,7 +429,7 @@
             pRipple
             icon="pi pi-check"
             class="p-button-text"
-            label="Yes"
+            [label]="'Yes' | translate"
             (click)="confirmDelete(product.id)"
         ></button>
     </ng-template>
@@ -431,13 +437,15 @@
 
 <p-dialog
     [(visible)]="deleteProductsDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete selected products?</span>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+        }}</span>
     </div>
     <ng-template pTemplate="footer">
         <button

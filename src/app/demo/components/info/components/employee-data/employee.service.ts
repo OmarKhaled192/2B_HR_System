@@ -18,4 +18,10 @@ export class EmployeeService extends LockupsService {
     getDropdownField(field: any): Observable<any> {
         return this.http.get(`${this.baseurl}/${field}/getDropDown`);
     }
+
+    resetMacAddress(id: number) {
+        return this.http.get(
+            `${this.baseurl}/Employee/ResetMacAddres?Employeeid=${id}`
+        );
+    }
 }

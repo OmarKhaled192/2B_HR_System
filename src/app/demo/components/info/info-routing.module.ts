@@ -38,6 +38,7 @@ import { UsersComponent } from './components/custom/users/users.component';
 import { ExternalMissonComponent } from './components/custom/external-misson/external-misson.component';
 import { VacationRequestComponent } from './components/custom/vacation-request/vacation-request.component';
 import { ExecuseRequestComponent } from './components/custom/execuse-request/execuse-request.component';
+import { InternalJobsComponent } from './components/custom/internal-jobs/internal-jobs.component';
 
 @NgModule({
     imports: [
@@ -186,6 +187,11 @@ import { ExecuseRequestComponent } from './components/custom/execuse-request/exe
                 path: 'execuseRequest',
                 canActivate: [authGuard],
                 component: ExecuseRequestComponent,
+            },
+            {
+              path: 'InternalJobs',
+                canActivate: [authGuard],
+                component: InternalJobsComponent
             },
             {
                 path: 'allEmployeesCovenant',

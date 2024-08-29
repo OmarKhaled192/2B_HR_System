@@ -34,6 +34,7 @@
             class="p-button-help mx-2 px-5"
             pTooltip="CSV"
             (click)="exportCSV()"
+            [disabled]="!selectedItems || !selectedItems.length"
         ></button>
     </ng-template>
 </p-toolbar>
@@ -77,16 +78,14 @@
             <input
                 pInputText
                 [(ngModel)]="selectedVacationBalance"
-                [placeholder]="'Enter Vacation Balance Here' | translate "
+                [placeholder]="'Enter Vacation Balance Here' | translate"
                 id="vacationBalance"
                 type="text"
             />
         </div>
 
-         <div class="field">
-            <label htmlFor="year"
-                >{{ "Year" | translate }}
-            </label>
+        <div class="field">
+            <label htmlFor="year">{{ "Year" | translate }} </label>
             <input
                 pInputText
                 [(ngModel)]="selectedYear"
@@ -126,7 +125,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">{{'Manage Items' | translate}}</h5>
+            <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -246,7 +245,7 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    [header]="'Item Details' | translate"
     [modal]="true"
     class="p-fluid"
 >
@@ -295,10 +294,8 @@
             />
         </div>
 
-         <div class="field">
-            <label htmlFor="year"
-                >{{ "Year" | translate }}
-            </label>
+        <div class="field">
+            <label htmlFor="year">{{ "Year" | translate }} </label>
             <input
                 pInputText
                 [(ngModel)]="product.year"
@@ -307,7 +304,6 @@
                 type="text"
             />
         </div>
-
     </ng-template>
 
     <ng-template pTemplate="footer">
@@ -332,14 +328,15 @@
 
 <p-dialog
     [(visible)]="deleteProductDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="product"
-            >{{'Are you sure you want to delete' | translate}} <b>{{ product.name }}</b
+            >{{ "Are you sure you want to delete" | translate }}
+            <b>{{ product.name }}</b
             >?</span
         >
     </div>
@@ -365,13 +362,15 @@
 
 <p-dialog
     [(visible)]="deleteProductsDialog"
-    header="Confirm"
+    [header]="'Confirm Delete' | translate"
     [modal]="true"
     [style]="{ width: '450px' }"
 >
     <div class="flex align-items-center justify-content-center">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>{{'Are you sure you want to delete selected products?' | translate }}</span>
+        <span>{{
+            "Are you sure you want to delete selected products?" | translate
+        }}</span>
     </div>
     <ng-template pTemplate="footer">
         <button
