@@ -287,7 +287,6 @@
     "Add New Employee Covenant": "اضافة عهدة موظف جديدة",
     "Covenant Type": "نوع العهدة",
     "Enter Covenant Type": "ادخل نوع العهدة",
-    "Enter Notes Here": "ادخل ملاحظاتك هنا",
     "Position": "المنصب",
     "Add New Employee Experience": "اضافة خبرة موظف جديدة",
     "Enter Job Here": "ادخل الوظيفة هنا",
@@ -315,7 +314,7 @@
     "Forgot password?": "هل نسيت كلمة المرور؟",
     "Enter Your Email": "ادخل بريدك الالكتروني",
     "Enter Your Password": "ادخل كلمة المرور",
-    "Sign In": "تسجيل الدخول"
+    "Sign In": "تسجيل الدخول",
     "Select Employee": "اختار موظف",
     "Enter Year Here": "ادخل السنة هنا",
     "Internal Jobs": "الوظائف الداخلية",
@@ -357,7 +356,6 @@
     "Hr Approved": "موافقة الاتش ار",
     "Stock Vacation": "وجود رصيد اجازات",
     "number Of Days": "عدد الايام",
-
     "Start Vacation": "بداية الاجازة",
     "Regular Vacation Number": "عدد الاجازات الرسمية",
     "Max Excues Hours": "اقصى ساعات اذن",
