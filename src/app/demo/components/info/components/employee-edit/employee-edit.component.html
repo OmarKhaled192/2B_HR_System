@@ -457,31 +457,6 @@
 
 </p-panel>
 
-<div class="grid">
-    <div class="col-12 my-2">
-        <div class="card grid justify-content-center">
-            <div class="col-12 text-center">
-                <p>Choose An Action From List</p>
-            </div>
-
-            <div class="field col-6">
-                <p-dropdown
-                    [options]="Actions"
-                    [placeholder]="'Select Action' | translate"
-                    (onChange)="changeTab()"
-                    [(ngModel)]="selectedAction"
-                    optionLabel="name"
-                    [showClear]="true"
-                ></p-dropdown>
-            </div>
-        </div>
-        <div class="card my-3" *ngIf="selectedAction">
-            <div class="col-12">
-                <router-outlet></router-outlet>
-            </div>
-        </div>
-    </div>
-</div>
 
 <p-dialog
     [(visible)]="uploadImageDialog"
@@ -523,5 +498,3 @@
         ></button>
     </ng-template>
 </p-dialog>
-=======
-</p-panel>
