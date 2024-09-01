@@ -21,6 +21,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ExecuseTypeService } from './execuse-type.service';
 import { Globals } from 'src/app/class/globals';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-execuse-type',
@@ -61,7 +62,7 @@ export class ExecuseTypeComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -334,8 +335,10 @@ export class ExecuseTypeComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
-            hoursNumber: product.numberOfHours,
+            hoursNumber: product.hoursNumber,
         };
+        console.log(' body Data');
+        console.log(body);
 
         this.execuseTypeService.Edit(body).subscribe({
             next: () => {

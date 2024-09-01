@@ -22,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { AllEmployeeUniformService } from './all-employee-uniform.service';
 import { ActivatedRoute } from '@angular/router';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-all-employees-uniform',
@@ -67,7 +68,7 @@ export class AllEmployeesUniformComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -216,7 +217,7 @@ export class AllEmployeesUniformComponent {
                     this.itemsPerPage,
                     this.nameFilter,
                     this.sortField,
-                    this.sortOrder,
+                    this.sortOrder
                 );
             },
             error: (err) => {
@@ -268,7 +269,7 @@ export class AllEmployeesUniformComponent {
                     this.itemsPerPage,
                     this.nameFilter,
                     this.sortField,
-                    this.sortOrder,
+                    this.sortOrder
                 );
             },
             error: (err) => {
@@ -292,7 +293,7 @@ export class AllEmployeesUniformComponent {
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
-            this.sortOrder,
+            this.sortOrder
         );
     }
 
@@ -303,7 +304,7 @@ export class AllEmployeesUniformComponent {
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string,
+        sortType: string
     ) {
         this.loading = true;
         let filteredData = {
@@ -349,7 +350,7 @@ export class AllEmployeesUniformComponent {
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
-            this.sortOrder,
+            this.sortOrder
         );
 
         // this.selectedItems = this.allData;
@@ -412,7 +413,7 @@ export class AllEmployeesUniformComponent {
                     this.itemsPerPage,
                     this.nameFilter,
                     this.sortField,
-                    this.sortOrder,
+                    this.sortOrder
                 );
             },
             error: (err) => {
@@ -502,7 +503,7 @@ export class AllEmployeesUniformComponent {
                     this.itemsPerPage,
                     this.nameFilter,
                     this.sortField,
-                    this.sortOrder,
+                    this.sortOrder
                 );
             },
             error: (err) => {
@@ -518,7 +519,7 @@ export class AllEmployeesUniformComponent {
                     this.itemsPerPage,
                     this.nameFilter,
                     this.sortField,
-                    this.sortOrder,
+                    this.sortOrder
                 );
             },
         });

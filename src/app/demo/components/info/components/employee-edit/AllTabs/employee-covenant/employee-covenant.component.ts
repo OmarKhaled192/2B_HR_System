@@ -23,6 +23,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
 import { ActivatedRoute, Data } from '@angular/router';
 import { EmployeeConvenantService } from './employee-convenant.service';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-employee-covenant',
@@ -67,7 +68,7 @@ export class EmployeeCovenantComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

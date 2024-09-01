@@ -22,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CompanyPolicyService } from './company-policy.service';
 import { environment } from 'src/environments/environment';
 import { Globals } from 'src/app/class/globals';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-company-policy',
@@ -64,7 +65,7 @@ export class CompanyPolicyComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -271,7 +272,6 @@ export class CompanyPolicyComponent {
                     this.sortField,
                     this.sortOrder
                 );
-
             },
             error: (err) => {
                 // this.showFormNew = false;

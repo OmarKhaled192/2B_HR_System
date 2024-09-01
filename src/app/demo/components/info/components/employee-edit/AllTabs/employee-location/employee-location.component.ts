@@ -22,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { EmployeeLocationService } from './employee-location.service';
 import { ActivatedRoute } from '@angular/router';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-employee-location',
@@ -66,7 +67,7 @@ export class EmployeeLocationComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -393,7 +394,6 @@ export class EmployeeLocationComponent {
     }
 
     exportCSV() {
-
         // Convert data to CSV format
         const csvData = this.convertToCSV(this.selectedItems);
 

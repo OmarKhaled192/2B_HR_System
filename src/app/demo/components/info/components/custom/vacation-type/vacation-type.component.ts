@@ -22,6 +22,7 @@ import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-vacation-type',
@@ -63,7 +64,7 @@ export class VacationTypeComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

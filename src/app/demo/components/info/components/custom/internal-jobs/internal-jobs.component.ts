@@ -21,6 +21,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
 import { InternalJobService } from './internal-job.service';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-internal-jobs',
@@ -64,7 +65,7 @@ export class InternalJobsComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
