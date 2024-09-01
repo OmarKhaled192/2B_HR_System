@@ -374,5 +374,8 @@
     "Roles": "الصلاحيات",
     "User Id": "تعريف المستخدم",
     "Add New External Mission Request": "اضافة مامورية جديدة من الخارج",
-    "Misson Type": "نوع المامورية"
+    "Misson Type": "نوع المامورية",
+    "Add New Vacation Request": "اضافة طلب اجازة جديدة",
+    "Add New Excues Request": "اضافة اذن جديد",
+    "Response": "النتيجة"
 }

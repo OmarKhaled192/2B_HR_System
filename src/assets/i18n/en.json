@@ -356,5 +356,8 @@
     "Change Password": "Change Password",
     "Roles": "Roles",
     "User Id": "User Id",
-    "Add New External Mission Request": "Add New External Mission Request"
+    "Add New External Mission Request": "Add New External Mission Request",
+    "Add New Vacation Request": "Add New Vacation Request",
+    "Add New Excues Request": "Add New Excuse Request",
+    "Response": "Response"
 }
