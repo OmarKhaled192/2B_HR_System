@@ -359,5 +359,21 @@
     "Add New External Mission Request": "Add New External Mission Request",
     "Add New Vacation Request": "Add New Vacation Request",
     "Add New Excues Request": "Add New Excuse Request",
-    "Response": "Response"
+    "Response": "Response",
+    "Update Profile Image": "Update Profile Image",
+    "Choose Image": "Choose Image",
+    "Locked": "Locked",
+    "User Roles": "User Roles",
+    "User Lock": "User Lock",
+    "User Password": "User Password",
+    "Enter New Password": "Enter New Password",
+    "Confirm Password": "Confirm Password",
+    "Confirm New Password": "Confirm New Password",
+    "Enter Execuse Type Here": "Enter Execuse Type Here",
+    "Start Time": "Start Time",
+    "End Time": "End Time",
+    "Count Hours": "Count Hours",
+    "EMPLOYEE STRUCTURE": "Employee Structure",
+    "SETTINGS": "Settings",
+    "EMPLOYEE AFFAIRS": "Employee Affairs"
 }

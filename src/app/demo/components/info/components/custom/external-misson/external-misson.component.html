@@ -30,6 +30,7 @@
                             >
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="from"
                                 formControlName="DateFrom"
                                 [placeholder]="'From' | translate"
@@ -40,6 +41,7 @@
                             <label htmlFor="to"> {{ "To" | translate }}</label>
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="to"
                                 formControlName="DateTo"
                                 [placeholder]="'To' | translate"
@@ -166,6 +168,7 @@
 
             <p-calendar
                 [showIcon]="true"
+                [iconDisplay]="'input'"
                 name="dateFrom"
                 inputId="dateFrom"
                 [placeholder]="'From' | translate"
@@ -178,6 +181,7 @@
 
             <p-calendar
                 [showIcon]="true"
+                [iconDisplay]="'input'"
                 name="dateTo"
                 inputId="dateTo"
                 [placeholder]="'To' | translate"
@@ -409,6 +413,7 @@
 
             <p-calendar
                 [showIcon]="true"
+                [iconDisplay]="'input'"
                 name="dateFrom"
                 inputId="dateFrom"
                 [(ngModel)]="product.dateFrom"
@@ -421,6 +426,7 @@
 
             <p-calendar
                 [showIcon]="true"
+                [iconDisplay]="'input'"
                 name="dateTo"
                 inputId="dateTo"
                 [(ngModel)]="product.dateTo"

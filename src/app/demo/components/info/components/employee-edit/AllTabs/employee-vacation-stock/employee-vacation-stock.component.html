@@ -65,6 +65,7 @@
             <label htmlFor="startDate">{{ "Start Date" | translate }} </label>
             <p-calendar
                 [showIcon]="true"
+                [iconDisplay]="'input'"
                 [placeholder]="'MM/DD/YYYY' | translate"
                 [(ngModel)]="selectedStartDate"
                 inputId="icon"
@@ -253,6 +254,7 @@
             <label for="startDate">{{ "Start Date" | translate }}</label>
             <p-calendar
                 [showIcon]="true"
+                [iconDisplay]="'input'"
                 placeholder="MM/DD/YYYY"
                 [(ngModel)]="selectedStartDateEdit"
                 inputId="icon"

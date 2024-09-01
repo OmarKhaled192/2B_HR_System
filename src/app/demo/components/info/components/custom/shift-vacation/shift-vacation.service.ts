@@ -4,16 +4,17 @@ import { Observable } from 'rxjs';
 import { LockupsService } from 'src/app/demo/service/lockups.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ShiftVacationService extends LockupsService {
-
     constructor(http: HttpClient) {
         super(http);
     }
 
     getDropDown(field: string) {
-        return this.http.get(`${this.baseurl}/${field}/getDropDown`);
+        return this.http.get(
+            `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
+        );
     }
 
     getShiftById(id: number): Observable<any> {

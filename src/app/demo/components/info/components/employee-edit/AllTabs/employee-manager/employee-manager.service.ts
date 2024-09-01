@@ -11,11 +11,14 @@ export class EmployeeManagerService extends LockupsService {
     }
 
     getDropDownManager(field: string) {
-        return this.http.get(`${this.baseurl}/${field}/GetMangerDropDown`);
+        return this.http.get(
+            `${this.baseurl}/${field}/GetMangerDropDown/?culture=${this.culture}`
+        );
     }
 
     getDropDown(field: string) {
-        return this.http.get(`${this.baseurl}/${field}/getDropDown`);
+        return this.http.get(
+            `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
+        );
     }
-
 }

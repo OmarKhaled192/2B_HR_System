@@ -4,14 +4,15 @@ import { Observable } from 'rxjs';
 import { LockupsService } from 'src/app/demo/service/lockups.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class EmployeeConvenantService extends LockupsService {
-
-  constructor(http:HttpClient) {
-    super(http)
-   }
-   getDropdownField(field: any): Observable<any> {
-    return this.http.get(`${this.baseurl}/${field}/getDropDown`);
-}
+    constructor(http: HttpClient) {
+        super(http);
+    }
+    getDropdownField(field: any): Observable<any> {
+        return this.http.get(
+            `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
+        );
+    }
 }

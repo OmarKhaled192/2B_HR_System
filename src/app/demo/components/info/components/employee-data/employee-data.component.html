@@ -27,6 +27,7 @@
                             >
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="BirthDate"
                                 formControlName="birthDate"
                             ></p-calendar>
@@ -228,6 +229,7 @@
                             }}</label>
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="joininDate"
                                 formControlName="joininDate"
                             ></p-calendar>
@@ -239,6 +241,7 @@
                             }}</label>
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="hirDate"
                                 formControlName="hirDate"
                             ></p-calendar>
@@ -250,6 +253,7 @@
                             }}</label>
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="resignationDate"
                                 formControlName="resignationDate"
                             ></p-calendar>
@@ -429,6 +433,9 @@
 
     <ng-template pTemplate="header">
         <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
             <th pSortableColumn="id" (click)="sortById($event)">
                 {{ "Id" | translate }}
                 <p-sortIcon field="id"></p-sortIcon>
@@ -457,6 +464,9 @@
 
     <ng-template pTemplate="body" let-rowData>
         <tr class="tableRow" (click)="editProduct(rowData)">
+            <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
             <td>
                 <span class="p-column-title">Id</span>
                 {{ rowData.id ? rowData.id : "" }}

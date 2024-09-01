@@ -271,3 +271,9 @@ html:lang(ar) .p-input-icon-right > .p-icon-wrapper,
 .layout-topbar .layout-topbar-button:focus {
     box-shadow: none;
 }
+html:lang(ar) .p-input-icon-right > .p-inputtext {
+    padding-right: 0.5rem;
+}
+.p-calendar .p-datepicker {
+    max-width: 100%;
+}

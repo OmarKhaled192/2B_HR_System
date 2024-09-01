@@ -13,7 +13,9 @@ export class PublicVacationService extends LockupsService {
     }
 
     getDropDown(field: string): Observable<any> {
-        return this.http.get(`${this.baseurl}/${field}/getDropDown`);
+        return this.http.get(
+            `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
+        );
     }
 
     getShiftById(id: number): Observable<any> {

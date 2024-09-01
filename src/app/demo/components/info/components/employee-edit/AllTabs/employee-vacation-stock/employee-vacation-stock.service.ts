@@ -12,13 +12,14 @@ export class EmployeeVacationStockService extends LockupsService {
     }
 
     getDropDown(field: string): Observable<any> {
-        return this.http.get(`${this.baseurl}/${field}/getDropDown`);
+        return this.http.get(
+            `${this.baseurl}/${field}/getDropDown/?culture=${this.culture}`
+        );
     }
 
     getDropDownVacationStock(field: string): Observable<any> {
         return this.http.get(
-            `${this.baseurl}/${field}/getStockVacationDropDown`
+            `${this.baseurl}/${field}/getStockVacationDropDown/?culture=${this.culture}`
         );
     }
 }
-
