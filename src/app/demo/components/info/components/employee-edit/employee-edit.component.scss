@@ -1,0 +1,56 @@
+.btn-filter-submit-container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    margin-top: 48px;
+}
+.btn-filter-submit-container button {
+    width: fit-content;
+}
+.btn-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 24px;
+}
+.field-id {
+    opacity: 0.75;
+}
+.btn-edit {
+    gap: 0 !important;
+}
+li {
+    list-style: none;
+}
+
+.field-img {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 15px;
+    overflow: hidden;
+}
+.img-container {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-container-no-image {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eee;
+    border: 1px solid #c4c4c5;
+}
+img {
+    max-width: 100%;
+}
+::ng-deep .p-dropdown {
+    width: 100%;
+}
