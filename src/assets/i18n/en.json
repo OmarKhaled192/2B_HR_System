@@ -305,7 +305,7 @@
     "Forgot password?": "Forgot password?",
     "Enter Your Email": "Enter Your Email",
     "Enter Your Password": "Enter Your Password",
-    "Sign In": "Sign In"
+    "Sign In": "Sign In",
     "Select Employee": "Select Employee",
     "Internal Jobs": "Internal Jobs",
     "Add New Internal Job": "Add New Internal Job",
@@ -352,5 +352,12 @@
     "start Attendees Time": "start Attendees Time",
     "End Attendees Time": "End Attendees Time",
     "Select a Location": "Select a Location",
-    "Select a manager": "Select a manager"
+    "Select a manager": "Select a manager",
+    "Change Password": "Change Password",
+    "Roles": "Roles",
+    "User Id": "User Id",
+    "Add New External Mission Request": "Add New External Mission Request",
+    "Add New Vacation Request": "Add New Vacation Request",
+    "Add New Excues Request": "Add New Excuse Request",
+    "Response": "Response"
 }
