@@ -2,6 +2,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
 import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
+import { authGuard } from './demo/components/auth/auth.guard';
 
 @NgModule({
     imports: [
@@ -9,10 +10,16 @@ import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
             [
                 {
                     path: '',
+                    redirectTo: 'auth/login',
+                    pathMatch: 'full',
+                },
+                {
+                    path: '',
                     component: AppLayoutComponent,
+                    canActivate: [authGuard],
                     children: [
                         {
-                            path: '',
+                            path: 'dashboard',
                             loadChildren: () =>
                                 import(
                                     './demo/components/dashboard/dashboard.module'
@@ -20,6 +27,7 @@ import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
                         },
                         {
                             path: 'info',
+                            canActivate: [authGuard],
                             loadChildren: () =>
                                 import(
                                     './demo/components/info/info.module'
@@ -27,6 +35,7 @@ import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
                         },
                         {
                             path: 'uikit',
+                            canActivate: [authGuard],
                             loadChildren: () =>
                                 import(
                                     './demo/components/uikit/uikit.module'
@@ -34,6 +43,7 @@ import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
                         },
                         {
                             path: 'utilities',
+                            canActivate: [authGuard],
                             loadChildren: () =>
                                 import(
                                     './demo/components/utilities/utilities.module'
@@ -41,6 +51,7 @@ import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
                         },
                         {
                             path: 'documentation',
+                            canActivate: [authGuard],
                             loadChildren: () =>
                                 import(
                                     './demo/components/documentation/documentation.module'
@@ -48,6 +59,7 @@ import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
                         },
                         {
                             path: 'blocks',
+                            canActivate: [authGuard],
                             loadChildren: () =>
                                 import(
                                     './demo/components/primeblocks/primeblocks.module'
@@ -55,6 +67,7 @@ import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
                         },
                         {
                             path: 'pages',
+                            canActivate: [authGuard],
                             loadChildren: () =>
                                 import(
                                     './demo/components/pages/pages.module'
@@ -71,13 +84,14 @@ import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
                 },
                 {
                     path: 'landing',
+                    canActivate: [authGuard],
                     loadChildren: () =>
                         import('./demo/components/landing/landing.module').then(
                             (m) => m.LandingModule
                         ),
                 },
                 { path: 'notfound', component: NotfoundComponent },
-                { path: '**', redirectTo: '/notfound' },
+                // { path: '**', redirectTo: '/notfound' },
             ],
             {
                 scrollPositionRestoration: 'enabled',

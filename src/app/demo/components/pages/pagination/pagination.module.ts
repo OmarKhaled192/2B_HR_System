@@ -19,9 +19,14 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+
 
 @NgModule({
-    declarations: [PaginationComponent],
+    declarations: [
+        PaginationComponent,
+    ],
+
     imports: [
         CommonModule,
         PaginationRoutingModule,
@@ -43,5 +48,7 @@ import { ReactiveFormsModule } from '@angular/forms';
         InputNumberModule,
         ReactiveFormsModule,
     ],
+
+    providers: [MessageService],
 })
 export class PaginationModule {}
