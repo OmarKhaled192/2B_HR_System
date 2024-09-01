@@ -352,5 +352,12 @@
     "start Attendees Time": "start Attendees Time",
     "End Attendees Time": "End Attendees Time",
     "Select a Location": "Select a Location",
-    "Select a manager": "Select a manager"
+    "Select a manager": "Select a manager",
+    "Change Password": "Change Password",
+    "Roles": "Roles",
+    "User Id": "User Id",
+    "Add New External Mission Request": "Add New External Mission Request",
+    "Add New Vacation Request": "Add New Vacation Request",
+    "Add New Excues Request": "Add New Excuse Request",
+    "Response": "Response"
 }
