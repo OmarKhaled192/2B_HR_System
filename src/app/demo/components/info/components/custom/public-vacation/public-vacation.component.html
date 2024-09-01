@@ -63,6 +63,7 @@
             <label htmlFor="date">{{ "Date" | translate }} </label>
             <p-calendar
                 [showIcon]="true"
+                [iconDisplay]="'input'"
                 [placeholder]="'MM/DD/YYYY' | translate"
                 [(ngModel)]="date"
                 inputId="icon"
@@ -249,6 +250,7 @@
 
             <p-calendar
                 [timezone]="'UTC'"
+                [iconDisplay]="'input'"
                 [showIcon]="true"
                 [(ngModel)]="product.date"
                 inputId="date"

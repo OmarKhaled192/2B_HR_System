@@ -68,7 +68,8 @@
                 [showIcon]="true"
                 [showSeconds]="true"
                 [placeholder]="'MM/DD/YYYY' | translate"
-                inputId="newDate">
+                inputId="newDate"
+            >
             </p-calendar>
         </div>
 
@@ -85,13 +86,13 @@
         </div>
 
         <!-- requirements -->
-          <div class="field">
+        <div class="field">
             <label htmlFor="requirment">{{ "Requirment" | translate }}</label>
             <textarea
                 pInputTextarea
                 [(ngModel)]="newRequirment"
                 id="requirment"
-                [placeholder]="'Enter Requirment Here' | translate "
+                [placeholder]="'Enter Requirment Here' | translate"
                 type="text"
             ></textarea>
         </div>
@@ -138,7 +139,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">{{'Manage Items' | translate}}</h5>
+            <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -216,9 +217,7 @@
 
             <td [ngClass]="{ 'null-color': !rowData.date }">
                 <span class="p-column-title">date</span>
-                {{
-                    rowData.date | date : "dd/MM/YYYY - h:mm a"
-                }}
+                {{ rowData.date | date : "dd/MM/YYYY - h:mm a" }}
             </td>
 
             <td [ngClass]="{ 'null-color': !rowData.creationTime }">
@@ -273,7 +272,7 @@
     <ng-template pTemplate="content">
         <!-- name of job -->
         <div class="field">
-            <label for="nameOfJob">{{'Name Of Job' | translate }}</label>
+            <label for="nameOfJob">{{ "Name Of Job" | translate }}</label>
             <input
                 type="text"
                 pInputText
@@ -288,26 +287,27 @@
             <small
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.nameOfJob"
-                >{{'English Name is required.' | translate }}</small
+                >{{ "English Name is required." | translate }}</small
             >
         </div>
 
-          <!-- date -->
+        <!-- date -->
         <div class="field">
-            <label for="DateEdit">{{'Date' | translate}}</label>
+            <label for="DateEdit">{{ "Date" | translate }}</label>
             <p-calendar
                 [(ngModel)]="DateEdit"
                 [iconDisplay]="'input'"
                 [showIcon]="true"
                 [showSeconds]="true"
                 [placeholder]="'MM/DD/YYYY' | translate"
-                inputId="DateEdit">
+                inputId="DateEdit"
+            >
             </p-calendar>
         </div>
 
         <!-- Description -->
         <div class="field">
-            <label for="description">{{'Description' | translate}}</label>
+            <label for="description">{{ "Description" | translate }}</label>
             <textarea
                 id="description"
                 pInputTextarea
@@ -320,7 +320,7 @@
 
         <!-- Requirements -->
         <div class="field">
-            <label for="requirment">{{'Requirment' | translate}}</label>
+            <label for="requirment">{{ "Requirment" | translate }}</label>
             <textarea
                 id="requirment"
                 pInputTextarea
@@ -333,7 +333,7 @@
 
         <!-- Notes -->
         <div class="field">
-            <label for="notes">{{'Notes' | translate}}</label>
+            <label for="notes">{{ "Notes" | translate }}</label>
             <textarea
                 id="notes"
                 pInputTextarea
@@ -343,7 +343,6 @@
                 cols="20"
             ></textarea>
         </div>
-
     </ng-template>
 
     <ng-template pTemplate="footer">

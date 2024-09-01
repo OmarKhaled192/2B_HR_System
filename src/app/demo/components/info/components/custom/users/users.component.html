@@ -34,7 +34,7 @@
         <div
             class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
         >
-            <h5 class="m-0">{{"Manage Items" | translate }}</h5>
+            <h5 class="m-0">{{ "Manage Items" | translate }}</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
                 <i class="pi pi-search"></i>
                 <input
@@ -43,7 +43,7 @@
                     (input)="loadFilteredData()"
                     id="filter-name"
                     type="text"
-                    placeholder="Search..."
+                    [placeholder]="'Search...' | translate"
                     class="w-full sm:w-auto"
                 />
             </span>
@@ -147,7 +147,7 @@
                     pRipple
                     (click)="changePassword(rowData.id)"
                 >
-                    Change Password
+                    {{ "Change Password" | translate }}
                 </button>
             </td>
 
@@ -180,13 +180,13 @@
 <p-dialog
     [(visible)]="productDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    [header]="'User Roles' | translate"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label for="name">Roles</label>
+            <label for="name">{{ "Roles" | translate }}</label>
             <p-multiSelect
                 [options]="rolesDropdown"
                 [(ngModel)]="selectedMulti"
@@ -214,7 +214,7 @@
         <button
             pButton
             pRipple
-            label="Cancel"
+            [label]="'Cancel' | translate"
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialog()"
@@ -222,7 +222,7 @@
         <button
             pButton
             pRipple
-            label="Save"
+            [label]="'Save' | translate"
             icon="pi pi-check"
             class="p-button-text"
             (click)="saveRoles(product.id)"
@@ -296,7 +296,7 @@
 <p-dialog
     [(visible)]="changePassDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    [header]="'User Password' | translate"
     [modal]="true"
     class="p-fluid"
 >
@@ -305,31 +305,31 @@
         (submit)="submitChangePassForm(userId, changePassForm)"
     >
         <div class="field">
-            <label for="name">Password</label>
+            <label for="name">{{ "Password" | translate }}</label>
             <input
                 pInputText
                 [(ngModel)]="newPassword"
                 type="text"
                 formControlName="password"
-                placeholder="Enter New Password"
+                [placeholder]="'Enter New Password' | translate"
             />
         </div>
 
         <div class="field">
-            <label for="name">Confirm Password</label>
+            <label for="name">{{ "Confirm Password" | translate }}</label>
             <input
                 pInputText
                 [(ngModel)]="rePassword"
                 type="text"
                 formControlName="rePassword"
-                placeholder="Confirm New Password"
+                [placeholder]="'Confirm New Password' | translate"
             />
         </div>
         <div class="actions">
             <button
                 pButton
                 pRipple
-                label="Cancel"
+                [label]="'Cancel' | translate"
                 type="button"
                 icon="pi pi-times"
                 class="p-button-text"
@@ -338,7 +338,7 @@
             <button
                 pButton
                 pRipple
-                label="Save"
+                [label]="'Save' | translate"
                 icon="pi pi-check"
                 class="p-button-text"
             ></button>
@@ -348,13 +348,13 @@
 <p-dialog
     [(visible)]="productLockDialog"
     [style]="{ width: '450px' }"
-    header="Product Details"
+    [header]="'User Lock' | translate"
     [modal]="true"
     class="p-fluid"
 >
     <ng-template pTemplate="content">
         <div class="field locked-container">
-            <label for="name">Locked</label>
+            <label for="name">{{ "Locked" | translate }}</label>
             <div class="field field-locked">
                 <p-inputSwitch [(ngModel)]="locked" />
             </div>
@@ -370,7 +370,7 @@
         <button
             pButton
             pRipple
-            label="Cancel"
+            [label]="'Cancel' | translate"
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialogLock()"
@@ -378,7 +378,7 @@
         <button
             pButton
             pRipple
-            label="Save"
+            [label]="'Save' | translate"
             icon="pi pi-check"
             class="p-button-text"
             (click)="saveLock(product.id)"

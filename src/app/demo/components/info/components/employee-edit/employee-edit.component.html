@@ -197,6 +197,7 @@
                             >
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="BirthDate"
                                 formControlName="BirthDate"
                                 [(ngModel)]="birthDate"
@@ -411,6 +412,7 @@
                             }}</label>
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="JoininDate"
                                 formControlName="JoininDate"
                                 [(ngModel)]="joinInDate"
@@ -423,6 +425,7 @@
                             }}</label>
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="HirDate"
                                 formControlName="HirDate"
                                 [(ngModel)]="hiringData"
@@ -435,6 +438,7 @@
                             }}</label>
                             <p-calendar
                                 [showIcon]="true"
+                                [iconDisplay]="'input'"
                                 inputId="ResignationDate"
                                 formControlName="ResignationDate"
                                 [(ngModel)]="resignationDate"
@@ -463,7 +467,7 @@
 <p-dialog
     [(visible)]="uploadImageDialog"
     [style]="{ width: '450px' }"
-    header="Item Details"
+    [header]="'Update Profile Image' | translate"
     [modal]="true"
     class="p-fluid"
 >
@@ -471,7 +475,7 @@
         <div class="inline-flex align-items-center">
             <p-fileUpload
                 mode="basic"
-                chooseLabel="Choose Image"
+                [chooseLabel]="'Choose Image' | translate"
                 class="p-button-info p-button-text"
                 chooseIcon="pi pi-image"
                 name="demo[]"
@@ -485,7 +489,7 @@
         <button
             pButton
             pRipple
-            label="Cancel"
+            [label]="'Cancel' | translate"
             icon="pi pi-times"
             class="p-button-text"
             (click)="hideDialog()"
@@ -493,7 +497,7 @@
         <button
             pButton
             pRipple
-            label="Save"
+            [label]="'Save' | translate"
             icon="pi pi-check"
             class="p-button-text"
             (click)="updateImage()"

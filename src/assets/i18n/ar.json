@@ -375,5 +375,21 @@
     "Misson Type": "نوع المامورية",
     "Add New Vacation Request": "اضافة طلب اجازة جديدة",
     "Add New Excues Request": "اضافة اذن جديد",
-    "Response": "النتيجة"
+    "Response": "النتيجة",
+    "Update Profile Image": "تحديث صورة الملف الشخصي",
+    "Choose Image": "اختر صورة",
+    "Locked": "محظور",
+    "User Roles": "صلاحيات المستخدم",
+    "User Lock": "حظر المستخدم",
+    "User Password": "كلمة مرور المستخدم",
+    "Enter New Password": "ادخل كلمة المرور الجديدة",
+    "Confirm Password": "تأكيد كلمة المرور",
+    "Confirm New Password": "تأكيد كلمة المرور الجديدة",
+    "Enter Execuse Type Here": "ادخل نوع الاذن هنا",
+    "Start Time": "وقت البداية",
+    "End Time": "وقت الانتهاء",
+    "Count Hours": "عدد الساعات",
+    "EMPLOYEE STRUCTURE": "الهيكل الوظيفي",
+    "SETTINGS": "الاعدادات",
+    "EMPLOYEE AFFAIRS": "شئون عاملين"
 }

@@ -124,7 +124,7 @@
 <p-dialog
     [(visible)]="showFormNew"
     [style]="{ width: '450px' }"
-    header="Add New"
+    [header]="'Add New' | translate"
     [modal]="true"
     class="p-fluid"
 >
@@ -156,9 +156,10 @@
 
             <p-calendar
                 [showIcon]="true"
+                [iconDisplay]="'input'"
                 name="dateFrom"
                 inputId="dateFrom"
-                [placeholder]="'MM:DD:YY' | translate"
+                [placeholder]="'MM/DD/YYYY' | translate"
                 formControlName="dateOfDay"
             ></p-calendar>
         </div>
@@ -172,6 +173,7 @@
                 inputId="templatedisplay"
                 placeholder="00:00:00"
                 formControlName="startTime"
+                class="timeInput"
             >
                 <ng-template
                     pTemplate="inputicon"
@@ -265,7 +267,7 @@
             <th>{{ "End Time" | translate }}</th>
             <th>{{ "Execuse Type" | translate }}</th>
             <th>{{ "Count Hours" | translate }}</th>
-            <th>{{ "Response Type" | translate }}</th>
+            <th>{{ "Response" | translate }}</th>
             <th>{{ "Reason" | translate }}</th>
             <th>{{ "Notes" | translate }}</th>
 
