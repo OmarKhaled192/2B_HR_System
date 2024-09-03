@@ -38,7 +38,20 @@ export class LoginComponent {
         private translate: TranslateService
     ) {}
     ngOnInit() {
-        this.setMainLang();
+        Globals.getMainLangChanges().subscribe({
+            next: (lang) => {
+                this.translate.use(lang).subscribe(() => {
+                    const langData = this.translate.translations[lang];
+
+                    console.log(langData);
+                    if (langData) {
+                        this.translate.use(lang);
+                        document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
+                        document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
+                    }
+                });
+            },
+        });
     }
 
     submitLoginForm(logForm: FormGroup) {
@@ -67,22 +80,6 @@ export class LoginComponent {
                     });
                 }
             },
-        });
-    }
-    setMainLang() {
-        localStorage.setItem('currentLang', 'ar');
-
-        this.translate.use('ar').subscribe(() => {
-            const langData = this.translate.translations['ar'];
-
-            console.log(langData);
-            if (langData) {
-                document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
-                document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
-            }
-
-            // set lang at Globals
-            Globals.setMainLang('ar');
         });
     }
 }

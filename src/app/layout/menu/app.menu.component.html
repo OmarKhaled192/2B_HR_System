@@ -2,25 +2,12 @@
     <ng-container *ngFor="let item of model">
         <li *ngIf="!item.separator">
             <!-- Render the top-level item -->
-            <a [routerLink]="item?.routerLink" class="parent-item">
+            <a class="parent-item" [id]="item.label">
                 <i [ngClass]="item.icon"></i>
                 {{ item.label | translate }}
             </a>
 
             <ul *ngIf="item.items">
-                <!-- <ng-container *ngFor="let subItem of item.items">
-                    <li *ngIf="!subItem.separator" >
-                        <a  class="layout-menuitem-root-text"
-                            [routerLink]="subItem.routerLink"
-                            routerLinkActive="active">
-
-                            <i [ngClass]="subItem.icon"></i>
-                            {{ subItem.label | translate }}
-                        </a>
-                    </li>
-                    <li *ngIf="subItem.separator" class="menu-separator"></li>
-                </ng-container> -->
-
                 <ng-template
                     ngFor
                     let-child
@@ -33,26 +20,10 @@
                         [index]="i"
                         [parentKey]="key"
                         [class]="child.badgeClass"
+                        *ngIf="!child.separator"
                     ></li>
                 </ng-template>
             </ul>
-
-            <!-- <ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation" >
-        <ng-template
-            ngFor
-            let-child
-            let-i="index"
-            [ngForOf]="item.items"
-        >
-            <li
-                app-menuitem
-                [item]="child"
-                [index]="i"
-                [parentKey]="key"
-                [class]="child.badgeClass"
-            ></li>
-        </ng-template>
-    </ul> -->
         </li>
     </ng-container>
 </ul>

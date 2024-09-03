@@ -334,7 +334,7 @@ export class ExecuseTypeComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
-            hoursNumber: product.numberOfHours,
+            hoursNumber: product.hoursNumber,
         };
 
         this.execuseTypeService.Edit(body).subscribe({

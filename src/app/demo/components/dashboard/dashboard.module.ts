@@ -10,6 +10,7 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { DashboardsRoutingModule } from './dashboard-routing.module';
 import { EmployeeDataComponent } from '../info/components/employee-data/employee-data.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { EmployeeDataComponent } from '../info/components/employee-data/employee
         ButtonModule,
         DashboardsRoutingModule,
         EmployeeDataComponent,
+        TranslateModule,
     ],
     declarations: [DashboardComponent],
 })

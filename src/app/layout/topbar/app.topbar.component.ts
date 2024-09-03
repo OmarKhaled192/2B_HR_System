@@ -33,6 +33,11 @@ export class AppTopBarComponent implements OnInit {
     userName: string = '';
 
     ngOnInit() {
+        const lang = localStorage.getItem('currentLang')
+            ? localStorage.getItem('currentLang')
+            : null;
+        console.log('langggggggggggggggggggg => ', lang);
+
         console.log(this.imageUrl);
 
         const userToken = localStorage.getItem('userToken');
@@ -45,9 +50,9 @@ export class AppTopBarComponent implements OnInit {
         ];
 
         // for arabic
-        this.translate.setDefaultLang('ar');
-        document.dir = 'rtl';
-        document.documentElement.lang = 'ar';
+        // this.translate.setDefaultLang('ar');
+        // document.dir = 'rtl';
+        // document.documentElement.lang = 'ar';
         this.selectedCountry = this.countries[0];
 
         // for english
@@ -55,6 +60,19 @@ export class AppTopBarComponent implements OnInit {
         // document.dir = 'ltr';
         // document.documentElement.lang = 'en';
         // this.selectedCountry = this.countries[1];
+        if (lang == 'ar') {
+            this.translate.use('ar');
+            Globals.setMainLang('ar');
+            document.dir = 'rtl'; // Default to 'ltr' if dir is undefined
+            document.documentElement.lang = 'ar';
+            this.selectedCountry = this.countries[0];
+        } else if (lang == 'en') {
+            this.translate.use('en');
+            Globals.setMainLang('en');
+            document.dir = 'ltr'; // Default to 'ltr' if dir is undefined
+            document.documentElement.lang = 'en';
+            this.selectedCountry = this.countries[1];
+        }
 
         localStorage.setItem('theme', 'saga-orange');
 
@@ -86,7 +104,7 @@ export class AppTopBarComponent implements OnInit {
     @ViewChild('topbarmenu') menu!: ElementRef;
 
     signOut() {
-        localStorage.clear();
+        localStorage.removeItem('userToken');
         this.router.navigate(['/auth/login']);
     }
 
@@ -108,12 +126,14 @@ export class AppTopBarComponent implements OnInit {
         const lang = event.value.lang;
 
         localStorage.setItem('currentLang', lang);
+        // this.translate.use(lang);
 
         this.translate.use(lang).subscribe(() => {
             const langData = this.translate.translations[lang];
 
             console.log(langData);
             if (langData) {
+                this.translate.use(lang);
                 document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
                 document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
             }

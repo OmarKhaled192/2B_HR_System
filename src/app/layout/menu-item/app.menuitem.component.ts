@@ -19,6 +19,8 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { LayoutService } from '../service/app.layout.service';
 import { MenuService } from '../app.menu.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -39,11 +41,14 @@ import { MenuService } from '../app.menu.service';
                 (click)="itemClick($event)"
                 [ngClass]="item.class"
                 [attr.target]="item.target"
+                [id]="item.label"
                 tabindex="0"
                 pRipple
             >
                 <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-                <span class="layout-menuitem-text">{{ item.label }}</span>
+                <span class="layout-menuitem-text">{{
+                    item.label | translate
+                }}</span>
                 <i
                     class="pi pi-fw pi-angle-down layout-submenu-toggler"
                     *ngIf="item.items"
@@ -51,7 +56,7 @@ import { MenuService } from '../app.menu.service';
             </a>
             <a
                 *ngIf="item.routerLink && !item.items && item.visible !== false"
-                (click)="itemClick($event)"
+                (click)="itemClick($event); $event.stopPropagation()"
                 [ngClass]="item.class"
                 [routerLink]="item.routerLink"
                 routerLinkActive="active-route"
@@ -60,7 +65,7 @@ import { MenuService } from '../app.menu.service';
                         paths: 'exact',
                         queryParams: 'ignored',
                         matrixParams: 'ignored',
-                        fragment: 'ignored'
+                        fragment: 'ignored',
                     }
                 "
                 [fragment]="item.fragment"
@@ -73,9 +78,12 @@ import { MenuService } from '../app.menu.service';
                 [attr.target]="item.target"
                 tabindex="0"
                 pRipple
+                [id]="item.label"
             >
                 <i [ngClass]="item.icon" class="layout-menuitem-icon"></i>
-                <span class="layout-menuitem-text">{{ item.label }}</span>
+                <span class="layout-menuitem-text">{{
+                    item.label | translate
+                }}</span>
                 <i
                     class="pi pi-fw pi-angle-down layout-submenu-toggler"
                     *ngIf="item.items"
@@ -145,7 +153,8 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         public layoutService: LayoutService,
         private cd: ChangeDetectorRef,
         public router: Router,
-        private menuService: MenuService
+        private menuService: MenuService,
+        private translate: TranslateService
     ) {
         this.menuSourceSubscription = this.menuService.menuSource$.subscribe(
             (value) => {
@@ -184,6 +193,9 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            this.translate.use(mainLang);
+        });
         this.key = this.parentKey
             ? this.parentKey + '-' + this.index
             : String(this.index);
@@ -210,6 +222,9 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     }
 
     itemClick(event: Event) {
+        console.clear();
+        console.log(event);
+
         // avoid processing disabled items
         if (this.item.disabled) {
             event.preventDefault();
@@ -221,14 +236,16 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
             this.item.command({ originalEvent: event, item: this.item });
         }
 
-        // toggle active state
+        // only toggle active state if the clicked item is a parent (has children)
         if (this.item.items) {
             this.active = !this.active;
         }
 
-        this.menuService.onMenuStateChange({ key: this.key });
+        // Prevent toggling other parent lists by notifying only if it's a parent
+        if (this.item.items) {
+            this.menuService.onMenuStateChange({ key: this.key });
+        }
     }
-
     get submenuAnimation() {
         return this.root ? 'expanded' : this.active ? 'expanded' : 'collapsed';
     }
