@@ -28,7 +28,7 @@ import {
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-    return new TranslateHttpLoader(http);
+    return new TranslateHttpLoader(http, './2B_HR_System/assets/i18n/', '.json');
 }
 
 @NgModule({
