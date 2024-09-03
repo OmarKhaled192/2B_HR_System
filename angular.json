@@ -20,11 +20,18 @@
                         "outputPath": "docs",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": ["zone.js"],
+                        "polyfills": [
+                            "zone.js"
+                        ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
-                        "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": ["src/styles.scss"],
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "src/styles.scss"
+                        ],
                         "scripts": []
                     },
                     "configurations": {
@@ -41,8 +48,7 @@
                                     "maximumError": "4kb"
                                 }
                             ],
-                            "outputHashing": "all",
-                            "baseHref": "/2B_HR_System/"
+                            "outputHashing": "all"
                         },
                         "development": {
                             "buildOptimizer": false,
@@ -76,12 +82,20 @@
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
-                        "polyfills": ["zone.js", "zone.js/testing"],
+                        "polyfills": [
+                            "zone.js",
+                            "zone.js/testing"
+                        ],
                         "tsConfig": "tsconfig.spec.json",
                         "karmaConfig": "karma.conf.js",
                         "inlineStyleLanguage": "scss",
-                        "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": ["src/styles.scss"],
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "src/styles.scss"
+                        ],
                         "scripts": []
                     }
                 }
@@ -89,6 +103,6 @@
         }
     },
     "cli": {
-        "analytics": "200d9b18-0117-4bf6-959f-f2a9c6f68db7"
+      "analytics": "200d9b18-0117-4bf6-959f-f2a9c6f68db7"
     }
 }
