@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksakai_ng=self.webpackChunksakai_ng||[]).push([[250],{3250:(l,a,t)=>{t.r(a),t.d(a,{UIkitModule:()=>o});var i=t(6814),u=t(720),n=t(8109);let o=(()=>{class s{static#t=this.\u0275fac=function(_){return new(_||s)};static#s=this.\u0275mod=n.oAB({type:s});static#a=this.\u0275inj=n.cJS({imports:[i.ez,u.T]})}return s})()}}]);
