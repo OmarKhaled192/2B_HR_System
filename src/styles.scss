@@ -195,6 +195,8 @@ html:lang(ar) .mr-2 {
 
 .p-dialog {
     width: 500px !important;
+    max-height: 90%;
+    overflow: auto;
 }
 .p-multiselect-items-wrapper {
     max-height: 400px !important;
@@ -276,4 +278,21 @@ html:lang(ar) .p-input-icon-right > .p-inputtext {
 }
 .p-calendar .p-datepicker {
     max-width: 100%;
+}
+html:lang(ar) .p-panel .p-panel-icons-end {
+    margin-left: unset;
+    margin-right: auto;
+}
+.p-panel .p-panel-header .p-panel-header-icon:enabled {
+    color: #495057;
+    border-color: transparent;
+    background: #e9ecef;
+}
+.p-panel .p-panel-header .p-panel-header-icon:enabled:hover {
+    border-color: transparent;
+    background: #b7b9bc;
+}
+html:lang(ar) .layout-menu ul a .layout-submenu-toggler {
+    margin-left: unset;
+    margin-right: auto;
 }

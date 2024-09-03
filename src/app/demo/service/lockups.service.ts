@@ -71,9 +71,11 @@ export class LockupsService {
     }
 
     getDropdown(): Observable<any> {
-        return this.http.get(`${this.baseurl}/${this.endPoint}/getDropDown`);
+        return this.http.get(
+            `${this.baseurl}/${this.endPoint}/getDropDown/?culture=${this.culture}`
+        );
     }
-    
+
     DeleteRange(body: number[]): Observable<any> {
         return this.http.post(
             `${this.baseurl}/${this.endPoint}/DeleteRange/?culture=${this.culture}`,

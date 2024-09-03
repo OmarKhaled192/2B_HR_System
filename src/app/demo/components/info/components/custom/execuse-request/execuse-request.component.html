@@ -366,7 +366,7 @@
             <td>
                 <div class="flex crud-operations">
                     <button
-                        *ngIf="rowData.requestType === 0"
+                        [disabled]="rowData.requestType !== 0"
                         pButton
                         pRipple
                         icon="pi pi-trash"

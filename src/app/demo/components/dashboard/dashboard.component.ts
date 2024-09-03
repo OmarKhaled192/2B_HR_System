@@ -5,6 +5,8 @@ import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Globals } from 'src/app/class/globals';
+import { TranslateService } from '@ngx-translate/core';
+
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -22,7 +24,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     constructor(
         private productService: ProductService,
-        public layoutService: LayoutService
+        public layoutService: LayoutService,
+        private translate: TranslateService
+
     ) {
         this.subscription = this.layoutService.configUpdate$
             .pipe(debounceTime(25))
@@ -42,9 +46,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
             { label: 'Remove', icon: 'pi pi-fw pi-minus' },
         ];
 
-        // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+
         });
     }
 

@@ -2,6 +2,7 @@ import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-menu',
@@ -15,6 +16,7 @@ export class AppMenuComponent implements OnInit {
         public layoutService: LayoutService,
         private translate: TranslateService
     ) {}
+
     toggleTab(index: number) {
         const selectedItem = this.model[index];
         if (selectedItem.type != 'h') {
@@ -36,6 +38,7 @@ export class AppMenuComponent implements OnInit {
                             },
                         ],
                     },
+
                     {
                         label: this.translate.instant('EMPLOYEE STRUCTURE'),
                         icon: 'pi pi-fw pi-bookmark',
@@ -146,6 +149,7 @@ export class AppMenuComponent implements OnInit {
                             },
                         ],
                     },
+
                     {
                         label: this.translate.instant('EMPLOYEE AFFAIRS'),
                         icon: 'pi pi-fw pi-bookmark',
@@ -273,7 +277,7 @@ export class AppMenuComponent implements OnInit {
                     },
                 ],
             },
-        ];
+        ]
     }
 
     ngOnInit() {

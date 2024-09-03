@@ -2,6 +2,7 @@
     <ng-container *ngFor="let item of model; let i = index">
         <li *ngIf="!item.separator">
             <!-- Render the top-level item -->
+
             <a
                 [routerLink]="item?.routerLink"
                 class="parent-item"
@@ -10,6 +11,7 @@
                 <i [ngClass]="item.icon"></i>
                 {{ item.label | translate }}
             </a>
+
 
             <ul *ngIf="(item.items && activeTabIndex == i)">
                 <ng-template
@@ -23,6 +25,7 @@
                         [index]="j"
                         [parentKey]="key"
                         [class]="child.badgeClass"
+                        *ngIf="!child.separator"
                     ></li>
                 </ng-template>
             </ul>

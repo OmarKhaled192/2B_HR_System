@@ -4,10 +4,9 @@ import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Pipe({
-  name: 'translateLabel',
-  pure: false // Set this to false to make the pipe non-pure
+    name: 'translateLabel',
+    pure: false, // Set this to false to make the pipe non-pure
 })
-
 export class TranslateLabelPipe implements PipeTransform, OnDestroy {
     private subscription: Subscription;
 
@@ -18,18 +17,17 @@ export class TranslateLabelPipe implements PipeTransform, OnDestroy {
         });
     }
 
-
     transform(value: any): Observable<any> {
         if (!value) {
             return of(value);
         }
 
-            // Translate the label
-            return this.translateService.get(value.label).pipe(
-                map((transVal) => {
-                    return { ...value, label: transVal };
-                })
-            );
+        // Translate the label
+        return this.translateService.get(value.label).pipe(
+            map((transVal) => {
+                return { ...value, label: transVal };
+            })
+        );
     }
 
     ngOnDestroy() {

@@ -9,6 +9,7 @@
     "GOVERNMENT": "Government",
     "GRADE": "Grade",
     "JOB": "Job",
+    "Job": "Job",
     "LOCATION": "Location",
     "PARTITION": "Partition",
     "QUALIFICATION": "Qualification",
@@ -85,7 +86,7 @@
     "number Of Hours": "Number Of Hours",
     "Day": "Day",
     "Company Policy": "Company Policy",
-
+    "Filter": "Filter",
     "Add New Bank": "Add New Bank",
     "Add New Government": "Add New Government",
     "Add New Qualification": "Add New Qualification",
@@ -133,7 +134,7 @@
     "EMPLOYEE_UNIFORM": "Employee Uniform",
     "EMPLOYEE_VACATION_STOCK": "Employee Vacation Stock",
     "EMPLOYEE_VACATION_EXPERIENCE": "Employee Vacation Experience",
-
+    "Search...": "Search...",
     "Add New Employee": "Add New Employee",
     "Full Name with Arabic": "Full Name with Arabic",
     "Full Name with English": "Full Name with English",
@@ -376,5 +377,9 @@
     "EMPLOYEE STRUCTURE": "Employee Structure",
     "SETTINGS": "Settings",
     "EMPLOYEE AFFAIRS": "Employee Affairs",
+    "Hierarchy": "Hierarchy",
+    "Submenu": "Submenu",
+    "Submenu 1.1": "Submenu 1.1",
+    "Submenu 1.1.1": "Submenu 1.1.1"
     "Filter": "Filter"
 }
