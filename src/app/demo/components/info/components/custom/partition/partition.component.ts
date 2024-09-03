@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { Globals } from 'src/app/class/globals';
 import { TranslateModule } from '@ngx-translate/core';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-partition',
@@ -55,14 +56,14 @@ import { TranslateModule } from '@ngx-translate/core';
 export class PartitionComponent {
     constructor(
         private _PartitionService: PartitionService,
-        private messageService: MessageService,
+        private messageService: MessageService
     ) {}
 
     @ViewChild('dt') dt: Table;
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -87,8 +88,7 @@ export class PartitionComponent {
     selectedEditsDepartment: any;
 
     ngOnInit() {
-
-        this.endPoint = "Partation"
+        this.endPoint = 'Partation';
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
@@ -102,13 +102,13 @@ export class PartitionComponent {
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
             this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            });
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
             // basic fields
@@ -134,7 +134,7 @@ export class PartitionComponent {
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id)
+        console.log(rowData.id);
         this._PartitionService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
@@ -157,7 +157,7 @@ export class PartitionComponent {
 
     getDropDownDepartment() {
         this._PartitionService.getDropDown('Department').subscribe({
-            next: (res:any) => {
+            next: (res: any) => {
                 this.departmentDropDown = res.data;
             },
             error: (err) => {
@@ -451,13 +451,14 @@ export class PartitionComponent {
         });
     }
 
-    splitCamelCase(str:any) {
-        return str.replace(/([A-Z])/g, ' $1')
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+    splitCamelCase(str: any) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     sortById(event: any) {

@@ -13,4 +13,7 @@
 .tableRow {
     cursor: pointer;
 }
- 
+
+::ng-deep .p-panel .p-panel-icons-end {
+    margin: unset;
+}

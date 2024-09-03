@@ -1,29 +1,51 @@
 <ul class="layout-menu">
-    <ng-container *ngFor="let item of model">
+    <ng-container *ngFor="let item of model; let i = index">
         <li *ngIf="!item.separator">
             <!-- Render the top-level item -->
-            <a class="parent-item" [id]="item.label">
+
+            <a
+                [routerLink]="item?.routerLink"
+                class="parent-item"
+                (click)="toggleTab(i)"
+            >
                 <i [ngClass]="item.icon"></i>
                 {{ item.label | translate }}
             </a>
 
-            <ul *ngIf="item.items">
+
+            <ul *ngIf="(item.items && activeTabIndex == i)">
                 <ng-template
                     ngFor
                     let-child
-                    let-i="index"
-                    [ngForOf]="item.items"
-                >
+                    let-j="index"
+                    [ngForOf]="item.items">
                     <li
                         app-menuitem
                         [item]="child | translateLabel | async"
-                        [index]="i"
+                        [index]="j"
                         [parentKey]="key"
                         [class]="child.badgeClass"
                         *ngIf="!child.separator"
                     ></li>
                 </ng-template>
             </ul>
+
+            <ul *ngIf="item.type != 'h'">
+                <ng-template
+                    ngFor
+                    let-child
+                    let-j="index"
+                    [ngForOf]="item.items">
+                    <li
+                        app-menuitem
+                        [item]="child | translateLabel | async"
+                        [index]="j+100"
+                        [parentKey]="key+100"
+                        [class]="child.badgeClass"
+                    ></li>
+                </ng-template>
+            </ul>
+
         </li>
     </ng-container>
 </ul>

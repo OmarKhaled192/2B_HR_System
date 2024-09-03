@@ -22,6 +22,7 @@ import { DayNamePipe } from '../../../custom/shift-vacation/day-name.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-employee-vacation-stock',
@@ -67,7 +68,7 @@ export class EmployeeVacationStockComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

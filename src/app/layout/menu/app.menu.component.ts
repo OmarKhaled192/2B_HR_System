@@ -10,24 +10,23 @@ import { Globals } from 'src/app/class/globals';
     styleUrls: ['./app.menu.component.scss'],
 })
 export class AppMenuComponent implements OnInit {
+    activeTabIndex: number | null = 0;
     model: any[] = [];
-
     constructor(
         public layoutService: LayoutService,
         private translate: TranslateService
     ) {}
-    ngOnInit() {
-        this.initMenuItems();
 
-        // Subscribe to language change events
-        this.translate.onLangChange.subscribe(() => {
-            this.initMenuItems();
-        });
+    toggleTab(index: number) {
+        const selectedItem = this.model[index];
+        if (selectedItem.type != 'h') {
+            this.activeTabIndex = index;
+        }
     }
-
     initMenuItems() {
         this.model = [
             {
+                type: 'h',
                 items: [
                     {
                         label: this.translate.instant('HOME'),
@@ -39,10 +38,7 @@ export class AppMenuComponent implements OnInit {
                             },
                         ],
                     },
-                ],
-            },
-            {
-                items: [
+
                     {
                         label: this.translate.instant('EMPLOYEE STRUCTURE'),
                         icon: 'pi pi-fw pi-bookmark',
@@ -153,11 +149,7 @@ export class AppMenuComponent implements OnInit {
                             },
                         ],
                     },
-                ],
-            },
 
-            {
-                items: [
                     {
                         label: this.translate.instant('EMPLOYEE AFFAIRS'),
                         icon: 'pi pi-fw pi-bookmark',
@@ -210,11 +202,6 @@ export class AppMenuComponent implements OnInit {
                             },
                         ],
                     },
-                ],
-            },
-
-            {
-                items: [
                     {
                         label: this.translate.instant('SHIFT'),
                         icon: 'pi pi-fw pi-bookmark',
@@ -264,11 +251,6 @@ export class AppMenuComponent implements OnInit {
                             },
                         ],
                     },
-                ],
-            },
-
-            {
-                items: [
                     {
                         label: this.translate.instant('SETTINGS'),
                         icon: 'pi pi-fw pi-bookmark',
@@ -295,226 +277,15 @@ export class AppMenuComponent implements OnInit {
                     },
                 ],
             },
-        ];
-        // {
-        //     label: 'UI Components',
-        //     items: [
-        //         {
-        //             label: this.translate.instant('FORM_LAYOUT'),
-        //             icon: 'pi pi-fw pi-id-card',
-        //             routerLink: ['/uikit/formlayout'],
-        //         },
-        //         {
-        //             label: this.translate.instant('INPUT'),
-        //             icon: 'pi pi-fw pi-check-square',
-        //             routerLink: ['/uikit/input'],
-        //         },
-        //         {
-        //             label: this.translate.instant('FLOAT_LABEL'),
-        //             icon: 'pi pi-fw pi-bookmark',
-        //             routerLink: ['/uikit/floatlabel'],
-        //         },
-        //         {
-        //             label: this.translate.instant('INVALID_STATE'),
-        //             icon: 'pi pi-fw pi-exclamation-circle',
-        //             routerLink: ['/uikit/invalidstate'],
-        //         },
-        //         {
-        //             label: this.translate.instant('BUTTON'),
-        //             icon: 'pi pi-fw pi-box',
-        //             routerLink: ['/uikit/button'],
-        //         },
-        //         {
-        //             label: this.translate.instant('TABLE'),
-        //             icon: 'pi pi-fw pi-table',
-        //             routerLink: ['/uikit/table'],
-        //         },
-        //         {
-        //             label: this.translate.instant('LIST'),
-        //             icon: 'pi pi-fw pi-list',
-        //             routerLink: ['/uikit/list'],
-        //         },
-        //         {
-        //             label: this.translate.instant('TREE'),
-        //             icon: 'pi pi-fw pi-share-alt',
-        //             routerLink: ['/uikit/tree'],
-        //         },
-        //         {
-        //             label: this.translate.instant('PANEL'),
-        //             icon: 'pi pi-fw pi-tablet',
-        //             routerLink: ['/uikit/panel'],
-        //         },
-        //         {
-        //             label: this.translate.instant('OVERLAY'),
-        //             icon: 'pi pi-fw pi-clone',
-        //             routerLink: ['/uikit/overlay'],
-        //         },
-        //         {
-        //             label: this.translate.instant('MEDIA'),
-        //             icon: 'pi pi-fw pi-image',
-        //             routerLink: ['/uikit/media'],
-        //         },
-        //         {
-        //             label: this.translate.instant('MENU'),
-        //             icon: 'pi pi-fw pi-bars',
-        //             routerLink: ['/uikit/menu'],
-        //             routerLinkActiveOptions: {
-        //                 paths: 'subset',
-        //                 queryParams: 'ignored',
-        //                 matrixParams: 'ignored',
-        //                 fragment: 'ignored',
-        //             },
-        //         },
-        //         {
-        //             label: this.translate.instant('MESSAGE'),
-        //             icon: 'pi pi-fw pi-comment',
-        //             routerLink: ['/uikit/message'],
-        //         },
-        //         {
-        //             label: this.translate.instant('FILE'),
-        //             icon: 'pi pi-fw pi-file',
-        //             routerLink: ['/uikit/file'],
-        //         },
-        //         {
-        //             label: this.translate.instant('CHART'),
-        //             icon: 'pi pi-fw pi-chart-bar',
-        //             routerLink: ['/uikit/charts'],
-        //         },
-        //         {
-        //             label: this.translate.instant('MISC'),
-        //             icon: 'pi pi-fw pi-circle',
-        //             routerLink: ['/uikit/misc'],
-        //         },
-        //     ],
-        // },
-        // {
-        //     label: this.translate.instant('UTILITIES'),
-        //     items: [
-        //         {
-        //             label: this.translate.instant('PRIMEICONS'),
-        //             icon: 'pi pi-fw pi-prime',
-        //             routerLink: ['/utilities/icons'],
-        //         },
-        //     ],
-        // },
-        // {
-        //     label: this.translate.instant('PAGES'),
-        //     icon: 'pi pi-fw pi-briefcase',
-        //     items: [
-        //         {
-        //             label: this.translate.instant('STD_TEST'),
-        //             icon: 'pi pi-fw pi-globe',
-        //             routerLink: ['/test'],
-        //         },
-        //         {
-        //             label: this.translate.instant('LANDING'),
-        //             icon: 'pi pi-fw pi-globe',
-        //             routerLink: ['/landing'],
-        //         },
-        //         {
-        //             label: this.translate.instant('AUTH'),
-        //             icon: 'pi pi-fw pi-user',
-        //             items: [
-        //                 {
-        //                     label: this.translate.instant('LOGIN'),
-        //                     icon: 'pi pi-fw pi-sign-in',
-        //                     routerLink: ['/auth/login'],
-        //                 },
-        //                 {
-        //                     label: this.translate.instant('ERROR'),
-        //                     icon: 'pi pi-fw pi-times-circle',
-        //                     routerLink: ['/auth/error'],
-        //                 },
-        //                 {
-        //                     label: this.translate.instant('ACCESS_DENIED'),
-        //                     icon: 'pi pi-fw pi-lock',
-        //                     routerLink: ['/auth/access'],
-        //                 },
-        //             ],
-        //         },
-        //         {
-        //             label: this.translate.instant('CRUD'),
-        //             icon: 'pi pi-fw pi-pencil',
-        //             routerLink: ['/pages/crud'],
-        //         },
-        //         {
-        //             label: this.translate.instant('TIMELINE'),
-        //             icon: 'pi pi-fw pi-calendar',
-        //             routerLink: ['/pages/timeline'],
-        //         },
-        //         {
-        //             label: this.translate.instant('NOT_FOUND'),
-        //             icon: 'pi pi-fw pi-exclamation-circle',
-        //             routerLink: ['/notfound'],
-        //         },
-        //         {
-        //             label: this.translate.instant('EMPTY'),
-        //             icon: 'pi pi-fw pi-circle-off',
-        //             routerLink: ['/pages/empty'],
-        //         },
-        //         {
-        //             label: this.translate.instant('PAGINATION'),
-        //             icon: 'pi pi-fw pi-table',
-        //             routerLink: ['/pages/pagination'],
-        //         },
-        //         {
-        //             label: this.translate.instant('TEST'),
-        //             icon: 'pi pi-fw pi-table',
-        //             routerLink: ['/pages/pagination/test'],
-        //         },
-        //         {
-        //             label: this.translate.instant('PAGINATION_POPUP'),
-        //             icon: 'pi pi-fw pi-th-large',
-        //             routerLink: ['/pages/pagination-popup'],
-        //         },
-        //     ],
-        // },
-        // {
-        //     label: this.translate.instant('HIERARCHY'),
-        //     items: [
-        //         {
-        //             label: this.translate.instant('SUBMENU'),
-        //             icon: 'pi pi-fw pi-bookmark',
-        //             items: [
-        //                 {
-        //                     label: this.translate.instant('SUBMENU_1_1'),
-        //                     icon: 'pi pi-fw pi-bookmark',
-        //                     items: [
-        //                         {
-        //                             label: this.translate.instant(
-        //                                 'SUBMENU_1_1_1'
-        //                             ),
-        //                             icon: 'pi pi-fw pi-bookmark',
-        //                         },
-        //                         {
-        //                             label: this.translate.instant(
-        //                                 'SUBMENU_1_1_2'
-        //                             ),
-        //                             icon: 'pi pi-fw pi-bookmark',
-        //                         },
-        //                         {
-        //                             label: this.translate.instant(
-        //                                 'SUBMENU_1_1_3'
-        //                             ),
-        //                             icon: 'pi pi-fw pi-bookmark',
-        //                         },
-        //                     ],
-        //                 },
-        //                 {
-        //                     label: this.translate.instant('SUBMENU_1_2'),
-        //                     icon: 'pi pi-fw pi-bookmark',
-        //                     items: [
-        //                         {
-        //                             label: this.translate.instant(
-        //                                 'SUBMENU_1_2_1'
-        //                             ),
-        //                             icon: 'pi pi-fw pi-bookmark',
-        //                         },
-        //                     ],
-        //                 },
-        //             ],
-        //         },
-        //     ],
-        // },
+        ]
+    }
+
+    ngOnInit() {
+        this.initMenuItems();
+
+        // Subscribe to language change events
+        this.translate.onLangChange.subscribe(() => {
+            this.initMenuItems();
+        });
     }
 }

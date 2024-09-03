@@ -22,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeUniformService } from './employee-uniform.service';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-employee-uniform',
@@ -67,7 +68,7 @@ export class EmployeeUniformComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -215,7 +216,7 @@ export class EmployeeUniformComponent {
             this.selectedDate,
             'yyyy-MM-dd'
         );
-        
+
         let body = {
             employeeId: this.empId,
             uniformCodeId: this.selectedUnifromCode?.['id'],

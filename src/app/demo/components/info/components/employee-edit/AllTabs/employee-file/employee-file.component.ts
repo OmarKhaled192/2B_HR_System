@@ -24,6 +24,7 @@ import { Globals } from 'src/app/class/globals';
 import { ActivatedRoute, Data } from '@angular/router';
 import { EmployeeFileService } from './employee-file.service';
 import { environment } from 'src/environments/environment';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-employee-file',
@@ -67,7 +68,7 @@ export class EmployeeFileComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

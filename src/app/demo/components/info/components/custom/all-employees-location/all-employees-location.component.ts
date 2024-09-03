@@ -23,6 +23,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { AllEmployeeLocationService } from './all-employee-location.service';
 import { ActivatedRoute } from '@angular/router';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-all-employees-location',
@@ -67,7 +68,7 @@ export class AllEmployeesLocationComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -363,7 +364,7 @@ export class AllEmployeesLocationComponent {
         let body = {
             id: empLocation.id,
             locationId: this.selectedLocationEditId,
-            employeeId: this.selectedEmployeeEdit?.["id"],
+            employeeId: this.selectedEmployeeEdit?.['id'],
         };
 
         console.clear();

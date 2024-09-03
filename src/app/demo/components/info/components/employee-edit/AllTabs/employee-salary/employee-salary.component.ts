@@ -22,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
 import { EmployeeSalaryService } from './employee-salary.service';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-employee-salary',
@@ -66,7 +67,7 @@ export class EmployeeSalaryComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

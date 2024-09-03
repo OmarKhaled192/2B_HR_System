@@ -32,6 +32,7 @@ import { ActivatedRoute, Data } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { VacationRequestService } from './vacation-request.service';
 import { environment } from 'src/environments/environment';
+import { itemsPerPageGlobal } from 'src/main';
 
 export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
     const dateFrom = formGroup.get('FromDay')?.value;
@@ -87,7 +88,7 @@ export class VacationRequestComponent {
     baseUrlFile: string = environment.mediaUrl;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

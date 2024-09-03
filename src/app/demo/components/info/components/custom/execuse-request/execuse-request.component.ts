@@ -32,6 +32,7 @@ import { ActivatedRoute, Data } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { environment } from 'src/environments/environment';
 import { ExecuseRequestService } from './execuse-request.service';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-execuse-request',
@@ -76,7 +77,7 @@ export class ExecuseRequestComponent {
     baseUrlFile: string = environment.mediaUrl;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

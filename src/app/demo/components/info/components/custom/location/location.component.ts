@@ -20,6 +20,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
 import { LocationService } from './location.service';
+import { itemsPerPageGlobal } from 'src/main';
 @Component({
     selector: 'app-location',
     templateUrl: './location.component.html',
@@ -58,7 +59,7 @@ export class LocationComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -124,7 +125,7 @@ export class LocationComponent {
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id)
+        console.log(rowData.id);
         this._LocationService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
@@ -364,13 +365,14 @@ export class LocationComponent {
         link.click();
     }
 
-    splitCamelCase(str:any) {
-        return str.replace(/([A-Z])/g, ' $1')
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+    splitCamelCase(str: any) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     convertToCSV(data: any[]): string {

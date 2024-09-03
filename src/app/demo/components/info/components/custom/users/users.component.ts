@@ -30,6 +30,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
 import { UsersService } from './users.service';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { itemsPerPageGlobal } from 'src/main';
 export const passwordMatchValidator: ValidatorFn = (formGroup: FormGroup) => {
     const password = formGroup.get('password')?.value;
     const rePassword = formGroup.get('rePassword')?.value;
@@ -82,7 +83,7 @@ export class UsersComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

@@ -21,6 +21,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { PublicVacationService } from './public-vacation.service';
 import { Globals } from 'src/app/class/globals';
 import { TranslateModule } from '@ngx-translate/core';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-public-vacation',
@@ -62,7 +63,7 @@ export class PublicVacationComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -369,7 +370,7 @@ export class PublicVacationComponent {
             id: product.id,
             date: product.date,
             reason: product.reason,
-            shiftId: this.selectedShiftEdit?.["id"],
+            shiftId: this.selectedShiftEdit?.['id'],
         };
 
         console.clear();

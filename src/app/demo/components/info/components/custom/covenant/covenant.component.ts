@@ -20,34 +20,35 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { CovenantService } from './covenant.service';
 import { Globals } from 'src/app/class/globals';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
-  selector: 'app-covenant',
-  templateUrl: './covenant.component.html',
-  styleUrl: './covenant.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgxPaginationModule,
-    ToolbarModule,
-    TableModule,
-    RippleModule,
-    FileUploadModule,
-    HttpClientModule,
-    ButtonModule,
-    FormsModule,
-    DialogModule,
-    ToastModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    ReactiveFormsModule,
-    TranslateModule
-  ],
-  providers: [MessageService, TranslateService],
+    selector: 'app-covenant',
+    templateUrl: './covenant.component.html',
+    styleUrl: './covenant.component.scss',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NgxPaginationModule,
+        ToolbarModule,
+        TableModule,
+        RippleModule,
+        FileUploadModule,
+        HttpClientModule,
+        ButtonModule,
+        FormsModule,
+        DialogModule,
+        ToastModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        ReactiveFormsModule,
+        TranslateModule,
+    ],
+    providers: [MessageService, TranslateService],
 })
 export class CovenantComponent {
     constructor(
@@ -59,7 +60,7 @@ export class CovenantComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -86,8 +87,7 @@ export class CovenantComponent {
     selectedItemsData: any;
 
     ngOnInit() {
-
-        this.endPoint = "Covenant";
+        this.endPoint = 'Covenant';
 
         // adding this Configurations in each Component Customized
         Globals.getMainLangChanges().subscribe((mainLang) => {
@@ -125,52 +125,51 @@ export class CovenantComponent {
         ];
 
         // get drop down of CovenantCategory
-        this.getDropDown("CovenantCategory");
+        this.getDropDown('CovenantCategory');
     }
-
 
     getDropDown(field: string) {
         this._CovenantService.getDropDown(field).subscribe({
-            next: (res:any) => {
+            next: (res: any) => {
                 console.log(res.data);
                 this.CovenantCategoryDropDown = res.data;
-
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
-    splitCamelCase(str:any) {
-        return str.replace(/([A-Z])/g, ' $1')
-        .trim()
-        .replace(/\s+/g, ' ')
-        .split(' ')
-        .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+    splitCamelCase(str: any) {
+        return str
+            .replace(/([A-Z])/g, ' $1')
+            .trim()
+            .replace(/\s+/g, ' ')
+            .split(' ')
+            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 
     changeCovenantCategory() {
-        this.CovenantCategoryIdSelected = this.selectedCovenantCategory.id
+        this.CovenantCategoryIdSelected = this.selectedCovenantCategory.id;
     }
 
-
     editProduct(rowData: any) {
-        console.log(rowData.id)
+        console.log(rowData.id);
         this._CovenantService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
                 this.product = { ...res.data };
                 this.productDialog = true;
-                this.selectedCovenantCategoryOnEdit = this.CovenantCategoryDropDown.find((cat: any) =>
-                    this.product.covenantCategoryId == cat.id
-                );
+                this.selectedCovenantCategoryOnEdit =
+                    this.CovenantCategoryDropDown.find(
+                        (cat: any) => this.product.covenantCategoryId == cat.id
+                    );
             },
             error: (err) => {
                 console.log(err);
-            }
-        })
+            },
+        });
     }
 
     confirmDelete(id: number) {
@@ -254,9 +253,11 @@ export class CovenantComponent {
     }
 
     setFieldsNulls() {
-        (this.newNameAr = null), (this.newNameEn = null),
-        (this.newNotes = null), (this.CovenantCategoryIdSelected = null),
-        (this.selectedCovenantCategory = null)
+        (this.newNameAr = null),
+            (this.newNameEn = null),
+            (this.newNotes = null),
+            (this.CovenantCategoryIdSelected = null),
+            (this.selectedCovenantCategory = null);
     }
 
     loadData(
@@ -335,7 +336,7 @@ export class CovenantComponent {
             name: product.name,
             id: product.id,
             notes: product.notes,
-            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id
+            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id,
         };
 
         this._CovenantService.Edit(body).subscribe({
@@ -370,7 +371,7 @@ export class CovenantComponent {
             this.showFormNew = false;
         } else {
             this.showFormNew = true;
-            this.setFieldsNulls()
+            this.setFieldsNulls();
         }
     }
 
@@ -398,7 +399,6 @@ export class CovenantComponent {
 
         const separator = ',';
         let keys = [];
-
 
         this.cols.forEach((row) => {
             keys.push(row.field);
@@ -468,9 +468,7 @@ export class CovenantComponent {
         }
     }
 
-
     sortByName(event: any) {
         this.sortField = 'name';
     }
-
 }

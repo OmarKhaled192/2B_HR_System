@@ -24,6 +24,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
 import { environment } from 'src/environments/environment';
 import { AllEmployeeFileService } from './all-employee-file.service';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-all-employees-file',
@@ -67,7 +68,7 @@ export class AllEmployeesFileComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

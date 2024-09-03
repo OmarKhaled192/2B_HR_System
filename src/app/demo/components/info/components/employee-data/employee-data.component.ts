@@ -37,6 +37,7 @@ import { PanelModule } from 'primeng/panel';
 import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { Router } from '@angular/router';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-employee',
@@ -86,7 +87,7 @@ export class EmployeeDataComponent {
     @ViewChild('manageItems') manageItems: ElementRef;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 4;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -386,12 +387,12 @@ export class EmployeeDataComponent {
             },
             error: (err) => {
                 console.log(err);
-                 this.messageService.add({
-                     severity: 'error in reset Mac Address',
-                     summary: 'Error',
-                     detail: err,
-                     life: 3000,
-                 });
+                this.messageService.add({
+                    severity: 'error in reset Mac Address',
+                    summary: 'Error',
+                    detail: err,
+                    life: 3000,
+                });
             },
         });
     }
@@ -556,7 +557,6 @@ export class EmployeeDataComponent {
             this.sortField,
             this.sortOrder
         );
-
     }
 
     deleteSelectedProducts() {

@@ -22,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { EmployeeManagerService } from './employee-manager.service';
 import { ActivatedRoute } from '@angular/router';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-employee-manager',
@@ -66,7 +67,7 @@ export class EmployeeManagerComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -142,15 +143,14 @@ export class EmployeeManagerComponent {
                 console.log('location Drop Down');
                 console.log(this.managerDropDown);
 
-                console.log("Manager Id");
+                console.log('Manager Id');
                 console.log(rowData.mangerId);
-
 
                 this.selectedManagerEdit = this.managerDropDown.find(
                     (manger: any) => manger.id == rowData.mangerId
                 );
 
-                console.log("selected manager edit");
+                console.log('selected manager edit');
 
                 console.log(this.selectedManagerEdit);
 

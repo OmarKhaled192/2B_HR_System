@@ -23,6 +23,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
 import { AllEmployeeCovenantService } from './all-employee-covenant.service';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     standalone: true,
@@ -66,7 +67,7 @@ export class AllEmployeesCovenantComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;

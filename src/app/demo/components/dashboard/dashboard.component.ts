@@ -7,6 +7,7 @@ import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Globals } from 'src/app/class/globals';
 import { TranslateService } from '@ngx-translate/core';
 
+
 @Component({
     templateUrl: './dashboard.component.html',
 })
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private productService: ProductService,
         public layoutService: LayoutService,
         private translate: TranslateService
+
     ) {
         this.subscription = this.layoutService.configUpdate$
             .pipe(debounceTime(25))
@@ -50,6 +52,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             // update mainLang at Service
 
             // then, load data again to lens on the changes of mainLang & endPoints Call
+
         });
     }
 

@@ -22,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { AllEmployeeManagerService } from './all-employee-manager.service';
 import { ActivatedRoute } from '@angular/router';
+import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-all-employees-manager',
@@ -66,7 +67,7 @@ export class AllEmployeesManagerComponent {
     endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 3;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
@@ -222,7 +223,7 @@ export class AllEmployeesManagerComponent {
 
     addNew() {
         let body = {
-            employeeId: this.selectedEmployee?.["id"],
+            employeeId: this.selectedEmployee?.['id'],
             mangerId: this.selectedManagerId,
         };
 
@@ -367,7 +368,7 @@ export class AllEmployeesManagerComponent {
         let body = {
             id: empManager.id,
             mangerId: this.selectedManagerEditId,
-            employeeId: this.selectedEmployeeEdit?.["id"],
+            employeeId: this.selectedEmployeeEdit?.['id'],
         };
 
         console.clear();

@@ -31,6 +31,7 @@ import { Globals } from 'src/app/class/globals';
 import { ActivatedRoute, Data } from '@angular/router';
 import { ExternalMissonService } from './external-misson.service';
 import { PanelModule } from 'primeng/panel';
+import { itemsPerPageGlobal } from 'src/main';
 export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
     const dateFrom = formGroup.get('fromDay')?.value;
     const dateTo = formGroup.get('toDay')?.value;
@@ -85,7 +86,7 @@ export class ExternalMissonComponent {
     @Input() endPoint!: string;
     allData: any = [];
     page: number = 1;
-    itemsPerPage = 10;
+    itemsPerPage = itemsPerPageGlobal;
     selectedItems: any = [];
     cols: any[] = [];
     totalItems: any;
