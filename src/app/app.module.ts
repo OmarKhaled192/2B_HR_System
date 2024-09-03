@@ -27,9 +27,15 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
+import { environment } from 'src/environments/environment';
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-
-    return new TranslateHttpLoader(http, '/2B_HR_System/assets/i18n/', '.json');
+    if (environment.production)
+        return new TranslateHttpLoader(
+            http,
+            '/2B_HR_System/assets/i18n/',
+            '.json'
+        );
+    else return new TranslateHttpLoader(http);
 }
 
 @NgModule({
