@@ -86,7 +86,6 @@
     "number Of Hours": "Number Of Hours",
     "Day": "Day",
     "Company Policy": "Company Policy",
-    "Filter": "Filter",
     "Add New Bank": "Add New Bank",
     "Add New Government": "Add New Government",
     "Add New Qualification": "Add New Qualification",
@@ -380,6 +379,6 @@
     "Hierarchy": "Hierarchy",
     "Submenu": "Submenu",
     "Submenu 1.1": "Submenu 1.1",
-    "Submenu 1.1.1": "Submenu 1.1.1"
+    "Submenu 1.1.1": "Submenu 1.1.1",
     "Filter": "Filter"
 }
