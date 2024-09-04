@@ -1,12 +1,7 @@
 import { environment } from './../../../../../../environments/environment';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import {
-    Component,
-    ElementRef,
-    Input,
-    ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import {
     FormControl,
     FormGroup,
@@ -240,7 +235,6 @@ export class EmployeeEditComponent {
         Globals.getMainLangChanges().subscribe((mainLang) => {
             console.log('Main language changed to:', mainLang);
             this.translate.use(mainLang);
-
 
             this.employeeEditService.setCulture(mainLang);
             this.Actions = [
@@ -570,6 +564,12 @@ export class EmployeeEditComponent {
         this.phone = data.phone;
         this.machineCode = data.machineCode;
         this.email = data.email;
+
+        this.getData().subscribe({
+            next: (res) => {
+                this.allData = res.data;
+            },
+        });
     }
 
     getDropDownEnum(self: { field: any; enum: string }) {
@@ -771,6 +771,11 @@ export class EmployeeEditComponent {
         console.log(event);
     }
     getData(): Observable<any> {
+        this.employeeEditService.GetById(this.currentId).subscribe({
+            next: (res) => {
+                this.allData = res.data;
+            },
+        });
         return this.employeeEditService.GetById(this.currentId);
     }
     getDropDownsData() {
@@ -863,10 +868,6 @@ export class EmployeeEditComponent {
             field: 'dropdownItemsContractType',
             enum: 'ContractType',
         });
-
-        setTimeout(() => {
-            this.getData().subscribe();
-        }, 1000);
     }
     onSelect(event: any) {
         console.log(event);

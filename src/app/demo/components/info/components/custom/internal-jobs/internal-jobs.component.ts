@@ -462,6 +462,6 @@ export class InternalJobsComponent {
         }
     }
     sortByName(event: any) {
-        this.sortField = 'name';
+        this.sortField = 'nameOfJob';
     }
 }

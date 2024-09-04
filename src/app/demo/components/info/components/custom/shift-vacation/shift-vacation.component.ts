@@ -22,6 +22,7 @@ import { ShiftVacationService } from './shift-vacation.service';
 import { DayNamePipe } from './day-name.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { itemsPerPageGlobal } from 'src/main';
+import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-shift-vacation',
@@ -102,6 +103,25 @@ export class ShiftVacationComponent {
         this.endPoint = 'ShiftVacation';
 
         this._ShiftVacationService.setEndPoint(this.endPoint);
+
+        Globals.getMainLangChanges().subscribe((mainLang) => {
+            console.log('Main language changed to:', mainLang);
+
+            // update mainLang at Service
+            this._ShiftVacationService.setCulture(mainLang);
+
+            // update endpoint
+            this._ShiftVacationService.setEndPoint(this.endPoint);
+
+            // then, load data again to lens on the changes of mainLang & endPoints Call
+            this.loadData(
+                this.page,
+                this.itemsPerPage,
+                this.nameFilter,
+                this.sortField,
+                this.sortOrder
+            );
+        });
 
         this.cols = [
             // custom fields

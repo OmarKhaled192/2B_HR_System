@@ -479,7 +479,7 @@ export class CloseMonthComponent {
         }
     }
     sortByName(event: any) {
-        this.sortField = 'name';
+        this.sortField = 'monthName';
     }
     generateYearOptions() {
         const currentYear = new Date().getFullYear();

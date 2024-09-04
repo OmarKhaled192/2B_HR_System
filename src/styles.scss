@@ -276,9 +276,9 @@ html:lang(ar) .p-input-icon-right > .p-icon-wrapper,
 html:lang(ar) .p-input-icon-right > .p-inputtext {
     padding-right: 0.5rem;
 }
-.p-calendar .p-datepicker {
-    max-width: 100%;
-}
+// .p-calendar .p-datepicker {
+//     max-width: 100%;
+// }
 html:lang(ar) .p-panel .p-panel-icons-end {
     margin-left: unset;
     margin-right: auto;
@@ -295,4 +295,8 @@ html:lang(ar) .p-panel .p-panel-icons-end {
 html:lang(ar) .layout-menu ul a .layout-submenu-toggler {
     margin-left: unset;
     margin-right: auto;
+}
+html:lang(ar) .layout-menu ul ul li a {
+    margin-left: unset;
+    margin-right: 1rem;
 }
