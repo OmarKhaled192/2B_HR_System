@@ -194,7 +194,7 @@ export class AttendenceConfigurationComponent {
 
     confirmDelete(id: number) {
         // perform delete from sending request to api
-        this.attendenceConfigurationService.DeleteSoftById(id).subscribe({
+        this.attendenceConfigurationService.deleteById(id).subscribe({
             next: () => {
                 // close dialog
                 this.deleteProductDialog = false;
@@ -206,6 +206,13 @@ export class AttendenceConfigurationComponent {
                     detail: 'Product Deleted',
                     life: 3000,
                 });
+                this.loadData(
+                    this.page,
+                    this.itemsPerPage,
+                    this.nameFilter,
+                    this.sortField,
+                    this.sortOrder
+                );
             },
             error: (err) => {
                 console.log(err);
@@ -326,9 +333,10 @@ export class AttendenceConfigurationComponent {
         this.submitted = false;
     }
 
-    deleteProduct(product: any) {
+    deleteProduct(product: any, event: any) {
         this.deleteProductDialog = true;
         this.product = { ...product };
+        event.stopPropagation();
     }
 
     saveProduct(id: number, product: any) {
