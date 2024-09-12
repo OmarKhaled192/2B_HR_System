@@ -300,3 +300,7 @@ html:lang(ar) .layout-menu ul ul li a {
     margin-left: unset;
     margin-right: 1rem;
 }
+.p-toast .p-toast-message .p-toast-message-content {
+    align-items: center;
+    gap: 15px;
+}

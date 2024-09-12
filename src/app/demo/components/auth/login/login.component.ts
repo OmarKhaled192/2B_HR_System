@@ -29,6 +29,7 @@ export class LoginComponent {
     valCheck: string[] = ['remember'];
 
     password!: string;
+    theme: string;
 
     constructor(
         public layoutService: LayoutService,
@@ -52,34 +53,46 @@ export class LoginComponent {
                 });
             },
         });
+        this.theme = localStorage.getItem('theme')
+            ? localStorage.getItem('theme')
+            : 'saga-orange';
     }
 
     submitLoginForm(logForm: FormGroup) {
-        this.authService.login(logForm.value).subscribe({
-            next: (res) => {
-                if (res.data.token && res.statusCode == 200) {
-                    localStorage.setItem('userToken', res.data.token);
-                    this.router.navigate(['/dashboard']);
-                }
-            },
-            error: (err) => {
-                if (err.status == 401) {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'Invalid You Are Unauthorized',
-                        life: 3000,
-                    });
-                    this.router.navigate(['/login']);
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'Invalid Email or Password',
-                        life: 3000,
-                    });
-                }
-            },
-        });
+        if (logForm.status == 'VALID') {
+            this.authService.login(logForm.value).subscribe({
+                next: (res) => {
+                    if (res.data.token && res.statusCode == 200) {
+                        localStorage.setItem('userToken', res.data.token);
+                        this.router.navigate(['/dashboard']);
+                    }
+                },
+                error: (err) => {
+                    if (err.status == 401) {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: 'You Are Unauthorized',
+                            life: 3000,
+                        });
+                        this.router.navigate(['/login']);
+                    } else {
+                        this.messageService.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: err.message,
+                            life: 3000,
+                        });
+                    }
+                },
+            });
+        } else {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Incorrect email or password',
+                life: 3000,
+            });
+        }
     }
 }

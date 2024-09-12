@@ -318,6 +318,7 @@ export class EmployeeEditComponent {
             .pipe(
                 tap((data) => {
                     this.allData = data.data;
+                    this.patchFormValues(this.allData, transformedDates);
 
                     console.log('Data fetched:', this.allData);
 
@@ -431,6 +432,9 @@ export class EmployeeEditComponent {
                 action: 'EmployeeVacationStock',
             },
         ];
+
+        console.log('this.allData');
+        console.log(this.allData);
     }
 
     getObject(id: number, dropdown: any[]) {
@@ -446,7 +450,7 @@ export class EmployeeEditComponent {
         });
     }
 
-    patchFormValues(data: any, transformedDates: any) {
+    patchFormValues(data: any, transformedDates?: any) {
         // console.clear();
         console.log('data => ', data);
 
@@ -568,6 +572,7 @@ export class EmployeeEditComponent {
         this.getData().subscribe({
             next: (res) => {
                 this.allData = res.data;
+                this.patchFormValues(this.allData);
             },
         });
     }
@@ -774,6 +779,7 @@ export class EmployeeEditComponent {
         this.employeeEditService.GetById(this.currentId).subscribe({
             next: (res) => {
                 this.allData = res.data;
+                this.patchFormValues(this.allData);
             },
         });
         return this.employeeEditService.GetById(this.currentId);
@@ -910,6 +916,7 @@ export class EmployeeEditComponent {
                         tap((data) => {
                             this.allData = data.data;
                             console.log('Data fetched:', this.allData);
+                            this.patchFormValues(this.allData);
 
                             // Perform any additional operations if needed
                             // ...
