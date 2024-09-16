@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,8 +27,17 @@ import {
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
+import { environment } from 'src/environments/environment.prod';
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-    return new TranslateHttpLoader(http);
+    console.log('environment Production App Module ');
+    console.log(environment.production);
+    if (!isDevMode())
+        return new TranslateHttpLoader(
+            http,
+            '/2B_HR_System/assets/i18n/',
+            '.json'
+        );
+    else return new TranslateHttpLoader(http);
 }
 
 @NgModule({

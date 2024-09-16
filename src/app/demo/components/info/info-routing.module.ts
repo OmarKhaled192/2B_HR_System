@@ -41,6 +41,7 @@ import { ExecuseRequestComponent } from './components/custom/execuse-request/exe
 import { InternalJobsComponent } from './components/custom/internal-jobs/internal-jobs.component';
 import { AttendenceConfigurationComponent } from './components/custom/attendence-configuration/attendence-configuration.component';
 import { AttendenceConfigEditComponent } from './components/custom/attendence-config-edit/attendence-config-edit.component';
+import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
 
 @NgModule({
     imports: [

@@ -55,7 +55,7 @@
     "SUBMENU_1_2": "Submenu 1.2",
     "SUBMENU_1_2_1": "Submenu 1.2.1",
     "Public Vacation": "اجازة عامة",
-    "Shift Vacation": "ترحيل اجازة",
+    "Shift Vacation": "اجازات الوردية",
     "Relative Relation": "علاقة القرابة ",
     "Contract Type": "نوع العقد",
     "Job Nature": "طبيعة العمل",
@@ -391,5 +391,9 @@
     "Count Hours": "عدد الساعات",
     "EMPLOYEE STRUCTURE": "الهيكل الوظيفي",
     "SETTINGS": "الاعدادات",
-    "EMPLOYEE AFFAIRS": "شئون عاملين"
+    "EMPLOYEE AFFAIRS": "شئون عاملين",
+    "Hierarchy": "تفرعات",
+    "Submenu": "قائمة فرعية",
+    "Submenu 1.1": "قائمة فرعية 1.1",
+    "Submenu 1.1.1": "قائمة فرعية 1.1.1"
 }

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
 import { AppLayoutComponent } from './layout/app-layout/app.layout.component';
 import { authGuard } from './demo/components/auth/auth.guard';
+import { TestInputComponentComponent } from './demo/components/info/components/test-input-component/test-input-component.component';
 
 @NgModule({
     imports: [
@@ -24,6 +25,11 @@ import { authGuard } from './demo/components/auth/auth.guard';
                                 import(
                                     './demo/components/dashboard/dashboard.module'
                                 ).then((m) => m.DashboardModule),
+                        },
+                        {
+                            path: 'testInput',
+                            canActivate: [authGuard],
+                            component: TestInputComponentComponent,
                         },
                         {
                             path: 'info',
