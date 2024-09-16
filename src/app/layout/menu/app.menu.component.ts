@@ -277,11 +277,18 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/users'],
                             },
+                            {
+                                label: this.translate.instant(
+                                    'Attendance Configuration'
+                                ),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/attendenceConfig'],
+                            },
                         ],
                     },
                 ],
             },
-        ]
+        ];
     }
 
     ngOnInit() {

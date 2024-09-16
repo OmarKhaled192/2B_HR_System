@@ -63,6 +63,12 @@ export class LockupsService {
         );
     }
 
+    deleteById(id: number): Observable<any> {
+        return this.http.delete(
+            `${this.baseurl}/${this.endPoint}/${id}/?culture=${this.culture}`
+        );
+    }
+
     DeleteRangeSoft(body: number[]): Observable<any> {
         return this.http.post(
             `${this.baseurl}/${this.endPoint}/DeleteRangeSoft/?culture=${this.culture}`,

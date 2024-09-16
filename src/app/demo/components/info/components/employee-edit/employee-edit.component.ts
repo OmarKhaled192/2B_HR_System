@@ -1,12 +1,7 @@
 import { environment } from './../../../../../../environments/environment';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import {
-    Component,
-    ElementRef,
-    Input,
-    ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import {
     FormControl,
     FormGroup,
@@ -241,7 +236,6 @@ export class EmployeeEditComponent {
             console.log('Main language changed to:', mainLang);
             this.translate.use(mainLang);
 
-
             this.employeeEditService.setCulture(mainLang);
             this.Actions = [
                 {
@@ -324,6 +318,7 @@ export class EmployeeEditComponent {
             .pipe(
                 tap((data) => {
                     this.allData = data.data;
+                    this.patchFormValues(this.allData, transformedDates);
 
                     console.log('Data fetched:', this.allData);
 
@@ -437,6 +432,9 @@ export class EmployeeEditComponent {
                 action: 'EmployeeVacationStock',
             },
         ];
+
+        console.log('this.allData');
+        console.log(this.allData);
     }
 
     getObject(id: number, dropdown: any[]) {
@@ -452,7 +450,7 @@ export class EmployeeEditComponent {
         });
     }
 
-    patchFormValues(data: any, transformedDates: any) {
+    patchFormValues(data: any, transformedDates?: any) {
         // console.clear();
         console.log('data => ', data);
 
@@ -570,6 +568,13 @@ export class EmployeeEditComponent {
         this.phone = data.phone;
         this.machineCode = data.machineCode;
         this.email = data.email;
+
+        this.getData().subscribe({
+            next: (res) => {
+                this.allData = res.data;
+                this.patchFormValues(this.allData);
+            },
+        });
     }
 
     getDropDownEnum(self: { field: any; enum: string }) {
@@ -771,6 +776,12 @@ export class EmployeeEditComponent {
         console.log(event);
     }
     getData(): Observable<any> {
+        this.employeeEditService.GetById(this.currentId).subscribe({
+            next: (res) => {
+                this.allData = res.data;
+                this.patchFormValues(this.allData);
+            },
+        });
         return this.employeeEditService.GetById(this.currentId);
     }
     getDropDownsData() {
@@ -863,10 +874,6 @@ export class EmployeeEditComponent {
             field: 'dropdownItemsContractType',
             enum: 'ContractType',
         });
-
-        setTimeout(() => {
-            this.getData().subscribe();
-        }, 1000);
     }
     onSelect(event: any) {
         console.log(event);
@@ -909,6 +916,7 @@ export class EmployeeEditComponent {
                         tap((data) => {
                             this.allData = data.data;
                             console.log('Data fetched:', this.allData);
+                            this.patchFormValues(this.allData);
 
                             // Perform any additional operations if needed
                             // ...

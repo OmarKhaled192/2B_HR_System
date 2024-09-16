@@ -39,6 +39,8 @@ import { ExternalMissonComponent } from './components/custom/external-misson/ext
 import { VacationRequestComponent } from './components/custom/vacation-request/vacation-request.component';
 import { ExecuseRequestComponent } from './components/custom/execuse-request/execuse-request.component';
 import { InternalJobsComponent } from './components/custom/internal-jobs/internal-jobs.component';
+import { AttendenceConfigurationComponent } from './components/custom/attendence-configuration/attendence-configuration.component';
+import { AttendenceConfigEditComponent } from './components/custom/attendence-config-edit/attendence-config-edit.component';
 import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
 
 @NgModule({
@@ -255,8 +257,18 @@ import { TestInputComponentComponent } from './components/test-input-component/t
                 canActivate: [authGuard],
                 component: EmployeeComponent,
             },
+            {
+                path: 'attendenceConfig',
+                canActivate: [authGuard],
+                component: AttendenceConfigurationComponent,
+            },
+            {
+                path: 'attendenceConfig/edit/:id',
+                canActivate: [authGuard],
+                component: AttendenceConfigEditComponent,
+            },
 
-            // { path: '**', component: NotfoundComponent },
+            { path: '**', component: NotfoundComponent },
         ]),
     ],
     exports: [RouterModule],

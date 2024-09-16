@@ -1,0 +1,29 @@
+.btn-add {
+    display: flex;
+    margin-top: 24px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.field-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.field > label {
+    margin-bottom: 0 !important;
+}
+.lateSettingsLists > div {
+    margin-block: 24px;
+    background-color: #eee;
+    padding: 16px;
+    border-radius: 16px;
+}
+.crud-operations {
+    justify-content: center;
+}
+.tableRow {
+    cursor: pointer;
+}
