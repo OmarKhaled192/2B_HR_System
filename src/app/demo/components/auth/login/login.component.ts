@@ -23,7 +23,7 @@ import { Globals } from 'src/app/class/globals';
 })
 export class LoginComponent {
     loginForm: FormGroup = new FormGroup({
-        email: new FormControl(null, [Validators.required, Validators.email]),
+        email: new FormControl(null, [Validators.required]),
         password: new FormControl(null, [Validators.required]),
     });
     valCheck: string[] = ['remember'];
