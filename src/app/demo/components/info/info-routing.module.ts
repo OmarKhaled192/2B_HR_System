@@ -39,6 +39,7 @@ import { ExternalMissonComponent } from './components/custom/external-misson/ext
 import { VacationRequestComponent } from './components/custom/vacation-request/vacation-request.component';
 import { ExecuseRequestComponent } from './components/custom/execuse-request/execuse-request.component';
 import { InternalJobsComponent } from './components/custom/internal-jobs/internal-jobs.component';
+import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
 
 @NgModule({
     imports: [
@@ -189,9 +190,9 @@ import { InternalJobsComponent } from './components/custom/internal-jobs/interna
                 component: ExecuseRequestComponent,
             },
             {
-              path: 'InternalJobs',
+                path: 'InternalJobs',
                 canActivate: [authGuard],
-                component: InternalJobsComponent
+                component: InternalJobsComponent,
             },
             {
                 path: 'allEmployeesCovenant',
