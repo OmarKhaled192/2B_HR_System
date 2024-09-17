@@ -172,6 +172,7 @@
     "Select BirthDate": "Select BirthDate",
     "Select Religin": "Select Religin",
     "Select MaritalStatus": "Select MaritalStatus",
+    "Marital Status": "Marital Status",
     "Select BloodTypes": "Select BloodTypes",
     "Select Gender": "Select Gender",
     "Select Qualification": "Select Qualification",
@@ -383,6 +384,7 @@
     "Submenu 1.1.1": "Submenu 1.1.1",
     "Filter": "Filter",
     "Attendance Configuration": "Attendance Configuration",
+    "Select Attendance Configuration":"Select Attendance Configuration",
     "Employee Shifts": "Employee Shifts",
     "Assign New Shift For Some Employees": "Assign New Shift For Some Employees"
 }

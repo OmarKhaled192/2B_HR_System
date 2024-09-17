@@ -145,7 +145,7 @@
 
                     <div class="field col-12 md:col-3">
                         <label htmlFor="maritalStatus">{{
-                            "Material Status" | translate
+                            "Martial Status" | translate
                         }}</label>
                         <p-dropdown
                             name="MaritalStatus"
@@ -194,6 +194,20 @@
                             [placeholder]="'Select Qualification' | translate"
                         ></p-dropdown>
                     </div>
+
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="AttendanceConfiguration">{{
+                            "Attendance Configuration" | translate
+                        }}</label>
+                        <p-dropdown
+                            name="AttendanceConfiguration"
+                            [options]="dropdownItemsAttendanceConfiguration"
+                            optionLabel="name"
+                            [(ngModel)]="selectedAttendanceConfiguration"
+                            [placeholder]="'Select Attendance Configuration' | translate"
+                        ></p-dropdown>
+                    </div>
+
 
                     <div class="field col-12 md:col-3">
                         <label htmlFor="Job">Job</label>
