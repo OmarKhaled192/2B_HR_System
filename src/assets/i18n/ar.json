@@ -127,6 +127,7 @@
     "stockVacation": "مخزون الاجازة",
     "dayCount": "رصيد الاجازة",
     "vacation starts after": "تبدأ الاجازة بعد",
+    "Department Employees": "موظفين القسم",
     "All Employees": "جميع الموظفين",
     "EMPLOYEE_DATA": "بيانات الموظف",
     "ADD_EMPLOYEE": "اضافة موظف",
@@ -396,5 +397,7 @@
     "Submenu": "قائمة فرعية",
     "Submenu 1.1": "قائمة فرعية 1.1",
     "Submenu 1.1.1": "قائمة فرعية 1.1.1",
-    "Attendance Configuration": "اعدادات الحضور"
+    "Attendance Configuration": "اعدادات الحضور",
+     "Employee Shifts": "ورديات الموظفين",
+    "Assign New Shift For Some Employees": "اعدد وردية للموظفين"
 }

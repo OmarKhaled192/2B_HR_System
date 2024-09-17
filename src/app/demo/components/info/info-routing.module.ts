@@ -42,6 +42,7 @@ import { InternalJobsComponent } from './components/custom/internal-jobs/interna
 import { AttendenceConfigurationComponent } from './components/custom/attendence-configuration/attendence-configuration.component';
 import { AttendenceConfigEditComponent } from './components/custom/attendence-config-edit/attendence-config-edit.component';
 import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
+import { SetEmployeeShiftsComponent } from './components/custom/set-employee-shifts/set-employee-shifts.component';
 
 @NgModule({
     imports: [
@@ -266,6 +267,12 @@ import { TestInputComponentComponent } from './components/test-input-component/t
                 path: 'attendenceConfig/edit/:id',
                 canActivate: [authGuard],
                 component: AttendenceConfigEditComponent,
+            },
+
+            {
+                path: 'setEmployeeShifts',
+                canActivate: [authGuard],
+                component: SetEmployeeShiftsComponent,
             },
 
             { path: '**', component: NotfoundComponent },

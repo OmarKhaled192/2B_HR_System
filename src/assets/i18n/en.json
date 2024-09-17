@@ -186,6 +186,7 @@
     "Select Recuritment Source": "Select Recuritment Source",
     "Select Contract Type": "Select Contract Type",
     "Hire Date": "Hire Date",
+    "Department Employees": "Department Employees",
     "Enter Discription": "Enter Discription",
     "Add New Employee Location": "Add New Employee Location",
     "SelectActionFromTheList": "Select Action From The List",
@@ -381,5 +382,7 @@
     "Submenu 1.1": "Submenu 1.1",
     "Submenu 1.1.1": "Submenu 1.1.1",
     "Filter": "Filter",
-    "Attendance Configuration": "Attendance Configuration"
+    "Attendance Configuration": "Attendance Configuration",
+    "Employee Shifts": "Employee Shifts",
+    "Assign New Shift For Some Employees": "Assign New Shift For Some Employees"
 }
