@@ -91,6 +91,7 @@ export class EmployeeSalaryComponent {
     changing: number;
     badal: number;
     hawafez: number;
+    kpi: number;
 
     // for edit
     yearEdit: number;
@@ -98,6 +99,7 @@ export class EmployeeSalaryComponent {
     changingEdit: number;
     badalEdit: number;
     hawafezEdit: number;
+    kpiEdit: number;
 
     ngOnInit() {
         this.route.parent?.paramMap.subscribe((params) => {
@@ -114,6 +116,7 @@ export class EmployeeSalaryComponent {
             { field: 'employeeName', header: 'Employee' },
             { field: 'badal', header: 'Badal' },
             { field: 'basicSalry', header: 'BasicSalry' },
+            { field: 'kpi', header: 'KPI' },
             { field: 'changing', header: 'Changing' },
             { field: 'hawafez', header: 'Hawafez' },
             { field: 'year', header: 'Year' },
@@ -187,6 +190,7 @@ export class EmployeeSalaryComponent {
             employeeId: this.empId,
             badal: this.badal,
             basicSalry: this.basicSalry,
+            kpi: this.kpi,
             changing: this.changing,
             hawafez: this.hawafez,
             year: this.year,
@@ -327,6 +331,7 @@ export class EmployeeSalaryComponent {
             employeeId: this.empId,
             badal: empSalary.badal,
             basicSalry: empSalary.basicSalry,
+            kpi: empSalary.kpi,
             changing: empSalary.changing,
             hawafez: empSalary.hawafez,
             year: empSalary.year,

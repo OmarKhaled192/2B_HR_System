@@ -48,19 +48,6 @@
 >
     <ng-template pTemplate="content">
         <div class="field">
-            <label htmlFor="employeeName"
-                >{{ "Employee Name" | translate }}
-            </label>
-            <input
-                pInputText
-                [(ngModel)]="employeeName"
-                placeholder="{{ 'Enter Employee Name Here' | translate }}"
-                id="employeeName"
-                type="text"
-            />
-        </div>
-
-        <div class="field">
             <label htmlFor="year">{{ "Year" | translate }} </label>
             <input
                 pInputText
@@ -80,6 +67,17 @@
                 [(ngModel)]="basicSalry"
                 placeholder="{{ 'Enter Basic Salary Here' | translate }}"
                 id="basicSalry"
+                type="text"
+            />
+        </div>
+
+        <div class="field">
+            <label htmlFor="kpi">{{ "KPI" | translate }} </label>
+            <input
+                pInputText
+                [(ngModel)]="kpi"
+                placeholder="{{ 'Enter KPI Here' | translate }}"
+                id="kpi"
                 type="text"
             />
         </div>
@@ -177,6 +175,7 @@
             <th>{{ "Employee" | translate }}</th>
             <th>{{ "Badal" | translate }}</th>
             <th>{{ "Basic Salary" | translate }}</th>
+            <th>{{ "KPI" | translate }}</th>
             <th>{{ "Changing" | translate }}</th>
             <th>{{ "Hawafez" | translate }}</th>
             <th>{{ "Year" | translate }}</th>
@@ -215,6 +214,10 @@
             <td>
                 <span class="p-column-title">basicSalry</span>
                 {{ rowData.basicSalry }}
+            </td>
+            <td>
+                <span class="p-column-title">basicSalry</span>
+                {{ rowData.kpi }}
             </td>
 
             <td>
@@ -341,6 +344,26 @@
                 class="ng-dirty ng-invalid"
                 *ngIf="submitted && !product.basicSalry"
                 >{{ "basicSalry is required." | translate }}</small
+            >
+        </div>
+
+        <div class="field">
+            <label for="kpi">{{ "KPI" | translate }}</label>
+            <input
+                type="text"
+                pInputText
+                id="kpi"
+                [(ngModel)]="product.kpi"
+                required
+                autofocus
+                [ngClass]="{
+                    'ng-invalid ng-dirty': submitted && !product.kpi
+                }"
+            />
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.kpi"
+                >{{ "kpi is required." | translate }}</small
             >
         </div>
 
