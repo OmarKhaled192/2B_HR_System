@@ -1,4 +1,4 @@
-import { CommonModule, Time } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -84,6 +84,10 @@ export class ShiftComponent {
     numberOfHours!: number;
     startAttendeesTime: Date;
     endAttendeesTime: Date;
+
+    checkInBeforeTheShiftStarts: number;
+    checkOutAfterTheShiftEnds: number;
+    checkOutAfterTheShiftStarts: number;
 
     ngOnInit() {
         this.endPoint = 'Shift';
@@ -206,6 +210,9 @@ export class ShiftComponent {
             startAttendeesTime: startAttendeesTime,
             endAttendeesTime: endAttendeesTime,
             numberOfHours: this.numberOfHours,
+            checkInBeforeTheShiftStarts: this.checkInBeforeTheShiftStarts,
+            checkOutAfterTheShiftEnds: this.checkOutAfterTheShiftEnds,
+            checkOutAfterTheShiftStarts: this.checkOutAfterTheShiftStarts,
         };
 
         console.log(body);
@@ -353,6 +360,9 @@ export class ShiftComponent {
             startAttendeesTime: product.startAttendeesTime,
             endAttendeesTime: product.endAttendeesTime,
             numberOfHours: product.numberOfHours,
+            checkInBeforeTheShiftStarts: product.checkInBeforeTheShiftStarts,
+            checkOutAfterTheShiftEnds: product.checkOutAfterTheShiftEnds,
+            checkOutAfterTheShiftStarts: product.checkOutAfterTheShiftStarts,
         };
 
         this._ShiftService.Edit(body).subscribe({
