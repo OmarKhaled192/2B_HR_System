@@ -164,6 +164,7 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/allEmployeesCovenant'],
                             },
+
                             {
                                 label: this.translate.instant(
                                     'All Employees File'
@@ -171,6 +172,7 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/allEmployeesFile'],
                             },
+
                             {
                                 label: this.translate.instant(
                                     'All Employees Location'
@@ -202,6 +204,11 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translate.instant('EMPLOYEE_DATA'),
                                 icon: 'pi pi-fw pi-user',
                                 routerLink: ['/info/employee'],
+                            },
+                            {
+                                label: this.translate.instant('EMPLOYEE_FINGERPRINTs'),
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/info/fingerprints'],
                             },
                         ],
                     },

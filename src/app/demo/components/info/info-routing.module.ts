@@ -43,6 +43,8 @@ import { AttendenceConfigurationComponent } from './components/custom/attendence
 import { AttendenceConfigEditComponent } from './components/custom/attendence-config-edit/attendence-config-edit.component';
 import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
 import { SetEmployeeShiftsComponent } from './components/custom/set-employee-shifts/set-employee-shifts.component';
+import { AllEmployeeFingerPrintsService } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrints.service';
+import { AllEmployeesFingerPrintComponent } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrintscomponent';
 
 @NgModule({
     imports: [
@@ -257,6 +259,11 @@ import { SetEmployeeShiftsComponent } from './components/custom/set-employee-shi
                 path: 'employee',
                 canActivate: [authGuard],
                 component: EmployeeComponent,
+            },
+            {
+                path: 'fingerprints',
+                canActivate: [authGuard],
+                component: AllEmployeesFingerPrintComponent,
             },
             {
                 path: 'attendenceConfig',
