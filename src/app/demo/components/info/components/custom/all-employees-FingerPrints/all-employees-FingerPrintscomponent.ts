@@ -20,7 +20,6 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { DayNamePipe } from '../shift-vacation/day-name.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { MessageService, TreeNode } from 'primeng/api';
-import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 import { AllEmployeeFingerPrintsService } from './all-employees-FingerPrints.service';
 import { PanelModule } from 'primeng/panel';
@@ -65,10 +64,6 @@ export class AllEmployeesFingerPrintComponent {
         private datePipe: DatePipe
     ) {}
 
-    filterForm: FormGroup = new FormGroup({
-        birthDate: new FormControl(null),
-        bloodTypes: new FormControl(null),
-    });
 
     @ViewChild('dt') dt: Table;
     id!: number;
@@ -82,38 +77,41 @@ export class AllEmployeesFingerPrintComponent {
     totalItems: any;
     loading: boolean = true;
     nameFilter: string = '';
-    deleteProductDialog: boolean = false;
-    deleteProductsDialog: boolean = false;
+
     submitted: boolean = false;
     productDialog: boolean = false;
     product: any;
     event!: any;
-    showFormNew: boolean = false;
-    sortField: string = 'employeeName';
+    sortField: string = 'id';
     sortOrder: string = 'asc';
 
     locationDropDown: any;
-    // for new
-    selectedLocation: string;
-    selectedLocationId: number;
-
-    // for edit
-    selectedLocationEdit: string;
-    selectedLocationEditId: number;
-
-    // custom
-    empId: number;
+    isCollapsed: boolean;
 
     // for all employees customize
     dropdownItemsEmployee: any;
-    selectedEmployee: any;
-    selectedEmployeeEdit: any;
+    dropdownItemsDepartment: any;
+    dropdownItemsPartition: any;
+    dropdownItemsShift: any;
+    dropdownItemsJob: any;
+    dropdownItemsLocations: any;
+    dropdownItemsEmployeeManager: any;
+
+    // selected Variables
+    selectedEmployee: any | null = null;
+    selectedEmployeeManager: any | null = null;
+    selectedDepartment: any | null = null;
+    selectedPartition: any | null = null;
+    selectedShift:any | null = null;
+    selectedJob: any | null = null;
+    selectedLocation: any | null = null;
 
 
     files!: TreeNode[];
 
     ngOnInit() {
         this.endPoint = 'FingerPrint';
+        this.isCollapsed = true;
 
         this._AllEmployeeFingerPrintsService.setEndPoint(this.endPoint);
 
@@ -123,12 +121,12 @@ export class AllEmployeesFingerPrintComponent {
             { field: 'dateAndTime', header: 'Date And Times' },
         ];
 
-        // get dropdown for Employee
-        this.getLocation();
-        this.getDropDownEmployee();
+        // get DropDowns
+        this.getAllDropDowns();
 
         // load filtered data at init.
         this.loadFilteredData();
+
     }
 
     getDistinctNumberLocations(timelocations: any[]) {
@@ -177,165 +175,112 @@ export class AllEmployeesFingerPrintComponent {
         return this.files
     }
 
-    getDropDownEmployee() {
-        this._AllEmployeeFingerPrintsService.getDropDown('Employee').subscribe({
+    getAllDropDowns() {
+        // get EmployeeManager Dropdown
+        this.getDropDownFieldManager({
+            field: 'dropdownItemsEmployeeManager',
+        });
+
+        // get Locations Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsLocations',
+            enum: 'Location',
+        });
+
+        // get Department Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsDepartment',
+            enum: 'Department',
+        });
+
+         // get Shift Dropdown
+         this.getDropDownField({
+            field: 'dropdownItemsShift',
+            enum: 'Shift',
+        });
+
+         // get Job Dropdown
+         this.getDropDownField({
+            field: 'dropdownItemsJob',
+            enum: 'Job',
+        });
+
+    }
+
+    getDropDownField(self: { field: any; enum: string }) {
+        this._AllEmployeeFingerPrintsService.getDropDown(self.enum).subscribe({
             next: (res) => {
-                console.log(res);
-                this.dropdownItemsEmployee = res.data;
-                console.log(this.dropdownItemsEmployee);
+                this[self.field] = res.data;
             },
             error: (err) => {
+                console.log(`error in ${self.field}`);
                 console.log(err);
             },
         });
     }
 
-    submitForm(formData: FormGroup) {
-
-    }
-
-    getLocation() {
-        this._AllEmployeeFingerPrintsService.getDropDown('Location').subscribe({
+    getDropDownFieldManager(self: { field: any;}) {
+        this._AllEmployeeFingerPrintsService.getDropDownManager().subscribe({
             next: (res) => {
-                console.log(res.data);
-                this.locationDropDown = res.data;
-            },
-            error: (error) => {
-                console.log(error);
-            },
-        });
-    }
-
-    editProduct(rowData: any) {
-        console.log(rowData.id);
-        console.log('edit works');
-        this._AllEmployeeFingerPrintsService.GetById(rowData.id).subscribe({
-            next: (res) => {
-                console.log(res.data);
-
-                console.log('location Drop Down');
-                console.log(this.locationDropDown);
-
-                this.selectedLocationEdit = this.locationDropDown.find(
-                    (location: any) => location.id == rowData.locationId
-                );
-
-                this.selectedEmployeeEdit = this.dropdownItemsEmployee.find(
-                    (item: any) => item.id == res.data.employeeId
-                );
-
-                console.log(this.selectedLocationEdit);
-                this.product = { ...res.data };
-                this.productDialog = true;
+                this[self.field] = res.data;
             },
             error: (err) => {
+                console.log(`error in ${self.field}`);
                 console.log(err);
             },
         });
     }
 
-    confirmDelete(id: number) {
-        let body = [id];
+    onFilter() {
+        this.isCollapsed = true;
 
-        // perform delete from sending request to api
-        this._AllEmployeeFingerPrintsService.DeleteRange(body).subscribe({
-            next: () => {
-                // close dialog
-                this.deleteProductDialog = false;
-
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
-                    life: 3000,
-                });
-
-                // load data here
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                console.log(err);
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'Product Deleted',
-                    life: 3000,
-                });
-            },
-        });
-    }
-
-    addNew() {
-        let body = {
-            employeeId: this.selectedEmployee.id,
-            locationId: this.selectedLocationId,
-        };
-
-        this._AllEmployeeFingerPrintsService.Register(body).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
-
-                // set fields is empty
-                this.setFieldsNulls();
-
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                // this.showFormNew = false;
-
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'error field',
-                    detail: 'All Fields is required',
-                    life: 3000,
-                });
-
-                console.log(err);
-            },
-        });
-    }
-
-    loadFilteredData(nameFilter?: any, filterType?: any) {
         this.loadData(
             this.page,
             this.itemsPerPage,
-            nameFilter,
-            filterType,
-            this.sortOrder
+            this.nameFilter,
+            this.sortField,
+            this.sortOrder,
+            this.selectedEmployee,
+            this.selectedDepartment,
+            this.selectedEmployeeManager,
+            this.selectedLocation,
+            this.selectedShift,
+            this.selectedPartition,
+            this.selectedJob,
+        );
+
+    }
+
+    onChangeDepartment() {
+
+    }
+
+    loadFilteredData() {
+
+        this.loadData(
+            this.page,
+            this.itemsPerPage,
+            this.nameFilter,
+            this.sortField,
+            this.sortOrder,
+            this.selectedEmployee,
+            this.selectedDepartment,
+            this.selectedEmployeeManager,
+            this.selectedLocation,
+            this.selectedShift,
+            this.selectedPartition,
+            this.selectedJob,
         );
     }
 
     setFieldsNulls() {
-        this.selectedLocation = null;
-        this.selectedEmployee = null;
-        this.selectedEmployeeEdit = null;
-    }
-
-    onChangeLocation() {
-        this.selectedLocationId = this.selectedLocation?.['id'];
+        this.selectedEmployee = null
+        this.selectedDepartment = null
+        this.selectedEmployeeManager = null
+        this.selectedLocation = null
+        this.selectedShift = null
+        this.selectedPartition = null
+        this.selectedJob = null
     }
 
     jsonToFormData(json: any) {
@@ -348,25 +293,42 @@ export class AllEmployeesFingerPrintComponent {
         return formData;
     }
 
-    onChangeLocationEdit() {
-        this.selectedLocationEditId = this.selectedLocationEdit?.['id'];
-    }
-
     loadData(
         page: number,
         size: number,
         nameFilter: string,
         filterType: string,
-        sortType: string
+        sortType: string,
+        selectedEmployee?: string,
+        selectedDepartment?: string,
+        selectedManager?: string,
+        selectedLocation?: string,
+        selectedShift?: string,
+        selectedPartation?: string,
+        selectedJob?: string,
     ) {
+        // loading
         this.loading = true;
+
+        console.log('selected Employee')
+        console.log(selectedEmployee)
+
         let filteredData = {
             PageNumber: page,
             PageSize: size,
             FilterValue: nameFilter,
             FilterType: filterType,
             SortType: sortType,
+            EmployeeId: selectedEmployee?.['id'],
+            DepartmentId: selectedDepartment?.['id'],
+            MangerId: selectedManager?.['id'],
+            LocationId: selectedLocation?.['id'],
+            ShiftId: selectedShift?.['id'],
+            PartationId: selectedPartation?.['id'],
+            JobId: selectedJob?.['id']
         };
+
+        // override for sortType with SortOrder
         filteredData.SortType = this.sortOrder;
 
         console.log('FilteredData From here');
@@ -390,6 +352,28 @@ export class AllEmployeesFingerPrintComponent {
         });
     }
 
+    whenChangeDepartment() {
+        this._AllEmployeeFingerPrintsService.getPartationByDepartmentId(this.selectedDepartment.id).subscribe({
+            next: (res)=> {
+                this.dropdownItemsPartition = res.data;
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        })
+    }
+
+    whenChangeManager() {
+        this._AllEmployeeFingerPrintsService.GetEmployeeOfMangerDropDown(this.selectedEmployeeManager.id).subscribe({
+            next: (res)=> {
+                this.dropdownItemsEmployee = res.data;
+            },
+            error: (err) => {
+                console.log(err)
+            }
+        })
+    }
+
     onPageChange(event: any) {
         let x: string;
         console.log(event);
@@ -404,77 +388,17 @@ export class AllEmployeesFingerPrintComponent {
             this.itemsPerPage,
             this.nameFilter,
             this.sortField,
-            this.sortOrder
+            this.sortOrder,
+            this.selectedEmployee,
+            this.selectedDepartment,
+            this.selectedEmployeeManager,
+            this.selectedLocation,
+            this.selectedShift,
+            this.selectedPartition,
+            this.selectedJob,
         );
 
         // this.selectedItems = this.allData;
-    }
-
-    deleteSelectedProducts() {
-        this.deleteProductsDialog = true;
-    }
-
-    hideDialog() {
-        this.productDialog = false;
-        this.submitted = false;
-    }
-
-    deleteProduct(product: any) {
-        this.deleteProductDialog = true;
-        this.product = { ...product };
-    }
-
-    saveProduct(id: number, empLocation: any) {
-        this.submitted = true;
-
-        console.log(id);
-        console.log(empLocation);
-
-        let body = {
-            id: empLocation.id,
-            locationId: this.selectedLocationEditId,
-            employeeId: this.selectedEmployeeEdit?.['id'],
-        };
-
-        console.clear();
-        console.log('body here for editing..........');
-
-        console.log(body);
-
-        this._AllEmployeeFingerPrintsService.Edit(body).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
-
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
-        });
-    }
-
-    toggleNew() {
-        if (this.showFormNew) {
-            this.showFormNew = false;
-        } else {
-            this.showFormNew = true;
-            this.setFieldsNulls();
-        }
     }
 
     exportCSV() {
@@ -514,60 +438,8 @@ export class AllEmployeesFingerPrintComponent {
         return csvContent.join('\r\n'); // Join all rows
     }
 
-    splitCamelCase(str: any) {
-        return str
-            .replace(/([A-Z])/g, ' $1')
-            .trim()
-            .replace(/\s+/g, ' ')
-            .split(' ')
-            .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
+    selectSpecEmployee(event:any)
+    {
+        this.selectedEmployee = event.value;
     }
-
-    confirmDeleteSelected() {
-        let selectedIds = [];
-        console.log('Selected Items :');
-
-        this.selectedItems.forEach((item: any) => {
-            selectedIds.push(item.id);
-        });
-
-        this._AllEmployeeFingerPrintsService.DeleteRange(selectedIds).subscribe({
-            next: (res) => {
-                this.deleteProductsDialog = false;
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
-                    life: 3000,
-                });
-                this.selectedItems = [];
-
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-        });
-    }
-
 }
