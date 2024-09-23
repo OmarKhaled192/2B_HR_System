@@ -106,8 +106,7 @@ export class AllEmployeesFingerPrintComponent {
     selectedJob: any | null = null;
     selectedLocation: any | null = null;
 
-
-    files!: TreeNode[];
+    parentData!: TreeNode[];
 
     ngOnInit() {
         this.endPoint = 'FingerPrint';
@@ -140,7 +139,7 @@ export class AllEmployeesFingerPrintComponent {
     }
 
     getTreeTable(empData: any) {
-        this.files = [];
+        this.parentData = [];
         empData.forEach((raw: any) => {
             // Create a parent node for each employee
             let locationCount = this.getDistinctNumberLocations(raw.timelocation);
@@ -167,12 +166,12 @@ export class AllEmployeesFingerPrintComponent {
                 });
             });
 
-            this.files.push(node);
+            this.parentData.push(node);
         });
 
-        console.log("files")
-        console.log(this.files);
-        return this.files
+        console.log("parentData")
+        console.log(this.parentData);
+        return this.parentData
     }
 
     getAllDropDowns() {

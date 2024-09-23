@@ -38,13 +38,11 @@ export class AllEmployeeFingerPrintsService extends LockupsService {
         return this.http.get(`${this.baseurl}/Employee/GetEmployeeOfMangerDropDown?MangerId=${id}`);
     }
 
-
     override GetPage(body: any): Observable<any> {
         return this.http.post(
             `${this.baseurl}/${this.endPoint}/GetEmployeeFingerprint`,
             body
         );
     }
-
 
 }
