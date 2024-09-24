@@ -172,7 +172,6 @@ export class EmployeeEditComponent {
     dropdownItemsJobNature: any;
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
-    selectedAttendanceConfiguration: any=null;
     dropdownItemsAttendanceConfiguration:any;
     imageUrl!: string;
 
@@ -227,7 +226,6 @@ export class EmployeeEditComponent {
         Phone: new FormControl(),
         StaticShift: new FormControl(),
         StaticVacation:new FormControl(),
-        AttendanceConfigurationId: new FormControl(),
         // imageUrl: new FormControl(),
     });
 
@@ -673,7 +671,6 @@ export class EmployeeEditComponent {
             ContractTypeId: this.selectedContactType?.id,
             RecuritmentSourceId: this.selectedRecuritmentSource?.id,
             Religion: this.selectedReligin?.id,
-            AttendanceConfigurationId: this.selectedAttendanceConfiguration?.id,
 
             JoininDate: this.DatePipe.transform(
                 this.editForm.get('JoininDate').value,
@@ -792,7 +789,7 @@ export class EmployeeEditComponent {
                 this.selectedIsInsured = this.selectedIsInsured;
                 this.selectedIsManager = this.selectedIsManager;
                 this.selectedStaticShift = this.selectedStaticShift ;
-                this.selectedStaticVacation = this.selectedStaticVacation ; 
+                this.selectedStaticVacation = this.selectedStaticVacation ;
 
                 this.selectedRecuritmentSource = this.getObject(
                     this.editForm.get('RecuritmentSourceId').value,
@@ -889,7 +886,7 @@ export class EmployeeEditComponent {
             field: 'dropdownItemsQualification',
             enum: 'Qualification',
         });
-        
+
         // get Attendance Configuration Dropdown
         this.getDropDownField({
             field: 'dropdownItemsAttendanceConfiguration',

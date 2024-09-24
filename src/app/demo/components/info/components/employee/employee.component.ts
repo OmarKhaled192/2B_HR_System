@@ -93,7 +93,6 @@ export class EmployeeComponent {
 
     selectedDepartment: any = null;
     selectedBloodType: any = null;
-    selectedAttendanceConfiguration: any = null;
 
     // => dropdown Arrays
 
@@ -326,7 +325,7 @@ export class EmployeeComponent {
             'QualificationId',
             this.selectedQualification?.['id']
         ); //11
-      
+
         this.registerForm.append(
             'AttendanceConfigurationId',
             this.selectedAttendanceConfiguration?.['id']
