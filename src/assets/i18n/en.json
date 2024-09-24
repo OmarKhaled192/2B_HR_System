@@ -384,5 +384,9 @@
     "Attendance Configuration": "Attendance Configuration",
     "KPI": "KPI",
     "Penalties And Deduction": "Penalties And Deduction",
-    "Response Type": "Response Type"
+    "Response Type": "Response Type",
+    "Employee Weekend": "Employee Weekend",
+    "Bonus": "Bonus",
+    "Employee Shift": "Employee Shift",
+    "Shift Name": "Shift Name"
 }

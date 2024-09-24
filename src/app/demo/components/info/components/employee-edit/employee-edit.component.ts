@@ -293,6 +293,16 @@ export class EmployeeEditComponent {
                     name: this.translate.instant('Employee Vacation Stock'),
                     action: 'EmployeeVacationStock',
                 },
+                {
+                    id: 12,
+                    name: this.translate.instant('Employee Weekend'),
+                    action: 'EmployeeWeekend',
+                },
+                {
+                    id: 13,
+                    name: this.translate.instant('Employee Shift'),
+                    action: 'EmployeeShift',
+                },
             ];
 
             // update endpoint
@@ -430,6 +440,16 @@ export class EmployeeEditComponent {
                 id: 11,
                 name: 'Employee Vacation Stock',
                 action: 'EmployeeVacationStock',
+            },
+            {
+                id: 12,
+                name: this.translate.instant('Employee Weekend'),
+                action: 'EmployeeWeekend',
+            },
+            {
+                id: 13,
+                name: this.translate.instant('Employee Shift'),
+                action: 'EmployeeShift',
             },
         ];
 

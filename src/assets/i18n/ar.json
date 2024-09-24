@@ -399,5 +399,9 @@
     "Attendance Configuration": "اعدادات الحضور",
     "KPI": "مؤشرات الاداء",
     "Penalties And Deduction": "العقوبات و الخصم",
-    "Response Type": "نوع الرد"
+    "Response Type": "نوع الرد",
+    "Employee Weekend": "اجازة الموظف",
+    "Bonus": "الحوافز",
+    "Employee Shift": "وردية الموظف",
+    "Shift Name": "اسم الوردية"
 }

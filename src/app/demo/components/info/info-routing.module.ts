@@ -44,6 +44,7 @@ import { AttendenceConfigEditComponent } from './components/custom/attendence-co
 import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
 import { KPIComponent } from './components/custom/kpi/kpi.component';
 import { PenaltiesAndDeductionComponent } from './components/custom/penalties-and-deduction/penalties-and-deduction.component';
+import { BonusComponent } from './components/custom/bonus/bonus.component';
 
 @NgModule({
     imports: [
@@ -171,6 +172,11 @@ import { PenaltiesAndDeductionComponent } from './components/custom/penalties-an
                 path: 'kpi',
                 canActivate: [authGuard],
                 component: KPIComponent,
+            },
+            {
+                path: 'bonus',
+                canActivate: [authGuard],
+                component: BonusComponent,
             },
             {
                 path: 'PenaltiesAndDeduction',
