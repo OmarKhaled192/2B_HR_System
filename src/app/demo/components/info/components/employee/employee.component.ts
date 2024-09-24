@@ -93,6 +93,7 @@ export class EmployeeComponent {
 
     selectedDepartment: any = null;
     selectedBloodType: any = null;
+    selectedAttendanceConfiguration: any = null;
 
     // => dropdown Arrays
 
@@ -183,6 +184,12 @@ export class EmployeeComponent {
         this.getDropDownField({
             field: 'dropdownItemsQualification',
             enum: 'Qualification',
+        });
+
+        // get Attendance Configuration Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsAttendanceConfiguration',
+            enum: 'AttendanceConfiguration',
         });
 
         // get Job Dropdown
@@ -319,10 +326,12 @@ export class EmployeeComponent {
             'QualificationId',
             this.selectedQualification?.['id']
         ); //11
+      
         this.registerForm.append(
             'AttendanceConfigurationId',
             this.selectedAttendanceConfiguration?.['id']
-);//12
+        ); //12
+
         this.registerForm.append('Gender', this.selectedGender?.['id']); //12
         this.registerForm.append(
             'MaritalStatus',
@@ -394,6 +403,9 @@ export class EmployeeComponent {
             'DeleteImage',
             this.selectedDeleteImage.toString()
         ); // 30
+
+
+        console.log("register form", this.registerForm)
 
         this._EmployeeService.Register(this.registerForm).subscribe({
             next: (res) => {
