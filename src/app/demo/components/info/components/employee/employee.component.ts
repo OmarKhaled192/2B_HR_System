@@ -84,9 +84,12 @@ export class EmployeeComponent {
     selectedPhone: any = null;
     selectedEmail: any = null;
     selectedBirthDate: any = null;
+    selectedAttendanceConfiguration: any=null;
 
     selectedIsInsured: boolean = false;
     selectedIsManager: boolean = false;
+    selectedIsStaticShift:boolean = false;
+    selectedIsStaticVacation:boolean = false ;
 
     selectedDepartment: any = null;
     selectedBloodType: any = null;
@@ -111,6 +114,7 @@ export class EmployeeComponent {
     dropdownItemsJobNature: any;
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
+    dropdownItemsAttendanceConfiguration:any;
     file: File = null;
     endPoint: string;
     selectedDeleteImage: boolean = false;
@@ -222,6 +226,12 @@ export class EmployeeComponent {
             field: 'dropdownItemsContractType',
             enum: 'ContractType',
         });
+
+        // get Attendance Configuration Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsAttendanceConfiguration',
+            enum: 'AttendanceConfiguration',
+        });
     }
 
     getDropDownEnum(self: { field: any; enum: string }) {
@@ -309,6 +319,10 @@ export class EmployeeComponent {
             'QualificationId',
             this.selectedQualification?.['id']
         ); //11
+        this.registerForm.append(
+            'AttendanceConfigurationId',
+            this.selectedAttendanceConfiguration?.['id']
+);//12
         this.registerForm.append('Gender', this.selectedGender?.['id']); //12
         this.registerForm.append(
             'MaritalStatus',
@@ -369,6 +383,8 @@ export class EmployeeComponent {
 
         // Append boolean fields
         this.registerForm.append('Ismanger', this.selectedIsManager.toString()); // 28
+        this.registerForm.append('StaticShift', this.selectedIsStaticShift.toString()); // 28
+        this.registerForm.append('StaticVacation', this.selectedIsStaticVacation.toString()); // 28
         this.registerForm.append(
             'IsInsured',
             this.selectedIsInsured.toString()

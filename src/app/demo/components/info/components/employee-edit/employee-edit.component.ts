@@ -143,6 +143,8 @@ export class EmployeeEditComponent {
     selectedContactType: any = null;
     selectedIsInsured: any = null;
     selectedIsManager: any = null;
+    selectedStaticShift:any = null ;
+    selectedStaticVacation:any = null ;
     selectedDepartment: any = null;
     selectedBloodType: any = null;
     filterData!: FormGroup;
@@ -168,6 +170,8 @@ export class EmployeeEditComponent {
     dropdownItemsJobNature: any;
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
+    selectedAttendanceConfiguration: any=null;
+    dropdownItemsAttendanceConfiguration:any;
     imageUrl!: string;
 
     uploadedFiles: any[] = [];
@@ -218,6 +222,9 @@ export class EmployeeEditComponent {
         MachineCode: new FormControl(),
         NationalId: new FormControl(),
         Phone: new FormControl(),
+        StaticShift: new FormControl(),
+        StaticVacation:new FormControl(),
+        AttendanceConfigurationId: new FormControl(),
         // imageUrl: new FormControl(),
     });
 
@@ -482,6 +489,10 @@ export class EmployeeEditComponent {
             this.dropdownItemsReligin
         );
         console.log('this.selectedReligin : ', this.selectedReligin);
+        this.selectedAttendanceConfiguration = this.getObject(
+           data.attendanceConfigurationId,
+            this.dropdownItemsAttendanceConfiguration
+);
 
         this.selectedGovernment = this.getObject(
             data.governmentId,
@@ -557,6 +568,8 @@ export class EmployeeEditComponent {
 
         this.selectedIsInsured = data.isInsured;
         this.selectedIsManager = data.ismanger;
+        this.selectedStaticShift = data.staticShift;
+        this.selectedStaticVacation = data.staticVacation ;
         this.selectedRecuritmentSource = this.getObject(
             data.recuritmentSourceId,
             this.dropdownItemsRecuritmentSource
@@ -647,6 +660,7 @@ export class EmployeeEditComponent {
             ContractTypeId: this.selectedContactType?.id,
             RecuritmentSourceId: this.selectedRecuritmentSource?.id,
             Religion: this.selectedReligin?.id,
+            AttendanceConfigurationId: this.selectedAttendanceConfiguration?.id,
 
             JoininDate: this.DatePipe.transform(
                 this.editForm.get('JoininDate').value,
@@ -752,8 +766,14 @@ export class EmployeeEditComponent {
                     this.editForm.get('JobNatureId').value,
                     this.dropdownItemsJobNature
                 );
+                this.selectedAttendanceConfiguration = this.getObject(
+                    this.editForm.get('AttendanceConfigurationId').value,
+                    this.dropdownItemsAttendanceConfiguration) ;
+
                 this.selectedIsInsured = this.selectedIsInsured;
                 this.selectedIsManager = this.selectedIsManager;
+                this.selectedStaticShift = this.selectedStaticShift ;
+                this.selectedStaticVacation = this.selectedStaticVacation ; 
 
                 this.selectedRecuritmentSource = this.getObject(
                     this.editForm.get('RecuritmentSourceId').value,
@@ -859,6 +879,11 @@ export class EmployeeEditComponent {
             field: 'dropdownItemsDepartment',
             enum: 'Department',
         });
+        // get Attendance Configuration Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsAttendanceConfiguration',
+            enum: 'AttendanceConfiguration',
+});
 
         // get Partition Dropdown
         this.getDropDownField({
