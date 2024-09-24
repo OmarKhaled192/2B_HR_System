@@ -790,7 +790,7 @@ export class EmployeeEditComponent {
                 this.selectedIsManager = this.selectedIsManager;
                 this.selectedStaticShift = this.selectedStaticShift ;
                 this.selectedStaticVacation = this.selectedStaticVacation ;
-
+                
                 this.selectedRecuritmentSource = this.getObject(
                     this.editForm.get('RecuritmentSourceId').value,
                     this.dropdownItemsRecuritmentSource
