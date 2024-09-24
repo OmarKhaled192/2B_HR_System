@@ -396,5 +396,12 @@
     "Submenu": "قائمة فرعية",
     "Submenu 1.1": "قائمة فرعية 1.1",
     "Submenu 1.1.1": "قائمة فرعية 1.1.1",
-    "Attendance Configuration": "اعدادات الحضور"
+    "Attendance Configuration": "اعدادات الحضور",
+    "KPI": "مؤشرات الاداء",
+    "Penalties And Deduction": "العقوبات و الخصم",
+    "Response Type": "نوع الرد",
+    "Employee Weekend": "اجازة الموظف",
+    "Bonus": "الحوافز",
+    "Employee Shift": "وردية الموظف",
+    "Shift Name": "اسم الوردية"
 }

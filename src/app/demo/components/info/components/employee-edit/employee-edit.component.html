@@ -156,6 +156,9 @@
                                 [(ngModel)]="phone"
                             />
                         </div>
+
+
+
                         <div class="field col-12 md:col-4">
                             <label htmlFor="email">{{
                                 "Email" | translate
@@ -346,6 +349,19 @@
                             ></p-dropdown>
                         </div>
 
+
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Attendance Configuration">{{
+                                "Attendance Configuration" | translate
+                            }}</label>
+                            <p-dropdown
+                                formControlName="AttendanceConfigurationId"
+                                [options]="dropdownItemsAttendanceConfiguration"
+                                optionLabel="name"
+                                [(ngModel)]="selectedAttendanceConfiguration"
+                            ></p-dropdown>
+              </div>
+
                         <div class="field col-12 md:col-4">
                             <label htmlFor="machineCode">{{
                                 "Machine Code" | translate
@@ -381,6 +397,30 @@
                                 >{{ "Is Manager" | translate }}
                             </label>
                         </div>
+
+                        <div
+                        class="field col-12 md:col-3 flex gap-3 align-items-center"
+                    >
+                        <p-inputSwitch
+                            formControlName="StaticShift"
+                            [(ngModel)]="selectedStaticShift"
+                        />
+                        <label htmlFor="StaticShift"
+                            >{{ "Is Static Shift" | translate }}
+                        </label>
+                    </div>
+
+                    <div
+                    class="field col-12 md:col-3 flex gap-3 align-items-center"
+                >
+                    <p-inputSwitch
+                        formControlName="StaticVacation"
+                        [(ngModel)]="selectedStaticVacation"
+                    />
+                    <label htmlFor="StaticVacation"
+                        >{{ "Is Static Vacation" | translate }}
+                    </label>
+                </div>
 
                         <div class="field col-12 md:col-3">
                             <label htmlFor="recuritmentSource">{{

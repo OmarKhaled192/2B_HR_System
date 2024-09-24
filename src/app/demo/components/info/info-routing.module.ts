@@ -42,6 +42,9 @@ import { InternalJobsComponent } from './components/custom/internal-jobs/interna
 import { AttendenceConfigurationComponent } from './components/custom/attendence-configuration/attendence-configuration.component';
 import { AttendenceConfigEditComponent } from './components/custom/attendence-config-edit/attendence-config-edit.component';
 import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
+import { KPIComponent } from './components/custom/kpi/kpi.component';
+import { PenaltiesAndDeductionComponent } from './components/custom/penalties-and-deduction/penalties-and-deduction.component';
+import { BonusComponent } from './components/custom/bonus/bonus.component';
 
 @NgModule({
     imports: [
@@ -164,6 +167,21 @@ import { TestInputComponentComponent } from './components/test-input-component/t
                 path: 'closeMonth',
                 canActivate: [authGuard],
                 component: CloseMonthComponent,
+            },
+            {
+                path: 'kpi',
+                canActivate: [authGuard],
+                component: KPIComponent,
+            },
+            {
+                path: 'bonus',
+                canActivate: [authGuard],
+                component: BonusComponent,
+            },
+            {
+                path: 'PenaltiesAndDeduction',
+                canActivate: [authGuard],
+                component: PenaltiesAndDeductionComponent,
             },
 
             {

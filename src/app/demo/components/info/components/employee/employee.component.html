@@ -278,6 +278,19 @@
                         ></p-dropdown>
                     </div>
 
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="AttendanceConfiguration">{{
+                            "Attendance Configuration" | translate
+                        }}</label>
+                        <p-dropdown
+                            name="AttendanceConfiguration"
+                            [options]="dropdownItemsAttendanceConfiguration"
+                            optionLabel="name"
+                            [(ngModel)]="selectedAttendanceConfiguration"
+                            [placeholder]="'Select Attendance Configuration' | translate"
+                        ></p-dropdown>
+        </div>
+
                     <div
                         class="field col-12 md:col-3 flex gap-3 align-items-center"
                     >
@@ -301,6 +314,33 @@
                             >{{ "Is Manager" | translate }}
                         </label>
                     </div>
+
+                    <div
+                    class="field col-12 md:col-3 flex gap-3 align-items-center"
+                >
+                    <p-inputSwitch
+                        name="IsStaticShift"
+                        [(ngModel)]="selectedIsStaticShift"
+                    />
+                    <label htmlFor="IsStaticShift"
+                        >{{ "Is Static Shift" | translate }}
+                    </label>
+                </div>
+
+
+                <div
+                class="field col-12 md:col-3 flex gap-3 align-items-center"
+            >
+                <p-inputSwitch
+                    name="IsStaticVacation"
+                    [(ngModel)]="selectedIsStaticVacation"
+                />
+                <label htmlFor="IsStaticVacation"
+                    >{{ "Is Static Vacation" | translate }}
+                </label>
+            </div>
+
+
 
                     <div class="field col-12 md:col-3">
                         <label htmlFor="machineCode">{{

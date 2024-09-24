@@ -12,56 +12,66 @@ import { EmployeeSalaryComponent } from '../AllTabs/employee-salary/employee-sal
 import { EmployeeUniformComponent } from '../AllTabs/employee-uniform/employee-uniform.component';
 import { EmployeeVacationStockComponent } from '../AllTabs/employee-vacation-stock/employee-vacation-stock.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { EmployeeWeekendComponent } from '../AllTabs/employee-weekend/employee-weekend.component';
+import { EmployeeShiftComponent } from '../AllTabs/employee-shift/employee-shift.component';
 
 const routes: Routes = [
     {
         path: 'EmployeeCertification',
-        component: EmployeeCertificationComponent
+        component: EmployeeCertificationComponent,
     },
     {
         path: 'EmployeeCourse',
-        component: EmployeeCourseComponent
+        component: EmployeeCourseComponent,
     },
     {
         path: 'EmployeeCovenant',
-        component: EmployeeCovenantComponent
+        component: EmployeeCovenantComponent,
     },
     {
         path: 'EmployeeExperience',
-        component: EmployeeExperienceComponent
+        component: EmployeeExperienceComponent,
     },
     {
         path: 'EmployeeFamily',
-        component: EmployeeFamilyComponent
+        component: EmployeeFamilyComponent,
     },
     {
         path: 'EmployeeFile',
-        component: EmployeeFileComponent
+        component: EmployeeFileComponent,
     },
     {
         path: 'EmployeeLocation',
-        component: EmployeeLocationComponent
+        component: EmployeeLocationComponent,
     },
     {
         path: 'EmployeeManager',
-        component: EmployeeManagerComponent
+        component: EmployeeManagerComponent,
     },
     {
         path: 'EmployeeSalary',
-        component: EmployeeSalaryComponent
+        component: EmployeeSalaryComponent,
     },
     {
         path: 'EmployeeUniform',
-        component: EmployeeUniformComponent
+        component: EmployeeUniformComponent,
     },
     {
         path: 'EmployeeVacationStock',
         component: EmployeeVacationStockComponent,
     },
+    {
+        path: 'EmployeeWeekend',
+        component: EmployeeWeekendComponent,
+    },
+    {
+        path: 'EmployeeShift',
+        component: EmployeeShiftComponent,
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), TranslateModule],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes), TranslateModule],
+    exports: [RouterModule],
 })
-export class AllTabsRoutingModule { }
+export class AllTabsRoutingModule {}
