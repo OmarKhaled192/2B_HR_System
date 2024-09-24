@@ -4,7 +4,7 @@
     <form (ngSubmit)="onFilter()" class="p-fluid grid">
 
         <!-- Department -->
-        <div class="field col-6">
+        <div class="field col-4">
             <label htmlFor="department">{{ "Department" | translate }}</label>
             <p-dropdown
                 [options]="dropdownItemsDepartment"
@@ -18,20 +18,27 @@
         </div>
 
         <!-- Partition -->
-        <div class="field col-6">
+        <div class="field col-4">
             <label htmlFor="partition">{{ "Partition" | translate }}</label>
             <p-dropdown
                 [options]="dropdownItemsPartition"
                 [(ngModel)]="selectedPartition"
                 optionLabel="name"
                 name="selectedPartition"
-                [placeholder]="'Select a Partition' | translate"
                 [showClear]="true"
-            ></p-dropdown>
+            >
+            <ng-template pTemplate="selectedItem" let-selectedItem>
+                {{
+                    selectedItem
+                        ? (selectedItem.name | translate)
+                        : ('Select a Partition' | translate)
+                }}
+            </ng-template>
+            </p-dropdown>
         </div>
 
         <!-- EmployeeManager -->
-        <div class="field col-6">
+        <div class="field col-4">
             <label htmlFor="EmployeeManager">{{
                 "Employee Managers" | translate
             }}</label>
@@ -47,7 +54,7 @@
         </div>
 
         <!-- Employee -->
-        <div class="field col-6">
+        <div class="field col-4">
             <label htmlFor="selectEmployee">{{
                 "Employees" | translate
             }}</label>
@@ -56,14 +63,21 @@
                 [options]="dropdownItemsEmployee"
                 optionLabel="name"
                 [showClear]="true"
-                [placeholder]="'Select Employee' | translate"
                 (onChange)="selectSpecEmployee($event)"
-                name="selectedEmployee"
-            ></p-dropdown>
+                name="selectedEmployee">
+            <ng-template pTemplate="selectedItem" let-selectedItem>
+                {{
+                    selectedItem
+                        ? (selectedItem.name | translate)
+                        : ("Select Employee" | translate)
+                }}
+            </ng-template>
+        </p-dropdown>
         </div>
 
+
         <!-- Location -->
-        <div class="field col-6">
+        <div class="field col-4">
             <label htmlFor="location">{{ "Location" | translate }}</label>
             <p-dropdown
                 [options]="dropdownItemsLocations"
@@ -76,7 +90,7 @@
         </div>
 
         <!-- Shift -->
-        <div class="field col-6">
+        <div class="field col-4">
             <label htmlFor="shift">{{ "Shift" | translate }}</label>
             <p-dropdown
                 [options]="dropdownItemsShift"
@@ -89,7 +103,7 @@
         </div>
 
         <!-- job -->
-        <div class="field col-6">
+        <div class="field col-4">
             <label htmlFor="job">{{ "Job" | translate }}</label>
             <p-dropdown
                 [options]="dropdownItemsJob"
@@ -101,9 +115,56 @@
             ></p-dropdown>
         </div>
 
+
+        <!-- Date From -->
+        <div class="field col-4">
+            <label for="dateFrom">{{
+                "Date From" | translate
+            }}</label>
+            <p-calendar
+                [(ngModel)]="selectedDateFrom"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+                [showSeconds]="true"
+                [placeholder]="'mm/dd/yyyy' | translate"
+                inputId="dateFrom"
+            >
+
+            </p-calendar>
+
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.startAttendeesTime"
+                >{{ "startAttendeesTime is required." | translate }}</small
+            >
+        </div>
+
+        <!-- Date To -->
+        <div class="field col-4">
+            <label for="dateTo">{{
+                "Date To" | translate
+            }}</label>
+            <p-calendar
+                [(ngModel)]="selectedDateTo"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+                [showSeconds]="true"
+                [placeholder]="'mm/dd/yyyy' | translate"
+                inputId="dateTo"
+            >
+
+            </p-calendar>
+
+            <small
+                class="ng-dirty ng-invalid"
+                *ngIf="submitted && !product.startAttendeesTime"
+                >{{ "startAttendeesTime is required." | translate }}</small
+            >
+        </div>
+
         <!-- Filter -->
-        <div class="field col-lg-4 my-auto mx-0">
-            <button type="submit" pButton class="text-center">
+        <div class="field col-12 lg:col-2">
+            <button type="submit" class="ms-5 text-center" pButton>
                 <i class="pi pi-filter"></i>
                 <span class="px-2"> {{ "Filter Finger Print" | translate }} </span>
             </button>

@@ -98,13 +98,16 @@ export class AllEmployeesFingerPrintComponent {
     dropdownItemsEmployeeManager: any;
 
     // selected Variables
-    selectedEmployee: any | null = null;
-    selectedEmployeeManager: any | null = null;
-    selectedDepartment: any | null = null;
-    selectedPartition: any | null = null;
-    selectedShift:any | null = null;
-    selectedJob: any | null = null;
-    selectedLocation: any | null = null;
+    selectedEmployee?: any = null;
+    selectedPartition?: any = null;
+
+    selectedEmployeeManager?: any = null;
+    selectedDepartment?: any = null;
+    selectedShift?: any = null;
+    selectedJob?: any = null;
+    selectedLocation?: any = null;
+    selectedDateFrom?: any = null;
+    selectedDateTo?: any = null;
 
     parentData!: TreeNode[];
 

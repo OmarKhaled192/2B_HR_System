@@ -322,8 +322,6 @@ export class StdPaginationsWithPopupComponent{
                         life: 3000,
                     });
 
-
-
                 // load data again
                 this.loadData(
                     this.page,
