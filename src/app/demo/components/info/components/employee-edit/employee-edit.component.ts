@@ -147,6 +147,8 @@ export class EmployeeEditComponent {
     selectedStaticVacation:any = null ;
     selectedDepartment: any = null;
     selectedBloodType: any = null;
+    selectedAttendanceConfiguration: any = null;
+
     filterData!: FormGroup;
     uploadImageDialog: boolean = false;
     file!: File;
@@ -204,6 +206,7 @@ export class EmployeeEditComponent {
         MaritalStatus: new FormControl(),
         PartationId: new FormControl(),
         QualificationId: new FormControl(),
+        AttendanceConfigurationId: new FormControl(),
         ShiftId: new FormControl(),
         ResignationDate: new FormControl(),
         Ismanger: new FormControl(),
@@ -530,6 +533,15 @@ export class EmployeeEditComponent {
             this.selectedQualification
         );
 
+        this.selectedAttendanceConfiguration = this.getObject(
+            data.attendanceConfigurationId,
+            this.dropdownItemsAttendanceConfiguration
+        );
+        console.log(
+            'this.selectedAttendanceConfiguration : ',
+            this.selectedAttendanceConfiguration
+        );
+
         this.selectedJob = this.getObject(data.jobId, this.dropdownItemsJob);
         console.log('this.selectedJob : ', this.selectedJob);
         this.selectedDepartment = this.getObject(
@@ -648,6 +660,7 @@ export class EmployeeEditComponent {
             BloodTypes: this.selectedBloodType?.id,
             GovernmentId: this.selectedGovernment?.id,
             QualificationId: this.selectedQualification?.id,
+            AttendanceConfigurationId: this.selectedAttendanceConfiguration?.id,
             Gender: this.selectedGender?.id,
             MaritalStatus: this.selectedMaritalStatus?.id,
             JobId: this.selectedJob?.id,
@@ -737,6 +750,12 @@ export class EmployeeEditComponent {
                     this.editForm.get('QualificationId').value,
                     this.dropdownItemsQualification
                 );
+
+                this.selectedAttendanceConfiguration = this.getObject(
+                    this.editForm.get('AttendanceConfigurationId').value,
+                    this.dropdownItemsAttendanceConfiguration
+                );
+
                 this.selectedJob = this.getObject(
                     this.editForm.get('JobId').value,
                     this.dropdownItemsJob
@@ -869,6 +888,12 @@ export class EmployeeEditComponent {
         this.getDropDownField({
             field: 'dropdownItemsQualification',
             enum: 'Qualification',
+        });
+        
+        // get Attendance Configuration Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsAttendanceConfiguration',
+            enum: 'AttendanceConfiguration',
         });
 
         // get Job Dropdown

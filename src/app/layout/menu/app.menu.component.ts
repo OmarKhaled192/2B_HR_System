@@ -1,8 +1,7 @@
-import { Input, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { LayoutService } from '../service/app.layout.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Globals } from 'src/app/class/globals';
 
 @Component({
     selector: 'app-menu',
@@ -165,6 +164,7 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/allEmployeesCovenant'],
                             },
+
                             {
                                 label: this.translate.instant(
                                     'All Employees File'
@@ -172,6 +172,7 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/allEmployeesFile'],
                             },
+
                             {
                                 label: this.translate.instant(
                                     'All Employees Location'
@@ -203,6 +204,11 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translate.instant('EMPLOYEE_DATA'),
                                 icon: 'pi pi-fw pi-user',
                                 routerLink: ['/info/employee'],
+                            },
+                            {
+                                label: this.translate.instant('EMPLOYEE_FINGERPRINTs'),
+                                icon: 'pi pi-fw pi-user',
+                                routerLink: ['/info/fingerprints'],
                             },
                         ],
                     },
@@ -301,6 +307,14 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/attendenceConfig'],
                             },
+
+                            {
+                                label: this.translate.instant('Employee Shifts'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/setEmployeeShifts'],
+                            },
+
+
                         ],
                     },
                 ],

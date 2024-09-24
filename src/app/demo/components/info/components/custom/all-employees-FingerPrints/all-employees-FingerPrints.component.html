@@ -1,0 +1,211 @@
+<p-toast></p-toast>
+
+<p-panel [header]="'Filter' | translate" [toggleable]="true" [(collapsed)]="isCollapsed" >
+    <form (ngSubmit)="onFilter()" class="p-fluid grid">
+
+        <!-- Department -->
+        <div class="field col-4">
+            <label htmlFor="department">{{ "Department" | translate }}</label>
+            <p-dropdown
+                [options]="dropdownItemsDepartment"
+                [(ngModel)]="selectedDepartment"
+                name="selectedDepartment"
+                (onChange)="whenChangeDepartment()"
+                optionLabel="name"
+                [placeholder]="'Select a Department' | translate"
+                [showClear]="true"
+            ></p-dropdown>
+        </div>
+
+        <!-- Partition -->
+        <div class="field col-4">
+            <label htmlFor="partition">{{ "Partition" | translate }}</label>
+            <p-dropdown
+                [options]="dropdownItemsPartition"
+                [(ngModel)]="selectedPartition"
+                optionLabel="name"
+                name="selectedPartition"
+                [showClear]="true"
+            >
+            <ng-template pTemplate="selectedItem" let-selectedItem>
+                {{
+                    selectedItem
+                        ? (selectedItem.name | translate)
+                        : ('Select a Partition' | translate)
+                }}
+            </ng-template>
+            </p-dropdown>
+        </div>
+
+        <!-- EmployeeManager -->
+        <div class="field col-4">
+            <label htmlFor="EmployeeManager">{{
+                "Employee Managers" | translate
+            }}</label>
+            <p-dropdown
+                [(ngModel)]="selectedEmployeeManager"
+                name="selectedEmployeeManager"
+                [options]="dropdownItemsEmployeeManager"
+                optionLabel="name"
+                (onChange)="whenChangeManager()"
+                [showClear]="true"
+                [placeholder]="'Select Employee Manager' | translate"
+            ></p-dropdown>
+        </div>
+
+        <!-- Employee -->
+        <div class="field col-4">
+            <label htmlFor="selectEmployee">{{
+                "Employees" | translate
+            }}</label>
+            <p-dropdown
+                [(ngModel)]="selectedEmployee"
+                [options]="dropdownItemsEmployee"
+                optionLabel="name"
+                [showClear]="true"
+                (onChange)="selectSpecEmployee($event)"
+                name="selectedEmployee">
+            <ng-template pTemplate="selectedItem" let-selectedItem>
+                {{
+                    selectedItem
+                        ? (selectedItem.name | translate)
+                        : ("Select Employee" | translate)
+                }}
+            </ng-template>
+        </p-dropdown>
+        </div>
+
+
+        <!-- Location -->
+        <div class="field col-4">
+            <label htmlFor="location">{{ "Location" | translate }}</label>
+            <p-dropdown
+                [options]="dropdownItemsLocations"
+                [(ngModel)]="selectedLocation"
+                name="selectedLocation"
+                optionLabel="name"
+                [placeholder]="'Select a Location' | translate"
+                [showClear]="true"
+            ></p-dropdown>
+        </div>
+
+        <!-- Shift -->
+        <div class="field col-4">
+            <label htmlFor="shift">{{ "Shift" | translate }}</label>
+            <p-dropdown
+                [options]="dropdownItemsShift"
+                [(ngModel)]="selectedShift"
+                name="selectedShift"
+                optionLabel="name"
+                [placeholder]="'Select a Shift' | translate"
+                [showClear]="true"
+            ></p-dropdown>
+        </div>
+
+        <!-- job -->
+        <div class="field col-4">
+            <label htmlFor="job">{{ "Job" | translate }}</label>
+            <p-dropdown
+                [options]="dropdownItemsJob"
+                [(ngModel)]="selectedJob"
+                optionLabel="name"
+                name="selectedJob"
+                [placeholder]="'Select a Job' | translate"
+                [showClear]="true"
+            ></p-dropdown>
+        </div>
+
+
+        <!-- Date From -->
+        <div class="field col-4">
+            <label for="selectedDateFrom">{{
+                "Date From" | translate
+            }}</label>
+            <p-calendar
+                [(ngModel)]="selectedDateFrom"
+                name="selectedDateFrom"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+                [placeholder]="'mm/dd/yyyy' | translate"
+                inputId="selectedDateFrom"
+                (onSelect)="selectDateFrom($event)"
+            >
+
+            </p-calendar>
+        </div>
+
+        <!-- Date To -->
+        <div class="field col-4">
+            <label for="selectedDateTo">{{
+                "Date To" | translate
+            }}</label>
+            <p-calendar
+                [(ngModel)]="selectedDateTo"
+                name="selectedDateTo"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+                [placeholder]="'mm/dd/yyyy' | translate"
+                inputId="selectedDateTo"
+                (onSelect)="selectDateTo($event)"
+            >
+
+            </p-calendar>
+        </div>
+
+        <!-- Filter -->
+        <div class="field col-12 lg:col-2">
+            <button (click)="onFilterClickButton()" type="submit" class="ms-5 text-center" pButton>
+                <i class="pi pi-filter"></i>
+                <span class="px-2"> {{ "Filter Finger Print" | translate }} </span>
+            </button>
+        </div>
+
+    </form>
+</p-panel>
+
+<p-treeTable
+    #dt
+    [value]="parentData"
+    [paginator]="true"
+    [rows]="itemsPerPage"
+    [columns]="cols"
+    [totalRecords]="totalItems"
+    selectionMode="multiple"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [lazy]="true"
+    (onLazyLoad)="onPageChange($event)"
+    dataKey="id"
+    >
+    <ng-template pTemplate="caption">
+        <div class="flex justify-content-between align-items-center">
+            <h5 class="m-0">{{'Manage Items' | translate}}</h5>
+            <div class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                    type="text"
+                    pInputText
+                    [(ngModel)]="nameFilter"
+                    placeholder="Global Search"
+                    (input)="loadFilteredData()" />
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [ttSortableColumn]="col.field">
+                {{ col.header }}
+                <p-treeTableSortIcon [field]="col.field" />
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+        <tr [ttRow]="rowNode">
+            <td *ngFor="let col of columns; let i = index">
+                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0" />
+                <span> {{ rowData[col.field]}} </span>
+            </td>
+        </tr>
+    </ng-template>
+</p-treeTable>
+

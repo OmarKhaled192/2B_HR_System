@@ -303,15 +303,24 @@ export class StdPaginationsWithPopupComponent{
         };
 
         this._LockupsService.Edit(body).subscribe({
-            next: () => {
+            next: (res) => {
                 this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+                if(res.success)
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
+                else
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Warning',
+                        detail: res.message,
+                        life: 3000,
+                    });
 
                 // load data again
                 this.loadData(
