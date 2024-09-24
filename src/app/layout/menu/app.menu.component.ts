@@ -259,6 +259,23 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/closeMonth'],
                             },
+                            {
+                                label: this.translate.instant('KPI'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/kpi'],
+                            },
+                            {
+                                label: this.translate.instant('Bonus'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/bonus'],
+                            },
+                            {
+                                label: this.translate.instant(
+                                    'Penalties And Deduction'
+                                ),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/PenaltiesAndDeduction'],
+                            },
                         ],
                     },
                     {

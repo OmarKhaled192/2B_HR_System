@@ -45,6 +45,9 @@ import { TestInputComponentComponent } from './components/test-input-component/t
 import { SetEmployeeShiftsComponent } from './components/custom/set-employee-shifts/set-employee-shifts.component';
 import { AllEmployeeFingerPrintsService } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrints.service';
 import { AllEmployeesFingerPrintComponent } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrintscomponent';
+import { KPIComponent } from './components/custom/kpi/kpi.component';
+import { PenaltiesAndDeductionComponent } from './components/custom/penalties-and-deduction/penalties-and-deduction.component';
+import { BonusComponent } from './components/custom/bonus/bonus.component';
 
 @NgModule({
     imports: [
@@ -167,6 +170,21 @@ import { AllEmployeesFingerPrintComponent } from './components/custom/all-employ
                 path: 'closeMonth',
                 canActivate: [authGuard],
                 component: CloseMonthComponent,
+            },
+            {
+                path: 'kpi',
+                canActivate: [authGuard],
+                component: KPIComponent,
+            },
+            {
+                path: 'bonus',
+                canActivate: [authGuard],
+                component: BonusComponent,
+            },
+            {
+                path: 'PenaltiesAndDeduction',
+                canActivate: [authGuard],
+                component: PenaltiesAndDeductionComponent,
             },
 
             {
