@@ -24,6 +24,7 @@ import { itemsPerPageGlobal } from 'src/main';
 import { AllEmployeeFingerPrintsService } from './all-employees-FingerPrints.service';
 import { PanelModule } from 'primeng/panel';
 import { TreeTableModule } from 'primeng/treetable';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-all-employees-fingerPrints',
@@ -86,7 +87,7 @@ export class AllEmployeesFingerPrintComponent {
     sortOrder: string = 'asc';
 
     locationDropDown: any;
-    isCollapsed: boolean;
+    isCollapsed: boolean ;
 
     // for all employees customize
     dropdownItemsEmployee: any;
@@ -113,7 +114,7 @@ export class AllEmployeesFingerPrintComponent {
 
     ngOnInit() {
         this.endPoint = 'FingerPrint';
-        this.isCollapsed = true;
+        this.isCollapsed = true; // closed
 
         this._AllEmployeeFingerPrintsService.setEndPoint(this.endPoint);
 
@@ -233,8 +234,21 @@ export class AllEmployeesFingerPrintComponent {
         });
     }
 
+    onFilterClickButton() {
+        this.isCollapsed = !this.isCollapsed; // closed
+    }
+
     onFilter() {
-        this.isCollapsed = true;
+        console.log(this.isCollapsed);
+
+
+        let dateFrom: any,
+            dateTo: any;
+
+        if(this.selectedDateFrom || this.selectedDateTo) {
+            dateFrom = this.datePipe.transform(this.selectedDateFrom, 'yyyy-MM-dd');
+            dateTo = this.datePipe.transform( this.selectedDateTo, 'yyyy-MM-dd');
+        }
 
         this.loadData(
             this.page,
@@ -249,6 +263,8 @@ export class AllEmployeesFingerPrintComponent {
             this.selectedShift,
             this.selectedPartition,
             this.selectedJob,
+            dateFrom,
+            dateTo,
         );
 
     }
@@ -308,6 +324,8 @@ export class AllEmployeesFingerPrintComponent {
         selectedShift?: string,
         selectedPartation?: string,
         selectedJob?: string,
+        selectedDateFrom?: string,
+        selectedDateTo?: string,
     ) {
         // loading
         this.loading = true;
@@ -327,7 +345,9 @@ export class AllEmployeesFingerPrintComponent {
             LocationId: selectedLocation?.['id'],
             ShiftId: selectedShift?.['id'],
             PartationId: selectedPartation?.['id'],
-            JobId: selectedJob?.['id']
+            JobId: selectedJob?.['id'],
+            DateFrom: selectedDateFrom,
+            DateTo: selectedDateTo
         };
 
         // override for sortType with SortOrder
@@ -354,6 +374,7 @@ export class AllEmployeesFingerPrintComponent {
         });
     }
 
+    // for dropdown Departments
     whenChangeDepartment() {
         this._AllEmployeeFingerPrintsService.getPartationByDepartmentId(this.selectedDepartment.id).subscribe({
             next: (res)=> {
@@ -365,6 +386,7 @@ export class AllEmployeesFingerPrintComponent {
         })
     }
 
+    // for dropdown Managers
     whenChangeManager() {
         this._AllEmployeeFingerPrintsService.GetEmployeeOfMangerDropDown(this.selectedEmployeeManager.id).subscribe({
             next: (res)=> {
@@ -443,5 +465,14 @@ export class AllEmployeesFingerPrintComponent {
     selectSpecEmployee(event:any)
     {
         this.selectedEmployee = event.value;
+    }
+
+    selectDateTo(event:any){
+        console.log(event);
+        this.selectedDateTo = event ;
+    }
+    selectDateFrom(event:any){
+        console.log(event);
+        this.selectedDateFrom = event ;
     }
 }

@@ -851,8 +851,8 @@ export class EmployeeEditComponent {
             field: 'dropdownItemsQualification',
             enum: 'Qualification',
         });
-
-        // get Qualification Dropdown
+        
+        // get Attendance Configuration Dropdown
         this.getDropDownField({
             field: 'dropdownItemsAttendanceConfiguration',
             enum: 'AttendanceConfiguration',

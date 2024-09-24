@@ -1,6 +1,6 @@
 <p-toast></p-toast>
 
-<p-panel [header]="'Filter' | translate" [toggleable]="true" [collapsed]="isCollapsed">
+<p-panel [header]="'Filter' | translate" [toggleable]="true" [(collapsed)]="isCollapsed" >
     <form (ngSubmit)="onFilter()" class="p-fluid grid">
 
         <!-- Department -->
@@ -118,53 +118,43 @@
 
         <!-- Date From -->
         <div class="field col-4">
-            <label for="dateFrom">{{
+            <label for="selectedDateFrom">{{
                 "Date From" | translate
             }}</label>
             <p-calendar
                 [(ngModel)]="selectedDateFrom"
+                name="selectedDateFrom"
                 [iconDisplay]="'input'"
                 [showIcon]="true"
-                [showSeconds]="true"
                 [placeholder]="'mm/dd/yyyy' | translate"
-                inputId="dateFrom"
+                inputId="selectedDateFrom"
+                (onSelect)="selectDateFrom($event)"
             >
 
             </p-calendar>
-
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.startAttendeesTime"
-                >{{ "startAttendeesTime is required." | translate }}</small
-            >
         </div>
 
         <!-- Date To -->
         <div class="field col-4">
-            <label for="dateTo">{{
+            <label for="selectedDateTo">{{
                 "Date To" | translate
             }}</label>
             <p-calendar
                 [(ngModel)]="selectedDateTo"
+                name="selectedDateTo"
                 [iconDisplay]="'input'"
                 [showIcon]="true"
-                [showSeconds]="true"
                 [placeholder]="'mm/dd/yyyy' | translate"
-                inputId="dateTo"
+                inputId="selectedDateTo"
+                (onSelect)="selectDateTo($event)"
             >
 
             </p-calendar>
-
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.startAttendeesTime"
-                >{{ "startAttendeesTime is required." | translate }}</small
-            >
         </div>
 
         <!-- Filter -->
         <div class="field col-12 lg:col-2">
-            <button type="submit" class="ms-5 text-center" pButton>
+            <button (click)="onFilterClickButton()" type="submit" class="ms-5 text-center" pButton>
                 <i class="pi pi-filter"></i>
                 <span class="px-2"> {{ "Filter Finger Print" | translate }} </span>
             </button>
