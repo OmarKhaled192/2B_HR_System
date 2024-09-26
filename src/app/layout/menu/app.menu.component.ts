@@ -35,10 +35,7 @@ export class AppMenuComponent implements OnInit {
                                 label: this.translate.instant('DASHBOARD'),
                                 routerLink: ['/dashboard'],
                             },
-                            {
-                                label: this.translate.instant('TESTINPUTS'),
-                                routerLink: ['/testInput'],
-                            },
+                           
                         ],
                     },
 
