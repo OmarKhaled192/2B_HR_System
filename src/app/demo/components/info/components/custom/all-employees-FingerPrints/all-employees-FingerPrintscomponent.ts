@@ -1,58 +1,19 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
+import { Table } from 'primeng/table';
 import { DayNamePipe } from '../shift-vacation/day-name.pipe';
-import { TranslateModule } from '@ngx-translate/core';
 import { MessageService, TreeNode } from 'primeng/api';
 import { itemsPerPageGlobal } from 'src/main';
 import { AllEmployeeFingerPrintsService } from './all-employees-FingerPrints.service';
-import { PanelModule } from 'primeng/panel';
-import { TreeTableModule } from 'primeng/treetable';
-import { Observable } from 'rxjs';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 
 @Component({
     selector: 'app-all-employees-fingerPrints',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        CalendarModule,
-        DayNamePipe,
-        TranslateModule,
-        PanelModule,
-        TreeTableModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [MessageService, DatePipe, DayNamePipe],
     templateUrl: './all-employees-FingerPrints.component.html',
@@ -64,7 +25,6 @@ export class AllEmployeesFingerPrintComponent {
         private messageService: MessageService,
         private datePipe: DatePipe
     ) {}
-
 
     @ViewChild('dt') dt: Table;
     id!: number;

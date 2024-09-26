@@ -23,31 +23,15 @@ import { CompanyPolicyService } from './company-policy.service';
 import { environment } from 'src/environments/environment';
 import { Globals } from 'src/app/class/globals';
 import { itemsPerPageGlobal } from 'src/main';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 
 @Component({
     selector: 'app-company-policy',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        CalendarModule,
-        TranslateModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [MessageService, DatePipe],
     templateUrl: './company-policy.component.html',
