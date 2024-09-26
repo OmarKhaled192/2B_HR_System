@@ -54,14 +54,14 @@ export class EmployeeComponent {
     selectedEmail: any = null;
     selectedBirthDate: any = null;
     selectedAttendanceConfiguration: any = null;
-    
+    selectedDepartment: any = null;
+    selectedBloodType: any = null;
+
     selectedIsInsured: boolean = false;
     selectedIsManager: boolean = false;
     selectedIsStaticShift:boolean = false;
     selectedIsStaticVacation:boolean = false ;
 
-    selectedDepartment: any = null;
-    selectedBloodType: any = null;
 
     // => dropdown Arrays
 
