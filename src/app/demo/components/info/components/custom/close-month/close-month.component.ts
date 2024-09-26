@@ -22,33 +22,16 @@ import { Table, TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Globals } from 'src/app/class/globals';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 import { itemsPerPageGlobal } from 'src/main';
 
 @Component({
     selector: 'app-close-month',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        CalendarModule,
-        InputSwitchModule,
-        TranslateModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [MessageService],
     templateUrl: './close-month.component.html',

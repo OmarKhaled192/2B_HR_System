@@ -1,50 +1,17 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
+import { Table } from 'primeng/table';
 import { LockupsService } from '../../service/lockups.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
+import { GlobalsModule } from '../../modules/globals/globals.module';
+import { PrimeNgModule } from '../../modules/primg-ng/prime-ng.module';
 
 @Component({
     selector: 'app-std-paginations-with-popup',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        TranslateModule
+        GlobalsModule,
+        PrimeNgModule
     ],
     providers: [MessageService],
     templateUrl: './std-paginations-with-popup.component.html',
@@ -79,7 +46,6 @@ export class StdPaginationsWithPopupComponent{
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
-
 
     ngOnInit() {
 
@@ -124,7 +90,6 @@ export class StdPaginationsWithPopupComponent{
         .map((word:any) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
     }
-
 
     editProduct(rowData: any) {
         console.log(rowData.id);
@@ -221,8 +186,8 @@ export class StdPaginationsWithPopupComponent{
 
     setFieldsNulls() {
         (this.newNameAr = null),
-            (this.newNameEn = null),
-            (this.newNotes = null);
+        (this.newNameEn = null),
+        (this.newNotes = null);
     }
 
     loadData(
