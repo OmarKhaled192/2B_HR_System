@@ -53,7 +53,8 @@ export class EmployeeComponent {
     selectedPhone: any = null;
     selectedEmail: any = null;
     selectedBirthDate: any = null;
-
+    selectedAttendanceConfiguration: any = null;
+    
     selectedIsInsured: boolean = false;
     selectedIsManager: boolean = false;
     selectedIsStaticShift:boolean = false;
