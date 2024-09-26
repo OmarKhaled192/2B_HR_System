@@ -74,11 +74,13 @@
             <p-dropdown
                 [options]="departmentDropDown"
                 id="department"
-                (onChange)="changedSelected()"
+                (onChange)="changedSelected($event)"
                 [(ngModel)]="selectedDepartment"
                 [placeholder]="'Select a Department' | translate"
                 [showClear]="true"
                 optionLabel="name"
+                (onClear)="selectedDepartment = null"               
+            ></p-dropdown>
             >
             </p-dropdown>
         </div>

@@ -80,8 +80,8 @@ export class EmployeeEditComponent {
     selectedContactType: any = null;
     selectedIsInsured: any = null;
     selectedIsManager: any = null;
-    selectedStaticShift:any = null ;
-    selectedStaticVacation:any = null ;
+    selectedStaticShift:any = false ;
+    selectedStaticVacation:any = false ;
     selectedDepartment: any = null;
     selectedBloodType: any = null;
     selectedAttendanceConfiguration: any = null;
@@ -142,7 +142,6 @@ export class EmployeeEditComponent {
         MaritalStatus: new FormControl(),
         PartationId: new FormControl(),
         QualificationId: new FormControl(),
-        AttendanceConfigurationId: new FormControl(),
         ShiftId: new FormControl(),
         ResignationDate: new FormControl(),
         Ismanger: new FormControl(),
@@ -427,10 +426,7 @@ export class EmployeeEditComponent {
             this.dropdownItemsReligin
         );
         console.log('this.selectedReligin : ', this.selectedReligin);
-        this.selectedAttendanceConfiguration = this.getObject(
-           data.attendanceConfigurationId,
-            this.dropdownItemsAttendanceConfiguration
-);
+
 
         this.selectedGovernment = this.getObject(
             data.governmentId,
@@ -685,10 +681,7 @@ export class EmployeeEditComponent {
                     this.dropdownItemsQualification
                 );
 
-                this.selectedAttendanceConfiguration = this.getObject(
-                    this.editForm.get('AttendanceConfigurationId').value,
-                    this.dropdownItemsAttendanceConfiguration
-                );
+             
 
                 this.selectedJob = this.getObject(
                     this.editForm.get('JobId').value,

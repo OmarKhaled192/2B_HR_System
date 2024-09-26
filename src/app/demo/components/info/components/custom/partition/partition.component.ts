@@ -117,6 +117,10 @@ export class PartitionComponent {
     }
 
     changedSelected(event: any) {
+        if (!event.value) {
+            this.selectedDepartment = null;
+          }
+          else
         this.selectedDepartmentId = this.selectedDepartment['id'];
     }
 
@@ -198,6 +202,7 @@ export class PartitionComponent {
                 console.log(err);
             },
         });
+        this.selectedDepartment = null ;
     }
 
     loadFilteredData() {
