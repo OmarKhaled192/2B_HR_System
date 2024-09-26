@@ -1,50 +1,19 @@
-import { CommonModule, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { MessageService } from "primeng/api";
-import { UIkitRoutingModule } from "src/app/demo/components/uikit/uikit-routing.module";
-import { FormLayoutDemoRoutingModule } from "src/app/demo/components/uikit/formlayout/formlayoutdemo-routing.module";
 import { EmployeeService } from "./employee.service";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AutoCompleteModule } from "primeng/autocomplete";
-import { CalendarModule } from "primeng/calendar";
-import { ChipsModule } from "primeng/chips";
-import { DropdownModule } from "primeng/dropdown";
-import { InputMaskModule } from "primeng/inputmask";
-import { InputNumberModule } from "primeng/inputnumber";
-import { CascadeSelectModule } from "primeng/cascadeselect";
-import { MultiSelectModule } from "primeng/multiselect";
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { InputTextModule } from "primeng/inputtext";
-import { InputSwitchModule } from "primeng/inputswitch";
-import { FileUploadModule, UploadEvent } from "primeng/fileupload";
-import { ToastModule } from "primeng/toast";
+import { UploadEvent } from "primeng/fileupload";
 import { Globals } from "src/app/class/globals";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslateService } from "@ngx-translate/core";
+import { GlobalsModule } from "src/app/demo/modules/globals/globals.module";
+import { PrimeNgModule } from "src/app/demo/modules/primg-ng/prime-ng.module";
 
 @Component({
     selector: 'app-employee',
     standalone: true,
     imports: [
-        CommonModule,
-        UIkitRoutingModule,
-        FormsModule,
-        FormLayoutDemoRoutingModule,
-        ReactiveFormsModule,
-        AutoCompleteModule,
-        CalendarModule,
-        ChipsModule,
-        DropdownModule,
-        InputMaskModule,
-        InputNumberModule,
-        CascadeSelectModule,
-        MultiSelectModule,
-        InputTextareaModule,
-        InputTextModule,
-        InputSwitchModule,
-        FileUploadModule,
-        ToastModule,
-        DatePipe,
-        TranslateModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [MessageService, DatePipe, TranslateService],
     templateUrl: './employee.component.html',

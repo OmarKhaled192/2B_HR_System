@@ -1,85 +1,22 @@
 import { environment } from './../../../../../../environments/environment';
-import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import {
-    FormControl,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-} from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
-import {
-    ConfirmationService,
-    MessageService,
-    PrimeNGConfig,
-} from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
-import { BadgeModule } from 'primeng/badge';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { PanelModule } from 'primeng/panel';
-import { CalendarModule } from 'primeng/calendar';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeEditService } from './employee-edit.service';
 import { map, Observable, tap } from 'rxjs';
-import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
-interface UploadEvent {
-    originalEvent: Event;
-    files: File[];
-}
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-employee-edit',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        BadgeModule,
-        PanelModule,
-        ProgressBarModule,
-        CalendarModule,
-        InputSwitchModule,
-        DatePipe,
-        FileUploadModule,
-        RouterModule,
-        FormsModule,
-        ButtonModule,
-        ProgressBarModule,
-        ToastModule,
-        HttpClientModule,
-        CommonModule,
-        ConfirmDialogModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [
         MessageService,
@@ -790,7 +727,7 @@ export class EmployeeEditComponent {
                 this.selectedIsManager = this.selectedIsManager;
                 this.selectedStaticShift = this.selectedStaticShift ;
                 this.selectedStaticVacation = this.selectedStaticVacation ;
-                
+
                 this.selectedRecuritmentSource = this.getObject(
                     this.editForm.get('RecuritmentSourceId').value,
                     this.dropdownItemsRecuritmentSource

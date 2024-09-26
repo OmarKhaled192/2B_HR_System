@@ -1,38 +1,20 @@
-import { CommonModule, DatePipe, Time } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
+import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 
 import {
     FormControl,
     FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
     ValidatorFn,
-    Validators,
 } from '@angular/forms';
 import { PanelModule } from 'primeng/panel';
 import { EmployeeShiftService } from './employee-shift-service.service';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
     const dateFrom = formGroup.get('FromDay')?.value;
     const dateTo = formGroup.get('ToDay')?.value;
@@ -48,28 +30,8 @@ export const dateRangeValidator: ValidatorFn = (formGroup: FormGroup) => {
     selector: 'app-employee-shift',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        CalendarModule,
-        TranslateModule,
-        InputSwitchModule,
-        PanelModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [MessageService, DatePipe],
     templateUrl: './employee-shift.component.html',

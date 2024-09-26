@@ -22,31 +22,15 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ExecuseTypeService } from './execuse-type.service';
 import { Globals } from 'src/app/class/globals';
 import { itemsPerPageGlobal } from 'src/main';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 
 @Component({
     selector: 'app-execuse-type',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        CalendarModule,
-        TranslateModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [MessageService],
     templateUrl: './execuse-type.component.html',

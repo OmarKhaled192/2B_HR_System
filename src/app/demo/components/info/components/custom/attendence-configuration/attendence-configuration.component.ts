@@ -1,66 +1,24 @@
 import { AttendenceConfigurationService } from './attendence-configuration.service';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { TableModule } from 'primeng/table';
-import { RippleModule } from 'primeng/ripple';
-import { FileUploadModule } from 'primeng/fileupload';
-import { HttpClientModule } from '@angular/common/http';
-import { ToolbarModule } from 'primeng/toolbar';
-import { ButtonModule } from 'primeng/button';
 import {
     FormGroup,
-    FormsModule,
     FormBuilder,
     Validators,
     FormArray,
 } from '@angular/forms';
-import { DialogModule } from 'primeng/dialog';
-import { ToastModule } from 'primeng/toast';
-import { RatingModule } from 'primeng/rating';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { ReactiveFormsModule } from '@angular/forms';
 import { Component, Input, ViewChild } from '@angular/core';
 import { Table } from 'primeng/table';
-import { CommonModule, DatePipe } from '@angular/common';
-
-import { CalendarModule } from 'primeng/calendar';
-
-import { TranslateModule } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-import { ActivatedRoute, Router } from '@angular/router';
-import { itemsPerPageGlobal } from 'src/main';
+import { Router } from '@angular/router';
 import { Globals } from 'src/app/class/globals';
-import { CheckboxModule } from 'primeng/checkbox';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-attendence-configuration',
     standalone: true,
 
     imports: [
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        CalendarModule,
-        TranslateModule,
-        CommonModule,
-        CheckboxModule,
-        ReactiveFormsModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
 
     providers: [MessageService],
