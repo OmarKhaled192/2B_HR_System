@@ -1,85 +1,22 @@
 import { environment } from './../../../../../../environments/environment';
-import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import {
-    FormControl,
-    FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
-} from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
-import {
-    ConfirmationService,
-    MessageService,
-    PrimeNGConfig,
-} from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
-import { BadgeModule } from 'primeng/badge';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { PanelModule } from 'primeng/panel';
-import { CalendarModule } from 'primeng/calendar';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeEditService } from './employee-edit.service';
 import { map, Observable, tap } from 'rxjs';
-import { ConfirmDialog, ConfirmDialogModule } from 'primeng/confirmdialog';
-interface UploadEvent {
-    originalEvent: Event;
-    files: File[];
-}
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 @Component({
     selector: 'app-employee-edit',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        TranslateModule,
-        BadgeModule,
-        PanelModule,
-        ProgressBarModule,
-        CalendarModule,
-        InputSwitchModule,
-        DatePipe,
-        FileUploadModule,
-        RouterModule,
-        FormsModule,
-        ButtonModule,
-        ProgressBarModule,
-        ToastModule,
-        HttpClientModule,
-        CommonModule,
-        ConfirmDialogModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [
         MessageService,
@@ -143,8 +80,12 @@ export class EmployeeEditComponent {
     selectedContactType: any = null;
     selectedIsInsured: any = null;
     selectedIsManager: any = null;
+    selectedStaticShift:any = false ;
+    selectedStaticVacation:any = false ;
     selectedDepartment: any = null;
     selectedBloodType: any = null;
+    selectedAttendanceConfiguration: any = null;
+
     filterData!: FormGroup;
     uploadImageDialog: boolean = false;
     file!: File;
@@ -168,6 +109,7 @@ export class EmployeeEditComponent {
     dropdownItemsJobNature: any;
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
+    dropdownItemsAttendanceConfiguration:any;
     imageUrl!: string;
 
     uploadedFiles: any[] = [];
@@ -218,7 +160,9 @@ export class EmployeeEditComponent {
         MachineCode: new FormControl(),
         NationalId: new FormControl(),
         Phone: new FormControl(),
-        // imageUrl: new FormControl(),
+        StaticShift: new FormControl(),
+        StaticVacation:new FormControl(),
+        AttendanceConfigurationId : new FormControl(),
     });
 
     // Actions Tabs variable
@@ -292,6 +236,16 @@ export class EmployeeEditComponent {
                     id: 11,
                     name: this.translate.instant('Employee Vacation Stock'),
                     action: 'EmployeeVacationStock',
+                },
+                {
+                    id: 12,
+                    name: this.translate.instant('Employee Weekend'),
+                    action: 'EmployeeWeekend',
+                },
+                {
+                    id: 13,
+                    name: this.translate.instant('Employee Shift'),
+                    action: 'EmployeeShift',
                 },
             ];
 
@@ -431,6 +385,16 @@ export class EmployeeEditComponent {
                 name: 'Employee Vacation Stock',
                 action: 'EmployeeVacationStock',
             },
+            {
+                id: 12,
+                name: this.translate.instant('Employee Weekend'),
+                action: 'EmployeeWeekend',
+            },
+            {
+                id: 13,
+                name: this.translate.instant('Employee Shift'),
+                action: 'EmployeeShift',
+            },
         ];
 
         console.log('this.allData');
@@ -462,6 +426,7 @@ export class EmployeeEditComponent {
             this.dropdownItemsReligin
         );
         console.log('this.selectedReligin : ', this.selectedReligin);
+
 
         this.selectedGovernment = this.getObject(
             data.governmentId,
@@ -497,6 +462,15 @@ export class EmployeeEditComponent {
         console.log(
             'this.selectedQualification : ',
             this.selectedQualification
+        );
+
+        this.selectedAttendanceConfiguration = this.getObject(
+            data.attendanceConfigurationId,
+            this.dropdownItemsAttendanceConfiguration
+        );
+        console.log(
+            'this.selectedAttendanceConfiguration : ',
+            this.selectedAttendanceConfiguration
         );
 
         this.selectedJob = this.getObject(data.jobId, this.dropdownItemsJob);
@@ -537,6 +511,8 @@ export class EmployeeEditComponent {
 
         this.selectedIsInsured = data.isInsured;
         this.selectedIsManager = data.ismanger;
+        this.selectedStaticShift = data.staticShift;
+        this.selectedStaticVacation = data.staticVacation ;
         this.selectedRecuritmentSource = this.getObject(
             data.recuritmentSourceId,
             this.dropdownItemsRecuritmentSource
@@ -615,6 +591,7 @@ export class EmployeeEditComponent {
             BloodTypes: this.selectedBloodType?.id,
             GovernmentId: this.selectedGovernment?.id,
             QualificationId: this.selectedQualification?.id,
+            AttendanceConfigurationId: this.selectedAttendanceConfiguration?.id,
             Gender: this.selectedGender?.id,
             MaritalStatus: this.selectedMaritalStatus?.id,
             JobId: this.selectedJob?.id,
@@ -703,6 +680,9 @@ export class EmployeeEditComponent {
                     this.editForm.get('QualificationId').value,
                     this.dropdownItemsQualification
                 );
+
+             
+
                 this.selectedJob = this.getObject(
                     this.editForm.get('JobId').value,
                     this.dropdownItemsJob
@@ -732,8 +712,14 @@ export class EmployeeEditComponent {
                     this.editForm.get('JobNatureId').value,
                     this.dropdownItemsJobNature
                 );
+                this.selectedAttendanceConfiguration = this.getObject(
+                    this.editForm.get('AttendanceConfigurationId').value,
+                    this.dropdownItemsAttendanceConfiguration) ;
+
                 this.selectedIsInsured = this.selectedIsInsured;
                 this.selectedIsManager = this.selectedIsManager;
+                this.selectedStaticShift = this.selectedStaticShift ;
+                this.selectedStaticVacation = this.selectedStaticVacation ;
 
                 this.selectedRecuritmentSource = this.getObject(
                     this.editForm.get('RecuritmentSourceId').value,
@@ -831,6 +817,12 @@ export class EmployeeEditComponent {
             enum: 'Qualification',
         });
 
+        // get Attendance Configuration Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsAttendanceConfiguration',
+            enum: 'AttendanceConfiguration',
+        });
+
         // get Job Dropdown
         this.getDropDownField({ field: 'dropdownItemsJob', enum: 'Job' });
 
@@ -839,6 +831,11 @@ export class EmployeeEditComponent {
             field: 'dropdownItemsDepartment',
             enum: 'Department',
         });
+        // get Attendance Configuration Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsAttendanceConfiguration',
+            enum: 'AttendanceConfiguration',
+});
 
         // get Partition Dropdown
         this.getDropDownField({

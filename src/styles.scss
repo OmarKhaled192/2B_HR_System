@@ -195,7 +195,8 @@ html:lang(ar) .mr-2 {
 
 .p-dialog {
     width: 500px !important;
-    max-height: 90%;
+    max-height: 600px !important;
+    height: 500px !important;
     overflow: auto;
 }
 .p-multiselect-items-wrapper {
@@ -303,4 +304,9 @@ html:lang(ar) .layout-menu ul ul li a {
 .p-toast .p-toast-message .p-toast-message-content {
     align-items: center;
     gap: 15px;
+}
+html:lang(ar) .pi-sign-out:before
+{
+    transform: rotate(180deg);
+    margin-right: 5px;
 }

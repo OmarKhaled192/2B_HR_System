@@ -119,6 +119,7 @@
             </p-calendar>
         </div>
 
+
         <div class="field">
             <label htmlFor="numberOfHours">{{
                 "number Of Hours" | translate
@@ -128,6 +129,48 @@
                 [(ngModel)]="numberOfHours"
                 [placeholder]="'Enter number Of Hours' | translate"
                 id="numberOfHours"
+                type="number"
+            />
+        </div>
+
+        <!-- checkInBeforeTheShiftStarts -->
+        <div class="field">
+            <label htmlFor="checkInBeforeTheShiftStarts">{{
+                "check In Before The Shift Starts" | translate
+            }}</label>
+            <input
+                pInputText
+                [(ngModel)]="checkInBeforeTheShiftStarts"
+                [placeholder]="'Enter Check In Before The Shift Starts' | translate"
+                id="checkInBeforeTheShiftStarts"
+                type="number"
+            />
+        </div>
+
+        <!-- checkOutAfterTheShiftEnds -->
+        <div class="field">
+            <label htmlFor="checkOutAfterTheShiftEnds">{{
+                "check Out After The Shift Ends" | translate
+            }}</label>
+            <input
+                pInputText
+                [(ngModel)]="checkOutAfterTheShiftEnds"
+                [placeholder]="'Enter check Out After The Shift Ends' | translate"
+                id="checkOutAfterTheShiftEnds"
+                type="number"
+            />
+        </div>
+
+        <!-- checkOutAfterTheShiftStarts -->
+        <div class="field">
+            <label htmlFor="checkOutAfterTheShiftStarts">{{
+                "check Out After The Shift Starts" | translate
+            }}</label>
+            <input
+                pInputText
+                [(ngModel)]="checkOutAfterTheShiftStarts"
+                [placeholder]="'Enter check Out Before The Shift Starts' | translate"
+                id="checkOutAfterTheShiftStarts"
                 type="number"
             />
         </div>
@@ -207,6 +250,10 @@
             <th>{{ "EndAttendeesTime" | translate }}</th>
             <th>{{ "NumberOfHours" | translate }}</th>
 
+            <th>{{ "check In Before The Shift Starts" | translate }}</th>
+            <th>{{ "check Out After The Shift Ends" | translate }}</th>
+            <th>{{ "check Out After The Shift Starts" | translate }}</th>
+
             <!-- generic fields -->
             <th>{{ "Notes" | translate }}</th>
             <th>{{ "creationTime" | translate }}</th>
@@ -239,14 +286,34 @@
                     rowData.startAttendeesTime ? rowData.startAttendeesTime : ""
                 }}
             </td>
+
             <td [ngClass]="{ 'null-color': !rowData.endAttendeesTime }">
                 <span class="p-column-title">endAttendeesTime</span>
                 {{ rowData.endAttendeesTime ? rowData.endAttendeesTime : "" }}
             </td>
+
             <td [ngClass]="{ 'null-color': !rowData.numberOfHours }">
                 <span class="p-column-title">numberOfHours</span>
                 {{ rowData.numberOfHours ? rowData.numberOfHours : "" }}
             </td>
+
+            <td [ngClass]="{ 'null-color': !rowData.checkInBeforeTheShiftStarts }">
+                <span class="p-column-title">checkInBeforeTheShiftStarts</span>
+                {{ rowData.checkInBeforeTheShiftStarts  }}
+            </td>
+
+
+            <td [ngClass]="{ 'null-color': !rowData.checkOutAfterTheShiftEnds }">
+                <span class="p-column-title">checkOutAfterTheShiftEnds</span>
+                {{ rowData.checkOutAfterTheShiftEnds }}
+            </td>
+
+
+            <td [ngClass]="{ 'null-color': !rowData.checkOutAfterTheShiftStarts }">
+                <span class="p-column-title">checkOutAfterTheShiftStarts</span>
+                {{ rowData.checkOutAfterTheShiftStarts }}
+            </td>
+
 
             <td [ngClass]="{ 'null-color': !rowData.notes }">
                 <span class="p-column-title">Notes</span>
@@ -405,6 +472,49 @@
                 *ngIf="submitted && !product.endAttendeesTime"
                 >{{ "endAttendeesTime is required." | translate }}</small
             >
+        </div>
+
+
+        <!-- checkInBeforeTheShiftStarts -->
+        <div class="field">
+            <label htmlFor="checkInBeforeTheShiftStarts">{{
+                "check In Before The Shift Starts" | translate
+            }}</label>
+            <input
+                pInputText
+                [(ngModel)]="product.checkInBeforeTheShiftStarts"
+                [placeholder]="'Enter Check In Before The Shift Starts' | translate"
+                id="checkInBeforeTheShiftStarts"
+                type="number"
+            />
+        </div>
+
+        <!-- checkOutAfterTheShiftEnds -->
+        <div class="field">
+            <label htmlFor="checkOutAfterTheShiftEnds">{{
+                "check Out After The Shift Ends" | translate
+            }}</label>
+            <input
+                pInputText
+                [(ngModel)]="product.checkOutAfterTheShiftEnds"
+                [placeholder]="'Enter check Out After The Shift Ends' | translate"
+                id="checkOutAfterTheShiftEnds"
+                type="number"
+            />
+        </div>
+
+        <!-- checkOutAfterTheShiftStarts -->
+        <div class="field">
+            <label htmlFor="checkOutAfterTheShiftStarts">{{
+                "check Out After The Shift Starts" | translate
+            }}</label>
+            <input
+                pInputText
+                [(ngModel)]="product.checkOutAfterTheShiftStarts"
+                [placeholder]="'Enter check Out Before The Shift Starts' | translate"
+                id="checkOutAfterTheShiftStarts"
+                type="number"
+            />
         </div>
 
         <div class="field">

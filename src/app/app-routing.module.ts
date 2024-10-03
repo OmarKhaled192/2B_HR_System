@@ -11,7 +11,7 @@ import { TestInputComponentComponent } from './demo/components/info/components/t
             [
                 {
                     path: '',
-                    redirectTo: 'auth/login',
+                    redirectTo: 'dashboard',
                     pathMatch: 'full',
                 },
                 {

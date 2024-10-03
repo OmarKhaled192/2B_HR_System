@@ -1,36 +1,17 @@
-import { CommonModule, Time } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import {
     FormControl,
     FormGroup,
-    FormsModule,
-    ReactiveFormsModule,
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
+import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
 import { UsersService } from './users.service';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { itemsPerPageGlobal } from 'src/main';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 export const passwordMatchValidator: ValidatorFn = (formGroup: FormGroup) => {
     const password = formGroup.get('password')?.value;
     const rePassword = formGroup.get('rePassword')?.value;
@@ -46,28 +27,8 @@ export const passwordMatchValidator: ValidatorFn = (formGroup: FormGroup) => {
     selector: 'app-users',
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        CalendarModule,
-        InputSwitchModule,
-        TranslateModule,
-        MultiSelectModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [MessageService],
     templateUrl: './users.component.html',
@@ -114,8 +75,8 @@ export class UsersComponent {
     selectedYearEdit: number;
     rolesDropdown!: any;
     selectedMulti!: any[];
+
     userId!: number;
-    selectedRolesIds: number[] = [];
     changePassForm: FormGroup = new FormGroup(
         {
             password: new FormControl(null, [
@@ -246,16 +207,7 @@ export class UsersComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            error: (err) => {
-                console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
-                this.loading = false;
-            },
+          
         });
     }
 
@@ -388,22 +340,25 @@ export class UsersComponent {
     selectMultiItems(event: any) {
         console.log(event);
         console.log(this.selectedMulti);
-        let arr: any[] = event.value;
-        let arrIds = [];
-        arr.forEach((item) => {
-            arrIds.push(item.id);
-        });
-        this.selectedRolesIds = arrIds;
+    
         this.selectedMulti = event.value;
-        console.log(this.selectedRolesIds);
     }
     saveRoles(id: number) {
         console.clear();
         console.log(id);
-        console.log('this.selectedRolesIds');
-        console.log(this.selectedRolesIds);
+        console.log(this.selectedMulti);
 
-        this.usersService.assignRoles(id, this.selectedRolesIds).subscribe({
+        let selectedIds = [] ;  
+
+        this.selectedMulti.forEach((item)=>{
+            selectedIds.push(item.id); 
+        });
+        console.log(selectedIds);
+        
+
+
+
+        this.usersService.assignRoles(id, selectedIds).subscribe({
             next: (res) => {
                 console.log(res);
                 this.messageService.add({
@@ -420,12 +375,14 @@ export class UsersComponent {
                     this.sortField,
                     this.sortOrder
                 );
+
             },
             error: (err) => {
                 console.log(err);
                 this.productDialog = false;
             },
         });
+        selectedIds = [] ;
     }
     editProductLock(rowData: any) {
         this.usersService.GetById(rowData.id).subscribe({

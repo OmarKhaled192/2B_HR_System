@@ -1,56 +1,26 @@
-import { CommonModule, DatePipe } from "@angular/common";
+import { DatePipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { MessageService } from "primeng/api";
-import { UIkitRoutingModule } from "src/app/demo/components/uikit/uikit-routing.module";
-import { FormLayoutDemoRoutingModule } from "src/app/demo/components/uikit/formlayout/formlayoutdemo-routing.module";
 import { EmployeeService } from "./employee.service";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AutoCompleteModule } from "primeng/autocomplete";
-import { CalendarModule } from "primeng/calendar";
-import { ChipsModule } from "primeng/chips";
-import { DropdownModule } from "primeng/dropdown";
-import { InputMaskModule } from "primeng/inputmask";
-import { InputNumberModule } from "primeng/inputnumber";
-import { CascadeSelectModule } from "primeng/cascadeselect";
-import { MultiSelectModule } from "primeng/multiselect";
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { InputTextModule } from "primeng/inputtext";
-import { InputSwitchModule } from "primeng/inputswitch";
-import { FileUploadModule, UploadEvent } from "primeng/fileupload";
-import { ToastModule } from "primeng/toast";
+import { UploadEvent } from "primeng/fileupload";
 import { Globals } from "src/app/class/globals";
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { TranslateService } from "@ngx-translate/core";
+import { GlobalsModule } from "src/app/demo/modules/globals/globals.module";
+import { PrimeNgModule } from "src/app/demo/modules/primg-ng/prime-ng.module";
 
 @Component({
     selector: 'app-employee',
     standalone: true,
     imports: [
-        CommonModule,
-        UIkitRoutingModule,
-        FormsModule,
-        FormLayoutDemoRoutingModule,
-        ReactiveFormsModule,
-        AutoCompleteModule,
-        CalendarModule,
-        ChipsModule,
-        DropdownModule,
-        InputMaskModule,
-        InputNumberModule,
-        CascadeSelectModule,
-        MultiSelectModule,
-        InputTextareaModule,
-        InputTextModule,
-        InputSwitchModule,
-        FileUploadModule,
-        ToastModule,
-        DatePipe,
-        TranslateModule,
+        GlobalsModule,
+        PrimeNgModule,
     ],
     providers: [MessageService, DatePipe, TranslateService],
     templateUrl: './employee.component.html',
     styleUrl: './employee.component.scss',
 })
 export class EmployeeComponent {
+    selectedAttendanceConfiguration: any;
     constructor(
         private _EmployeeService: EmployeeService,
         private messageService: MessageService,
@@ -84,12 +54,14 @@ export class EmployeeComponent {
     selectedPhone: any = null;
     selectedEmail: any = null;
     selectedBirthDate: any = null;
+    selectedDepartment: any = null;
+    selectedBloodType: any = null;
 
     selectedIsInsured: boolean = false;
     selectedIsManager: boolean = false;
+    selectedIsStaticShift:boolean = false;
+    selectedIsStaticVacation:boolean = false ;
 
-    selectedDepartment: any = null;
-    selectedBloodType: any = null;
 
     // => dropdown Arrays
 
@@ -111,6 +83,7 @@ export class EmployeeComponent {
     dropdownItemsJobNature: any;
     dropdownItemsRecuritmentSource: any;
     dropdownItemsContractType: any;
+    dropdownItemsAttendanceConfiguration:any;
     file: File = null;
     endPoint: string;
     selectedDeleteImage: boolean = false;
@@ -160,14 +133,7 @@ export class EmployeeComponent {
             enum: 'getReligion',
         });
 
-        // ==========================================================================
-
-        // get Dropdown ==>
-        // get Blood Type Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsReligin',
-            enum: 'getReligion',
-        });
+    
 
         // get Government Dropdown
         this.getDropDownField({
@@ -179,6 +145,12 @@ export class EmployeeComponent {
         this.getDropDownField({
             field: 'dropdownItemsQualification',
             enum: 'Qualification',
+        });
+
+        // get Attendance Configuration Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsAttendanceConfiguration',
+            enum: 'AttendanceConfiguration',
         });
 
         // get Job Dropdown
@@ -221,6 +193,12 @@ export class EmployeeComponent {
         this.getDropDownField({
             field: 'dropdownItemsContractType',
             enum: 'ContractType',
+        });
+
+        // get Attendance Configuration Dropdown
+        this.getDropDownField({
+            field: 'dropdownItemsAttendanceConfiguration',
+            enum: 'AttendanceConfiguration',
         });
     }
 
@@ -309,6 +287,12 @@ export class EmployeeComponent {
             'QualificationId',
             this.selectedQualification?.['id']
         ); //11
+
+        this.registerForm.append(
+            'AttendanceConfigurationId',
+            this.selectedAttendanceConfiguration?.['id']
+        ); //12
+
         this.registerForm.append('Gender', this.selectedGender?.['id']); //12
         this.registerForm.append(
             'MaritalStatus',
@@ -369,6 +353,8 @@ export class EmployeeComponent {
 
         // Append boolean fields
         this.registerForm.append('Ismanger', this.selectedIsManager.toString()); // 28
+        this.registerForm.append('StaticShift', this.selectedIsStaticShift.toString()); // 28
+        this.registerForm.append('StaticVacation', this.selectedIsStaticVacation.toString()); // 28
         this.registerForm.append(
             'IsInsured',
             this.selectedIsInsured.toString()
@@ -378,6 +364,9 @@ export class EmployeeComponent {
             'DeleteImage',
             this.selectedDeleteImage.toString()
         ); // 30
+
+
+        console.log("register form", this.registerForm)
 
         this._EmployeeService.Register(this.registerForm).subscribe({
             next: (res) => {

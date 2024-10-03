@@ -1,56 +1,21 @@
 import { PartitionService } from './partition.service';
 import { Component, Input, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { ButtonModule } from 'primeng/button';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
-import { TranslateModule } from '@ngx-translate/core';
 import { itemsPerPageGlobal } from 'src/main';
+import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
+import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 
 @Component({
     selector: 'app-partition',
     templateUrl: './partition.component.html',
     styleUrl: './partition.component.scss',
     providers: [MessageService],
-
     standalone: true,
     imports: [
-        CommonModule,
-        NgxPaginationModule,
-        ToolbarModule,
-        TableModule,
-        RippleModule,
-        FileUploadModule,
-        HttpClientModule,
-        ButtonModule,
-        FormsModule,
-        DialogModule,
-        ToastModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        ReactiveFormsModule,
-        AutoCompleteModule,
-        TranslateModule,
+        GlobalsModule,
+        PrimeNgModule
     ],
 })
 export class PartitionComponent {
@@ -152,6 +117,10 @@ export class PartitionComponent {
     }
 
     changedSelected(event: any) {
+        if (!event.value) {
+            this.selectedDepartment = null;
+          }
+          else
         this.selectedDepartmentId = this.selectedDepartment['id'];
     }
 
@@ -165,7 +134,7 @@ export class PartitionComponent {
             },
         });
     }
-
+    
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this._PartitionService.DeleteSoftById(id).subscribe({
@@ -233,6 +202,7 @@ export class PartitionComponent {
                 console.log(err);
             },
         });
+        this.selectedDepartment = null ;
     }
 
     loadFilteredData() {

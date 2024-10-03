@@ -38,11 +38,16 @@ export class LoginComponent {
         private messageService: MessageService,
         private translate: TranslateService
     ) {}
+
+
+
+   
     ngOnInit() {
         Globals.getMainLangChanges().subscribe({
             next: (lang) => {
                 this.translate.use(lang).subscribe(() => {
                     const langData = this.translate.translations[lang];
+                    this.authService.setCulture(lang);
 
                     console.log(langData);
                     if (langData) {
@@ -59,40 +64,20 @@ export class LoginComponent {
     }
 
     submitLoginForm(logForm: FormGroup) {
-        if (logForm.status == 'VALID') {
+        if (logForm.valid) {
             this.authService.login(logForm.value).subscribe({
                 next: (res) => {
-                    if (res.data.token && res.statusCode == 200) {
+                    if (res.data && res.statusCode == 200 && res.success) {
                         localStorage.setItem('userToken', res.data.token);
                         this.router.navigate(['/dashboard']);
                     }
+                   
+                    console.log(res);
+                    
+              
                 },
-                error: (err) => {
-                    if (err.status == 401) {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: 'Error',
-                            detail: 'You Are Unauthorized',
-                            life: 3000,
-                        });
-                        this.router.navigate(['/login']);
-                    } else {
-                        this.messageService.add({
-                            severity: 'error',
-                            summary: 'Error',
-                            detail: err.message,
-                            life: 3000,
-                        });
-                    }
-                },
+                
             });
-        } else {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Incorrect email or password',
-                life: 3000,
-            });
-        }
+        } 
     }
 }

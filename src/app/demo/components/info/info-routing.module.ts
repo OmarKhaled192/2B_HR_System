@@ -42,6 +42,13 @@ import { InternalJobsComponent } from './components/custom/internal-jobs/interna
 import { AttendenceConfigurationComponent } from './components/custom/attendence-configuration/attendence-configuration.component';
 import { AttendenceConfigEditComponent } from './components/custom/attendence-config-edit/attendence-config-edit.component';
 import { TestInputComponentComponent } from './components/test-input-component/test-input-component.component';
+import { SetEmployeeShiftsComponent } from './components/custom/set-employee-shifts/set-employee-shifts.component';
+import { AllEmployeeFingerPrintsService } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrints.service';
+import { AllEmployeesFingerPrintComponent } from './components/custom/all-employees-FingerPrints/all-employees-FingerPrintscomponent';
+import { KPIComponent } from './components/custom/kpi/kpi.component';
+import { PenaltiesAndDeductionComponent } from './components/custom/penalties-and-deduction/penalties-and-deduction.component';
+import { BonusComponent } from './components/custom/bonus/bonus.component';
+import { TestComponent } from './components/employee-edit/AllTabs/test/test.component';
 
 @NgModule({
     imports: [
@@ -165,6 +172,21 @@ import { TestInputComponentComponent } from './components/test-input-component/t
                 canActivate: [authGuard],
                 component: CloseMonthComponent,
             },
+            {
+                path: 'kpi',
+                canActivate: [authGuard],
+                component: KPIComponent,
+            },
+            {
+                path: 'bonus',
+                canActivate: [authGuard],
+                component: BonusComponent,
+            },
+            {
+                path: 'PenaltiesAndDeduction',
+                canActivate: [authGuard],
+                component: PenaltiesAndDeductionComponent,
+            },
 
             {
                 path: 'vacationType',
@@ -258,6 +280,11 @@ import { TestInputComponentComponent } from './components/test-input-component/t
                 component: EmployeeComponent,
             },
             {
+                path: 'fingerprints',
+                canActivate: [authGuard],
+                component: AllEmployeesFingerPrintComponent,
+            },
+            {
                 path: 'attendenceConfig',
                 canActivate: [authGuard],
                 component: AttendenceConfigurationComponent,
@@ -266,6 +293,18 @@ import { TestInputComponentComponent } from './components/test-input-component/t
                 path: 'attendenceConfig/edit/:id',
                 canActivate: [authGuard],
                 component: AttendenceConfigEditComponent,
+            },
+
+            {
+                path: 'setEmployeeShifts',
+                canActivate: [authGuard],
+                component: SetEmployeeShiftsComponent,
+            },
+
+            {
+                path: 'test',
+                canActivate: [authGuard],
+                component: TestComponent,
             },
 
             { path: '**', component: NotfoundComponent },

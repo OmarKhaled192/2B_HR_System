@@ -4,6 +4,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -12,6 +13,7 @@ import { ToastModule } from 'primeng/toast';
         FormsModule,
         ReactiveFormsModule,
         ToastModule,
+        TranslateModule
     ],
     providers: [MessageService],
 })
