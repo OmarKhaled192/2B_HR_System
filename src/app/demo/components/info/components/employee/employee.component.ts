@@ -132,14 +132,7 @@ export class EmployeeComponent {
             enum: 'getReligion',
         });
 
-        // ==========================================================================
-
-        // get Dropdown ==>
-        // get Blood Type Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsReligin',
-            enum: 'getReligion',
-        });
+    
 
         // get Government Dropdown
         this.getDropDownField({
