@@ -130,19 +130,20 @@
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th pSortableColumn="id" (click)="sortById($event)">
-                {{ "Id" | translate }}
-                <p-sortIcon field="id"></p-sortIcon>
+            <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+                {{ col.header | translate }}
+                <p-sortIcon *ngIf="col.sortable" [field]="col.field" (click)="sortById($event)"></p-sortIcon>
             </th>
-            <th pSortableColumn="name" (click)="sortByName($event)">
-                {{ "Name" | translate }} <p-sortIcon field="name"></p-sortIcon>
+            <!-- <th [pSortableColumn]="name" (click)="sortByName($event)">
+                {{ "Name" | translate }}
+                <p-sortIcon field="name"></p-sortIcon>
             </th>
             <th>{{ "Notes" | translate }}</th>
             <th>{{ "creationTime" | translate }}</th>
             <th>{{ "lastModificationTime" | translate }}</th>
             <th>{{ "creatorName" | translate }}</th>
             <th>{{ "lastModifierName" | translate }}</th>
-            <th>{{ "Actions" | translate }}</th>
+            <th>{{ "Actions" | translate }}</th> -->
         </tr>
     </ng-template>
 

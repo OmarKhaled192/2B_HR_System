@@ -79,14 +79,16 @@ export class TableServerSideComponent {
 
         this.cols = [
             // basic data
-            { field: 'name', header: 'Name' },
-            { field: 'notes', header: 'Notes' },
+            { field: 'id', header: 'Id', sortable: true, type: 'number' },
+            { field: 'name', header: 'Name', sortable: true, type:'string'  },
+
+            { field: 'notes', header: 'Notes', sortable: false, type:'string' },
 
             // Generic Fields
-            { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
-            { field: 'lastModifierName', header: 'LastModifierName' },
+            { field: 'creationTime', header: 'CreationTime',sortable: false, type:'dateTime'  },
+            { field: 'lastModificationTime', header: 'LastModificationTime', sortable: false, type:'dateTime' },
+            { field: 'creatorName', header: 'CreatorName', sortable: false, type:'string' },
+            { field: 'lastModifierName', header: 'LastModifierName', sortable: false, type:'string' },
         ];
     }
 

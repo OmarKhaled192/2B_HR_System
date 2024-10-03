@@ -11,7 +11,6 @@ import { TableServerSideComponent } from 'src/app/demo/components/table-server-s
 export class TestComponent {
     cols: any[] = [];
 
-
     ngOnInit(): void {
         this.cols = [
             // basic data
@@ -20,8 +19,8 @@ export class TestComponent {
 
             // Generic Fields
             { field: 'creationTime', header: 'CreationTime' },
-            { field: 'lastModificationTime', header: 'LastModificationTime' },
-            { field: 'creatorName', header: 'CreatorName' },
+            { field: 'lastModificationTime', header: 'Last ModificationTime' },
+            { field: 'creatorName', header: 'Creator Name' },
             { field: 'lastModifierName', header: 'LastModifierName' },
         ];
     }
