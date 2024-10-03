@@ -163,7 +163,6 @@ export class EmployeeEditComponent {
         StaticShift: new FormControl(),
         StaticVacation:new FormControl(),
         AttendanceConfigurationId : new FormControl(),
-        // imageUrl: new FormControl(),
     });
 
     // Actions Tabs variable
