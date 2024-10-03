@@ -195,7 +195,8 @@ html:lang(ar) .mr-2 {
 
 .p-dialog {
     width: 500px !important;
-    max-height: 90%;
+    max-height: 600px !important;
+    height: 500px !important;
     overflow: auto;
 }
 .p-multiselect-items-wrapper {
