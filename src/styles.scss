@@ -304,3 +304,8 @@ html:lang(ar) .layout-menu ul ul li a {
     align-items: center;
     gap: 15px;
 }
+html:lang(ar) .pi-sign-out:before
+{
+    transform: rotate(180deg);
+    margin-right: 5px;
+}

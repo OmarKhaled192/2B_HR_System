@@ -162,7 +162,7 @@ export class EmployeeEditComponent {
         Phone: new FormControl(),
         StaticShift: new FormControl(),
         StaticVacation:new FormControl(),
-        // imageUrl: new FormControl(),
+        AttendanceConfigurationId : new FormControl(),
     });
 
     // Actions Tabs variable

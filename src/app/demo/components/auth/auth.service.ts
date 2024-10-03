@@ -3,16 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LockupsService } from '../../service/lockups.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class AuthService {
-    baseurl: string = environment.baseurl + '/auth/';
+export class AuthService extends LockupsService {
 
-    constructor(private http: HttpClient) {}
+    constructor(http: HttpClient) {
+        super(http);
+    }
 
     login(body: Login): Observable<any> {
-        return this.http.post(this.baseurl + 'login', body);
+        return this.http.post(`${this.baseurl}/Auth/login?culture=${this.culture}`, body);
     }
 }
