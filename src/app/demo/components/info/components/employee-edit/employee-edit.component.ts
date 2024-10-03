@@ -162,6 +162,7 @@ export class EmployeeEditComponent {
         Phone: new FormControl(),
         StaticShift: new FormControl(),
         StaticVacation:new FormControl(),
+        AttendanceConfigurationId : new FormControl(),
         // imageUrl: new FormControl(),
     });
 
