@@ -11,13 +11,14 @@ import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
 import { AppLayoutModule } from './layout/app.layout.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import {
     provideHttpClient,
     HttpClientModule,
     withInterceptors,
     HttpClient,
+    HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { authInterceptor } from './demo/components/auth/auth.interceptor';
 import {
@@ -28,6 +29,8 @@ import {
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { PaginationModule } from './demo/components/pages/pagination/pagination.module';
 import { environment } from 'src/environments/environment.prod';
+import { ErrorHandlerInterceptor } from './demo/components/auth/error-handler.interceptor';
+import { ToastModule } from 'primeng/toast';
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     console.log('environment Production App Module ');
     console.log(environment.production);
@@ -57,9 +60,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         }),
         PaginationModule,
         HttpClientModule,
+        ToastModule,
+        ReactiveFormsModule,
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true },
         CountryService,
         CustomerService,
         EventService,

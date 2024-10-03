@@ -20,6 +20,7 @@ import { PrimeNgModule } from "src/app/demo/modules/primg-ng/prime-ng.module";
     styleUrl: './employee.component.scss',
 })
 export class EmployeeComponent {
+    selectedAttendanceConfiguration: any;
     constructor(
         private _EmployeeService: EmployeeService,
         private messageService: MessageService,
@@ -133,14 +134,7 @@ export class EmployeeComponent {
             enum: 'getReligion',
         });
 
-        // ==========================================================================
-
-        // get Dropdown ==>
-        // get Blood Type Dropdown
-        this.getDropDownField({
-            field: 'dropdownItemsReligin',
-            enum: 'getReligion',
-        });
+    
 
         // get Government Dropdown
         this.getDropDownField({

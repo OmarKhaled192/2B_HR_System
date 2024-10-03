@@ -3,6 +3,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import { Globals } from './class/globals';
 import { TranslateService } from '@ngx-translate/core';
 
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

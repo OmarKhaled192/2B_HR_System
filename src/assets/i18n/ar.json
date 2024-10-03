@@ -38,7 +38,8 @@
     "LANDING": "Landing",
     "AUTH": "Auth",
     "LOGIN": "Login",
-    "ERROR": "Error",
+    "Error": "خطأ",
+    "Logout":"تسجيل الخروج",
     "ACCESS_DENIED": "Access Denied",
     "CRUD": "Crud",
     "TIMELINE": "Timeline",
@@ -321,7 +322,7 @@
     "Internal Jobs": "الوظائف الداخلية",
     "Add New Internal Job": "اضافة وظيفة داخلية جديدة",
     "MacAdress": "عنوان الماك",
-    "Requirment": "المامورية",
+    "Job Requirments": "متطلبات الوظيفة",
     "nameOfJob": "اسم الوظيفة",
     "Name Of Job": "اسم الوظيفة",
     "Enter Name Of Job Here": "ادخل اسم الوظيفة هنا",
@@ -420,5 +421,8 @@
     "Employee Weekend": "اجازة الموظف",
     "Bonus": "الحوافز",
     "Employee Shift": "وردية الموظف",
-    "Shift Name": "اسم الوردية"
+    "Shift Name": "اسم الوردية",
+    "An Error Occurred":"حدث خطأ ما",
+    "An unexpected error occurred":"حدث خطأ غير متوقع",
+    "Success":"تم بنجاح"
 }

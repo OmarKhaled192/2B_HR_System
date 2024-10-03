@@ -37,7 +37,7 @@
     "LANDING": "Landing",
     "AUTH": "Auth",
     "LOGIN": "Login",
-    "ERROR": "Error",
+    "Error": "Error",
     "ACCESS_DENIED": "Access Denied",
     "CRUD": "Crud",
     "TIMELINE": "Timeline",
@@ -404,5 +404,9 @@
     "Employee Weekend": "Employee Weekend",
     "Bonus": "Bonus",
     "Employee Shift": "Employee Shift",
-    "Shift Name": "Shift Name"
+    "Shift Name": "Shift Name",
+    "An Error Occurred":"An Error Occurred",
+    "An unexpected error occurred":"An unexpected error occurred",
+    "Success":"Success",
+    "Logout":"Logout"
 }

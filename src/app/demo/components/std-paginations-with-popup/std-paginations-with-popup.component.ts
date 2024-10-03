@@ -1,10 +1,16 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { LockupsService } from '../../service/lockups.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Globals } from 'src/app/class/globals';
 import { GlobalsModule } from '../../modules/globals/globals.module';
 import { PrimeNgModule } from '../../modules/primg-ng/prime-ng.module';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-std-paginations-with-popup',
@@ -20,7 +26,8 @@ import { PrimeNgModule } from '../../modules/primg-ng/prime-ng.module';
 export class StdPaginationsWithPopupComponent{
     constructor(
         private _LockupsService: LockupsService,
-        private messageService: MessageService) {
+        private messageService: MessageService , 
+    private translate : TranslateService) {
     }
 
     @ViewChild('dt') dt: Table;
@@ -46,6 +53,17 @@ export class StdPaginationsWithPopupComponent{
     sortOrder: string = 'asc';
     newNameAr!: string;
     newNameEn!: string;
+    addNewForm : FormGroup = new FormGroup({
+        name:new FormControl(null , [Validators.required , Validators.maxLength(50)]),
+        engName: new FormControl(null ,[Validators.required , Validators.maxLength(50)]),
+        notes:new FormControl(null)
+    })
+    editForm : FormGroup = new FormGroup({
+        id:new FormControl(null),
+        name:new FormControl(null , [Validators.required , Validators.maxLength(50)]),
+        engName: new FormControl(null ,[Validators.required , Validators.maxLength(50)]),
+        notes:new FormControl(null)
+    })
 
     ngOnInit() {
 
@@ -108,15 +126,15 @@ export class StdPaginationsWithPopupComponent{
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this._LockupsService.DeleteSoftById(id).subscribe({
-            next: () => {
+            next: (res) => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message ,
                     life: 3000,
                 });
 
@@ -128,31 +146,30 @@ export class StdPaginationsWithPopupComponent{
                     this.sortField,
                     this.sortOrder
                 );
-            },
-            error: (err) => {
-                console.log(err);
-            },
+            }
         });
     }
 
-    addNew() {
-        let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-        };
+    addNew(form:FormGroup) {
+        console.log(form);
+        
 
-        this._LockupsService.Register(body).subscribe({
+        this._LockupsService.Register(form.value).subscribe({
             next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+                if(res.success)
+                {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: this.translate.instant('Success'),
+                        detail: res.message,
+                        life: 3000,
+                    });
+                    form.reset(); 
+                }
+                
 
                 // set fields is empty
                 this.setFieldsNulls();
@@ -166,11 +183,7 @@ export class StdPaginationsWithPopupComponent{
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.showFormNew = false;
-
-                console.log(err);
-            },
+           
         });
     }
 
@@ -255,38 +268,34 @@ export class StdPaginationsWithPopupComponent{
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(form:FormGroup , product: any) {
         this.submitted = true;
-        console.log(id);
-        console.log(product);
+        
+        form.patchValue({
+            id:product.id
+        })
+        
+        // let body = {
+        //     engName: product.engName,
+        //     name: product.name,
+        //     id: product.id,
+        //     notes: product.notes,
+        // };
 
-        let body = {
-            engName: product.engName,
-            name: product.name,
-            id: product.id,
-            notes: product.notes,
-        };
-
-        this._LockupsService.Edit(body).subscribe({
+        this._LockupsService.Edit(form.value).subscribe({
             next: (res) => {
-                this.hideDialog();
                 if(res.success)
+                {
+                    this.hideDialog();
                     // show message for user to show processing of deletion.
                     this.messageService.add({
                         severity: 'success',
-                        summary: 'Successful',
-                        detail: 'You Edit This Item',
-                        life: 3000,
-                    });
-                else
-                    // show message for user to show processing of deletion.
-                    this.messageService.add({
-                        severity: 'warn',
-                        summary: 'Warning',
+                        summary: this.translate.instant('Success'),
                         detail: res.message,
                         life: 3000,
                     });
-
+                }
+               
                 // load data again
                 this.loadData(
                     this.page,
@@ -296,18 +305,18 @@ export class StdPaginationsWithPopupComponent{
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+         
         });
     }
 
     toggleNew() {
         if (this.showFormNew) {
             this.showFormNew = false;
+            this.addNewForm.reset()
+
         } else {
             this.showFormNew = true;
+            this.addNewForm.reset()
         }
     }
 
@@ -361,8 +370,8 @@ export class StdPaginationsWithPopupComponent{
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message ,
                     life: 3000,
                 });
                 // this.selectedItems = [];
