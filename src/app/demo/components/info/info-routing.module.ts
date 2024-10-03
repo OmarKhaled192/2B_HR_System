@@ -48,6 +48,7 @@ import { AllEmployeesFingerPrintComponent } from './components/custom/all-employ
 import { KPIComponent } from './components/custom/kpi/kpi.component';
 import { PenaltiesAndDeductionComponent } from './components/custom/penalties-and-deduction/penalties-and-deduction.component';
 import { BonusComponent } from './components/custom/bonus/bonus.component';
+import { TestComponent } from './components/employee-edit/AllTabs/test/test.component';
 
 @NgModule({
     imports: [
@@ -298,6 +299,12 @@ import { BonusComponent } from './components/custom/bonus/bonus.component';
                 path: 'setEmployeeShifts',
                 canActivate: [authGuard],
                 component: SetEmployeeShiftsComponent,
+            },
+
+            {
+                path: 'test',
+                canActivate: [authGuard],
+                component: TestComponent,
             },
 
             { path: '**', component: NotfoundComponent },

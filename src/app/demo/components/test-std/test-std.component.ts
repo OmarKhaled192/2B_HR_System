@@ -9,5 +9,5 @@ import { StdPaginationComponent } from '../std-pagination/std-pagination.compone
   styleUrl: './test-std.component.scss'
 })
 export class TestStdComponent {
-
+    
 }
