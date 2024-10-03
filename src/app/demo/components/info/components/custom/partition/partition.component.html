@@ -34,6 +34,7 @@
 
         <div class="field">
             <label for="department">{{ "Department" | translate }}</label>
+
             <p-dropdown [options]="departmentDropDown" id="department" (onChange)="changedSelected($event)"
                 [(ngModel)]="selectedDepartment" [placeholder]="'Select a Department' | translate" [showClear]="true"
                 optionLabel="name" (onClear)="selectedDepartment = null" [filter]="true" filterBy="name"></p-dropdown>
