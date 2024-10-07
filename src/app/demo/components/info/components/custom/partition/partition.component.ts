@@ -132,9 +132,7 @@ export class PartitionComponent {
                 );
                 console.log('dept name is ', this.selectedEditsDepartment);
             },
-            error: (err) => {
-                console.log(err);
-            },
+           
         });
     }
 
@@ -157,24 +155,22 @@ export class PartitionComponent {
             next: (res: any) => {
                 this.departmentDropDown = res.data;
             },
-            error: (err) => {
-                console.log(err);
-            },
+           
         });
     }
     
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this._PartitionService.DeleteSoftById(id).subscribe({
-            next: () => {
+            next: (res) => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
 
@@ -187,9 +183,7 @@ export class PartitionComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                console.log(err);
-            },
+         
         });
     }
 
@@ -214,7 +208,7 @@ export class PartitionComponent {
                 {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
+                    summary: this.translate.instant('Success'),
                     detail: res.message,
                     life: 3000,
                 });
@@ -281,11 +275,7 @@ export class PartitionComponent {
                 this.totalItems = res.totalItems;
                 this.loading = false;
                 console.log(this.selectedItems);
-            },
-            error: (err) => {
-                console.log(err);
-                this.loading = false;
-            },
+            }
         });
     }
 
@@ -341,8 +331,8 @@ export class PartitionComponent {
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
                 }
@@ -419,8 +409,8 @@ export class PartitionComponent {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
+                    summary: this.translate.instant('Success'),
+                    detail:res.message,
                     life: 3000,
                 });
                 this.selectedItems = [];
@@ -433,17 +423,7 @@ export class PartitionComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-               
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
+           
         });
     }
 

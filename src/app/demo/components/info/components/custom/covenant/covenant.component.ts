@@ -23,7 +23,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class CovenantComponent {
     constructor(
         private _CovenantService: CovenantService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private translate : TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -159,15 +160,15 @@ export class CovenantComponent {
     confirmDelete(id: number) {
         // perform delete from sending request to api
         this._CovenantService.DeleteSoftById(id).subscribe({
-            next: () => {
+            next: (res) => {
                 // close dialog
                 this.deleteProductDialog = false;
 
                 // show message for user to show processing of deletion.
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
-                    detail: 'Product Deleted',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
 
@@ -200,7 +201,7 @@ export class CovenantComponent {
                 {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
+                    summary: this.translate.instant('Success'),
                     detail: res.message,
                     life: 3000,
                 });
@@ -323,7 +324,7 @@ export class CovenantComponent {
                 {
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Successful',
+                    summary: this.translate.instant('Success'),
                     detail: res.message,
                     life: 3000,
                 });
@@ -401,8 +402,8 @@ export class CovenantComponent {
                 this.deleteProductsDialog = false;
                 this.messageService.add({
                     severity: 'success',
-                    summary: 'Success',
-                    detail: 'items deleted successfully',
+                    summary: this.translate.instant('Success'),
+                    detail: res.message,
                     life: 3000,
                 });
                 this.loadData(
@@ -413,22 +414,7 @@ export class CovenantComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
-                this.deleteProductsDialog = false;
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
+           
         });
     }
 
