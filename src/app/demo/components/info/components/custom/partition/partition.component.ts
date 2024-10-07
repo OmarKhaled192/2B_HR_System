@@ -218,11 +218,11 @@ export class PartitionComponent {
                     detail: res.message,
                     life: 3000,
                 });
-                form.reset() ;
             }
             
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset() ;
+
 
                 // load data again
                 this.loadData(

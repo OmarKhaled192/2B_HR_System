@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-covenant',
@@ -54,6 +55,20 @@ export class CovenantComponent {
     selectedCovenantCategoryOnEdit: any;
 
     selectedItemsData: any;
+    addNewForm:FormGroup = new FormGroup({
+        covenantCategoryId : new FormControl(null,[Validators.required]),
+        engName : new FormControl(null,[Validators.required]),
+        name : new FormControl(null,[Validators.required]),
+        notes : new FormControl(null),
+    });
+
+    editForm:FormGroup = new FormGroup({
+        covenantCategoryId : new FormControl(null,[Validators.required]),
+        engName : new FormControl(null,[Validators.required]),
+        name : new FormControl(null,[Validators.required]),
+        notes : new FormControl(null),
+        id : new FormControl(null)
+    })
 
     ngOnInit() {
         this.endPoint = 'Covenant';
@@ -171,28 +186,28 @@ export class CovenantComponent {
         });
     }
 
-    addNew() {
-        let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-            covenantCategoryId: this.CovenantCategoryIdSelected,
-        };
+    addNew(form:FormGroup) {
 
-        this._CovenantService.Register(body).subscribe({
+        console.log(form.value);
+        
+       
+        this._CovenantService.Register(form.value).subscribe({
             next: (res) => {
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'inserted success',
+                    detail: res.message,
                     life: 3000,
                 });
+            }
 
                 // set fields is empty
-                this.setFieldsNulls();
+                form.reset() ;
 
                 // load data again
                 this.loadData(
@@ -203,11 +218,7 @@ export class CovenantComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.showFormNew = false;
-
-                console.log(err);
-            },
+        
         });
     }
 
@@ -295,30 +306,28 @@ export class CovenantComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form:FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
-
-        let body = {
-            engName: product.engName,
-            name: product.name,
-            id: product.id,
-            notes: product.notes,
-            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id,
-        };
-
-        this._CovenantService.Edit(body).subscribe({
-            next: () => {
+        form.patchValue({
+            id : id,
+            covenantCategoryId: this.selectedCovenantCategoryOnEdit.id 
+        });
+       console.log(form.value);
+       
+        this._CovenantService.Edit(form.value).subscribe({
+            next: (res) => {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
+                if(res.success)
+                {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'You Edit This Item',
+                    detail: res.message,
                     life: 3000,
                 });
-
+                }
                 // load data again
                 this.loadData(
                     this.page,
@@ -327,11 +336,7 @@ export class CovenantComponent {
                     this.sortField,
                     this.sortOrder
                 );
-            },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+            }
         });
     }
 
