@@ -6,6 +6,8 @@ import { Globals } from 'src/app/class/globals';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import {  TranslateService } from '@ngx-translate/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-partition',
@@ -21,7 +23,8 @@ import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
 export class PartitionComponent {
     constructor(
         private _PartitionService: PartitionService,
-        private messageService: MessageService
+        private messageService: MessageService , 
+        private translate : TranslateService
     ) {}
 
     @ViewChild('dt') dt: Table;
@@ -48,9 +51,28 @@ export class PartitionComponent {
     newNameAr!: string;
     newNameEn!: string;
     departmentDropDown: any[] = [];
-    selectedDepartment: string = '';
+    selectedDepartment: any = null;
     selectedDepartmentId: number = -1;
     selectedEditsDepartment: any;
+
+    addnewForm : FormGroup = new FormGroup(
+        {
+            departmentId : new FormControl(null,[Validators.required]),
+            engName : new FormControl(null,[Validators.required]),
+            name : new FormControl(null,[Validators.required]),
+            notes : new FormControl(null),
+        }
+    );
+    
+    editForm : FormGroup = new FormGroup(
+        {
+            departmentId : new FormControl(null,[Validators.required]),
+            engName : new FormControl(null,[Validators.required]),
+            name : new FormControl(null,[Validators.required]),
+            notes : new FormControl(null),
+            id : new FormControl(null)
+        }
+    )
 
     ngOnInit() {
         this.endPoint = 'Partation';
@@ -117,11 +139,17 @@ export class PartitionComponent {
     }
 
     changedSelected(event: any) {
-        if (!event.value) {
-            this.selectedDepartment = null;
-          }
-          else
-        this.selectedDepartmentId = this.selectedDepartment['id'];
+        // if (!event.value) {
+        //     this.selectedDepartment = null;
+        //   }
+        //   else
+        //   {
+        //       this.selectedDepartment = event.value ;
+        // this.selectedDepartmentId = this.selectedDepartment.id;
+        //   }
+
+        //   console.log(this.selectedDepartment);
+          
     }
 
     getDropDownDepartment() {
@@ -165,26 +193,34 @@ export class PartitionComponent {
         });
     }
 
-    addNew() {
-        let body = {
-            name: this.newNameAr,
-            notes: this.newNotes,
-            engName: this.newNameEn,
-            departmentId: this.selectedDepartmentId,
-        };
+    addNew(form:FormGroup) {
+      
+        
 
-        this._PartitionService.Register(body).subscribe({
-            next: (res) => {
+
+
+
+        
+      
+
+        this._PartitionService.Register(form.value).subscribe({
+            next: (res) => 
+                {
+
                 console.log(res);
                 this.showFormNew = false;
                 // show message for success inserted
+                if(res.success) 
+                {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Successful',
-                    detail: 'inserted success',
+                    detail: res.message,
                     life: 3000,
                 });
-
+                form.reset() ;
+            }
+            
                 // set fields is empty
                 this.setFieldsNulls();
 
@@ -197,12 +233,9 @@ export class PartitionComponent {
                     this.sortOrder
                 );
             },
-            error: (err) => {
-                this.showFormNew = false;
-                console.log(err);
-            },
+       
         });
-        this.selectedDepartment = null ;
+
     }
 
     loadFilteredData() {
@@ -218,8 +251,8 @@ export class PartitionComponent {
     setFieldsNulls() {
         (this.newNameAr = null),
             (this.newNameEn = null),
-            (this.newNotes = null),
-            (this.selectedDepartment = null);
+            (this.newNotes = null)
+            // (this.selectedDepartment = null);
     }
 
     loadData(
@@ -288,21 +321,22 @@ export class PartitionComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, product: any) {
+    saveProduct(id: number, form: FormGroup) {
         this.submitted = true;
         console.log(id);
-        console.log(product);
+        form.patchValue({
+            id : id,
+            departmentId: this.selectedEditsDepartment.id 
+        });
 
-        let body = {
-            engName: product.engName,
-            name: product.name,
-            id: product.id,
-            notes: product.notes,
-            departmentId: this.selectedEditsDepartment.id,
-        };
+        console.log(form.value);
+        
 
-        this._PartitionService.Edit(body).subscribe({
-            next: () => {
+
+        this._PartitionService.Edit(form.value).subscribe({
+            next: (res) => {
+                if(res.success)
+                {
                 this.hideDialog();
                 // show message for user to show processing of deletion.
                 this.messageService.add({
@@ -311,7 +345,8 @@ export class PartitionComponent {
                     detail: 'You Edit This Item',
                     life: 3000,
                 });
-
+                }
+              
                 // load data again
                 this.loadData(
                     this.page,
@@ -320,11 +355,7 @@ export class PartitionComponent {
                     this.sortField,
                     this.sortOrder
                 );
-            },
-            error: (err) => {
-                console.log(err);
-                alert(err);
-            },
+            }
         });
     }
 
@@ -403,12 +434,7 @@ export class PartitionComponent {
                 );
             },
             error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Failure',
-                    detail: err.statusText,
-                    life: 3000,
-                });
+               
                 this.deleteProductsDialog = false;
                 this.loadData(
                     this.page,
