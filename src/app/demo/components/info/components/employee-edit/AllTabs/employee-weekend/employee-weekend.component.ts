@@ -221,12 +221,7 @@ export class EmployeeWeekendComponent {
             },
             error: (err) => {
                 console.log(err);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: err,
-                    life: 3000,
-                });
+         
                 this.loading = false;
             },
         });
