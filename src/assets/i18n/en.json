@@ -410,5 +410,7 @@
     "Success":"Success",
     "Logout":"Logout",
     "Name Arabic":"Name Arabic",
-    "Name English":"Name English"
+    "Name English":"Name English",
+    "Status":"Status",
+    "Job Description": "Job Description"
 }

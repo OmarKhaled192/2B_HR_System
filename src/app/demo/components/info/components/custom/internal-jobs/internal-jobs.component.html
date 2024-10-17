@@ -31,7 +31,7 @@
 
             <div class="field">
                 <label htmlFor="description">{{ "Job Description" | translate }} </label>
-                <input pInputText [placeholder]="'Enter Job Description' | translate" id="description"
+                <input pInputText [placeholder]="'Enter Description Here' | translate" id="description"
                     formControlName="description" type="text" />
             </div>
 
@@ -44,7 +44,7 @@
             <div class="field">
                 <label htmlFor="newDate">{{ "Date" | translate }}</label>
                 <p-calendar formControlName="date" [showTime]="true" [showSeconds]="true" [iconDisplay]="'input'"
-                    [showIcon]="true" [placeholder]="'MM/DD/YYYY HH:mm:ss' | translate" inputId="newDate">
+                    [showIcon]="true" [placeholder]="'MM/DD/YYYY' | translate" inputId="newDate">
                 </p-calendar>
             </div>
 

@@ -19,14 +19,16 @@
                         <label htmlFor="description">{{
                             "Description" | translate
                             }}</label>
-                        <input pInputText id="description" formControlName="description" [(ngModel)]="description" />
+                        <input pInputText id="description" [placeholder]="'Enter Description Here'|translate"
+                            formControlName="description" [(ngModel)]="description" />
                     </div>
 
                     <div class="field col-12 md:col-4">
                         <label htmlFor="notes">{{
                             "Notes" | translate
                             }}</label>
-                        <input pInputText id="notes" formControlName="notes" [(ngModel)]="notes" />
+                        <input pInputText id="notes" [placeholder]="'Enter Notes Here'|translate"
+                            formControlName="notes" [(ngModel)]="notes" />
                     </div>
 
 
