@@ -50,6 +50,7 @@ import { PenaltiesAndDeductionComponent } from './components/custom/penalties-an
 import { BonusComponent } from './components/custom/bonus/bonus.component';
 import { TestComponent } from './components/employee-edit/AllTabs/test/test.component';
 import { InternalJobsEditComponent } from './components/custom/internal-jobs-edit/internal-jobs-edit.component';
+import { ResignationComponent } from './components/custom/resignation/resignation.component';
 
 @NgModule({
     imports: [
@@ -281,6 +282,11 @@ import { InternalJobsEditComponent } from './components/custom/internal-jobs-edi
                 path: 'fingerprints',
                 canActivate: [authGuard],
                 component: AllEmployeesFingerPrintComponent,
+            },
+            {
+                path: 'resignation',
+                canActivate: [authGuard],
+                component: ResignationComponent,
             },
             {
                 path: 'attendenceConfig',

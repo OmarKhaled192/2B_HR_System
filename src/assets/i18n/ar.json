@@ -16,7 +16,8 @@
     "SHIFT": "الوردية",
     "CONVENATCATEGORY": "تصنيفات العهد",
     "CONVENAT": "العهدة",
-
+    "Accept":"قبول",
+    "Reject":"رفض",
     "FORM_LAYOUT": "Form Layout",
     "INPUT": "Input",
     "FLOAT_LABEL": "Float Label",
@@ -426,5 +427,12 @@
     "An unexpected error occurred":"حدث خطأ غير متوقع",
     "Success":"تم بنجاح",
     "Status":"الحالة",
-    "Job Description":"وصف الوظيفة"
+    "Job Description":"وصف الوظيفة",
+    "Resignation":"الاستقالة",
+    "Resignation Reason":"سبب الاستقالة",
+    "Last Working Date":"اخر يوم عمل",
+    "Manager Approve":"موافقة المدير",
+    "HR Approve":"موافقة الاتش ار",
+    "Manager Notes":"ملاحظات المدير",
+    "HR Notes":"ملاحظات الاتش ار"
 }

@@ -316,7 +316,11 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-home',
                                 routerLink: ['/info/setEmployeeShifts'],
                             },
-
+                            {
+                                label: this.translate.instant('Resignation'),
+                                icon: 'pi pi-fw pi-home',
+                                routerLink: ['/info/resignation'],
+                            },
 
                         ],
                     },

@@ -412,5 +412,14 @@
     "Name Arabic":"Name Arabic",
     "Name English":"Name English",
     "Status":"Status",
-    "Job Description": "Job Description"
+    "Job Description": "Job Description",
+    "Resignation":"Resignation",
+    "Resignation Reason":"Resignation Reason",
+    "Last Working Date":"Last Working Date",
+    "Manager Approve":"Manager Approve",
+    "HR Approve":"HR Approve",
+    "Manager Notes":"Manager Notes",
+    "HR Notes":"HR Notes",
+    "Accept":"Accept",
+    "Reject":"Reject"
 }
