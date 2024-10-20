@@ -43,21 +43,38 @@ export class LoginComponent {
 
    
     ngOnInit() {
-        Globals.getMainLangChanges().subscribe({
-            next: (lang) => {
-                this.translate.use(lang).subscribe(() => {
-                    const langData = this.translate.translations[lang];
-                    this.authService.setCulture(lang);
+        const lang = localStorage.getItem('currentLang') ;
 
-                    console.log(langData);
-                    if (langData) {
-                        this.translate.use(lang);
-                        document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
-                        document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
-                    }
-                });
-            },
-        });
+        if(lang == 'en')
+        {
+            this.translate.use('en');
+            Globals.setMainLang('en');
+            document.dir = 'ltr'; // Default to 'ltr' if dir is undefined
+            document.documentElement.lang = 'en';
+        }
+        else
+      { 
+         this.translate.use('ar');
+         Globals.setMainLang('ar');
+         document.dir = 'rtl'; // Default to 'ltr' if dir is undefined
+         document.documentElement.lang = 'ar';
+      }
+
+        // Globals.getMainLangChanges().subscribe({
+        //     next: (lang) => {
+        //         this.translate.use(lang).subscribe(() => {
+        //             const langData = this.translate.translations[lang];
+        //             this.authService.setCulture(lang);
+
+        //             console.log(langData);
+        //             if (langData) {
+        //                 this.translate.use(lang);
+        //                 document.dir = langData.DIR; // Default to 'ltr' if dir is undefined
+        //                 document.documentElement.lang = langData.lang; // Default to lang if lang is undefined
+        //             }
+        //         });
+        //     },
+        // });
         this.theme = localStorage.getItem('theme')
             ? localStorage.getItem('theme')
             : 'saga-orange';

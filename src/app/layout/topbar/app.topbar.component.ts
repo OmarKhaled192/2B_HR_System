@@ -61,7 +61,7 @@ export class AppTopBarComponent implements OnInit {
         // document.dir = 'ltr';
         // document.documentElement.lang = 'en';
         // this.selectedCountry = this.countries[1];
-        if (lang == 'ar') {
+        if (lang == 'ar' || lang == null) {
             this.translate.use('ar');
             Globals.setMainLang('ar');
             document.dir = 'rtl'; // Default to 'ltr' if dir is undefined
