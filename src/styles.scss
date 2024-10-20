@@ -335,3 +335,84 @@ html:lang(ar) .p-dropdown.p-dropdown-clearable .p-dropdown-label
     padding-left: 1.5rem;
     padding-right: 0.5rem;
 }
+.my-2 .p-button.p-button-info,
+form .p-button[type=submit]
+{
+    background: #f36f28 ;
+    border: none;
+    color: #fcfcfc;
+}
+form .p-button[type=button],
+form .p-button[type=button]:hover
+{
+    color: #f36f28;
+    border: 1px solid #f36f28;
+    background:transparent;
+}
+
+
+.my-2 .p-button.p-button-info:not(:disabled):hover, .p-buttonset.p-button-info > .p-button:not(:disabled):hover, .p-splitbutton.p-button-info > .p-button:not(:disabled):hover,form .p-button:hover
+{
+    background: #c0571f;
+}
+.my-2 .p-button.p-button-danger, .p-buttonset.p-button-danger > .p-button, .p-splitbutton.p-button-danger > .p-button
+{
+    color: #f36f28;
+    background: transparent;
+    border: none;
+}
+.p-button.p-button-help, .p-buttonset.p-button-help > .p-button, .p-splitbutton.p-button-help > .p-button
+{
+    color: #f36f28;
+    background: transparent;
+    border: 1px solid #f36f28;
+}
+.p-checkbox .p-checkbox-box.p-highlight
+{
+    border-color: #f36f28;
+    background: #f36f28;
+}
+.p-checkbox .p-checkbox-box .p-checkbox-icon
+{
+    color: #fff;
+}
+.p-button.p-button-help:not(:disabled):focus, .p-buttonset.p-button-help > .p-button:not(:disabled):focus, .p-splitbutton.p-button-help > .p-button:not(:disabled):focus
+{
+    box-shadow: 0 0 0 0.1rem #ff9029;
+}
+
+.layout-menu ul a , 
+.layout-menu ul a:hover ,
+.layout-menu ul a:focus, 
+.layout-menu ul a:active, 
+.layout-menu ul a:focus-within, 
+.layout-menu ul a:focus-visible
+
+{
+    border: none;
+    outline: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+.layout-menu ul li.active-menuitem>a
+{
+    background: #fff1eb;
+    border-inline-start: 5px solid #f36f28;
+    border-radius: 0;
+    color: #2d3250 ;
+    font-weight: 500;
+}
+.ng-trigger-children li.active-menuitem>a
+{
+    background: transparent !important;
+    border-inline-start : 0px !important ;
+    color: unset !important;        
+}
+.layout-menu ul a.active-route
+{
+    color: #f36f28 !important;
+}
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider
+{
+    background: #f36f28;
+}
