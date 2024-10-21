@@ -197,7 +197,7 @@ html:lang(ar) .mr-2 {
     // width: 500px !important;
     // max-height: 450px !important;
     // height: 450px !important;
-    // overflow: auto;
+    // overflow-y: auto;
 }
 
 .p-overlay {
@@ -415,4 +415,11 @@ form .p-button[type=button]:hover
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider
 {
     background: #f36f28;
+}
+.p-inputtext:enabled:focus ,
+.p-dropdown:not(.p-disabled).p-focus ,
+.p-calender:not(.p-disabled).p-focus
+{
+border-color: #f36f28 ;
+box-shadow: 0 0 0 0.1rem #ffac28;
 }
