@@ -381,11 +381,11 @@ form .p-button[type=button]:hover
     box-shadow: 0 0 0 0.1rem #ff9029;
 }
 
-.layout-menu ul a , 
+.layout-menu ul a ,
 .layout-menu ul a:hover ,
-.layout-menu ul a:focus, 
-.layout-menu ul a:active, 
-.layout-menu ul a:focus-within, 
+.layout-menu ul a:focus,
+.layout-menu ul a:active,
+.layout-menu ul a:focus-within,
 .layout-menu ul a:focus-visible
 
 {
@@ -406,7 +406,7 @@ form .p-button[type=button]:hover
 {
     background: transparent !important;
     border-inline-start : 0px !important ;
-    color: unset !important;        
+    color: unset !important;
 }
 .layout-menu ul a.active-route
 {
@@ -422,4 +422,10 @@ form .p-button[type=button]:hover
 {
 border-color: #f36f28 ;
 box-shadow: 0 0 0 0.1rem #ffac28;
+}
+
+
+.field.form-footer {
+    display: flex;
+    gap: 10px;
 }
