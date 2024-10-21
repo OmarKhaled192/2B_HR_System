@@ -394,6 +394,16 @@ form .p-button[type=button]:hover
     box-shadow: none;
     border-radius: 0;
 }
+.layout-menu ul li > a
+{
+    display: flex;
+    gap: 8px;
+    align-items: start;
+}
+.layout-menu ul a .layout-submenu-toggler
+{
+    align-self: center;
+}
 .layout-menu ul li.active-menuitem>a
 {
     background: #fff1eb;
