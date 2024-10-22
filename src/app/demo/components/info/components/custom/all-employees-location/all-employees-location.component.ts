@@ -135,27 +135,23 @@ export class AllEmployeesLocationComponent {
             next: (res) => {
                 console.log(res.data);
 
-                this.selectedLocationEdit = this.locationDropDown.find(
-                    (location: any) => location.id == res.data.locationId
-                );
-
-
-                console.log("Location after searched ==> ", this.selectedLocationEdit)
-
-                this.selectedEmployeeEdit = this.dropdownItemsEmployee.find(
-                    (item: any) => item.id == res.data.employeeId
-                );
-
-
                 this.product = { ...res.data };
                 this.productDialog = true;
+
+                this.selectedLocationEdit = this.locationDropDown.find(
+                    (location: any) => location.id == this.product.locationId
+                );
+
+                this.selectedEmployeeEdit = this.dropdownItemsEmployee.find(
+                    (item: any) => item.id == this.product.employeeId
+                );
+
 
                 this.editForm.patchValue({
                     Id: this.product.id,
                     locationId: this.selectedLocationEdit?.['id'],
                     employeeId: this.selectedEmployeeEdit?.['id'],
-                })
-
+                });
 
                 console.log(this.editForm.value)
             },
