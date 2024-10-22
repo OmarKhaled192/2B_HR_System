@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-all-employees-uniform',
@@ -69,6 +70,10 @@ export class AllEmployeesUniformComponent {
     selectedEmployee: any;
     selectedEmployeeEdit: any;
 
+
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
+
     ngOnInit() {
         this.route.parent?.paramMap.subscribe((params) => {
             this.empId = Number(params.get('id'));
@@ -98,6 +103,26 @@ export class AllEmployeesUniformComponent {
         this.getDropDown();
 
         this.getDropDownEmployee();
+        this.initFormGroups()
+    }
+
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            employeeId: new FormControl(null, Validators.required),
+            uniformCodeId: new FormControl(null, Validators.required),
+            date: new FormControl(null, Validators.required),
+            cost: new FormControl(null, Validators.required),
+            nots: new FormControl(null),
+        })
+
+        this.editForm = new FormGroup({
+            id: new FormControl(null, Validators.required),
+            employeeId: new FormControl(null, Validators.required),
+            uniformCodeId: new FormControl(null, Validators.required),
+            date: new FormControl(null, Validators.required),
+            cost: new FormControl(null, Validators.required),
+            nots: new FormControl(null),
+        })
     }
 
     getDropDownEmployee() {
@@ -107,7 +132,7 @@ export class AllEmployeesUniformComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-          
+
         });
     }
 
@@ -118,7 +143,7 @@ export class AllEmployeesUniformComponent {
                 console.log('Drop Down Unifrom Codes from here');
                 console.log(res.data);
             },
-           
+
         });
     }
 
@@ -142,14 +167,25 @@ export class AllEmployeesUniformComponent {
                 );
 
                 this.selectedEmployeeEdit = this.dropdownItemsEmployee.find(
-                    (item: any) => item.id == res.data.employeeId
+                    (item: any) => item.id == this.product.employeeId
                 );
 
                 this.selectedUnifromCodeEdit = this.uniformCodesDropDown.find(
                     (code: any) => code.id == this.product.uniformCodeId
                 );
+
+
+                this.editForm.patchValue({
+                    id: this.product.id,
+                    employeeId: this.selectedEmployeeEdit.id,
+                    uniformCodeId: this.selectedUnifromCodeEdit.id,
+                    date: this.product.date,
+                    cost: this.product.cost,
+                    nots: this.product.nots,
+                })
+
             },
-           
+
         });
     }
 
@@ -179,7 +215,7 @@ export class AllEmployeesUniformComponent {
                     this.sortOrder
                 );
             },
-            
+
         });
     }
 
@@ -190,40 +226,43 @@ export class AllEmployeesUniformComponent {
             'yyyy-MM-dd'
         );
 
-        let body = {
+        this.addNewForm.patchValue({
             employeeId: this.selectedEmployee.id,
             uniformCodeId: this.selectedUnifromCode?.['id'],
             date: this.selectedDate,
             cost: this.selectedCost,
             nots: this.selectedNotes,
-        };
+        })
 
-        this._EmployeeUniformService.Register(body).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+        if(this.addNewForm.valid) {
+                this._EmployeeUniformService.Register(this.addNewForm.value).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
 
-                // set fields is empty
-                this.setFieldsNulls();
+                    // set fields is empty
+                    this.setFieldsNulls();
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-          
-        });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+
+            });
+        }
+
     }
 
     loadFilteredData() {
@@ -268,7 +307,7 @@ export class AllEmployeesUniformComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-         
+
         });
     }
 
@@ -318,42 +357,41 @@ export class AllEmployeesUniformComponent {
             'yyyy-MM-ddTHH:mm:ss'
         );
 
-        let body = {
+        this.editForm.patchValue({
             id: empUniform.id,
             employeeId: this.selectedEmployeeEdit.id,
             uniformCodeId: this.selectedUnifromCodeEdit.id,
             date: this.product.date,
             cost: this.product.cost,
             nots: this.product.nots,
-        };
+        })
 
-        console.clear();
-        console.log('body here for editing..........');
+        if (this.editForm.valid) {
+            this._EmployeeUniformService.Edit(this.editForm.value).subscribe({
+                next: () => {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
 
-        console.log(body);
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
 
-        this._EmployeeUniformService.Edit(body).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+            });
+        }
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-         
-        });
+
     }
 
     toggleNew() {
@@ -439,7 +477,7 @@ export class AllEmployeesUniformComponent {
                     this.sortOrder
                 );
             },
-          
+
         });
     }
 
