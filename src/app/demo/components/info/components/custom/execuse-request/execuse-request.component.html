@@ -9,7 +9,8 @@
                             <label htmlFor="government">{{
                                 "Employee" | translate
                                 }}</label>
-                            <p-dropdown [options]="dropdownItemsEmployees" optionLabel="name"
+                            <p-dropdown [showClear]="true" [filter]="true" [filterBy]="'name'"
+                                [options]="dropdownItemsEmployees" optionLabel="name" optionValue="id"
                                 formControlName="EmployeeId" [(ngModel)]="selectedEmployee" [placeholder]="
                                     'Enter Employee Name Here' | translate
                                 "></p-dropdown>
@@ -18,13 +19,13 @@
                         <div class="field col-12 md:col-3">
                             <label htmlFor="from">
                                 {{ "From" | translate }}</label>
-                            <p-calendar [showIcon]="true" inputId="from" formControlName="DateFrom"
-                                [placeholder]="'From' | translate"></p-calendar>
+                            <p-calendar [iconDisplay]="'input'" [showIcon]="true" inputId="from"
+                                formControlName="DateFrom" [placeholder]="'From' | translate"></p-calendar>
                         </div>
 
                         <div class="field col-12 md:col-3">
                             <label htmlFor="to"> {{ "To" | translate }}</label>
-                            <p-calendar [showIcon]="true" inputId="to" formControlName="DateTo"
+                            <p-calendar [iconDisplay]="'input'" [showIcon]="true" inputId="to" formControlName="DateTo"
                                 [placeholder]="'To' | translate"></p-calendar>
                         </div>
 
@@ -32,7 +33,8 @@
                             <label htmlFor="Religin">{{
                                 "Manager" | translate
                                 }}</label>
-                            <p-dropdown formControlName="MangerId" [options]="dropdownItemsManagers" optionLabel="name"
+                            <p-dropdown [filter]="true" [filterBy]="'name'" formControlName="MangerId"
+                                [options]="dropdownItemsManagers" optionValue="id" optionLabel="name"
                                 [(ngModel)]="selectedManager" [placeholder]="
                                     'Enter Manager Name Here' | translate
                                 "></p-dropdown>
@@ -40,13 +42,14 @@
 
                         <div class="field col-12 md:col-3">
                             <label htmlFor="RequestType">{{
-                                "Request Type" | translate
+                                "Response Type" | translate
                                 }}</label>
                             <p-dropdown formControlName="RequestType" [options]="dropdownItemsRequestTypes"
-                                optionLabel="name" [(ngModel)]="selectedRequstType" [placeholder]="
+                                optionLabel="name" optionValue="id" [(ngModel)]="selectedRequstType" [placeholder]="
                                     'Enter Response Type Here' | translate
                                 "></p-dropdown>
                         </div>
+
 
                         <div class="btn-filter-submit-container">
                             <div class="field">
@@ -83,8 +86,9 @@
     <form [formGroup]="addNewForm" (submit)="addNew(addNewForm)">
         <div class="field">
             <label htmlFor="name-en">{{ "Employee Name" | translate }} </label>
-            <p-dropdown [options]="dropdownItemsEmployees" optionLabel="name" [(ngModel)]="newEmplyeeId"
-                [placeholder]="'Enter Employee Name Here' | translate" formControlName="employeeId"></p-dropdown>
+            <p-dropdown [filter]="true" [filterBy]="'name'" [options]="dropdownItemsEmployees" optionLabel="name"
+                [(ngModel)]="newEmplyeeId" [placeholder]="'Enter Employee Name Here' | translate"
+                formControlName="employeeId"></p-dropdown>
         </div>
 
 
@@ -103,8 +107,8 @@
 
         <div class="field">
             <label htmlFor="new-notes">{{ "Start Time" | translate }}</label>
-            <p-calendar [iconDisplay]="'input'" [showIcon]="true" [showSeconds]="true" [timeOnly]="true"
-                inputId="templatedisplay" placeholder="00:00:00" formControlName="startTime" class="timeInput">
+            <p-calendar [iconDisplay]="'input'" [showIcon]="true" [timeOnly]="true" inputId="templatedisplay"
+                placeholder="00:00" formControlName="startTime" class="timeInput">
                 <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
                     <i class="pi pi-clock pointer-events-none" (click)="clickCallBack($event)"></i>
                 </ng-template>
@@ -119,7 +123,8 @@
         </div>
 
         <div class="field">
-            <button class="w-25" pButton [label]="'Insert New' | translate" type="submit"></button>
+            <button class="w-25" pButton [label]="'Insert New' | translate" type="submit"
+                [disabled]="addNewForm.invalid"></button>
         </div>
     </form>
 </p-dialog>
