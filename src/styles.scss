@@ -377,6 +377,9 @@ form .p-button[type="button"]:hover {
 form .p-button:hover {
     background: #c0571f;
 }
+form .p-fileupload .p-button:hover {
+    background: transparent;
+}
 .my-2 .p-button.p-button-danger,
 .p-buttonset.p-button-danger > .p-button,
 .p-splitbutton.p-button-danger > .p-button {
@@ -446,4 +449,9 @@ form .p-button:hover {
 .p-calender:not(.p-disabled).p-focus {
     border-color: #f36f28;
     box-shadow: 0 0 0 0.1rem #ffac28;
+}
+.p-fileupload .p-button {
+    background: transparent;
+    border: 1px solid #f36f28;
+    color: #f36f28;
 }
