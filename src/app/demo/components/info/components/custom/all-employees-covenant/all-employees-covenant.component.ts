@@ -8,6 +8,7 @@ import { AllEmployeeCovenantService } from './all-employee-covenant.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     standalone: true,
@@ -44,7 +45,7 @@ export class AllEmployeesCovenantComponent {
     productDialog: boolean = false;
     product: any;
     event!: any;
-    nots!: string;
+    notes!: string;
     showFormNew: boolean = false;
     sortField: string = 'id';
     sortOrder: string = 'asc';
@@ -64,6 +65,9 @@ export class AllEmployeesCovenantComponent {
     selectedCovenantType!: number;
     selectedCovenant!: any;
     selectedCovenantEdit!: any;
+
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
 
     ngOnInit() {
         this.endPoint = 'EmployeeCovenant';
@@ -107,6 +111,28 @@ export class AllEmployeesCovenantComponent {
         ];
         this.getCovenantTypes();
         this.getDropDownEmployee();
+
+        this.initFormGroups()
+
+    }
+
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            covenantId: new FormControl('', Validators.required),
+            employeeId: new FormControl('', Validators.required),
+            date: new FormControl('', Validators.required),
+            cost:  new FormControl('', Validators.required),
+            notes:  new FormControl(''),
+        });
+
+        this.editForm = new FormGroup({
+            id: new FormControl('', Validators.required),
+            covenantId: new FormControl('', Validators.required),
+            employeeId: new FormControl('', Validators.required),
+            date: new FormControl('', Validators.required),
+            cost:  new FormControl('', Validators.required),
+            notes:  new FormControl(''),
+        });
     }
 
     editProduct(rowData: any) {
@@ -136,7 +162,7 @@ export class AllEmployeesCovenantComponent {
                 this.product = { ...res.data };
                 this.productDialog = true;
             },
-          
+
         });
     }
 
@@ -178,7 +204,7 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-          
+
         });
     }
 
@@ -187,43 +213,57 @@ export class AllEmployeesCovenantComponent {
         // why? because prime ng calender component returned the value as a full Date Format
 
         // set body of request
-        let body = {
+        // let body = {
+        //     covenantId: this.selectedCovenantType,
+        //     employeeId: this.selectedEmployee?.['id'],
+        //     date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
+        //     cost: this.cost,
+        //     notes: this.notes,
+        // };
+
+        // console.log(body);
+
+
+        this.addNewForm.patchValue({
             covenantId: this.selectedCovenantType,
             employeeId: this.selectedEmployee?.['id'],
             date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
             cost: this.cost,
-            nots: this.nots,
-        };
+            notes: this.notes,
+        })
 
-        console.log(body);
 
-        // Confirm add new
-        this.employeeConvenantService.Register(body).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+        if(this.addNewForm.valid) {
+            // Confirm add new
+            this.employeeConvenantService.Register(this.addNewForm.value).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
 
-                // set fields is empty
-                this.setFieldsNulls();
+                    this.addNewForm.clearValidators();
+                    // set fields is empty
+                    this.setFieldsNulls();
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-       
-        });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+
+            });
+        }
+
     }
 
     loadFilteredData() {
@@ -240,7 +280,7 @@ export class AllEmployeesCovenantComponent {
         this.selectedCovenantType = null;
         this.date = null;
         this.cost = null;
-        this.nots = null;
+        this.notes = null;
         this.selectedCovenant = null;
         this.selectedEmployee = null;
         this.selectedEmployeeEdit = null;
@@ -273,7 +313,7 @@ export class AllEmployeesCovenantComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-        
+
         });
     }
 
@@ -313,40 +353,52 @@ export class AllEmployeesCovenantComponent {
 
     saveProduct(id: number, product: any) {
         this.submitted = true;
-        console.log(id);
-        console.log(product);
+        // console.log(id);
+        // console.log(product);
 
-        let body = {
+        // let body = {
+        //     covenantId: this.selectedCovenantEdit.id,
+        //     employeeId: this.selectedEmployeeEdit.id,
+        //     date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
+        //     cost: product.cost,
+        //     notes: product.notes,
+        //     id: product.id,
+        // };
+
+
+        this.editForm.patchValue( {
             covenantId: this.selectedCovenantEdit.id,
             employeeId: this.selectedEmployeeEdit.id,
             date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
             cost: product.cost,
-            nots: product.nots,
+            notes: product.notes,
             id: product.id,
-        };
-
-        this.employeeConvenantService.Edit(body).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
-
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-           
         });
+
+        if(this.editForm.valid) {
+            this.employeeConvenantService.Edit(this.editForm.value).subscribe({
+                next: () => {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
+
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+
+            });
+        }
     }
 
     toggleNew() {
@@ -421,7 +473,7 @@ export class AllEmployeesCovenantComponent {
                     this.sortOrder
                 );
             },
-        
+
         });
     }
     sortById(event: any) {
@@ -446,7 +498,7 @@ export class AllEmployeesCovenantComponent {
                 this.dropdownItemsCovenantType = res.data;
                 console.log(this.dropdownItemsCovenantType);
             },
-    
+
         });
     }
 
@@ -457,7 +509,7 @@ export class AllEmployeesCovenantComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-           
+
         });
     }
     selectCovenant(event: any) {

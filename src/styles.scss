@@ -442,12 +442,19 @@ form .p-fileupload .p-button:hover {
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
     background: #f36f28;
 }
-.p-inputtext:enabled:focus,
-.p-dropdown:not(.p-disabled).p-focus,
+
+.p-inputtext:enabled:focus ,
+.p-dropdown:not(.p-disabled).p-focus ,
 .p-calender:not(.p-disabled).p-focus {
-    border-color: #f36f28;
-    box-shadow: 0 0 0 0.1rem #ffac28;
+  border-color: #f36f28 ;
+  box-shadow: 0 0 0 0.1rem #ffac28;
 }
+
+.field.form-footer {
+    display: flex;
+    gap: 10px; 
+}
+
 .p-fileupload .p-button {
     background: transparent;
     border: 1px solid #f36f28;

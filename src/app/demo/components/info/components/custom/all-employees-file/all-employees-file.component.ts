@@ -1,32 +1,15 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { CalendarModule } from 'primeng/calendar';
-import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { FileUploadModule } from 'primeng/fileupload';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { RatingModule } from 'primeng/rating';
-import { RippleModule } from 'primeng/ripple';
-import { Table, TableModule } from 'primeng/table';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
+import { Table } from 'primeng/table';
 import { Globals } from 'src/app/class/globals';
 import { environment } from 'src/environments/environment';
 import { AllEmployeeFileService } from './all-employee-file.service';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-all-employees-file',
@@ -85,6 +68,9 @@ export class AllEmployeesFileComponent {
     selectedEmployee: any;
     selectedEmployeeEdit: any;
 
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
+
     ngOnInit() {
         this.endPoint = 'EmployeeFile';
         // this.route.parent?.paramMap.subscribe((params) => {
@@ -131,6 +117,27 @@ export class AllEmployeesFileComponent {
         ];
         this.getRelativeRelationTypes();
         this.getDropDownEmployee();
+
+        this.initFormGroups()
+    }
+
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            DocumentRequiredId: new FormControl(null, Validators.required),
+            EmployeeId: new FormControl(null, Validators.required),
+            Date: new FormControl(null, Validators.required),
+            Discreption: new FormControl(null, Validators.required),
+            File: new FormControl(null),
+        })
+
+        this.editForm = new FormGroup({
+            Id: new FormControl(null, Validators.required),
+            DocumentRequiredId: new FormControl(null, Validators.required),
+            EmployeeId: new FormControl(null, Validators.required),
+            Date: new FormControl(null, Validators.required),
+            Discreption: new FormControl(null, Validators.required),
+            File: new FormControl(null),
+        })
     }
 
     editProduct(rowData: any) {
@@ -157,7 +164,7 @@ export class AllEmployeesFileComponent {
                 this.product = { ...res.data };
                 this.productDialog = true;
             },
-           
+
         });
     }
 
@@ -199,7 +206,7 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-           
+
         });
     }
 
@@ -210,25 +217,59 @@ export class AllEmployeesFileComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-          
+
         });
     }
 
     addNew() {
-        // first convert from date full format to time only
-        // why? because prime ng calender component returned the value as a full Date Format
 
-        // set body of request
-        let body = {
+       this.addNewForm.patchValue({
             DocumentRequiredId: this.selectedRelativeRelationType,
             EmployeeId: this.selectedEmployee.id,
             Date: this.convertDate(this.date, 'yyyy-MM-ddTHH:mm:ss'),
             Discreption: this.discreption,
             File: this.file,
-        };
+        })
 
-        console.log(body);
+        if(this.addNewForm.valid) {
+            // map To Form Data
+            const formData = this.mapToFormData(this.addNewForm.value);
 
+            // Confirm add new
+            this.employeeFileService.Register(formData).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
+
+                    // set fields is empty
+                    this.setFieldsNulls();
+
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+
+            });
+        }
+
+
+    }
+
+
+
+    mapToFormData(body: any) {
         const formData: FormData = new FormData();
 
         for (const key in body) {
@@ -237,35 +278,7 @@ export class AllEmployeesFileComponent {
             }
         }
 
-        console.log(body);
-
-        // Confirm add new
-        this.employeeFileService.Register(formData).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
-
-                // set fields is empty
-                this.setFieldsNulls();
-
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-          
-        });
+        return formData;
     }
 
     loadFilteredData() {
@@ -313,7 +326,7 @@ export class AllEmployeesFileComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-            
+
         });
     }
 
@@ -353,48 +366,43 @@ export class AllEmployeesFileComponent {
 
     saveProduct(id: number, product: any) {
         this.submitted = true;
-        console.log(id);
-        console.log(product);
 
-        let body = {
+        this.editForm.patchValue({
             DocumentRequiredId: this.selectedRelativeRelationEdit.id,
-            employeeId: this.selectedEmployeeEdit.id,
-            date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
-            personName: product.personName,
-            discreption: product.discreption,
-            id: product.id,
+            Id: product.id,
+            EmployeeId: this.selectedEmployeeEdit.id,
+            Date: this.convertDate(product.date, 'yyyy-MM-ddTHH:mm:ss'),
+            PersonName: product.personName,
+            Discreption: product.discreption,
             File: this.file,
-        };
-        const formData: FormData = new FormData();
+        })
 
-        for (const key in body) {
-            if (body.hasOwnProperty(key)) {
-                formData.append(key, body[key]);
-            }
+        if(this.editForm.valid) {
+            const formData = this.mapToFormData(this.editForm.value);
+
+            this.employeeFileService.Edit(formData).subscribe({
+                next: () => {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
+
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+
+            });
         }
-
-        this.employeeFileService.Edit(formData).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
-
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-         
-        });
     }
 
     toggleNew() {
@@ -469,7 +477,7 @@ export class AllEmployeesFileComponent {
                     this.sortOrder
                 );
             },
-        
+
         });
     }
     sortById(event: any) {
@@ -496,7 +504,7 @@ export class AllEmployeesFileComponent {
                     this.dropdownItemsRelativeRelationType = res.data;
                     console.log(this.dropdownItemsRelativeRelationType);
                 },
-                
+
             });
     }
     selectRelativeRelation(event: any) {

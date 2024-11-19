@@ -47,38 +47,44 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="selectEmployee">{{
-                "Select Employee" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployee"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [placeholder]="'Select Employee' | translate"
-            ></p-dropdown>
-        </div>
+        <form [formGroup]="addNewForm">
+            <div class="field">
+                <label htmlFor="selectEmployee">{{
+                    "Select Employee" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedEmployee"
+                    [options]="dropdownItemsEmployee"
+                    optionLabel="name"
+                    formControlName="employeeId"
+                    [placeholder]="'Select Employee' | translate"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label htmlFor="location">{{ "Location" | translate }}</label>
-            <p-dropdown
-                [options]="locationDropDown"
-                [(ngModel)]="selectedLocation"
-                (onChange)="onChangeLocation()"
-                optionLabel="name"
-                [placeholder]="'Select a Location' | translate"
-                [showClear]="true"
-            ></p-dropdown>
-        </div>
+            <div class="field">
+                <label htmlFor="location">{{ "Location" | translate }}</label>
+                <p-dropdown
+                    [options]="locationDropDown"
+                    [(ngModel)]="selectedLocation"
+                    (onChange)="onChangeLocation()"
+                    optionLabel="name"
+                    formControlName="locationId"
+                    [placeholder]="'Select a Location' | translate"
+                    [showClear]="true"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <button
-                class="w-25"
-                pButton
-                [label]="'Insert New' | translate"
-                (click)="addNew()"
-            ></button>
-        </div>
+            <div class="field">
+                <button
+                    class="w-25"
+                    pButton
+                    [disabled]="!addNewForm.valid"
+                    [label]="'Insert New' | translate"
+                    (click)="addNew()"
+                ></button>
+            </div>
+        </form>
+
     </ng-template>
 </p-dialog>
 
@@ -212,55 +218,62 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="Employee">{{
-                "Select Employee" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployeeEdit"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [placeholder]="'All Employees' | translate"
-                (onChange)="selectedCovenantEditFun($event)"
-            ></p-dropdown>
-        </div>
+        <form [formGroup]="editForm">
+            <div class="field">
+                <label htmlFor="Employee">{{
+                    "Select Employee" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedEmployeeEdit"
+                    [options]="dropdownItemsEmployee"
+                    optionLabel="name"
+                    formControlName="employeeId"
+                    [placeholder]="'All Employees' | translate"
+                    (onChange)="selectedCovenantEditFun($event)"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label htmlFor="location">{{ "Location" | translate }}</label>
-            <p-dropdown
-                [options]="locationDropDown"
-                [(ngModel)]="selectedLocationEdit"
-                (onChange)="onChangeLocationEdit()"
-                optionLabel="name"
-                placeholder="{{ 'Select a Location' | translate }}"
-                [showClear]="true"
-            ></p-dropdown>
+            <div class="field">
+                <label htmlFor="location">{{ "Location" | translate }}</label>
+                <p-dropdown
+                    [options]="locationDropDown"
+                    [(ngModel)]="selectedLocationEdit"
+                    (onChange)="onChangeLocationEdit()"
+                    formControlName="locationId"
+                    optionLabel="name"
+                    placeholder="{{ 'Select a Location' | translate }}"
+                    [showClear]="true"
+                ></p-dropdown>
 
-            <small
-                class="ng-dirty ng-invalid"
-                *ngIf="submitted && !product.locationId"
-                >{{ "location is required." | translate }}</small
-            >
-        </div>
-    </ng-template>
+                <small
+                    class="ng-dirty ng-invalid"
+                    *ngIf="submitted && !product.locationId"
+                    >{{ "location is required." | translate }}</small
+                >
+            </div>
 
-    <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveProduct(product.id, product)"
-        ></button>
+           <div class="field form-footer">
+                <button
+                    pButton
+                    pRipple
+                    [label]="'Cancel' | translate"
+                    icon="pi pi-times"
+                    class="p-button-text"
+                    type="button"
+                    (click)="hideDialog()"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    [label]="'Save' | translate"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    type="submit"
+                    [disabled]="!editForm.valid"
+                    (click)="saveProduct(product)"
+                ></button>
+           </div>
+        </form>
     </ng-template>
 </p-dialog>
 
