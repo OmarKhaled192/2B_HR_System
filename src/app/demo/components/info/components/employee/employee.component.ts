@@ -7,6 +7,7 @@ import { Globals } from "src/app/class/globals";
 import { TranslateService } from "@ngx-translate/core";
 import { GlobalsModule } from "src/app/demo/modules/globals/globals.module";
 import { PrimeNgModule } from "src/app/demo/modules/primg-ng/prime-ng.module";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 @Component({
     selector: 'app-employee',
@@ -62,9 +63,7 @@ export class EmployeeComponent {
     selectedIsStaticShift:boolean = false;
     selectedIsStaticVacation:boolean = false ;
 
-
     // => dropdown Arrays
-
     // = Enums
     dropdownItemsReligin: any;
     dropdownItemsMaritalStatus: any;
@@ -87,7 +86,10 @@ export class EmployeeComponent {
     file: File = null;
     endPoint: string;
     selectedDeleteImage: boolean = false;
-    registerForm: FormData = new FormData();
+    // registerForm: FormData = new FormData();
+
+    registerForm!: FormGroup;
+
 
     ngOnInit(): void {
         this.endPoint = 'Employee';
@@ -104,6 +106,49 @@ export class EmployeeComponent {
 
             // get All Drop Downs
             this.getAllDropDowns();
+
+        });
+
+
+        this.initFormGroups()
+    }
+
+    initFormGroups() {
+        this.registerForm = new FormGroup({
+            File: new FormControl(null), // Assuming File is handled differently
+            NameAr: new FormControl(null, Validators.required),
+            EnglishName: new FormControl(null, Validators.required),
+            Address: new FormControl(null, Validators.required),
+            Email: new FormControl(null, Validators.required),
+            NationalId: new FormControl(null, Validators.required),
+            Phone: new FormControl(null, Validators.required),
+            MachineCode: new FormControl(null, Validators.required),
+            Discription: new FormControl(null, Validators.required),
+            BloodTypes: new FormControl(null, Validators.required),
+            GovernmentId: new FormControl(null, Validators.required),
+            QualificationId: new FormControl(null, Validators.required),
+            AttendanceConfigurationId: new FormControl(null, Validators.required),
+            Gender: new FormControl(null, Validators.required),
+            MaritalStatus: new FormControl(null, Validators.required),
+            JobId: new FormControl(null, Validators.required),
+            JobNatureId: new FormControl(null, Validators.required),
+            DepartmentId: new FormControl(null, Validators.required),
+            PartationId: new FormControl(null, Validators.required),
+            ShiftId: new FormControl(null, Validators.required),
+            BankId: new FormControl(null, Validators.required),
+            GradeId: new FormControl(null, Validators.required),
+            ContractTypeId: new FormControl(null, Validators.required),
+            RecuritmentSourceId: new FormControl(null, Validators.required),
+            Religion: new FormControl(null, Validators.required),
+            JoininDate: new FormControl(null, Validators.required),
+            BirthDate: new FormControl(null, Validators.required),
+            HirDate: new FormControl(null, Validators.required),
+            ResignationDate: new FormControl(null, Validators.required),
+            Ismanger: new FormControl(false, Validators.required),
+            StaticShift: new FormControl(false, Validators.required),
+            StaticVacation: new FormControl(false, Validators.required),
+            IsInsured: new FormControl(false, Validators.required),
+            DeleteImage: new FormControl(null),
         });
     }
 
@@ -133,7 +178,7 @@ export class EmployeeComponent {
             enum: 'getReligion',
         });
 
-    
+
 
         // get Government Dropdown
         this.getDropDownField({
@@ -235,7 +280,11 @@ export class EmployeeComponent {
         // assign file
         this.file = event.currentFiles[0];
 
-        this.registerForm.append('File', this.file);
+        // this.registerForm.append('File', this.file);
+
+        this.registerForm.patchValue({
+            File: this.file
+        })
 
         console.log('File');
         console.log(this.file);
@@ -261,128 +310,83 @@ export class EmployeeComponent {
         });
     }
 
-    registerSubmit() {
-        this.registerForm = new FormData();
+    mapToFormData(body: any): FormData {
+        const formData = new FormData();
 
-        // File
-        this.registerForm.append('File', this.file);
+        for (const key in body) {
+            if (body.hasOwnProperty(key)) {
+                const value = body[key];
+                formData.append(key, value == null ? '' : value); // Append empty string for null values
+            }
+        }
 
-        // Append string fields
-        this.registerForm.append('NameAr', this.selectedNameAr); // 1
-        this.registerForm.append('EnglishName', this.selectedEnglishName); // 2
-        this.registerForm.append('Address', this.selectedAddress); // 3
-        this.registerForm.append('Email', this.selectedEmail); // 4
-        this.registerForm.append('NationalId', this.selectedNationalId); // 5
-        this.registerForm.append('Phone', this.selectedPhone); // 6
-        this.registerForm.append('MachineCode', this.selectedMachineCode); // 7
-        this.registerForm.append('Discription', this.selectedDiscription); // 8
-
-        // Append numeric fields
-        this.registerForm.append('BloodTypes', this.selectedBloodType?.['id']); // 9
-        this.registerForm.append(
-            'GovernmentId',
-            this.selectedGovernment?.['id']
-        ); // 10
-        this.registerForm.append(
-            'QualificationId',
-            this.selectedQualification?.['id']
-        ); //11
-
-        this.registerForm.append(
-            'AttendanceConfigurationId',
-            this.selectedAttendanceConfiguration?.['id']
-        ); //12
-
-        this.registerForm.append('Gender', this.selectedGender?.['id']); //12
-        this.registerForm.append(
-            'MaritalStatus',
-            this.selectedMaritalStatus?.['id']
-        ); // 13
-        this.registerForm.append('JobId', this.selectedJob?.['id']); // 14
-        this.registerForm.append('JobNatureId', this.selectedjobNature?.['id']); // 15
-        this.registerForm.append(
-            'DepartmentId',
-            this.selectedDepartment?.['id']
-        ); // 16
-        this.registerForm.append(
-            'PartationId',
-            this.selectedPartitions?.['id']
-        ); // 17
-        this.registerForm.append('ShiftId', this.selectedShift?.['id']); // 18
-        this.registerForm.append('BankId', this.selectedBank?.['id']); // 19
-        this.registerForm.append('GradeId', this.selectedGrade?.['id']); // 20
-        this.registerForm.append(
-            'ContractTypeId',
-            this.selectedContactType?.['id']
-        ); // 21
-        this.registerForm.append(
-            'RecuritmentSourceId',
-            this.selectedRecuritmentSource?.['id']
-        ); // 22
-        this.registerForm.append('Religion', this.selectedReligin?.['id']); // 23
-
-        // Append date fields
-        this.registerForm.append(
-            'JoininDate',
-            this.DatePipe.transform(
-                this.selectedJoininDate,
-                'yyyy-MM-dd'
-            )
-        ); // 24
-
-        this.registerForm.append(
-            'BirthDate',
-            this.DatePipe.transform(
-                this.selectedBirthDate,
-                'yyyy-MM-dd'
-            )
-        ); // 25
-
-        this.registerForm.append(
-            'HirDate',
-            this.DatePipe.transform(this.selectedHirDate, 'yyyy-MM-dd')
-        ); // 26
-
-        this.registerForm.append(
-            'ResignationDate',
-            this.DatePipe.transform(
-                this.selectedResignationDate,
-                'yyyy-MM-dd'
-            )
-        ); // 27
-
-        // Append boolean fields
-        this.registerForm.append('Ismanger', this.selectedIsManager.toString()); // 28
-        this.registerForm.append('StaticShift', this.selectedIsStaticShift.toString()); // 28
-        this.registerForm.append('StaticVacation', this.selectedIsStaticVacation.toString()); // 28
-        this.registerForm.append(
-            'IsInsured',
-            this.selectedIsInsured.toString()
-        ); // 29
-
-        this.registerForm.append(
-            'DeleteImage',
-            this.selectedDeleteImage.toString()
-        ); // 30
-
-
-        console.log("register form", this.registerForm)
-
-        this._EmployeeService.Register(this.registerForm).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: 'item inserted successfully',
-                    life: 3000,
-                });
-            },
-
-            error: (err) => {
-                console.error(err);
-    
-            },
-        });
+        return formData;
     }
+
+    registerSubmit() {
+
+        console.log(this.registerForm.value)
+
+        // const body = {
+        //     NameAr: this.selectedNameAr,
+        //     EnglishName: this.selectedEnglishName,
+        //     Address: this.selectedAddress,
+        //     Email: this.selectedEmail,
+        //     NationalId: this.selectedNationalId,
+        //     Phone: this.selectedPhone,
+        //     MachineCode: this.selectedMachineCode,
+        //     Discription: this.selectedDiscription,
+        //     BloodTypes: this.selectedBloodType?.id,
+        //     GovernmentId: this.selectedGovernment?.id,
+        //     QualificationId: this.selectedQualification?.id,
+        //     AttendanceConfigurationId: this.selectedAttendanceConfiguration?.id,
+        //     Gender: this.selectedGender?.id,
+        //     MaritalStatus: this.selectedMaritalStatus?.id,
+        //     JobId: this.selectedJob?.id,
+        //     JobNatureId: this.selectedjobNature?.id,
+        //     DepartmentId: this.selectedDepartment?.id,
+        //     PartationId: this.selectedPartitions?.id,
+        //     ShiftId: this.selectedShift?.id,
+        //     BankId: this.selectedBank?.id,
+        //     GradeId: this.selectedGrade?.id,
+        //     ContractTypeId: this.selectedContactType?.id,
+        //     RecuritmentSourceId: this.selectedRecuritmentSource?.id,
+        //     Religion: this.selectedReligin?.id,
+        //     JoininDate: this.DatePipe.transform(this.selectedJoininDate, 'yyyy-MM-dd'),
+        //     BirthDate: this.DatePipe.transform(this.selectedBirthDate, 'yyyy-MM-dd'),
+        //     HirDate: this.DatePipe.transform(this.selectedHirDate, 'yyyy-MM-dd'),
+        //     ResignationDate: this.DatePipe.transform(this.selectedResignationDate, 'yyyy-MM-dd'),
+        //     Ismanger: this.selectedIsManager.toString(),
+        //     StaticShift: this.selectedIsStaticShift.toString(),
+        //     StaticVacation: this.selectedIsStaticVacation.toString(),
+        //     IsInsured: this.selectedIsInsured.toString(),
+        // };
+
+        // // patch value of fields
+        // this.registerForm.patchValue(body);
+
+
+        // if(this.registerForm.valid) {
+
+        //     // convert to formData before send a request
+        //     const formData = this.mapToFormData(this.registerForm.value)
+
+        //     this._EmployeeService.Register(formData).subscribe({
+        //             next: (res) => {
+        //                 console.log(res);
+        //                 this.messageService.add({
+        //                     severity: 'success',
+        //                     summary: 'Success',
+        //                     detail: 'item inserted successfully',
+        //                     life: 3000,
+        //                 });
+        //             },
+
+        //             error: (err) => {
+        //                 console.error(err);
+        //             },
+        //         });
+        //     }
+    }
+
 }

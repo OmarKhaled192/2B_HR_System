@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-all-employees-location',
@@ -66,6 +67,10 @@ export class AllEmployeesLocationComponent {
     selectedEmployee: any;
     selectedEmployeeEdit: any;
 
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
+
+
     ngOnInit() {
         this.endPoint = 'EmployeeLocation';
 
@@ -86,6 +91,20 @@ export class AllEmployeesLocationComponent {
         // get dropdown for Employee
         this.getLocation();
         this.getDropDownEmployee();
+        this.initFormGroups()
+    }
+
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            employeeId: new FormControl(null, Validators.required),
+            locationId: new FormControl(null, Validators.required),
+        })
+
+        this.editForm = new FormGroup({
+            Id: new FormControl(null, Validators.required),
+            employeeId: new FormControl(null, Validators.required),
+            locationId: new FormControl(null, Validators.required),
+        })
     }
 
     getDropDownEmployee() {
@@ -95,7 +114,7 @@ export class AllEmployeesLocationComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-          
+
         });
     }
 
@@ -105,33 +124,38 @@ export class AllEmployeesLocationComponent {
                 console.log(res.data);
                 this.locationDropDown = res.data;
             },
-           
+
         });
     }
 
     editProduct(rowData: any) {
-        console.log(rowData.id);
+        // alert(rowData.id);
         console.log('edit works');
         this._EmployeeLocationService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
 
-                console.log('location Drop Down');
-                console.log(this.locationDropDown);
+                this.product = { ...res.data };
+                this.productDialog = true;
 
                 this.selectedLocationEdit = this.locationDropDown.find(
-                    (location: any) => location.id == rowData.locationId
+                    (location: any) => location.id == this.product.locationId
                 );
 
                 this.selectedEmployeeEdit = this.dropdownItemsEmployee.find(
-                    (item: any) => item.id == res.data.employeeId
+                    (item: any) => item.id == this.product.employeeId
                 );
 
-                console.log(this.selectedLocationEdit);
-                this.product = { ...res.data };
-                this.productDialog = true;
+
+                this.editForm.patchValue({
+                    Id: this.product.id,
+                    locationId: this.selectedLocationEdit?.['id'],
+                    employeeId: this.selectedEmployeeEdit?.['id'],
+                });
+
+                console.log(this.editForm.value)
             },
-         
+
         });
     }
 
@@ -161,42 +185,47 @@ export class AllEmployeesLocationComponent {
                     this.sortOrder
                 );
             },
-           
+
         });
     }
 
     addNew() {
-        let body = {
+
+        this.addNewForm.patchValue({
             employeeId: this.selectedEmployee.id,
             locationId: this.selectedLocationId,
-        };
+        })
 
-        this._EmployeeLocationService.Register(body).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+        if(this.addNewForm.valid) {
+            this._EmployeeLocationService.Register(this.addNewForm.value).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
 
-                // set fields is empty
-                this.setFieldsNulls();
+                    // set fields is empty
+                    this.setFieldsNulls();
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-           
-        });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+
+            });
+        }
+
+
     }
 
     loadFilteredData() {
@@ -253,7 +282,7 @@ export class AllEmployeesLocationComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-           
+
         });
     }
 
@@ -291,45 +320,48 @@ export class AllEmployeesLocationComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, empLocation: any) {
+    saveProduct(empLocation: any) {
         this.submitted = true;
 
-        console.log(id);
-        console.log(empLocation);
-
-        let body = {
-            id: empLocation.id,
-            locationId: this.selectedLocationEditId,
+        this.editForm.patchValue({
+            Id: empLocation.id,
+            locationId: this.selectedLocationEdit?.['id'],
             employeeId: this.selectedEmployeeEdit?.['id'],
-        };
+        })
 
         console.clear();
-        console.log('body here for editing..........');
 
-        console.log(body);
+        if(this.editForm.valid) {
+            console.log("edited Form here =====================> ",
+                this.editForm.value
+            );
+            this._EmployeeLocationService.Edit(this.editForm.value).subscribe({
+                next: () => {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
 
-        this._EmployeeLocationService.Edit(body).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-           
-        });
+            });
+        } else {
+            console.log('Form Not Valid because body is : ',  this.editForm.value);
+        }
+
+
     }
 
     toggleNew() {
@@ -415,7 +447,7 @@ export class AllEmployeesLocationComponent {
                     this.sortOrder
                 );
             },
-         
+
         });
     }
 

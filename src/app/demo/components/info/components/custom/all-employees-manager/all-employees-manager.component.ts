@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { itemsPerPageGlobal } from 'src/main';
 import { GlobalsModule } from 'src/app/demo/modules/globals/globals.module';
 import { PrimeNgModule } from 'src/app/demo/modules/primg-ng/prime-ng.module';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-all-employees-manager',
@@ -66,6 +67,10 @@ export class AllEmployeesManagerComponent {
     selectedEmployee: any;
     selectedEmployeeEdit: any;
 
+
+    addNewForm!: FormGroup;
+    editForm!: FormGroup;
+
     ngOnInit() {
         this.endPoint = 'EmployeeManager';
 
@@ -87,6 +92,8 @@ export class AllEmployeesManagerComponent {
         this.getLocation();
 
         this.getDropDownEmployee();
+
+        this.initFormGroups();
     }
 
     getLocation() {
@@ -95,7 +102,7 @@ export class AllEmployeesManagerComponent {
                 console.log(res['data']);
                 this.managerDropDown = res['data'];
             },
-         
+
         });
     }
 
@@ -106,39 +113,50 @@ export class AllEmployeesManagerComponent {
                 this.dropdownItemsEmployee = res.data;
                 console.log(this.dropdownItemsEmployee);
             },
-      
+
         });
     }
 
+
+    initFormGroups() {
+        this.addNewForm = new FormGroup({
+            employeeId: new FormControl(null, Validators.required),
+            mangerId: new FormControl(null, Validators.required),
+        })
+
+        this.editForm = new FormGroup({
+            id: new FormControl(null, Validators.required),
+            employeeId: new FormControl(null, Validators.required),
+            mangerId: new FormControl(null, Validators.required),
+        })
+    }
+
     editProduct(rowData: any) {
-        console.log(rowData.id);
-        console.log('edit works');
+
+
         this._EmployeeManagerService.GetById(rowData.id).subscribe({
             next: (res) => {
                 console.log(res.data);
 
-                console.log('location Drop Down');
-                console.log(this.managerDropDown);
-
-                console.log('Manager Id');
-                console.log(rowData.mangerId);
+                this.product = { ...res.data };
+                this.productDialog = true;
 
                 this.selectedManagerEdit = this.managerDropDown.find(
-                    (manger: any) => manger.id == rowData.mangerId
+                    (manger: any) => manger.id == this.product.mangerId
                 );
 
                 this.selectedEmployeeEdit = this.dropdownItemsEmployee.find(
-                    (item: any) => item.id == res.data.employeeId
+                    (emp: any) => emp.id == this.product.employeeId
                 );
 
-                console.log('selected manager edit');
+                this.editForm.patchValue({
+                    id: this.product.id,
+                    mangerId: this.selectedManagerEdit?.['id'],
+                    employeeId: this.selectedEmployeeEdit?.['id'],
+                });
 
-                console.log(this.selectedManagerEdit);
-
-                this.product = { ...res.data };
-                this.productDialog = true;
             },
-           
+
         });
     }
 
@@ -168,42 +186,45 @@ export class AllEmployeesManagerComponent {
                     this.sortOrder
                 );
             },
-         
+
         });
     }
 
     addNew() {
-        let body = {
+        this.addNewForm.patchValue({
             employeeId: this.selectedEmployee?.['id'],
-            mangerId: this.selectedManagerId,
-        };
+            mangerId: this.selectedManager?.['id'],
+        })
 
-        this._EmployeeManagerService.Register(body).subscribe({
-            next: (res) => {
-                console.log(res);
-                this.showFormNew = false;
-                // show message for success inserted
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'inserted success',
-                    life: 3000,
-                });
+        if(this.addNewForm.valid ) {
+            this._EmployeeManagerService.Register(this.addNewForm.value).subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.showFormNew = false;
+                    // show message for success inserted
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'inserted success',
+                        life: 3000,
+                    });
 
-                // set fields is empty
-                this.setFieldsNulls();
+                    // set fields is empty
+                    this.setFieldsNulls();
 
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-           
-        });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+
+            });
+        }
+
     }
 
     loadFilteredData() {
@@ -218,14 +239,6 @@ export class AllEmployeesManagerComponent {
 
     setFieldsNulls() {
         this.selectedManager = null;
-    }
-
-    onChangeManager() {
-        this.selectedManagerId = this.selectedManager?.['id'];
-    }
-
-    onChangeManagerEdit() {
-        this.selectedManagerEditId = this.selectedManagerEdit?.['id'];
     }
 
     loadData(
@@ -258,7 +271,7 @@ export class AllEmployeesManagerComponent {
                 this.loading = false;
                 console.log(this.selectedItems);
             },
-          
+
         });
     }
 
@@ -296,45 +309,38 @@ export class AllEmployeesManagerComponent {
         this.product = { ...product };
     }
 
-    saveProduct(id: number, empManager: any) {
+    saveProduct(empManager: any) {
         this.submitted = true;
 
-        console.log(id);
-        console.log(empManager);
-
-        let body = {
+        this.editForm.patchValue({
             id: empManager.id,
-            mangerId: this.selectedManagerEditId,
+            mangerId: this.selectedManagerEdit?.['id'],
             employeeId: this.selectedEmployeeEdit?.['id'],
-        };
+        })
 
-        console.clear();
-        console.log('body here for editing..........');
+        if(this.editForm.valid) {
+            this._EmployeeManagerService.Edit(this.editForm.value).subscribe({
+                next: () => {
+                    this.hideDialog();
+                    // show message for user to show processing of deletion.
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Successful',
+                        detail: 'You Edit This Item',
+                        life: 3000,
+                    });
 
-        console.log(body);
-
-        this._EmployeeManagerService.Edit(body).subscribe({
-            next: () => {
-                this.hideDialog();
-                // show message for user to show processing of deletion.
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Successful',
-                    detail: 'You Edit This Item',
-                    life: 3000,
-                });
-
-                // load data again
-                this.loadData(
-                    this.page,
-                    this.itemsPerPage,
-                    this.nameFilter,
-                    this.sortField,
-                    this.sortOrder
-                );
-            },
-         
-        });
+                    // load data again
+                    this.loadData(
+                        this.page,
+                        this.itemsPerPage,
+                        this.nameFilter,
+                        this.sortField,
+                        this.sortOrder
+                    );
+                },
+            });
+        }
     }
 
     toggleNew() {
@@ -420,7 +426,7 @@ export class AllEmployeesManagerComponent {
                     this.sortOrder
                 );
             },
-          
+
         });
     }
 

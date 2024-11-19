@@ -47,73 +47,82 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="selectEmployee">{{
-                "Select Employee" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployee"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [placeholder]="'Select Employee' | translate"
-            ></p-dropdown>
-        </div>
+        <form [formGroup]="addNewForm">
+            <div class="field">
+                <label htmlFor="selectEmployee">{{
+                    "Select Employee" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedEmployee"
+                    [options]="dropdownItemsEmployee"
+                    formControlName="employeeId"
+                    optionLabel="name"
+                    [placeholder]="'Select Employee' | translate"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label htmlFor="uniformCode">{{
-                "Uniform Code" | translate
-            }}</label>
-            <p-dropdown
-                [options]="uniformCodesDropDown"
-                (onChange)="changedSelectedUniformCode()"
-                [(ngModel)]="selectedUnifromCode"
-                optionLabel="name"
-                [placeholder]="'Select Uniform Code' | translate"
-                [showClear]="true"
-            ></p-dropdown>
-        </div>
+            <div class="field">
+                <label htmlFor="uniformCode">{{
+                    "Uniform Code" | translate
+                }}</label>
+                <p-dropdown
+                    [options]="uniformCodesDropDown"
+                    (onChange)="changedSelectedUniformCode()"
+                    [(ngModel)]="selectedUnifromCode"
+                    formControlName="uniformCodeId"
+                    optionLabel="name"
+                    [placeholder]="'Select Uniform Code' | translate"
+                    [showClear]="true"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label htmlFor="date">{{ "Date" | translate }} </label>
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                [placeholder]="'MM/DD/YYYY' | translate"
-                [(ngModel)]="selectedDate"
-                inputId="icon"
-            ></p-calendar>
-        </div>
+            <div class="field">
+                <label htmlFor="date">{{ "Date" | translate }} </label>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    formControlName="date"
+                    [placeholder]="'MM/DD/YYYY' | translate"
+                    [(ngModel)]="selectedDate"
+                    inputId="icon"
+                ></p-calendar>
+            </div>
 
-        <div class="field">
-            <label htmlFor="cost">{{ "Cost" | translate }} </label>
-            <input
-                pInputText
-                [(ngModel)]="selectedCost"
-                [placeholder]="'Enter Cost Here' | translate"
-                id="cost"
-                type="text"
-            />
-        </div>
+            <div class="field">
+                <label htmlFor="cost">{{ "Cost" | translate }} </label>
+                <input
+                    pInputText
+                    [(ngModel)]="selectedCost"
+                    formControlName="cost"
+                    [placeholder]="'Enter Cost Here' | translate"
+                    id="cost"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="nots">{{ "Notes" | translate }} </label>
-            <input
-                pInputText
-                [(ngModel)]="selectedNotes"
-                [placeholder]="'Enter notes Here' | translate"
-                id="nots"
-                type="text"
-            />
-        </div>
+            <div class="field">
+                <label htmlFor="nots">{{ "Notes" | translate }} </label>
+                <input
+                    pInputText
+                    [(ngModel)]="selectedNotes"
+                    [placeholder]="'Enter notes Here' | translate"
+                    id="nots"
+                    formControlName="nots"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <button
-                class="w-25"
-                pButton
-                [label]="'Insert New' | translate"
-                (click)="addNew()"
-            ></button>
-        </div>
+            <div class="field">
+                <button
+                    class="w-25"
+                    pButton
+                    [disabled]="!addNewForm.valid"
+                    [label]="'Insert New' | translate"
+                    (click)="addNew()"
+                ></button>
+            </div>
+        </form>
+
     </ng-template>
 </p-dialog>
 
@@ -267,91 +276,104 @@
     class="p-fluid"
 >
     <ng-template pTemplate="content">
-        <div class="field">
-            <label htmlFor="Employee">{{
-                "Select Employee" | translate
-            }}</label>
-            <p-dropdown
-                [(ngModel)]="selectedEmployeeEdit"
-                [options]="dropdownItemsEmployee"
-                optionLabel="name"
-                [placeholder]="'All Employees' | translate"
-                (onChange)="selectedCovenantEditFun($event)"
-            ></p-dropdown>
-        </div>
+        <form [formGroup]="editForm">
+            <div class="field">
+                <label htmlFor="Employee">{{
+                    "Select Employee" | translate
+                }}</label>
+                <p-dropdown
+                    [(ngModel)]="selectedEmployeeEdit"
+                    [options]="dropdownItemsEmployee"
+                    optionLabel="name"
+                    formControlName="employeeId"
+                    [placeholder]="'All Employees' | translate"
+                    (onChange)="selectedCovenantEditFun($event)"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label for="date">{{ "Date" | translate }}</label>
-            <p-calendar
-                [showIcon]="true"
-                [iconDisplay]="'input'"
-                [placeholder]="'MM/DD/YYYY' | translate"
-                [(ngModel)]="product.date"
-                inputId="icon"
-                autofocus
-                [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.date
-                }"
-            ></p-calendar>
-        </div>
+            <div class="field">
+                <label for="date">{{ "Date" | translate }}</label>
+                <p-calendar
+                    [showIcon]="true"
+                    [iconDisplay]="'input'"
+                    [placeholder]="'MM/DD/YYYY' | translate"
+                    [(ngModel)]="product.date"
+                    formControlName="date"
+                    inputId="icon"
+                    autofocus
+                    [ngClass]="{
+                        'ng-invalid ng-dirty': submitted && !product.date
+                    }"
+                ></p-calendar>
+            </div>
 
-        <div class="field">
-            <label htmlFor="uniformCode">{{
-                "Uniform Code" | translate
-            }}</label>
-            <p-dropdown
-                [options]="uniformCodesDropDown"
-                (onChange)="changedSelectedUniformCode()"
-                [(ngModel)]="selectedUnifromCodeEdit"
-                optionLabel="name"
-                [placeholder]="'Select Uniform Code' | translate"
-                [showClear]="true"
-                [ngClass]="{
-                    'ng-invalid ng-dirty': submitted && !product.uniformCodeId
-                }"
-            ></p-dropdown>
-        </div>
+            <div class="field">
+                <label htmlFor="uniformCode">{{
+                    "Uniform Code" | translate
+                }}</label>
+                <p-dropdown
+                    [options]="uniformCodesDropDown"
+                    (onChange)="changedSelectedUniformCode()"
+                    [(ngModel)]="selectedUnifromCodeEdit"
+                    optionLabel="name"
+                    formControlName="uniformCodeId"
+                    [placeholder]="'Select Uniform Code' | translate"
+                    [showClear]="true"
+                    [ngClass]="{
+                        'ng-invalid ng-dirty': submitted && !product.uniformCodeId
+                    }"
+                ></p-dropdown>
+            </div>
 
-        <div class="field">
-            <label htmlFor="cost">{{ "Cost" | translate }} </label>
-            <input
-                pInputText
-                [(ngModel)]="product.cost"
-                [placeholder]="'Enter cost' | translate"
-                id="cost"
-                type="text"
-            />
-        </div>
+            <div class="field">
+                <label htmlFor="cost">{{ "Cost" | translate }} </label>
+                <input
+                    pInputText
+                    [(ngModel)]="product.cost"
+                    formControlName="cost"
+                    [placeholder]="'Enter cost' | translate"
+                    id="cost"
+                    type="text"
+                />
+            </div>
 
-        <div class="field">
-            <label htmlFor="nots">{{ "Notes" | translate }} </label>
-            <input
-                pInputText
-                [(ngModel)]="product.nots"
-                [placeholder]="'Enter nots Here' | translate"
-                id="nots"
-                type="text"
-            />
-        </div>
-    </ng-template>
+            <div class="field">
+                <label htmlFor="nots">{{ "Notes" | translate }} </label>
+                <input
+                    pInputText
+                    [(ngModel)]="product.nots"
+                    formControlName="nots"
 
-    <ng-template pTemplate="footer">
-        <button
-            pButton
-            pRipple
-            [label]="'Cancel' | translate"
-            icon="pi pi-times"
-            class="p-button-text"
-            (click)="hideDialog()"
-        ></button>
-        <button
-            pButton
-            pRipple
-            [label]="'Save' | translate"
-            icon="pi pi-check"
-            class="p-button-text"
-            (click)="saveProduct(product.id, product)"
-        ></button>
+                    [placeholder]="'Enter nots Here' | translate"
+                    id="nots"
+                    type="text"
+                />
+            </div>
+
+            <div class="field form-footer">
+                <button
+                    pButton
+                    pRipple
+                    [label]="'Cancel' | translate"
+                    icon="pi pi-times"
+                    class="p-button-text"
+                    (click)="hideDialog()"
+                    type="button"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    [label]="'Save' | translate"
+                    icon="pi pi-check"
+                    type="submit"
+                    [disabled]="!editForm.valid"
+                    class="p-button-text"
+                    (click)="saveProduct(product.id, product)"
+                ></button>
+            </div>
+        </form>
+
+
     </ng-template>
 </p-dialog>
 
