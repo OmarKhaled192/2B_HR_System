@@ -86,25 +86,7 @@ export class AppMenuComponent implements OnInit {
                                 routerLink: ['/info/closeMonth'],
                             },
                             
-                          
-                          
-                          
-                          
-                          
-                          
-                       
 
-                        
-                           
-                        
-                          
-                           
-                          
-                  
-                         
-                       
-                         
-                           
                         ],
                     },
 
@@ -356,6 +338,12 @@ export class AppMenuComponent implements OnInit {
                                 ),
                                 routerLink: ['/info/vacationSetting'],
                             },
+                            {
+                                label: this.translate.instant(
+                                    'Vacation Policy'
+                                ),
+                                routerLink: ['/info/companyBasicData'],
+                            },
                              {
                                 label: this.translate.instant('Internal Jobs'),
                                 routerLink: ['/info/InternalJobs'],
@@ -370,12 +358,6 @@ export class AppMenuComponent implements OnInit {
                             },
                             
                           
-
-                        
-                          
-                           
-
-                         
                             // {
                             //     label: this.translate.instant('Resignation'),
                             //     icon: 'pi pi-fw pi-home',
